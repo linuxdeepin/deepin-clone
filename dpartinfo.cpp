@@ -109,7 +109,10 @@ DPartInfo::DPartInfo()
 DPartInfo::DPartInfo(const QString &name)
     : d(new DPartInfoPrivate)
 {
-    d->name = name;
+    const QJsonArray &block_devices = Util::getBlockDevices(Util::getDeviceByName(name));
+
+    if (!block_devices.isEmpty())
+        d->init(block_devices.first().toObject());
 }
 
 DPartInfo::DPartInfo(const DPartInfo &other)
@@ -196,10 +199,7 @@ quint64 DPartInfo::size() const
 
 void DPartInfo::refresh()
 {
-    const QJsonArray &block_devices = Util::getBlockDevices(device());
-
-    if (!block_devices.isEmpty())
-        d->init(block_devices.first().toObject());
+    *this = DPartInfo(name());
 }
 
 QList<DPartInfo> DPartInfo::localePartList()

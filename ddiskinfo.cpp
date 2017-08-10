@@ -85,9 +85,10 @@ DDiskInfo::DDiskInfo()
 DDiskInfo::DDiskInfo(const QString &name)
     : d(new DDiskInfoPrivate)
 {
-    d->name = name;
+    const QJsonArray &block_devices = Util::getBlockDevices(Util::getDeviceByName(name));
 
-    refresh();
+    if (!block_devices.isEmpty())
+        d->init(block_devices.first().toObject());
 }
 
 DDiskInfo::DDiskInfo(const DDiskInfo &other)
@@ -154,10 +155,7 @@ QList<DPartInfo> DDiskInfo::childrenPartList() const
 
 void DDiskInfo::refresh()
 {
-    const QJsonArray &block_devices = Util::getBlockDevices(device());
-
-    if (!block_devices.isEmpty())
-        d->init(block_devices.first().toObject());
+    *this = DDiskInfo(name());
 }
 
 QList<DDiskInfo> DDiskInfo::localeDiskList()

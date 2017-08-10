@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
             if (Q_LIKELY(!info_list.isEmpty())) {
                 quint64 first_part_start = info_list.first().sizeStart();
 
-                if (first_part_start > 0) {
+                if (first_part_start > 0 && first_part_start <= 2048000) {
                     qDebug() << "begin to backup the sector before the first partition";
                     int code = -1;
                     Util::processExec(QString("dd if=%1 bs=%2 count=1 of=%3").arg(disk_info.device()).arg(first_part_start).arg(to + "/fpsb"), -1, &code);

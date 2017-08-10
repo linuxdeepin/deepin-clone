@@ -91,6 +91,8 @@ bool Util::setPartitionTable(const QString &devicePath, const QString &ptFile)
 
     processExec(QStringLiteral("/sbin/partprobe %1").arg(devicePath), 30000, &code);
 
+    qDebug() << processExec(QStringLiteral("/bin/lsblk %1").arg(devicePath)) << devicePath;
+
     return code == 0;
 }
 
