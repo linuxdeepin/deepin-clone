@@ -51,9 +51,9 @@ public:
 
     QList<DPartInfo> childrenPartList() const;
 
-    static QList<DDiskInfo> localeDiskList();
-
     void refresh();
+
+    static QList<DDiskInfo> localeDiskList();
 
 private:
     friend class DDiskInfoPrivate;

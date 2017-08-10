@@ -53,6 +53,18 @@ int main(int argc, char *argv[])
         }
 
         if (isDisk) {
+            if (dir.exists("fpsb")) {
+                qDebug() << "begin to restore the sector before the first partition, size:" << QFileInfo(dir.absoluteFilePath("fpsb")).size();
+                int code = -1;
+                Util::processExec(QString("dd if=%1 of=%2").arg(dir.absoluteFilePath("fpsb")).arg(disk_info.device()), -1, &code);
+
+                if (code != 0) {
+                    qDebug() << "failed";
+
+                    return -1;
+                }
+            }
+
             bool ok = Util::setPartitionTable(disk_info.device(), dir.absoluteFilePath("partition.table"));
 
             if (ok) {
@@ -63,7 +75,10 @@ int main(int argc, char *argv[])
                 return -1;
             }
 
+            qDebug() << "refresh device:" << disk_info.device();
             disk_info.refresh();
+
+            qDebug() << disk_info;
 
             int index = 1;
 
@@ -97,9 +112,27 @@ int main(int argc, char *argv[])
                 return -1;
             }
 
+            const QList<DPartInfo> &info_list = disk_info.childrenPartList();
+
+            if (Q_LIKELY(!info_list.isEmpty())) {
+                quint64 first_part_start = info_list.first().sizeStart();
+
+                if (first_part_start > 0) {
+                    qDebug() << "begin to backup the sector before the first partition";
+                    int code = -1;
+                    Util::processExec(QString("dd if=%1 bs=%2 count=1 of=%3").arg(disk_info.device()).arg(first_part_start).arg(to + "/fpsb"), -1, &code);
+
+                    if (code != 0) {
+                        qDebug() << "failed";
+
+                        return -1;
+                    }
+                }
+            }
+
             int index = 1;
 
-            for (const DPartInfo &part : disk_info.childrenPartList()) {
+            for (const DPartInfo &part : info_list) {
                 if (part.isMounted()) {
                     qDebug() << part.device() << "is mounted";
 

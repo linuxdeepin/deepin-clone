@@ -63,6 +63,13 @@ public:
     // file system label of partition
     QString label() const;
 
+    // unit: bytes
+    quint64 sizeStart() const;
+    quint64 sizeEnd() const;
+    quint64 size() const;
+
+    void refresh();
+
     static QList<DPartInfo> localePartList();
 
 private:

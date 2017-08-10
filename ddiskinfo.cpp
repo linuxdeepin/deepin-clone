@@ -152,6 +152,14 @@ QList<DPartInfo> DDiskInfo::childrenPartList() const
     return d->children;
 }
 
+void DDiskInfo::refresh()
+{
+    const QJsonArray &block_devices = Util::getBlockDevices(device());
+
+    if (!block_devices.isEmpty())
+        d->init(block_devices.first().toObject());
+}
+
 QList<DDiskInfo> DDiskInfo::localeDiskList()
 {
     const QJsonArray &block_devices = Util::getBlockDevices();
@@ -166,14 +174,6 @@ QList<DDiskInfo> DDiskInfo::localeDiskList()
     }
 
     return list;
-}
-
-void DDiskInfo::refresh()
-{
-    const QJsonArray &block_devices = Util::getBlockDevices(device());
-
-    if (!block_devices.isEmpty())
-        d->init(block_devices.first().toObject());
 }
 
 QT_BEGIN_NAMESPACE

@@ -15,7 +15,10 @@ public:
 
     QString name;
     QString kname;
-    quint64 size;
+    // Unit: bytes
+    quint64 sizeStart = 0;
+    quint64 sizeEnd = 0;
+    quint64 size = 0;
     QString sizeDisplay;
     QString typeName;
     DPartInfo::Type type;
@@ -32,6 +35,31 @@ void DPartInfoPrivate::init(const QJsonObject &obj)
     type = toType(typeName);
     mountPoint = obj.value("mountpoint").toString();
     label = obj.value("label").toString();
+
+    QString device = Util::getDeviceByName(name);
+
+    int code = -1;
+    const QByteArray &data = Util::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS,SIZE").arg(device), -1, &code);
+
+    if (code == 0) {
+        const QByteArrayList &list = data.split(' ');
+
+        if (list.count() != 4) {
+            qWarning() << "Get device START/END/SECTORS/SIZE info error by partx:" << device;
+
+            return;
+        }
+
+        quint64 start = list.first().split('"').at(1).toULongLong();
+        quint64 end = list.at(1).split('"').at(1).toULongLong();
+        quint64 sectors = list.at(2).split('"').at(1).toULongLong();
+
+        Q_ASSERT(sectors > 0);
+
+        size = list.last().split('"').at(1).toULongLong();
+        sizeStart = start * size / sectors;
+        sizeEnd = end * size / sectors;
+    }
 }
 
 DPartInfo::Type DPartInfoPrivate::toType(const QString &name)
@@ -81,10 +109,7 @@ DPartInfo::DPartInfo()
 DPartInfo::DPartInfo(const QString &name)
     : d(new DPartInfoPrivate)
 {
-    const QJsonArray &block_devices = Util::getBlockDevices(Util::getDeviceByName(name));
-
-    if (!block_devices.isEmpty())
-        d->init(block_devices.first().toObject());
+    d->name = name;
 }
 
 DPartInfo::DPartInfo(const DPartInfo &other)
@@ -152,6 +177,29 @@ bool DPartInfo::isMounted() const
 QString DPartInfo::label() const
 {
     return d->label;
+}
+
+quint64 DPartInfo::sizeStart() const
+{
+    return d->sizeStart;
+}
+
+quint64 DPartInfo::sizeEnd() const
+{
+    return d->sizeEnd;
+}
+
+quint64 DPartInfo::size() const
+{
+    return d->size;
+}
+
+void DPartInfo::refresh()
+{
+    const QJsonArray &block_devices = Util::getBlockDevices(device());
+
+    if (!block_devices.isEmpty())
+        d->init(block_devices.first().toObject());
 }
 
 QList<DPartInfo> DPartInfo::localePartList()
