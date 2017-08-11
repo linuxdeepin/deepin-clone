@@ -21,8 +21,9 @@ public:
     static bool setPartitionTable(const QString &devicePath, const QString &ptFile);
     static bool saveToFile(const QString &fileName, const QByteArray &data, bool override = true);
     static bool isBlockSpecialFile(const QString &fileName);
+    static bool isPartcloneFile(const QString &fileName);
     static int clonePartition(const DPartInfo &part, const QString &to, bool override = true);
-    static int restorePartition(const QString &from, const QString &to);
+    static int restorePartition(const QString &from, const DPartInfo &to);
 };
 
 #endif // UTIL_H

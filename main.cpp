@@ -83,20 +83,46 @@ int main(int argc, char *argv[])
             int index = 1;
 
             for (const DPartInfo &part : disk_info.childrenPartList()) {
+                if (part.isMounted()) {
+                    qDebug() << part.device() << "is mounted";
+
+                    return -1;
+                }
+
                 const QString &source = dir.absoluteFilePath(QString::number(index));
 
                 ++index;
 
                 qDebug() << "begion restore partion:" << part.device();
                 qDebug() << "from file:" << source;
-                qDebug() << Util::restorePartition(source, part.device());
+                int code = Util::restorePartition(source, part);
+
+                if (code != 0) {
+                    qDebug() << "failed";
+
+                    return -1;
+                }
             }
         } else {
+            DPartInfo part(disk_info.device());
+
+            if (part.isMounted()) {
+                qDebug() << part.device() << "is mounted";
+
+                return -1;
+            }
+
             const QString &source = dir.absoluteFilePath("1");
 
-            qDebug() << "begion restore partion:" << disk_info.device();
+            qDebug() << "begion restore partion:" << part.device();
             qDebug() << "from file:" << source;
-            qDebug() << Util::restorePartition(source, disk_info.device());
+            int code = Util::restorePartition(source, part);
+
+            if (code != 0) {
+                qDebug() << "failed";
+
+                return -1;
+            }
         }
     } else {
         QDir::current().mkpath(to);
@@ -145,7 +171,19 @@ int main(int argc, char *argv[])
 
                 qDebug() << "begin backup partition:" << part.device();
                 qDebug() << "to file:" << part_bak_name;
-                qDebug() << Util::clonePartition(part, part_bak_name);
+                int code = Util::clonePartition(part, part_bak_name);
+
+                if (code != 0 && (part.type() == DPartInfo::Unknow || part.guidType() != DPartInfo::InvalidGUID)) {
+                    qDebug() << "failed";
+
+                    return -1;
+                }
+
+                if (part.type() != DPartInfo::Invalid && !Util::isPartcloneFile(part_bak_name)) {
+                    qDebug() << part_bak_name << "is invalid file";
+
+                    return -1;
+                }
             }
         } else {
             DPartInfo part(disk_info.device());
@@ -159,7 +197,19 @@ int main(int argc, char *argv[])
             QString part_bak_name = to + "/1";
 
             qDebug() << "begin backup partition:" << part.device();
-            qDebug() << Util::clonePartition(part, part_bak_name);
+            int code = Util::clonePartition(part, part_bak_name);
+
+            if (code != 0&& (part.type() == DPartInfo::Unknow || part.guidType() != DPartInfo::InvalidGUID)) {
+                qDebug() << "failed";
+
+                return -1;
+            }
+
+            if (part.type() != DPartInfo::Invalid && !Util::isPartcloneFile(part_bak_name)) {
+                qDebug() << part_bak_name << "is invalid file";
+
+                return -1;
+            }
         }
     }
 

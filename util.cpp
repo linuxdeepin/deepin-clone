@@ -9,7 +9,7 @@
 #include <QFile>
 #include <QDebug>
 
-#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -o NAME,KNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE %1")
+#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -o NAME,KNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL %1")
 
 QByteArray Util::processExec(QProcess *process, const QString &command, int timeout, int *exitCode)
 {
@@ -33,7 +33,12 @@ QByteArray Util::processExec(QProcess *process, const QString &command, int time
     if (exitCode)
         *exitCode = process->exitCode();
 
-    return process->readAll();
+    const QByteArray &data = process->readAll();
+
+    if (data.isEmpty() && exitCode != 0)
+        return process->readAllStandardError();
+
+    return data;
 }
 
 QByteArray Util::processExec(const QString &command, int timeout, int *exitCode)
@@ -90,8 +95,7 @@ bool Util::setPartitionTable(const QString &devicePath, const QString &ptFile)
         return false;
 
     processExec(QStringLiteral("/sbin/partprobe %1").arg(devicePath), 30000, &code);
-
-    qDebug() << processExec(QStringLiteral("/bin/lsblk %1").arg(devicePath)) << devicePath;
+    processExec("sleep 1");
 
     return code == 0;
 }
@@ -121,11 +125,22 @@ bool Util::isBlockSpecialFile(const QString &fileName)
     return processExec(QStringLiteral("env LANG=C stat -c %F %1").arg(fileName)) == "block special file\n";
 }
 
+bool Util::isPartcloneFile(const QString &fileName)
+{
+    int code = -1;
+
+    processExec(QStringLiteral("partclone.info %1").arg(fileName), -1, &code);
+
+    return code == 0;
+}
+
 int Util::clonePartition(const DPartInfo &part, const QString &to, bool override)
 {
     QString executor;
 
     switch (part.type()) {
+    case DPartInfo::Invalid:
+        break;
     case DPartInfo::Btrfs:
         executor = "btrfs";
         break;
@@ -166,7 +181,12 @@ int Util::clonePartition(const DPartInfo &part, const QString &to, bool override
 
     QString command;
 
-    if (isBlockSpecialFile(to)) {
+    if (executor.isEmpty()) {
+        if (part.guidType() == DPartInfo::InvalidGUID)
+            return -1;
+
+        command = QStringLiteral("dd if=%1 of=%2 status=none conv=fsync").arg(part.device()).arg(to);
+    } else if (isBlockSpecialFile(to)) {
         command = QStringLiteral("/usr/sbin/partclone.%1 -b -c -s %2 -%3 %4").arg(executor).arg(part.device()).arg(override ? "O" : "o").arg(to);
     } else {
         command = QStringLiteral("/usr/sbin/partclone.%1 -c -s %2 -%3 %4").arg(executor).arg(part.device()).arg(override ? "O" : "o").arg(to);
@@ -174,16 +194,30 @@ int Util::clonePartition(const DPartInfo &part, const QString &to, bool override
 
     int code = -1;
 
-    processExec(command, -1, &code);
+    const QByteArray &data = processExec(command, -1, &code);
+
+    if (code != 0)
+        qDebug() << command << QString::fromUtf8(data);
 
     return code;
 }
 
-int Util::restorePartition(const QString &from, const QString &to)
+int Util::restorePartition(const QString &from, const DPartInfo &to)
 {
+    QString command;
+
+    if (isPartcloneFile(from)) {
+        command = QStringLiteral("/usr/sbin/partclone.restore -s %1 -o %2").arg(from).arg(to.device());
+    } else {
+        command = QStringLiteral("dd if=%1 of=%2 status=none conv=fsync").arg(from).arg(to.device());
+    }
+
     int code = -1;
 
-    processExec(QStringLiteral("/usr/sbin/partclone.restore -s %1 -o %2").arg(from).arg(to), -1, &code);
+    const QByteArray &data = processExec(command, -1, &code);
+
+    if (code != 0)
+        qDebug() << command << QString::fromUtf8(data);
 
     return code;
 }
