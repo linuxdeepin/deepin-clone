@@ -6,10 +6,6 @@
 #include <QList>
 #include <QExplicitlySharedDataPointer>
 
-QT_BEGIN_NAMESPACE
-class QJsonObject;
-QT_END_NAMESPACE
-
 class DPartInfoPrivate;
 class DPartInfo
 {
@@ -164,7 +160,6 @@ public:
     };
 
     explicit DPartInfo();
-    explicit DPartInfo(const QString &name);
     explicit DPartInfo(const DPartInfo &other);
     ~DPartInfo();
 
@@ -204,17 +199,17 @@ public:
 
     void refresh();
 
-    static QList<DPartInfo> localePartList();
     static GUIDType guidType(const QByteArray &guid);
     static QString guidTypeDescription(GUIDType type);
 
-private:
-    void init(const QJsonObject &obj);
+protected:
+    DPartInfo(DPartInfoPrivate *dd);
 
-    friend class DPartInfoPrivate;
-    friend class DDiskInfoPrivate;
-    friend bool operator==(const DPartInfo &first, const DPartInfo &second);
     QExplicitlySharedDataPointer<DPartInfoPrivate> d;
+
+private:
+    friend class DPartInfoPrivate;
+    friend bool operator==(const DPartInfo &first, const DPartInfo &second);
 };
 
 inline bool operator==(const DPartInfo &first, const DPartInfo &second)

@@ -1,94 +1,17 @@
 #include "ddiskinfo.h"
-#include "dpartinfo.h"
-#include "util.h"
+#include "ddiskinfo_p.h"
 
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QProcess>
 #include <QDebug>
 
-class DDiskInfoPrivate : public QSharedData
+DDiskInfoPrivate::DDiskInfoPrivate(DDiskInfo *qq)
+    : q(qq)
 {
-public:
-    void init(const QJsonObject &obj);
 
-    QString name;
-    QString kname;
-    quint64 size;
-    QString sizeDisplay;
-    QString typeName;
-    DDiskInfo::Type type;
-    QList<DPartInfo> children;
-    QString ptTypeName;
-    DDiskInfo::PTType ptType;
-};
-
-QString getPTName(const QString &device)
-{
-    const QByteArray &data = Util::processExec(QStringLiteral("/sbin/blkid -p -s PTTYPE -d -i %1").arg(device));
-
-    if (data.isEmpty())
-        return QString();
-
-    const QByteArrayList &list = data.split('=');
-
-    if (list.count() != 3)
-        return QString();
-
-    return list.last().simplified();
-}
-
-void DDiskInfoPrivate::init(const QJsonObject &obj)
-{
-    name = obj.value("name").toString();
-    kname = obj.value("kname").toString();
-    sizeDisplay = obj.value("size").toString();
-    typeName = obj.value("type").toString();
-
-    if (typeName == "loop")
-        type = DDiskInfo::Loop;
-    else
-        type = DDiskInfo::Disk;
-
-    const QJsonArray &list = obj.value("children").toArray();
-
-    for (const QJsonValue &part : list) {
-        DPartInfo info;
-
-        info.init(part.toObject());
-        children << info;
-    }
-
-    if (!obj.value("fstype").isNull()) {
-        DPartInfo info;
-
-        info.init(obj);
-        children << info;
-    }
-
-    ptTypeName = getPTName(Util::getDeviceByName(name));
-
-    if (ptTypeName == "dos")
-        ptType = DDiskInfo::MBR;
-    else if (ptTypeName == "gpt")
-        ptType = DDiskInfo::GPT;
-    else ptType = DDiskInfo::Unknow;
 }
 
 DDiskInfo::DDiskInfo()
-    : d(new DDiskInfoPrivate)
 {
 
-}
-
-DDiskInfo::DDiskInfo(const QString &name)
-    : d(new DDiskInfoPrivate)
-{
-    const QJsonArray &block_devices = Util::getBlockDevices(Util::getDeviceByName(name));
-
-    if (!block_devices.isEmpty())
-        d->init(block_devices.first().toObject());
 }
 
 DDiskInfo::DDiskInfo(const DDiskInfo &other)
@@ -104,7 +27,7 @@ DDiskInfo::~DDiskInfo()
 
 QString DDiskInfo::device() const
 {
-    return Util::getDeviceByName(name());
+    return d->device();
 }
 
 DDiskInfo &DDiskInfo::operator=(const DDiskInfo &other)
@@ -155,23 +78,13 @@ QList<DPartInfo> DDiskInfo::childrenPartList() const
 
 void DDiskInfo::refresh()
 {
-    *this = DDiskInfo(name());
+    d->refresh();
 }
 
-QList<DDiskInfo> DDiskInfo::localeDiskList()
+DDiskInfo::DDiskInfo(DDiskInfoPrivate *dd)
+    : d(dd)
 {
-    const QJsonArray &block_devices = Util::getBlockDevices();
 
-    QList<DDiskInfo> list;
-
-    for (const QJsonValue &value : block_devices) {
-        DDiskInfo info;
-
-        info.d->init(value.toObject());
-        list << info;
-    }
-
-    return list;
 }
 
 QT_BEGIN_NAMESPACE

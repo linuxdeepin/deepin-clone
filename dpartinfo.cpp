@@ -1,71 +1,13 @@
 #include "ddiskinfo.h"
 #include "util.h"
+#include "dpartinfo_p.h"
 
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QProcess>
 #include <QDebug>
 
-class DPartInfoPrivate : public QSharedData
+DPartInfoPrivate::DPartInfoPrivate(DPartInfo *qq)
+    : q(qq)
 {
-public:
-    void init(const QJsonObject &obj);
-    DPartInfo::Type toType(const QString &name);
 
-    QString name;
-    QString kname;
-    // Unit: bytes
-    quint64 sizeStart = 0;
-    quint64 sizeEnd = 0;
-    quint64 size = 0;
-    QString sizeDisplay;
-    QString typeName;
-    DPartInfo::Type type;
-    QString mountPoint;
-    QString label;
-    QString partLabel;
-    QString partType;
-    DPartInfo::GUIDType guidType;
-};
-
-void DPartInfoPrivate::init(const QJsonObject &obj)
-{
-    name = obj.value("name").toString();
-    kname = obj.value("kname").toString();
-    sizeDisplay = obj.value("size").toString();
-    typeName = obj.value("fstype").toString();
-    type = toType(typeName);
-    mountPoint = obj.value("mountpoint").toString();
-    label = obj.value("label").toString();
-    partLabel = obj.value("partlabel").toString();
-    partType = obj.value("parttype").toString();
-    guidType = DPartInfo::guidType(partType.toLatin1().toUpper());
-
-    QString device = Util::getDeviceByName(name);
-
-    int code = -1;
-    const QByteArray &data = Util::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS,SIZE").arg(device), -1, &code);
-
-    if (code == 0) {
-        const QByteArrayList &list = data.split(' ');
-
-        if (list.count() != 4) {
-            qWarning() << "Get device START/END/SECTORS/SIZE info error by partx:" << device;
-
-            return;
-        }
-
-        quint64 start = list.first().split('"').at(1).toULongLong();
-        quint64 end = list.at(1).split('"').at(1).toULongLong();
-        quint64 sectors = list.at(2).split('"').at(1).toULongLong();
-
-        Q_ASSERT(sectors > 0);
-
-        size = list.last().split('"').at(1).toULongLong();
-        sizeStart = start * size / sectors;
-        sizeEnd = end * size / sectors;
-    }
 }
 
 DPartInfo::Type DPartInfoPrivate::toType(const QString &name)
@@ -107,18 +49,8 @@ DPartInfo::Type DPartInfoPrivate::toType(const QString &name)
 }
 
 DPartInfo::DPartInfo()
-    : d(new DPartInfoPrivate)
 {
 
-}
-
-DPartInfo::DPartInfo(const QString &name)
-    : d(new DPartInfoPrivate)
-{
-    const QJsonArray &block_devices = Util::getBlockDevices(Util::getDeviceByName(name));
-
-    if (!block_devices.isEmpty())
-        d->init(block_devices.first().toObject());
 }
 
 DPartInfo::DPartInfo(const DPartInfo &other)
@@ -134,7 +66,7 @@ DPartInfo::~DPartInfo()
 
 QString DPartInfo::device() const
 {
-    return Util::getDeviceByName(name());
+    return d->device();
 }
 
 DPartInfo &DPartInfo::operator=(const DPartInfo &other)
@@ -215,29 +147,7 @@ quint64 DPartInfo::size() const
 
 void DPartInfo::refresh()
 {
-    *this = DPartInfo(name());
-}
-
-QList<DPartInfo> DPartInfo::localePartList()
-{
-    const QJsonArray &block_devices = Util::getBlockDevices("-l");
-
-    QList<DPartInfo> list;
-
-    for (const QJsonValue &value : block_devices) {
-        const QJsonObject &obj = value.toObject();
-        const QString &fstype = obj.value("fstype").toString();
-
-        if (fstype.isEmpty())
-            continue;
-
-        DPartInfo info;
-
-        info.d->init(obj);
-        list << info;
-    }
-
-    return list;
+    d->refresh();
 }
 
 DPartInfo::GUIDType DPartInfo::guidType(const QByteArray &guid)
@@ -616,9 +526,10 @@ QString DPartInfo::guidTypeDescription(DPartInfo::GUIDType type)
     return "Invalid GUID type";
 }
 
-void DPartInfo::init(const QJsonObject &obj)
+DPartInfo::DPartInfo(DPartInfoPrivate *dd)
+    : d(dd)
 {
-    d->init(obj);
+
 }
 
 QT_BEGIN_NAMESPACE

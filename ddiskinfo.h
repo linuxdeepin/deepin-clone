@@ -23,7 +23,6 @@ public:
     };
 
     explicit DDiskInfo();
-    explicit DDiskInfo(const QString &name);
     explicit DDiskInfo(const DDiskInfo &other);
     ~DDiskInfo();
 
@@ -53,12 +52,14 @@ public:
 
     void refresh();
 
-    static QList<DDiskInfo> localeDiskList();
+protected:
+    explicit DDiskInfo(DDiskInfoPrivate *dd);
+
+    QExplicitlySharedDataPointer<DDiskInfoPrivate> d;
 
 private:
     friend class DDiskInfoPrivate;
     friend bool operator==(const DDiskInfo &first, const DDiskInfo &second);
-    QExplicitlySharedDataPointer<DDiskInfoPrivate> d;
 };
 
 inline bool operator==(const DDiskInfo &first, const DDiskInfo &second)

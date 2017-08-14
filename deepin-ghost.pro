@@ -12,9 +12,15 @@ TEMPLATE = app
 SOURCES += main.cpp \
     ddiskinfo.cpp \
     util.cpp \
-    dpartinfo.cpp
+    dpartinfo.cpp \
+    ddevicediskinfo.cpp \
+    ddevicepartinfo.cpp
 
 HEADERS += \
     ddiskinfo.h \
     util.h \
-    dpartinfo.h
+    dpartinfo.h \
+    ddevicediskinfo.h \
+    ddiskinfo_p.h \
+    ddevicepartinfo.h \
+    dpartinfo_p.h

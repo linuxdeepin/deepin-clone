@@ -3,7 +3,8 @@
 #include <QDir>
 #include <QDebug>
 
-#include "ddiskinfo.h"
+#include "ddevicediskinfo.h"
+#include "ddevicepartinfo.h"
 #include "util.h"
 
 int main(int argc, char *argv[])
@@ -23,10 +24,10 @@ int main(int argc, char *argv[])
     const QString to = a.arguments().last();
 
     if (Util::isBlockSpecialFile(from)) {
-        disk_info = DDiskInfo(from);
+        disk_info = DDeviceDiskInfo(from);
         isDisk = disk_info.ptType() != DDiskInfo::Unknow;
     } else if (Util::isBlockSpecialFile(to)) {
-        disk_info = DDiskInfo(to);
+        disk_info = DDeviceDiskInfo(to);
         isRestore = true;
         isDisk = QFile::exists(from + "/partition.table");
     } else {
@@ -79,40 +80,20 @@ int main(int argc, char *argv[])
             disk_info.refresh();
 
             qDebug() << disk_info;
+        }
 
-            int index = 1;
+        int index = 1;
 
-            for (const DPartInfo &part : disk_info.childrenPartList()) {
-                if (part.isMounted()) {
-                    qDebug() << part.device() << "is mounted";
-
-                    return -1;
-                }
-
-                const QString &source = dir.absoluteFilePath(QString::number(index));
-
-                ++index;
-
-                qDebug() << "begion restore partion:" << part.device();
-                qDebug() << "from file:" << source;
-                int code = Util::restorePartition(source, part);
-
-                if (code != 0) {
-                    qDebug() << "failed";
-
-                    return -1;
-                }
-            }
-        } else {
-            DPartInfo part(disk_info.device());
-
+        for (const DPartInfo &part : disk_info.childrenPartList()) {
             if (part.isMounted()) {
                 qDebug() << part.device() << "is mounted";
 
                 return -1;
             }
 
-            const QString &source = dir.absoluteFilePath("1");
+            const QString &source = dir.absoluteFilePath(QString::number(index));
+
+            ++index;
 
             qDebug() << "begion restore partion:" << part.device();
             qDebug() << "from file:" << source;
@@ -155,51 +136,26 @@ int main(int argc, char *argv[])
                     }
                 }
             }
+        }
 
-            int index = 1;
+        int index = 1;
 
-            for (const DPartInfo &part : info_list) {
-                if (part.isMounted()) {
-                    qDebug() << part.device() << "is mounted";
-
-                    return -1;
-                }
-
-                QString part_bak_name = to + "/" + QString::number(index);
-
-                ++index;
-
-                qDebug() << "begin backup partition:" << part.device();
-                qDebug() << "to file:" << part_bak_name;
-                int code = Util::clonePartition(part, part_bak_name);
-
-                if (code != 0 && (part.type() == DPartInfo::Unknow || part.guidType() != DPartInfo::InvalidGUID)) {
-                    qDebug() << "failed";
-
-                    return -1;
-                }
-
-                if (part.type() != DPartInfo::Invalid && !Util::isPartcloneFile(part_bak_name)) {
-                    qDebug() << part_bak_name << "is invalid file";
-
-                    return -1;
-                }
-            }
-        } else {
-            DPartInfo part(disk_info.device());
-
+        for (const DPartInfo &part : disk_info.childrenPartList()) {
             if (part.isMounted()) {
                 qDebug() << part.device() << "is mounted";
 
                 return -1;
             }
 
-            QString part_bak_name = to + "/1";
+            QString part_bak_name = to + "/" + QString::number(index);
+
+            ++index;
 
             qDebug() << "begin backup partition:" << part.device();
+            qDebug() << "to file:" << part_bak_name;
             int code = Util::clonePartition(part, part_bak_name);
 
-            if (code != 0&& (part.type() == DPartInfo::Unknow || part.guidType() != DPartInfo::InvalidGUID)) {
+            if (code != 0 && (part.type() == DPartInfo::Unknow || part.guidType() != DPartInfo::InvalidGUID)) {
                 qDebug() << "failed";
 
                 return -1;
