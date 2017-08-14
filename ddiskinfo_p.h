@@ -10,7 +10,7 @@ class DDiskInfoPrivate : public QSharedData
 public:
     DDiskInfoPrivate(DDiskInfo *qq);
 
-    virtual QString device() const {return QString();}
+    virtual QString filePath() const {return QString();}
     virtual void refresh() = 0;
 
     DDiskInfo *q;

@@ -14,7 +14,9 @@ SOURCES += main.cpp \
     util.cpp \
     dpartinfo.cpp \
     ddevicediskinfo.cpp \
-    ddevicepartinfo.cpp
+    ddevicepartinfo.cpp \
+    dfilediskinfo.cpp \
+    dfilepartinfo.cpp
 
 HEADERS += \
     ddiskinfo.h \
@@ -23,4 +25,7 @@ HEADERS += \
     ddevicediskinfo.h \
     ddiskinfo_p.h \
     ddevicepartinfo.h \
-    dpartinfo_p.h
+    dpartinfo_p.h \
+    dfilediskinfo.h \
+    dfilepartinfo.h \
+    dglobal.h

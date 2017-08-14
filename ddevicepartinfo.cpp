@@ -115,8 +115,3 @@ void DDevicePartInfo::init(const QJsonObject &obj)
 {
     d_func()->init(obj);
 }
-
-DDevicePartInfoPrivate *DDevicePartInfo::d_func() const
-{
-    return static_cast<DDevicePartInfoPrivate*>(d.data());
-}

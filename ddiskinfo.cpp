@@ -27,7 +27,7 @@ DDiskInfo::~DDiskInfo()
 
 QString DDiskInfo::device() const
 {
-    return d->device();
+    return d->filePath();
 }
 
 DDiskInfo &DDiskInfo::operator=(const DDiskInfo &other)

@@ -30,7 +30,7 @@ public:
 
     void init(const QJsonObject &obj);
 
-    QString device() const Q_DECL_OVERRIDE;
+    QString filePath() const Q_DECL_OVERRIDE;
     void refresh() Q_DECL_OVERRIDE;
 };
 
@@ -77,7 +77,7 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
     else ptType = DDiskInfo::Unknow;
 }
 
-QString DDeviceDiskInfoPrivate::device() const
+QString DDeviceDiskInfoPrivate::filePath() const
 {
     return Util::getDeviceByName(name);
 }
@@ -116,9 +116,4 @@ QList<DDeviceDiskInfo> DDeviceDiskInfo::localeDiskList()
     }
 
     return list;
-}
-
-DDeviceDiskInfoPrivate *DDeviceDiskInfo::d_func() const
-{
-    return static_cast<DDeviceDiskInfoPrivate*>(d.data());
 }

@@ -1,6 +1,7 @@
 #ifndef DDEVICEPARTINFO_H
 #define DDEVICEPARTINFO_H
 
+#include "dglobal.h"
 #include "dpartinfo.h"
 
 QT_BEGIN_NAMESPACE
@@ -19,7 +20,7 @@ public:
 private:
     void init(const QJsonObject &obj);
 
-    DDevicePartInfoPrivate *d_func() const;
+    DG_DFUNC(DDevicePartInfo)
 
     friend class DDeviceDiskInfoPrivate;
 };
