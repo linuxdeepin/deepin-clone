@@ -5,7 +5,8 @@
 
 #include "ddevicediskinfo.h"
 #include "ddevicepartinfo.h"
-#include "util.h"
+#include "helper.h"
+#include "clonejob.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +14,12 @@ int main(int argc, char *argv[])
 
     if (a.arguments().count() != 3)
         return -1;
+
+    CloneJob job;
+
+    job.start(a.arguments().at(1), a.arguments().at(2));
+
+    return a.exec();
 
     // If true clone disk. else clone partition
     bool isDisk = false;
@@ -23,10 +30,10 @@ int main(int argc, char *argv[])
     const QString from = a.arguments().at(1);
     const QString to = a.arguments().last();
 
-    if (Util::isBlockSpecialFile(from)) {
+    if (Helper::isBlockSpecialFile(from)) {
         disk_info = DDeviceDiskInfo(from);
         isDisk = disk_info.ptType() != DDiskInfo::Unknow;
-    } else if (Util::isBlockSpecialFile(to)) {
+    } else if (Helper::isBlockSpecialFile(to)) {
         disk_info = DDeviceDiskInfo(to);
         isRestore = true;
         isDisk = QFile::exists(from + "/partition.table");
@@ -56,8 +63,7 @@ int main(int argc, char *argv[])
         if (isDisk) {
             if (dir.exists("fpsb")) {
                 qDebug() << "begin to restore the sector before the first partition, size:" << QFileInfo(dir.absoluteFilePath("fpsb")).size();
-                int code = -1;
-                Util::processExec(QString("dd if=%1 of=%2").arg(dir.absoluteFilePath("fpsb")).arg(disk_info.device()), -1, &code);
+                int code = Helper::processExec(QString("dd if=%1 of=%2").arg(dir.absoluteFilePath("fpsb")).arg(disk_info.filePath()));
 
                 if (code != 0) {
                     qDebug() << "failed";
@@ -66,7 +72,7 @@ int main(int argc, char *argv[])
                 }
             }
 
-            bool ok = Util::setPartitionTable(disk_info.device(), dir.absoluteFilePath("partition.table"));
+            bool ok = Helper::setPartitionTable(disk_info.filePath(), dir.absoluteFilePath("partition.table"));
 
             if (ok) {
                 qDebug() << "restore partition table is finished";
@@ -76,7 +82,7 @@ int main(int argc, char *argv[])
                 return -1;
             }
 
-            qDebug() << "refresh device:" << disk_info.device();
+            qDebug() << "refresh device:" << disk_info.filePath();
             disk_info.refresh();
 
             qDebug() << disk_info;
@@ -86,7 +92,7 @@ int main(int argc, char *argv[])
 
         for (const DPartInfo &part : disk_info.childrenPartList()) {
             if (part.isMounted()) {
-                qDebug() << part.device() << "is mounted";
+                qDebug() << part.filePath() << "is mounted";
 
                 return -1;
             }
@@ -95,9 +101,9 @@ int main(int argc, char *argv[])
 
             ++index;
 
-            qDebug() << "begion restore partion:" << part.device();
+            qDebug() << "begion restore partion:" << part.filePath();
             qDebug() << "from file:" << source;
-            int code = Util::restorePartition(source, part);
+            int code = Helper::restorePartition(source, part);
 
             if (code != 0) {
                 qDebug() << "failed";
@@ -109,7 +115,7 @@ int main(int argc, char *argv[])
         QDir::current().mkpath(to);
 
         if (isDisk) {
-            bool ok = Util::saveToFile(to + "/" + "partition.table", Util::getPartitionTable(disk_info.device()));
+            bool ok = Helper::saveToFile(to + "/" + "partition.table", Helper::getPartitionTable(disk_info.filePath()));
 
             if (ok) {
                 qDebug() << "backup partition table is finished";
@@ -126,8 +132,7 @@ int main(int argc, char *argv[])
 
                 if (first_part_start > 0 && first_part_start <= 2048000) {
                     qDebug() << "begin to backup the sector before the first partition";
-                    int code = -1;
-                    Util::processExec(QString("dd if=%1 bs=%2 count=1 of=%3").arg(disk_info.device()).arg(first_part_start).arg(to + "/fpsb"), -1, &code);
+                    int code = Helper::processExec(QString("dd if=%1 bs=%2 count=1 of=%3").arg(disk_info.filePath()).arg(first_part_start).arg(to + "/fpsb"));
 
                     if (code != 0) {
                         qDebug() << "failed";
@@ -142,7 +147,7 @@ int main(int argc, char *argv[])
 
         for (const DPartInfo &part : disk_info.childrenPartList()) {
             if (part.isMounted()) {
-                qDebug() << part.device() << "is mounted";
+                qDebug() << part.filePath() << "is mounted";
 
                 return -1;
             }
@@ -151,9 +156,9 @@ int main(int argc, char *argv[])
 
             ++index;
 
-            qDebug() << "begin backup partition:" << part.device();
+            qDebug() << "begin backup partition:" << part.filePath();
             qDebug() << "to file:" << part_bak_name;
-            int code = Util::clonePartition(part, part_bak_name);
+            int code = Helper::clonePartition(part, part_bak_name);
 
             if (code != 0 && (part.type() == DPartInfo::Unknow || part.guidType() != DPartInfo::InvalidGUID)) {
                 qDebug() << "failed";
@@ -161,7 +166,7 @@ int main(int argc, char *argv[])
                 return -1;
             }
 
-            if (part.type() != DPartInfo::Invalid && !Util::isPartcloneFile(part_bak_name)) {
+            if (part.type() != DPartInfo::Invalid && !Helper::isPartcloneFile(part_bak_name)) {
                 qDebug() << part_bak_name << "is invalid file";
 
                 return -1;

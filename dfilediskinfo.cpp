@@ -11,6 +11,15 @@ public:
     QString filePath() const Q_DECL_OVERRIDE;
     void refresh() Q_DECL_OVERRIDE;
 
+    bool hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode) const Q_DECL_OVERRIDE;
+    bool openDataStream(int index) Q_DECL_OVERRIDE;
+    void closeDataStream() Q_DECL_OVERRIDE;
+
+    qint64 read(char *data, qint64 maxSize) Q_DECL_OVERRIDE;
+    qint64 write(const char *data, qint64 maxSize) Q_DECL_OVERRIDE;
+
+    bool atEnd() const Q_DECL_OVERRIDE;
+
     QString m_filePath;
 };
 
@@ -26,6 +35,36 @@ QString DFileDiskInfoPrivate::filePath() const
 }
 
 void DFileDiskInfoPrivate::refresh()
+{
+
+}
+
+bool DFileDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode) const
+{
+
+}
+
+bool DFileDiskInfoPrivate::openDataStream(int index)
+{
+
+}
+
+void DFileDiskInfoPrivate::closeDataStream()
+{
+
+}
+
+qint64 DFileDiskInfoPrivate::read(char *data, qint64 maxSize)
+{
+
+}
+
+qint64 DFileDiskInfoPrivate::write(const char *data, qint64 maxSize)
+{
+
+}
+
+bool DFileDiskInfoPrivate::atEnd() const
 {
 
 }

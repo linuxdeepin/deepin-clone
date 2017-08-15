@@ -1,6 +1,6 @@
 #include "ddevicepartinfo.h"
 #include "dpartinfo_p.h"
-#include "util.h"
+#include "helper.h"
 
 #include <QJsonObject>
 #include <QJsonArray>
@@ -27,7 +27,7 @@ DDevicePartInfoPrivate::DDevicePartInfoPrivate(DDevicePartInfo *qq)
 
 QString DDevicePartInfoPrivate::device() const
 {
-    return Util::getDeviceByName(name);
+    return Helper::getDeviceByName(name);
 }
 
 void DDevicePartInfoPrivate::refresh()
@@ -48,12 +48,12 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     partType = obj.value("parttype").toString();
     guidType = DPartInfo::guidType(partType.toLatin1().toUpper());
 
-    QString device = Util::getDeviceByName(name);
+    QString device = Helper::getDeviceByName(name);
 
-    int code = -1;
-    const QByteArray &data = Util::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS,SIZE").arg(device), -1, &code);
+    int code = Helper::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS,SIZE").arg(device));
 
     if (code == 0) {
+        const QByteArray &data = Helper::lastProcessStandardOutput();
         const QByteArrayList &list = data.split(' ');
 
         if (list.count() != 4) {
@@ -83,7 +83,7 @@ DDevicePartInfo::DDevicePartInfo()
 DDevicePartInfo::DDevicePartInfo(const QString &name)
     : DPartInfo(new DDevicePartInfoPrivate(this))
 {
-    const QJsonArray &block_devices = Util::getBlockDevices(Util::getDeviceByName(name));
+    const QJsonArray &block_devices = Helper::getBlockDevices(Helper::getDeviceByName(name));
 
     if (!block_devices.isEmpty())
         d_func()->init(block_devices.first().toObject());
@@ -91,7 +91,7 @@ DDevicePartInfo::DDevicePartInfo(const QString &name)
 
 QList<DDevicePartInfo> DDevicePartInfo::localePartList()
 {
-    const QJsonArray &block_devices = Util::getBlockDevices("-l");
+    const QJsonArray &block_devices = Helper::getBlockDevices("-l");
 
     QList<DDevicePartInfo> list;
 

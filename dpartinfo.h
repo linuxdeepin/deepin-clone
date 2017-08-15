@@ -171,7 +171,7 @@ public:
     inline void swap(DPartInfo &other) Q_DECL_NOTHROW
     { qSwap(d, other.d); }
 
-    QString device() const;
+    QString filePath() const;
     // device name
     QString name() const;
     // internal kernal device name

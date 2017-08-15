@@ -1,5 +1,5 @@
 #include "ddiskinfo.h"
-#include "util.h"
+#include "helper.h"
 #include "dpartinfo_p.h"
 
 #include <QDebug>
@@ -64,7 +64,7 @@ DPartInfo::~DPartInfo()
 
 }
 
-QString DPartInfo::device() const
+QString DPartInfo::filePath() const
 {
     return d->device();
 }

@@ -11,7 +11,7 @@ class DDiskInfo
 {
 public:
     enum Type {
-        Loop,
+        Part,
         Disk
     };
 
@@ -22,8 +22,20 @@ public:
         GPT
     };
 
+    enum DataScope {
+        NullScope,
+        Headgear,
+        PartitionTable,
+        Partition
+    };
+
+    enum ScopeMode {
+        Read,
+        Write
+    };
+
     explicit DDiskInfo();
-    explicit DDiskInfo(const DDiskInfo &other);
+    DDiskInfo(const DDiskInfo &other);
     ~DDiskInfo();
 
     DDiskInfo &operator=(const DDiskInfo &other);
@@ -34,7 +46,19 @@ public:
     inline void swap(DDiskInfo &other) Q_DECL_NOTHROW
     { qSwap(d, other.d); }
 
-    QString device() const;
+    DataScope currentScope() const;
+    bool hasScope(DataScope scope, ScopeMode mode = Read) const;
+    bool beginScope(DataScope scope, ScopeMode mode = Read, int index = 0);
+    void endScope();
+
+    qint64 read(char *data, qint64 maxSize);
+
+    qint64 write(const char *data, qint64 maxSize);
+    qint64 write(const char *data);
+
+    bool atEnd() const;
+
+    QString filePath() const;
     // device name
     QString name() const;
     // internal kernal device name
@@ -51,6 +75,9 @@ public:
     QList<DPartInfo> childrenPartList() const;
 
     void refresh();
+
+    inline operator bool() const
+    { return d;}
 
 protected:
     explicit DDiskInfo(DDiskInfoPrivate *dd);

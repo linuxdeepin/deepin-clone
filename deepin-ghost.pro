@@ -11,16 +11,16 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     ddiskinfo.cpp \
-    util.cpp \
     dpartinfo.cpp \
     ddevicediskinfo.cpp \
     ddevicepartinfo.cpp \
     dfilediskinfo.cpp \
-    dfilepartinfo.cpp
+    dfilepartinfo.cpp \
+    clonejob.cpp \
+    helper.cpp
 
 HEADERS += \
     ddiskinfo.h \
-    util.h \
     dpartinfo.h \
     ddevicediskinfo.h \
     ddiskinfo_p.h \
@@ -28,4 +28,6 @@ HEADERS += \
     dpartinfo_p.h \
     dfilediskinfo.h \
     dfilepartinfo.h \
-    dglobal.h
+    dglobal.h \
+    clonejob.h \
+    helper.h

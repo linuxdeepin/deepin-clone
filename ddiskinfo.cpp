@@ -25,7 +25,56 @@ DDiskInfo::~DDiskInfo()
 
 }
 
-QString DDiskInfo::device() const
+DDiskInfo::DataScope DDiskInfo::currentScope() const
+{
+    return d->currentScope;
+}
+
+bool DDiskInfo::hasScope(DDiskInfo::DataScope scope, ScopeMode mode) const
+{
+    if (scope == NullScope)
+        return true;
+
+    return d->hasScope(scope, mode);
+}
+
+bool DDiskInfo::beginScope(DDiskInfo::DataScope scope, ScopeMode mode, int index)
+{
+    endScope();
+
+    d->currentScope = scope;
+    d->currentMode = mode;
+
+    return d->openDataStream(index);
+}
+
+void DDiskInfo::endScope()
+{
+    d->closeDataStream();
+    d->currentScope = NullScope;
+}
+
+qint64 DDiskInfo::read(char *data, qint64 maxSize)
+{
+    return d->read(data, maxSize);
+}
+
+qint64 DDiskInfo::write(const char *data, qint64 maxSize)
+{
+    return d->write(data, maxSize);
+}
+
+qint64 DDiskInfo::write(const char *data)
+{
+    return write(data, qstrlen(data));
+}
+
+bool DDiskInfo::atEnd() const
+{
+    return d->atEnd();
+}
+
+QString DDiskInfo::filePath() const
 {
     return d->filePath();
 }
