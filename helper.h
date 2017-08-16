@@ -35,6 +35,7 @@ public:
     static QString sizeDisplay(quint64 size);
 
     static bool refreshSystemPartList(const QString &device = QString());
+    static QString getPartcloneExecuter(const DPartInfo &info);
 
     static QByteArray callLsblk(const QString &extraArg = QString());
     static QJsonArray getBlockDevices(const QString &commandExtraArg = QString());
@@ -74,6 +75,8 @@ static QString __d_asprintf__(const char *format, Args&&... args)
 {
     return QString::asprintf(format, std::forward<Args>(args)...);
 }
+
+#define dCDebug(...) qCDebug(Helper::loggerCategory, __VA_ARGS__)
 
 #define dCWarning(format, ...) { \
     const QString &__m = __d_asprintf__(format, ##__VA_ARGS__); \

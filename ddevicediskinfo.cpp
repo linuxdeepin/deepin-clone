@@ -122,7 +122,7 @@ void DDeviceDiskInfoPrivate::refresh()
 bool DDeviceDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode) const
 {
     if (mode == DDiskInfo::Read) {
-        return (scope == DDiskInfo::Headgear || DDiskInfo::PartitionTable) ? havePartitionTable : !children.isEmpty();
+        return (scope == DDiskInfo::Headgear || scope == DDiskInfo::PartitionTable) ? havePartitionTable : !children.isEmpty();
     }
 
     return (scope == DDiskInfo::Headgear || DDiskInfo::PartitionTable) ? type == DDiskInfo::Disk : true;
@@ -148,7 +148,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
                 quint64 first_part_start = children.first().sizeStart();
 
                 if (first_part_start >= 1048576) {
-                    process->start(QStringLiteral("dd if=%1 bs=512 count=2048").arg(filePath()), QIODevice::ReadOnly);
+                    process->start(QStringLiteral("dd if=%1 bs=512 count=2048 status=none").arg(filePath()), QIODevice::ReadOnly);
                 } else {
                     return false;
                 }
@@ -156,7 +156,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
                 return false;
             }
         } else {
-            process->start(QStringLiteral("dd of=%1 bs=512").arg(filePath()), QIODevice::WriteOnly);
+            process->start(QStringLiteral("dd of=%1 bs=512 status=none conv=fsync").arg(filePath()), QIODevice::WriteOnly);
         }
     } else if (currentScope == DDiskInfo::PartitionTable) {
         if (type != DDiskInfo::Disk) {
@@ -170,6 +170,18 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         else
             process->start(QStringLiteral("sfdisk %1").arg(filePath()), QIODevice::WriteOnly);
 
+    } else if (currentScope == DDiskInfo::Partition) {
+        if (index >= children.count())
+            return false;
+
+        const DPartInfo &part = children.at(index);
+
+        if (currentMode == DDiskInfo::Read) {
+            const QString &executer = Helper::getPartcloneExecuter(part);
+            process->start(QStringLiteral("%1 -s %2 -o - -c").arg(executer).arg(part.filePath()), QIODevice::ReadOnly);
+        } else {
+            process->start(QStringLiteral("partclone.restore -s - -o %2").arg(part.filePath()), QIODevice::WriteOnly);
+        }
     } else {
         return false;
     }

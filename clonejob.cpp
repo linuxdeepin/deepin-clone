@@ -6,6 +6,8 @@
 
 #include <QDir>
 
+#include <functional>
+
 CloneJob::CloneJob(QObject *parent)
     : QThread(parent)
     , m_status(Stoped)
@@ -46,9 +48,12 @@ static DDiskInfo getInfo(const QString &file)
     return info;
 }
 
-static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope scope, int index = 0)
+typedef std::function<void(quint64 accomplishBytes)> PipeNotifyFunction;
+
+static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope scope, int index = 0, PipeNotifyFunction *notify = 0)
 {
     bool ok = false;
+    quint64 accomplish = 0;
 
     if (!from.beginScope(scope, DDiskInfo::Read, index)) {
         dCError("beginScope failed! device: %s, mode: Read, scope: %d, index: %d", from.filePath().toUtf8().constData(), scope, index);
@@ -62,6 +67,7 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
         goto exit;
     }
 
+
     while (!from.atEnd()) {
         char block[2048];
         qint64 read_size = from.read(block, 2048);
@@ -72,13 +78,18 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
             goto exit;
         }
 
-        qint64 write_read_size = to.write(block, read_size);
+        qint64 write_size = to.write(block, read_size);
 
-        if (write_read_size < read_size) {
-            dCError("write data to device: %s is failed, hope size: %lld, actual size: %lld", to.filePath().toUtf8().constData(), read_size, write_read_size);
+        if (write_size < read_size) {
+            dCError("write data to device: %s is failed, hope size: %lld, actual size: %lld", to.filePath().toUtf8().constData(), read_size, write_size);
 
             goto exit;
         }
+
+        accomplish += write_size;
+
+        if (notify)
+            (*notify)(accomplish);
     }
 
     ok = true;
@@ -91,9 +102,18 @@ exit:
     return ok;
 }
 
+static void print_diskInfoPipe(quint64 bytes)
+{
+    dCDebug("%lld bytes of data have been written", bytes);
+    printf("\033[A");
+    fflush(stdout);
+}
+
 void CloneJob::run()
 {
     setStatus(Started);
+
+    dCDebug("refresh device: %s", m_from.toUtf8().constData());
 
     Helper::refreshSystemPartList(m_from);
     DDiskInfo from_info = getInfo(m_from);
@@ -104,6 +124,8 @@ void CloneJob::run()
         return;
     }
 
+    dCDebug("refresh device: %s", m_to.toUtf8().constData());
+
     Helper::refreshSystemPartList(m_to);
     DDiskInfo to_info = getInfo(m_to);
 
@@ -113,30 +135,58 @@ void CloneJob::run()
         return;
     }
 
+    PipeNotifyFunction print_fun = print_diskInfoPipe;
+
     if (from_info.hasScope(DDiskInfo::Headgear)) {
         setStatus(Clone_Headgear);
 
-        if (!diskInfoPipe(from_info, to_info, DDiskInfo::Headgear))
+        dCDebug("begin clone headgear......................");
+
+        if (!diskInfoPipe(from_info, to_info, DDiskInfo::Headgear, 0, &print_fun)) {
+            dCDebug("failed!!!");
+
             return;
+        }
+
+        printf("\033[B");
+        fflush(stdout);
     }
 
     if (from_info.hasScope(DDiskInfo::PartitionTable)) {
         setStatus(Clone_PartitionTable);
 
-        if (!diskInfoPipe(from_info, to_info, DDiskInfo::PartitionTable))
+        dCDebug("begin clone partition table......................");
+
+        if (!diskInfoPipe(from_info, to_info, DDiskInfo::PartitionTable, 0, &print_fun)) {
+            dCDebug("failed!!!");
+
             return;
+        }
+
+        printf("\033[B");
+        fflush(stdout);
     }
 
-//    if (from_info.hasScope(DDiskInfo::Partition)) {
-//        setStatus(Clone_Partition);
+    if (from_info.hasScope(DDiskInfo::Partition)) {
+        setStatus(Clone_Partition);
 
-//        int partition_count = from_info.childrenPartList().count();
+        int partition_count = from_info.childrenPartList().count();
 
-//        for (int i = 0; i < partition_count; ++i) {
-//            if (!diskInfoPipe(from_info, to_info, DDiskInfo::Partition, i))
-//                break;
-//        }
-//    }
+        for (int i = 0; i < partition_count; ++i) {
+            dCDebug("begin clone partition, index: %d......................", i);
+
+            if (!diskInfoPipe(from_info, to_info, DDiskInfo::Partition, i, &print_fun)) {
+                dCDebug("failed!!!");
+
+                return;
+            }
+
+            printf("\033[B");
+            fflush(stdout);
+        }
+    }
+
+    dCDebug("clone finished!");
 }
 
 void CloneJob::setStatus(CloneJob::Status s)
