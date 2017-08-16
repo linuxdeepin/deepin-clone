@@ -10,7 +10,7 @@
 #include <QDebug>
 #include <QLoggingCategory>
 
-#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -o NAME,KNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL %1")
+#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -o NAME,KNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL %1")
 
 QByteArray Helper::m_processStandardError;
 QByteArray Helper::m_processStandardOutput;
@@ -102,6 +102,23 @@ QString Helper::lastWarningString()
 QString Helper::lastErrorString()
 {
     return m_errorString;
+}
+
+QString Helper::sizeDisplay(quint64 size)
+{
+    return QString("%1 bytes").arg(size);
+}
+
+bool Helper::refreshSystemPartList(const QString &device)
+{
+    int code = device.isEmpty() ? processExec("partprobe") : processExec(QString("partprobe %1").arg(device));
+
+    if (code != 0)
+        return false;
+
+    processExec("sleep 1");
+
+    return true;
 }
 
 QByteArray Helper::callLsblk(const QString &extraArg)

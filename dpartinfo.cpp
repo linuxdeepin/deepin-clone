@@ -90,11 +90,6 @@ qint64 DPartInfo::totalSize() const
     return d->size;
 }
 
-QString DPartInfo::displaySize() const
-{
-    return d->sizeDisplay;
-}
-
 QString DPartInfo::typeName() const
 {
     return d->typeName;
@@ -138,11 +133,6 @@ quint64 DPartInfo::sizeStart() const
 quint64 DPartInfo::sizeEnd() const
 {
     return d->sizeEnd;
-}
-
-quint64 DPartInfo::size() const
-{
-    return d->size;
 }
 
 void DPartInfo::refresh()
@@ -541,7 +531,7 @@ QDebug operator<<(QDebug deg, const DPartInfo &info)
 
     deg.space() << "name:" << info.name()
                 << "type:" << info.typeName()
-                << "size:" << info.displaySize()
+                << "size:" << Helper::sizeDisplay(info.totalSize())
                 << "mount point:" << info.mountPoint()
                 << "label:" << info.label()
                 << "part label:" << info.partLabel()

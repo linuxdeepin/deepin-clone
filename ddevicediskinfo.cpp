@@ -29,6 +29,7 @@ class DDeviceDiskInfoPrivate : public DDiskInfoPrivate
 {
 public:
     DDeviceDiskInfoPrivate(DDeviceDiskInfo *qq);
+    ~DDeviceDiskInfoPrivate();
 
     void init(const QJsonObject &obj);
 
@@ -53,11 +54,16 @@ DDeviceDiskInfoPrivate::DDeviceDiskInfoPrivate(DDeviceDiskInfo *qq)
 
 }
 
+DDeviceDiskInfoPrivate::~DDeviceDiskInfoPrivate()
+{
+    closeDataStream();
+}
+
 void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
 {
     name = obj.value("name").toString();
     kname = obj.value("kname").toString();
-    sizeDisplay = obj.value("size").toString();
+    size = obj.value("size").toString().toULongLong();
     typeName = obj.value("type").toString();
 
     if (typeName == "part") {
@@ -94,7 +100,8 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
         ptType = DDiskInfo::MBR;
     else if (ptTypeName == "gpt")
         ptType = DDiskInfo::GPT;
-    else ptType = DDiskInfo::Unknow;
+    else
+        ptType = DDiskInfo::Unknow;
 }
 
 QString DDeviceDiskInfoPrivate::filePath() const
@@ -104,11 +111,20 @@ QString DDeviceDiskInfoPrivate::filePath() const
 
 void DDeviceDiskInfoPrivate::refresh()
 {
-    *q = DDeviceDiskInfo(name);
+    children.clear();
+
+    const QJsonArray &block_devices = Helper::getBlockDevices(Helper::getDeviceByName(name));
+
+    if (!block_devices.isEmpty())
+        init(block_devices.first().toObject());
 }
 
 bool DDeviceDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode) const
 {
+    if (mode == DDiskInfo::Read) {
+        return (scope == DDiskInfo::Headgear || DDiskInfo::PartitionTable) ? havePartitionTable : !children.isEmpty();
+    }
+
     return (scope == DDiskInfo::Headgear || DDiskInfo::PartitionTable) ? type == DDiskInfo::Disk : true;
 }
 
@@ -127,21 +143,20 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
             return false;
         }
 
-        if (!havePartitionTable)
-            return true;
+        if (currentMode == DDiskInfo::Read) {
+            if (Q_LIKELY(!children.isEmpty())) {
+                quint64 first_part_start = children.first().sizeStart();
 
-        if (Q_LIKELY(!children.isEmpty())) {
-            quint64 first_part_start = children.first().sizeStart();
-
-            if (currentMode == DDiskInfo::Read) {
                 if (first_part_start >= 1048576) {
                     process->start(QStringLiteral("dd if=%1 bs=512 count=2048").arg(filePath()), QIODevice::ReadOnly);
+                } else {
+                    return false;
                 }
             } else {
-                process->start(QStringLiteral("dd of=%1 bs=512").arg(filePath()), QIODevice::WriteOnly);
+                return false;
             }
-
-            process->waitForStarted();
+        } else {
+            process->start(QStringLiteral("dd of=%1 bs=512").arg(filePath()), QIODevice::WriteOnly);
         }
     } else if (currentScope == DDiskInfo::PartitionTable) {
         if (type != DDiskInfo::Disk) {
@@ -150,26 +165,37 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
             return false;
         }
 
-        if (!havePartitionTable)
-            return true;
-
         if (currentMode == DDiskInfo::Read)
             process->start(QStringLiteral("sfdisk -d %1").arg(filePath()), QIODevice::ReadOnly);
         else
             process->start(QStringLiteral("sfdisk %1").arg(filePath()), QIODevice::WriteOnly);
 
-        process->waitForStarted();
     } else {
         return false;
     }
 
-    return true;
+    process->waitForStarted();
+
+    return process->isOpen();
 }
 
 void DDeviceDiskInfoPrivate::closeDataStream()
 {
-    if (process)
+    if (process) {
+        if (process->state() != QProcess::NotRunning) {
+            process->terminate();
+            process->waitForFinished();
+        }
+
         process->deleteLater();
+        process = NULL;
+    }
+
+    if (currentMode == DDiskInfo::Write && currentScope == DDiskInfo::PartitionTable) {
+        if (Helper::refreshSystemPartList(filePath())) {
+            refresh();
+        }
+    }
 }
 
 qint64 DDeviceDiskInfoPrivate::read(char *data, qint64 maxSize)

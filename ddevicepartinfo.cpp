@@ -35,11 +35,16 @@ void DDevicePartInfoPrivate::refresh()
     *q = DDevicePartInfo(name);
 }
 
+static bool isDiskType(const QString &name, const QString &type)
+{
+    return type == "disk" || (type == "loop" && name.length() == 5);
+}
+
 void DDevicePartInfoPrivate::init(const QJsonObject &obj)
 {
     name = obj.value("name").toString();
     kname = obj.value("kname").toString();
-    sizeDisplay = obj.value("size").toString();
+    size = obj.value("size").toString().toULongLong();
     typeName = obj.value("fstype").toString();
     type = toType(typeName);
     mountPoint = obj.value("mountpoint").toString();
@@ -48,29 +53,33 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     partType = obj.value("parttype").toString();
     guidType = DPartInfo::guidType(partType.toLatin1().toUpper());
 
-    QString device = Helper::getDeviceByName(name);
+    if (isDiskType(name, obj.value("type").toString())) {
+        sizeStart = 0;
+        sizeEnd = size - 1;
+    } else {
+        const QString &device = Helper::getDeviceByName(name);
 
-    int code = Helper::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS,SIZE").arg(device));
+        int code = Helper::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS").arg(device));
 
-    if (code == 0) {
-        const QByteArray &data = Helper::lastProcessStandardOutput();
-        const QByteArrayList &list = data.split(' ');
+        if (code == 0) {
+            const QByteArray &data = Helper::lastProcessStandardOutput();
+            const QByteArrayList &list = data.split(' ');
 
-        if (list.count() != 4) {
-            qWarning() << "Get device START/END/SECTORS/SIZE info error by partx:" << device;
+            if (list.count() != 3) {
+                qWarning() << "Get device START/END/SECTORS/SIZE info error by partx:" << device;
 
-            return;
+                return;
+            }
+
+            quint64 start = list.first().split('"').at(1).toULongLong();
+            quint64 end = list.at(1).split('"').at(1).toULongLong();
+            quint64 sectors = list.at(2).split('"').at(1).toULongLong();
+
+            Q_ASSERT(sectors > 0);
+
+            sizeStart = start * size / sectors;
+            sizeEnd = (end + 1) * size / sectors - 1;
         }
-
-        quint64 start = list.first().split('"').at(1).toULongLong();
-        quint64 end = list.at(1).split('"').at(1).toULongLong();
-        quint64 sectors = list.at(2).split('"').at(1).toULongLong();
-
-        Q_ASSERT(sectors > 0);
-
-        size = list.last().split('"').at(1).toULongLong();
-        sizeStart = start * size / sectors;
-        sizeEnd = end * size / sectors;
     }
 }
 

@@ -32,6 +32,10 @@ public:
     QString lastWarningString();
     QString lastErrorString();
 
+    static QString sizeDisplay(quint64 size);
+
+    static bool refreshSystemPartList(const QString &device = QString());
+
     static QByteArray callLsblk(const QString &extraArg = QString());
     static QJsonArray getBlockDevices(const QString &commandExtraArg = QString());
     static QString getDeviceByName(const QString &name);

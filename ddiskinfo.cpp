@@ -1,5 +1,6 @@
 #include "ddiskinfo.h"
 #include "ddiskinfo_p.h"
+#include "helper.h"
 
 #include <QDebug>
 
@@ -41,6 +42,9 @@ bool DDiskInfo::hasScope(DDiskInfo::DataScope scope, ScopeMode mode) const
 bool DDiskInfo::beginScope(DDiskInfo::DataScope scope, ScopeMode mode, int index)
 {
     endScope();
+
+    if (!d->hasScope(scope, mode))
+        return false;
 
     d->currentScope = scope;
     d->currentMode = mode;
@@ -100,11 +104,6 @@ qint64 DDiskInfo::totalSize() const
     return d->size;
 }
 
-QString DDiskInfo::displaySize() const
-{
-    return d->sizeDisplay;
-}
-
 QString DDiskInfo::typeName() const
 {
     return d->typeName;
@@ -144,7 +143,7 @@ QDebug operator<<(QDebug deg, const DDiskInfo &info)
     Q_UNUSED(saver)
 
     deg.space() << "name:" << info.name()
-                << "size:" << info.displaySize();
+                << "size:" << Helper::sizeDisplay(info.totalSize());
     deg << "partitions:" << info.childrenPartList();
 
     return deg;

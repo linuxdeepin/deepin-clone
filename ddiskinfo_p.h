@@ -29,7 +29,6 @@ public:
     QString name;
     QString kname;
     quint64 size = 0;
-    QString sizeDisplay;
     QString typeName;
     DDiskInfo::Type type;
     bool havePartitionTable = true;

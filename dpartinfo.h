@@ -178,8 +178,6 @@ public:
     QString kname() const;
     // total size of partition
     qint64 totalSize() const;
-    // display size of partition
-    QString displaySize() const;
     // file system type of partition
     QString typeName() const;
     Type type() const;
@@ -195,7 +193,6 @@ public:
     // unit: bytes
     quint64 sizeStart() const;
     quint64 sizeEnd() const;
-    quint64 size() const;
 
     void refresh();
 
