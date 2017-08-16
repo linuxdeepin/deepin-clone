@@ -90,6 +90,26 @@ qint64 DPartInfo::totalSize() const
     return d->size;
 }
 
+quint64 DPartInfo::sizeStart() const
+{
+    return d->sizeStart;
+}
+
+quint64 DPartInfo::sizeEnd() const
+{
+    return d->sizeEnd;
+}
+
+quint64 DPartInfo::usedSize() const
+{
+    return d->usedSize;
+}
+
+quint64 DPartInfo::freeSize() const
+{
+    return d->freeSize;
+}
+
 QString DPartInfo::typeName() const
 {
     return d->typeName;
@@ -123,16 +143,6 @@ QString DPartInfo::partLabel() const
 DPartInfo::GUIDType DPartInfo::guidType() const
 {
     return d->guidType;
-}
-
-quint64 DPartInfo::sizeStart() const
-{
-    return d->sizeStart;
-}
-
-quint64 DPartInfo::sizeEnd() const
-{
-    return d->sizeEnd;
 }
 
 void DPartInfo::refresh()
@@ -532,6 +542,8 @@ QDebug operator<<(QDebug deg, const DPartInfo &info)
     deg.space() << "name:" << info.name()
                 << "type:" << info.typeName()
                 << "size:" << Helper::sizeDisplay(info.totalSize())
+                << "used size:" << Helper::sizeDisplay(info.usedSize())
+                << "free size:" << Helper::sizeDisplay(info.freeSize())
                 << "mount point:" << info.mountPoint()
                 << "label:" << info.label()
                 << "part label:" << info.partLabel()

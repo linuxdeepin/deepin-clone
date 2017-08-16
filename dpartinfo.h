@@ -177,7 +177,12 @@ public:
     // internal kernal device name
     QString kname() const;
     // total size of partition
+    // unit: bytes
     qint64 totalSize() const;
+    quint64 sizeStart() const;
+    quint64 sizeEnd() const;
+    quint64 usedSize() const;
+    quint64 freeSize() const;
     // file system type of partition
     QString typeName() const;
     Type type() const;
@@ -189,10 +194,6 @@ public:
     // partition label
     QString partLabel() const;
     GUIDType guidType() const;
-
-    // unit: bytes
-    quint64 sizeStart() const;
-    quint64 sizeEnd() const;
 
     void refresh();
 

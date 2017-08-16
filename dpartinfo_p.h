@@ -23,6 +23,8 @@ public:
     quint64 sizeStart = 0;
     quint64 sizeEnd = 0;
     quint64 size = 0;
+    quint64 usedSize = 0;
+    quint64 freeSize = 0;
     QString typeName;
     DPartInfo::Type type;
     QString mountPoint;

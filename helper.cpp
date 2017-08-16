@@ -106,7 +106,7 @@ QString Helper::lastErrorString()
 
 QString Helper::sizeDisplay(quint64 size)
 {
-    return QString("%1 bytes").arg(size);
+    return QString("%1 MB").arg(size / 1024.0 / 1024);
 }
 
 bool Helper::refreshSystemPartList(const QString &device)
@@ -170,6 +170,70 @@ QString Helper::getPartcloneExecuter(const DPartInfo &info)
         return "partclone.imager";
 
     return "partclone." + executor;
+}
+
+bool Helper::getPartitionSizeInfo(const DPartInfo &info, quint64 &used, quint64 &free)
+{
+    QProcess process;
+    QStringList env_list = QProcess::systemEnvironment();
+
+    env_list.append("LANG=C");
+    process.setEnvironment(env_list);
+    process.start(QString("%1 -s %2 -c -q -C").arg(getPartcloneExecuter(info)).arg(info.filePath()));
+    process.setStandardOutputFile("/dev/null");
+    process.setReadChannel(QProcess::StandardError);
+    process.waitForStarted();
+
+    qint64 used_block = -1;
+    qint64 free_block = -1;
+    int block_size = -1;
+
+    while (process.waitForReadyRead(-1)) {
+        const QByteArray &data = process.readAll();
+
+        for (QByteArray line : data.split('\n')) {
+            line = line.simplified();
+
+            if (line.startsWith("Space in use:")) {
+                bool ok = false;
+
+                used_block = line.split(' ').value(6, "-1").toLongLong(&ok);
+
+                if (!ok) {
+                    return false;
+                }
+            } else if (line.startsWith("Free Space:")) {
+                bool ok = false;
+
+                free_block = line.split(' ').value(5, "-1").toLongLong(&ok);
+
+                if (!ok) {
+                    return false;
+                }
+            } else if (line.startsWith("Block size:")) {
+                bool ok = false;
+
+                block_size = line.split(' ').value(2, "-1").toInt(&ok);
+
+                if (!ok) {
+                    return false;
+                }
+
+                if (used_block < 0 || free_block < 0 || block_size < 0)
+                    return false;
+
+                used = used_block * block_size;
+                free = free_block * block_size;
+
+                process.terminate();
+                process.waitForFinished();
+
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 QByteArray Helper::callLsblk(const QString &extraArg)

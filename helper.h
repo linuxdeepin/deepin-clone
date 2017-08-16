@@ -36,6 +36,7 @@ public:
 
     static bool refreshSystemPartList(const QString &device = QString());
     static QString getPartcloneExecuter(const DPartInfo &info);
+    static bool getPartitionSizeInfo(const DPartInfo &info, quint64 &used, quint64 &free);
 
     static QByteArray callLsblk(const QString &extraArg = QString());
     static QJsonArray getBlockDevices(const QString &commandExtraArg = QString());

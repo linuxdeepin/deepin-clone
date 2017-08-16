@@ -58,6 +58,16 @@ void DDiskInfo::endScope()
     d->currentScope = NullScope;
 }
 
+quint64 DDiskInfo::totalReadableDataSize() const
+{
+    return d->totalReadableDataSize();
+}
+
+quint64 DDiskInfo::totalWritableDataSize() const
+{
+    return d->totalWritableDataSize();
+}
+
 qint64 DDiskInfo::read(char *data, qint64 maxSize)
 {
     return d->read(data, maxSize);
@@ -99,7 +109,7 @@ QString DDiskInfo::kname() const
     return d->kname;
 }
 
-qint64 DDiskInfo::totalSize() const
+quint64 DDiskInfo::totalSize() const
 {
     return d->size;
 }

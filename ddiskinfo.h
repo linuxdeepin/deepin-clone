@@ -51,6 +51,9 @@ public:
     bool beginScope(DataScope scope, ScopeMode mode = Read, int index = 0);
     void endScope();
 
+    quint64 totalReadableDataSize() const;
+    quint64 totalWritableDataSize() const;
+
     qint64 read(char *data, qint64 maxSize);
 
     qint64 write(const char *data, qint64 maxSize);
@@ -64,7 +67,7 @@ public:
     // internal kernal device name
     QString kname() const;
     // total size of device
-    qint64 totalSize() const;
+    quint64 totalSize() const;
     // type of device
     QString typeName() const;
     Type type() const;

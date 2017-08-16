@@ -53,12 +53,12 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     partType = obj.value("parttype").toString();
     guidType = DPartInfo::guidType(partType.toLatin1().toUpper());
 
+    const QString &device = Helper::getDeviceByName(name);
+
     if (isDiskType(name, obj.value("type").toString())) {
         sizeStart = 0;
         sizeEnd = size - 1;
     } else {
-        const QString &device = Helper::getDeviceByName(name);
-
         int code = Helper::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS").arg(device));
 
         if (code == 0) {
@@ -66,7 +66,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
             const QByteArrayList &list = data.split(' ');
 
             if (list.count() != 3) {
-                qWarning() << "Get device START/END/SECTORS/SIZE info error by partx:" << device;
+                dCError("Get partition START/END/SECTORS/SIZE info error by partx, device: %s", device.toUtf8().constData());
 
                 return;
             }
@@ -80,6 +80,13 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
             sizeStart = start * size / sectors;
             sizeEnd = (end + 1) * size / sectors - 1;
         }
+    }
+
+    if (type == DPartInfo::Invalid || type == DPartInfo::Unknow) {
+        usedSize = size;
+        freeSize = 0;
+    } else if (!Helper::getPartitionSizeInfo(*q, usedSize, freeSize)) {
+        dCError("Get partition used sieze/free size info failed, device: %s", device.toUtf8().constData());
     }
 }
 

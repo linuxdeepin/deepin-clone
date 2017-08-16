@@ -40,6 +40,9 @@ public:
     bool openDataStream(int index) Q_DECL_OVERRIDE;
     void closeDataStream() Q_DECL_OVERRIDE;
 
+    quint64 totalReadableDataSize() const Q_DECL_OVERRIDE;
+    quint64 totalWritableDataSize() const Q_DECL_OVERRIDE;
+
     qint64 read(char *data, qint64 maxSize) Q_DECL_OVERRIDE;
     qint64 write(const char *data, qint64 maxSize) Q_DECL_OVERRIDE;
 
@@ -122,10 +125,14 @@ void DDeviceDiskInfoPrivate::refresh()
 bool DDeviceDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode) const
 {
     if (mode == DDiskInfo::Read) {
-        return (scope == DDiskInfo::Headgear || scope == DDiskInfo::PartitionTable) ? havePartitionTable : !children.isEmpty();
+        if (scope == DDiskInfo::Headgear) {
+            return havePartitionTable && (children.isEmpty() || children.first().sizeStart() >= 1048576);
+        }
+
+        return scope == DDiskInfo::PartitionTable ? havePartitionTable : !children.isEmpty();
     }
 
-    return (scope == DDiskInfo::Headgear || DDiskInfo::PartitionTable) ? type == DDiskInfo::Disk : true;
+    return (scope == DDiskInfo::Headgear || scope == DDiskInfo::PartitionTable) ? type == DDiskInfo::Disk : true;
 }
 
 bool DDeviceDiskInfoPrivate::openDataStream(int index)
@@ -144,17 +151,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         }
 
         if (currentMode == DDiskInfo::Read) {
-            if (Q_LIKELY(!children.isEmpty())) {
-                quint64 first_part_start = children.first().sizeStart();
-
-                if (first_part_start >= 1048576) {
-                    process->start(QStringLiteral("dd if=%1 bs=512 count=2048 status=none").arg(filePath()), QIODevice::ReadOnly);
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
+            process->start(QStringLiteral("dd if=%1 bs=512 count=2048 status=none").arg(filePath()), QIODevice::ReadOnly);
         } else {
             process->start(QStringLiteral("dd of=%1 bs=512 status=none conv=fsync").arg(filePath()), QIODevice::WriteOnly);
         }
@@ -208,6 +205,37 @@ void DDeviceDiskInfoPrivate::closeDataStream()
             refresh();
         }
     }
+}
+
+quint64 DDeviceDiskInfoPrivate::totalReadableDataSize() const
+{
+    quint64 size = 0;
+
+    if (hasScope(DDiskInfo::Headgear, DDiskInfo::Read)) {
+        size += 1048576;
+    } else if (!children.isEmpty()) {
+        size += children.first().sizeStart();
+    }
+
+    if (hasScope(DDiskInfo::PartitionTable, DDiskInfo::Read)) {
+        if (ptType == DDiskInfo::MBR) {
+            size = qMax(size, quint64(512));
+        } else if (ptType == DDiskInfo::GPT) {
+            size = qMax(size, quint64(17408));
+            size += 16896;
+        }
+    }
+
+    for (const DPartInfo &part : children) {
+        size += part.usedSize();
+    }
+
+    return size;
+}
+
+quint64 DDeviceDiskInfoPrivate::totalWritableDataSize() const
+{
+    return size;
 }
 
 qint64 DDeviceDiskInfoPrivate::read(char *data, qint64 maxSize)

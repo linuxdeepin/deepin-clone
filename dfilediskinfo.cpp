@@ -15,6 +15,9 @@ public:
     bool openDataStream(int index) Q_DECL_OVERRIDE;
     void closeDataStream() Q_DECL_OVERRIDE;
 
+    quint64 totalReadableDataSize() const Q_DECL_OVERRIDE;
+    quint64 totalWritableDataSize() const Q_DECL_OVERRIDE;
+
     qint64 read(char *data, qint64 maxSize) Q_DECL_OVERRIDE;
     qint64 write(const char *data, qint64 maxSize) Q_DECL_OVERRIDE;
 
@@ -50,6 +53,16 @@ bool DFileDiskInfoPrivate::openDataStream(int index)
 }
 
 void DFileDiskInfoPrivate::closeDataStream()
+{
+
+}
+
+quint64 DFileDiskInfoPrivate::totalReadableDataSize() const
+{
+
+}
+
+quint64 DFileDiskInfoPrivate::totalWritableDataSize() const
 {
 
 }

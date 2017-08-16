@@ -62,7 +62,7 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
     }
 
     if (!to.beginScope(scope, DDiskInfo::Write, index)) {
-        dCError("beginScope failed! device: %s, mode: Write, scope: %d, index: %d", from.filePath().toUtf8().constData(), scope, index);
+        dCError("beginScope failed! device: %s, mode: Write, scope: %d, index: %d", to.filePath().toUtf8().constData(), scope, index);
 
         goto exit;
     }
@@ -131,6 +131,18 @@ void CloneJob::run()
 
     if (!to_info) {
         dCError("%s is invalid file.", m_to.toUtf8().constData());
+
+        return;
+    }
+
+    if (to_info.totalSize() < from_info.totalSize()) {
+        dCError("device %s must be larger than the size of device %s", m_to.toUtf8().constData(), m_from.toUtf8().constData());
+
+        return;
+    }
+
+    if (to_info.totalWritableDataSize() < from_info.totalReadableDataSize()) {
+        dCError("the writeable size of device %s must be greater than the readable size of device %s", m_to.toUtf8().constData(), m_from.toUtf8().constData());
 
         return;
     }
