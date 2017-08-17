@@ -44,7 +44,11 @@ void DFileDiskInfoPrivate::refresh()
 
 bool DFileDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode) const
 {
+    if (mode == DDiskInfo::Read) {
 
+    } else {
+
+    }
 }
 
 bool DFileDiskInfoPrivate::openDataStream(int index)

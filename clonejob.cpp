@@ -56,13 +56,13 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
     quint64 accomplish = 0;
 
     if (!from.beginScope(scope, DDiskInfo::Read, index)) {
-        dCError("beginScope failed! device: %s, mode: Read, scope: %d, index: %d", from.filePath().toUtf8().constData(), scope, index);
+        dCError("beginScope failed! device: %s, mode: Read, scope: %d, index: %d", qPrintable(from.filePath()), scope, index);
 
         goto exit;
     }
 
     if (!to.beginScope(scope, DDiskInfo::Write, index)) {
-        dCError("beginScope failed! device: %s, mode: Write, scope: %d, index: %d", to.filePath().toUtf8().constData(), scope, index);
+        dCError("beginScope failed! device: %s, mode: Write, scope: %d, index: %d", qPrintable(to.filePath()), scope, index);
 
         goto exit;
     }
@@ -73,7 +73,7 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
         qint64 read_size = from.read(block, 2048);
 
         if (read_size <= 0) {
-            dCError("read data from device: %s is failed, hope size: %lld, actual size: %lld", from.filePath().toUtf8().constData(), 2048, read_size);
+            dCError("read data from device: %s is failed, hope size: %lld, actual size: %lld", qPrintable(from.filePath()), 2048, read_size);
 
             goto exit;
         }
@@ -81,7 +81,7 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
         qint64 write_size = to.write(block, read_size);
 
         if (write_size < read_size) {
-            dCError("write data to device: %s is failed, hope size: %lld, actual size: %lld", to.filePath().toUtf8().constData(), read_size, write_size);
+            dCError("write data to device: %s is failed, hope size: %lld, actual size: %lld", qPrintable(to.filePath()), read_size, write_size);
 
             goto exit;
         }
@@ -113,36 +113,36 @@ void CloneJob::run()
 {
     setStatus(Started);
 
-    dCDebug("refresh device: %s", m_from.toUtf8().constData());
+    dCDebug("refresh device: %s", qPrintable(m_from));
 
     Helper::refreshSystemPartList(m_from);
     DDiskInfo from_info = getInfo(m_from);
 
     if (!from_info) {
-        dCError("%s is invalid file.", m_from.toUtf8().constData());
+        dCError("%s is invalid file.", qPrintable(m_from));
 
         return;
     }
 
-    dCDebug("refresh device: %s", m_to.toUtf8().constData());
+    dCDebug("refresh device: %s", qPrintable(m_to));
 
     Helper::refreshSystemPartList(m_to);
     DDiskInfo to_info = getInfo(m_to);
 
     if (!to_info) {
-        dCError("%s is invalid file.", m_to.toUtf8().constData());
+        dCError("%s is invalid file.", qPrintable(m_to));
 
         return;
     }
 
     if (to_info.totalSize() < from_info.totalSize()) {
-        dCError("device %s must be larger than the size of device %s", m_to.toUtf8().constData(), m_from.toUtf8().constData());
+        dCError("device %s must be larger than the size of device %s", qPrintable(m_to), qPrintable(m_from));
 
         return;
     }
 
     if (to_info.totalWritableDataSize() < from_info.totalReadableDataSize()) {
-        dCError("the writeable size of device %s must be greater than the readable size of device %s", m_to.toUtf8().constData(), m_from.toUtf8().constData());
+        dCError("the writeable size of device %s must be greater than the readable size of device %s", qPrintable(m_to), qPrintable(m_from));
 
         return;
     }

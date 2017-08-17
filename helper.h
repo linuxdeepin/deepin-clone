@@ -64,7 +64,7 @@ private:
 template<typename... Args>
 static QString __d_asprintf__(const QString &string, Args&&... args)
 {
-    return QString::asprintf(string.toUtf8().constData(), std::forward<Args>(args)...);
+    return QString::asprintf(qPrintable(string), std::forward<Args>(args)...);
 }
 template<typename... Args>
 static QString __d_asprintf__(const QByteArray &array, Args&&... args)
@@ -82,10 +82,10 @@ static QString __d_asprintf__(const char *format, Args&&... args)
 #define dCWarning(format, ...) { \
     const QString &__m = __d_asprintf__(format, ##__VA_ARGS__); \
     Helper::instance()->warning(__m); \
-    qCWarning(Helper::loggerCategory, __m.toUtf8().constData());}
+    qCWarning(Helper::loggerCategory, qPrintable(__m));}
 #define dCError(format, ...) { \
     const QString &__m = __d_asprintf__(format, ##__VA_ARGS__); \
     Helper::instance()->warning(__m); \
-    qCCritical(Helper::loggerCategory, __m.toUtf8().constData());}
+    qCCritical(Helper::loggerCategory, qPrintable(__m));}
 
 #endif // HELPER_H

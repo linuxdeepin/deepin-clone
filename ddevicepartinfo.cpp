@@ -66,7 +66,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
             const QByteArrayList &list = data.split(' ');
 
             if (list.count() != 3) {
-                dCError("Get partition START/END/SECTORS/SIZE info error by partx, device: %s", device.toUtf8().constData());
+                dCError("Get partition START/END/SECTORS/SIZE info error by partx, device: %s", qPrintable(device));
 
                 return;
             }
@@ -86,7 +86,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
         usedSize = size;
         freeSize = 0;
     } else if (!Helper::getPartitionSizeInfo(*q, usedSize, freeSize)) {
-        dCError("Get partition used sieze/free size info failed, device: %s", device.toUtf8().constData());
+        dCError("Get partition used sieze/free size info failed, device: %s", qPrintable(device));
     }
 }
 

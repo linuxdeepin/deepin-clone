@@ -145,7 +145,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
     if (currentScope == DDiskInfo::Headgear) {
         if (type != DDiskInfo::Disk) {
-            dCError("%s not is disk", filePath().toUtf8().constData());
+            dCError("%s not is disk", qPrintable(filePath()));
 
             return false;
         }
@@ -157,7 +157,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         }
     } else if (currentScope == DDiskInfo::PartitionTable) {
         if (type != DDiskInfo::Disk) {
-            dCError("%s not is disk", filePath().toUtf8().constData());
+            dCError("%s not is disk", qPrintable(filePath()));
 
             return false;
         }
