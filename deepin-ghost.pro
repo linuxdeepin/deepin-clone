@@ -1,4 +1,4 @@
-QT += core
+QT += core core-private
 QT -= gui
 
 CONFIG += c++11
@@ -17,7 +17,9 @@ SOURCES += main.cpp \
     dfilediskinfo.cpp \
     dfilepartinfo.cpp \
     clonejob.cpp \
-    helper.cpp
+    helper.cpp \
+    dvirtualimagefileengine.cpp \
+    dvirtualimagefileio.cpp
 
 HEADERS += \
     ddiskinfo.h \
@@ -30,4 +32,6 @@ HEADERS += \
     dfilepartinfo.h \
     dglobal.h \
     clonejob.h \
-    helper.h
+    helper.h \
+    dvirtualimagefileengine.h \
+    dvirtualimagefileio.h

@@ -1,12 +1,15 @@
 #include <QCoreApplication>
 #include <QString>
 #include <QDir>
+#include <QLockFile>
 #include <QDebug>
 
 #include "ddevicediskinfo.h"
 #include "ddevicepartinfo.h"
 #include "helper.h"
 #include "clonejob.h"
+
+#include "dvirtualimagefileio.h"
 
 int main(int argc, char *argv[])
 {
