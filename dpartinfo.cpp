@@ -66,7 +66,7 @@ DPartInfo::~DPartInfo()
 
 QString DPartInfo::filePath() const
 {
-    return d->device();
+    return d->filePath();
 }
 
 DPartInfo &DPartInfo::operator=(const DPartInfo &other)
@@ -85,27 +85,32 @@ QString DPartInfo::kname() const
     return d->kname;
 }
 
+int DPartInfo::blockSize() const
+{
+    return d->blockSize;
+}
+
 qint64 DPartInfo::totalSize() const
 {
     return d->size;
 }
 
-quint64 DPartInfo::sizeStart() const
+qint64 DPartInfo::sizeStart() const
 {
     return d->sizeStart;
 }
 
-quint64 DPartInfo::sizeEnd() const
+qint64 DPartInfo::sizeEnd() const
 {
     return d->sizeEnd;
 }
 
-quint64 DPartInfo::usedSize() const
+qint64 DPartInfo::usedSize() const
 {
     return d->usedSize;
 }
 
-quint64 DPartInfo::freeSize() const
+qint64 DPartInfo::freeSize() const
 {
     return d->freeSize;
 }

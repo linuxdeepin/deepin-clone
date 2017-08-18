@@ -104,7 +104,7 @@ QString Helper::lastErrorString()
     return m_errorString;
 }
 
-QString Helper::sizeDisplay(quint64 size)
+QString Helper::sizeDisplay(qint64 size)
 {
     return QString("%1 MB").arg(size / 1024.0 / 1024);
 }
@@ -172,7 +172,7 @@ QString Helper::getPartcloneExecuter(const DPartInfo &info)
     return "partclone." + executor;
 }
 
-bool Helper::getPartitionSizeInfo(const DPartInfo &info, quint64 &used, quint64 &free)
+bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 &used, qint64 &free, int &blockSize)
 {
     QProcess process;
     QStringList env_list = QProcess::systemEnvironment();
@@ -186,7 +186,6 @@ bool Helper::getPartitionSizeInfo(const DPartInfo &info, quint64 &used, quint64 
 
     qint64 used_block = -1;
     qint64 free_block = -1;
-    int block_size = -1;
 
     while (process.waitForReadyRead(-1)) {
         const QByteArray &data = process.readAll();
@@ -213,17 +212,17 @@ bool Helper::getPartitionSizeInfo(const DPartInfo &info, quint64 &used, quint64 
             } else if (line.startsWith("Block size:")) {
                 bool ok = false;
 
-                block_size = line.split(' ').value(2, "-1").toInt(&ok);
+                blockSize = line.split(' ').value(2, "-1").toInt(&ok);
 
                 if (!ok) {
                     return false;
                 }
 
-                if (used_block < 0 || free_block < 0 || block_size < 0)
+                if (used_block < 0 || free_block < 0 || blockSize < 0)
                     return false;
 
-                used = used_block * block_size;
-                free = free_block * block_size;
+                used = used_block * blockSize;
+                free = free_block * blockSize;
 
                 process.terminate();
                 process.waitForFinished();

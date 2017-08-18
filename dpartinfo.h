@@ -176,13 +176,14 @@ public:
     QString name() const;
     // internal kernal device name
     QString kname() const;
+    int blockSize() const;
     // total size of partition
     // unit: bytes
     qint64 totalSize() const;
-    quint64 sizeStart() const;
-    quint64 sizeEnd() const;
-    quint64 usedSize() const;
-    quint64 freeSize() const;
+    qint64 sizeStart() const;
+    qint64 sizeEnd() const;
+    qint64 usedSize() const;
+    qint64 freeSize() const;
     // file system type of partition
     QString typeName() const;
     Type type() const;

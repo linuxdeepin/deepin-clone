@@ -41,19 +41,35 @@ static DDiskInfo getInfo(const QString &file)
 
     if (Helper::isBlockSpecialFile(file)) {
         info = DDeviceDiskInfo(file);
-    } else if (QFileInfo(file).isFile() && QFileInfo(file).suffix() == "dgi") {
-        info = DFileDiskInfo(file);
+    } else {
+        QFileInfo file_info(file);
+
+        if (file_info.suffix() != "dim") {
+            return info;
+        }
+
+        if (file_info.exists()) {
+            if (file_info.isFile())
+                info = DFileDiskInfo(file);
+        } else {
+            QFile touch(file);
+
+            if (touch.open(QIODevice::WriteOnly)) {
+                touch.close();
+                info = DFileDiskInfo(file);
+            }
+        }
     }
 
     return info;
 }
 
-typedef std::function<void(quint64 accomplishBytes)> PipeNotifyFunction;
+typedef std::function<void(qint64 accomplishBytes)> PipeNotifyFunction;
 
 static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope scope, int index = 0, PipeNotifyFunction *notify = 0)
 {
     bool ok = false;
-    quint64 accomplish = 0;
+    qint64 accomplish = 0;
 
     if (!from.beginScope(scope, DDiskInfo::Read, index)) {
         dCError("beginScope failed! device: %s, mode: Read, scope: %d, index: %d", qPrintable(from.filePath()), scope, index);
@@ -102,7 +118,7 @@ exit:
     return ok;
 }
 
-static void print_diskInfoPipe(quint64 bytes)
+static void print_diskInfoPipe(qint64 bytes)
 {
     dCDebug("%lld bytes of data have been written", bytes);
     printf("\033[A");
@@ -113,9 +129,18 @@ void CloneJob::run()
 {
     setStatus(Started);
 
-    dCDebug("refresh device: %s", qPrintable(m_from));
+    if (!QFile::exists(m_from)) {
+        dCError("%s not found", qPrintable(m_from));
 
-    Helper::refreshSystemPartList(m_from);
+        return;
+    }
+
+    if (Helper::isBlockSpecialFile(m_from)) {
+        dCDebug("refresh device: %s", qPrintable(m_from));
+
+        Helper::refreshSystemPartList(m_from);
+    }
+
     DDiskInfo from_info = getInfo(m_from);
 
     if (!from_info) {
@@ -124,9 +149,12 @@ void CloneJob::run()
         return;
     }
 
-    dCDebug("refresh device: %s", qPrintable(m_to));
+    if (Helper::isBlockSpecialFile(m_to)) {
+        dCDebug("refresh device: %s", qPrintable(m_to));
 
-    Helper::refreshSystemPartList(m_to);
+        Helper::refreshSystemPartList(m_to);
+    }
+
     DDiskInfo to_info = getInfo(m_to);
 
     if (!to_info) {
@@ -135,16 +163,22 @@ void CloneJob::run()
         return;
     }
 
-    if (to_info.totalSize() < from_info.totalSize()) {
-        dCError("device %s must be larger than the size of device %s", qPrintable(m_to), qPrintable(m_from));
+    if (to_info.totalSize() < from_info.maxReadableDataSize()) {
+        dCError("device %s must be larger than %lld of device %s", qPrintable(m_to), from_info.maxReadableDataSize(), qPrintable(m_from));
 
         return;
     }
 
-    if (to_info.totalWritableDataSize() < from_info.totalReadableDataSize()) {
-        dCError("the writeable size of device %s must be greater than the readable size of device %s", qPrintable(m_to), qPrintable(m_from));
+    qint64 from_info_total_data_size = from_info.totalReadableDataSize();
 
-        return;
+    dCDebug("The total amount of data to be backed up: %lld", from_info_total_data_size);
+
+    if (to_info.totalWritableDataSize() < from_info_total_data_size) {
+        if (!to_info.setTotalWritableDataSize(from_info_total_data_size)) {
+            dCError("the writeable size of device %s must be greater than the readable size of device %s", qPrintable(m_to), qPrintable(m_from));
+
+            return;
+        }
     }
 
     PipeNotifyFunction print_fun = print_diskInfoPipe;

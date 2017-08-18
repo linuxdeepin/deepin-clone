@@ -40,8 +40,9 @@ public:
     bool openDataStream(int index) Q_DECL_OVERRIDE;
     void closeDataStream() Q_DECL_OVERRIDE;
 
-    quint64 totalReadableDataSize() const Q_DECL_OVERRIDE;
-    quint64 totalWritableDataSize() const Q_DECL_OVERRIDE;
+    qint64 totalReadableDataSize() const Q_DECL_OVERRIDE;
+    qint64 maxReadableDataSize() const Q_DECL_OVERRIDE;
+    qint64 totalWritableDataSize() const Q_DECL_OVERRIDE;
 
     qint64 read(char *data, qint64 maxSize) Q_DECL_OVERRIDE;
     qint64 write(const char *data, qint64 maxSize) Q_DECL_OVERRIDE;
@@ -66,7 +67,7 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
 {
     name = obj.value("name").toString();
     kname = obj.value("kname").toString();
-    size = obj.value("size").toString().toULongLong();
+    size = obj.value("size").toString().toLongLong();
     typeName = obj.value("type").toString();
 
     if (typeName == "part") {
@@ -143,7 +144,8 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
     process = new QProcess();
 
-    if (currentScope == DDiskInfo::Headgear) {
+    switch (currentScope) {
+    case DDiskInfo::Headgear: {
         if (type != DDiskInfo::Disk) {
             dCError("%s not is disk", qPrintable(filePath()));
 
@@ -155,7 +157,10 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         } else {
             process->start(QStringLiteral("dd of=%1 bs=512 status=none conv=fsync").arg(filePath()), QIODevice::WriteOnly);
         }
-    } else if (currentScope == DDiskInfo::PartitionTable) {
+
+        break;
+    }
+    case DDiskInfo::PartitionTable: {
         if (type != DDiskInfo::Disk) {
             dCError("%s not is disk", qPrintable(filePath()));
 
@@ -163,11 +168,13 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         }
 
         if (currentMode == DDiskInfo::Read)
-            process->start(QStringLiteral("sfdisk -d %1").arg(filePath()), QIODevice::ReadOnly);
+            process->start(QStringLiteral("sfdisk -d -J %1").arg(filePath()), QIODevice::ReadOnly);
         else
             process->start(QStringLiteral("sfdisk %1").arg(filePath()), QIODevice::WriteOnly);
 
-    } else if (currentScope == DDiskInfo::Partition) {
+        break;
+    }
+    case DDiskInfo::Partition: {
         if (index >= children.count())
             return false;
 
@@ -179,7 +186,10 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         } else {
             process->start(QStringLiteral("partclone.restore -s - -o %2").arg(part.filePath()), QIODevice::WriteOnly);
         }
-    } else {
+
+        break;
+    }
+    default:
         return false;
     }
 
@@ -207,33 +217,42 @@ void DDeviceDiskInfoPrivate::closeDataStream()
     }
 }
 
-quint64 DDeviceDiskInfoPrivate::totalReadableDataSize() const
+qint64 DDeviceDiskInfoPrivate::totalReadableDataSize() const
 {
-    quint64 size = 0;
-
-    if (hasScope(DDiskInfo::Headgear, DDiskInfo::Read)) {
-        size += 1048576;
-    } else if (!children.isEmpty()) {
-        size += children.first().sizeStart();
-    }
+    qint64 size = 0;
 
     if (hasScope(DDiskInfo::PartitionTable, DDiskInfo::Read)) {
+        if (hasScope(DDiskInfo::Headgear, DDiskInfo::Read)) {
+            size += 1048576;
+        } else if (!children.isEmpty()) {
+            size += children.first().sizeStart();
+        }
+
         if (ptType == DDiskInfo::MBR) {
-            size = qMax(size, quint64(512));
+            size = qMax(size, qint64(512));
         } else if (ptType == DDiskInfo::GPT) {
-            size = qMax(size, quint64(17408));
+            size = qMax(size, qint64(17408));
             size += 16896;
         }
     }
 
     for (const DPartInfo &part : children) {
-        size += part.usedSize();
+        size += part.usedSize() + part.totalSize() / part.blockSize() + 100000;
     }
 
     return size;
 }
 
-quint64 DDeviceDiskInfoPrivate::totalWritableDataSize() const
+qint64 DDeviceDiskInfoPrivate::maxReadableDataSize() const
+{
+    if (children.isEmpty()) {
+        return totalReadableDataSize();
+    }
+
+    return children.last().sizeEnd();
+}
+
+qint64 DDeviceDiskInfoPrivate::totalWritableDataSize() const
 {
     return size;
 }
@@ -269,18 +288,18 @@ bool DDeviceDiskInfoPrivate::atEnd() const
 }
 
 DDeviceDiskInfo::DDeviceDiskInfo()
-    : DDiskInfo(new DDeviceDiskInfoPrivate(this))
 {
 
 }
 
 DDeviceDiskInfo::DDeviceDiskInfo(const QString &name)
-    : DDiskInfo(new DDeviceDiskInfoPrivate(this))
 {
     const QJsonArray &block_devices = Helper::getBlockDevices(Helper::getDeviceByName(name));
 
-    if (!block_devices.isEmpty())
+    if (!block_devices.isEmpty()) {
+        d = new DDeviceDiskInfoPrivate(this);
         d_func()->init(block_devices.first().toObject());
+    }
 }
 
 QList<DDeviceDiskInfo> DDeviceDiskInfo::localeDiskList()

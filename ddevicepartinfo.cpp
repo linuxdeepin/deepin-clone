@@ -13,7 +13,7 @@ class DDevicePartInfoPrivate : public DPartInfoPrivate
 public:
     DDevicePartInfoPrivate(DDevicePartInfo *qq);
 
-    QString device() const Q_DECL_OVERRIDE;
+    QString filePath() const Q_DECL_OVERRIDE;
     void refresh() Q_DECL_OVERRIDE;
 
     void init(const QJsonObject &obj);
@@ -25,7 +25,7 @@ DDevicePartInfoPrivate::DDevicePartInfoPrivate(DDevicePartInfo *qq)
 
 }
 
-QString DDevicePartInfoPrivate::device() const
+QString DDevicePartInfoPrivate::filePath() const
 {
     return Helper::getDeviceByName(name);
 }
@@ -44,7 +44,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
 {
     name = obj.value("name").toString();
     kname = obj.value("kname").toString();
-    size = obj.value("size").toString().toULongLong();
+    size = obj.value("size").toString().toLongLong();
     typeName = obj.value("fstype").toString();
     type = toType(typeName);
     mountPoint = obj.value("mountpoint").toString();
@@ -71,9 +71,9 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
                 return;
             }
 
-            quint64 start = list.first().split('"').at(1).toULongLong();
-            quint64 end = list.at(1).split('"').at(1).toULongLong();
-            quint64 sectors = list.at(2).split('"').at(1).toULongLong();
+            qint64 start = list.first().split('"').at(1).toLongLong();
+            qint64 end = list.at(1).split('"').at(1).toLongLong();
+            qint64 sectors = list.at(2).split('"').at(1).toLongLong();
 
             Q_ASSERT(sectors > 0);
 
@@ -85,7 +85,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     if (type == DPartInfo::Invalid || type == DPartInfo::Unknow) {
         usedSize = size;
         freeSize = 0;
-    } else if (!Helper::getPartitionSizeInfo(*q, usedSize, freeSize)) {
+    } else if (!Helper::getPartitionSizeInfo(*q, usedSize, freeSize, blockSize)) {
         dCError("Get partition used sieze/free size info failed, device: %s", qPrintable(device));
     }
 }

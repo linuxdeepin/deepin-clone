@@ -10,6 +10,18 @@ DDiskInfoPrivate::DDiskInfoPrivate(DDiskInfo *qq)
 
 }
 
+qint64 DDiskInfoPrivate::maxReadableDataSize() const
+{
+    return size;
+}
+
+bool DDiskInfoPrivate::setTotalWritableDataSize(qint64 size)
+{
+    Q_UNUSED(size)
+
+    return false;
+}
+
 DDiskInfo::DDiskInfo()
 {
 
@@ -58,14 +70,24 @@ void DDiskInfo::endScope()
     d->currentScope = NullScope;
 }
 
-quint64 DDiskInfo::totalReadableDataSize() const
+qint64 DDiskInfo::totalReadableDataSize() const
 {
     return d->totalReadableDataSize();
 }
 
-quint64 DDiskInfo::totalWritableDataSize() const
+qint64 DDiskInfo::maxReadableDataSize() const
+{
+    return d->maxReadableDataSize();
+}
+
+qint64 DDiskInfo::totalWritableDataSize() const
 {
     return d->totalWritableDataSize();
+}
+
+bool DDiskInfo::setTotalWritableDataSize(qint64 size)
+{
+    return d->setTotalWritableDataSize(size);
 }
 
 qint64 DDiskInfo::read(char *data, qint64 maxSize)
@@ -109,7 +131,7 @@ QString DDiskInfo::kname() const
     return d->kname;
 }
 
-quint64 DDiskInfo::totalSize() const
+qint64 DDiskInfo::totalSize() const
 {
     return d->size;
 }

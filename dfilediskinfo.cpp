@@ -1,12 +1,20 @@
 #include "dfilediskinfo.h"
 #include "ddiskinfo_p.h"
+#include "dfilepartinfo.h"
+#include "dvirtualimagefileio.h"
 
 #include <QString>
+#include <QFile>
+#include <QFileInfo>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 class DFileDiskInfoPrivate : public DDiskInfoPrivate
 {
 public:
     DFileDiskInfoPrivate(DFileDiskInfo *qq);
+
+    void init(const QString &filePath, DVirtualImageFileIO *io);
 
     QString filePath() const Q_DECL_OVERRIDE;
     void refresh() Q_DECL_OVERRIDE;
@@ -15,8 +23,10 @@ public:
     bool openDataStream(int index) Q_DECL_OVERRIDE;
     void closeDataStream() Q_DECL_OVERRIDE;
 
-    quint64 totalReadableDataSize() const Q_DECL_OVERRIDE;
-    quint64 totalWritableDataSize() const Q_DECL_OVERRIDE;
+    qint64 totalReadableDataSize() const Q_DECL_OVERRIDE;
+    qint64 maxReadableDataSize() const Q_DECL_OVERRIDE;
+    qint64 totalWritableDataSize() const Q_DECL_OVERRIDE;
+    bool setTotalWritableDataSize(qint64 size) Q_DECL_OVERRIDE;
 
     qint64 read(char *data, qint64 maxSize) Q_DECL_OVERRIDE;
     qint64 write(const char *data, qint64 maxSize) Q_DECL_OVERRIDE;
@@ -24,12 +34,61 @@ public:
     bool atEnd() const Q_DECL_OVERRIDE;
 
     QString m_filePath;
+    QFile m_file;
 };
 
 DFileDiskInfoPrivate::DFileDiskInfoPrivate(DFileDiskInfo *qq)
     : DDiskInfoPrivate(qq)
 {
 
+}
+
+static QString getDIMFilePath(const QString &base, const QString &file)
+{
+    return QString("dim://%1/%2").arg(base).arg(file);
+}
+
+void DFileDiskInfoPrivate::init(const QString &filePath, DVirtualImageFileIO *io)
+{
+    m_filePath.clear();
+
+    havePartitionTable = io->existes("pt.json");
+
+    QFile file_pt(getDIMFilePath(filePath, "pt.json"));
+
+    if (file_pt.open(QIODevice::ReadOnly)) {
+        const QByteArray &data = file_pt.readAll();
+
+        const QJsonDocument jd = QJsonDocument::fromJson(data);
+
+        if (jd.isObject()) {
+            const QJsonValue &root = jd.object().value("partitiontable");
+
+            if (root.isObject()) {
+                ptTypeName = root.toObject().value("label").toString();
+
+                if (ptTypeName == "dos")
+                    ptType = DDiskInfo::MBR;
+                else if (ptTypeName == "gpt")
+                    ptType = DDiskInfo::GPT;
+                else
+                    ptType = DDiskInfo::Unknow;
+            }
+        }
+    }
+
+    children.clear();
+
+    for (const QString &f : io->fileList()) {
+        children << DFilePartInfo(getDIMFilePath(filePath, f));
+    }
+
+    type = DDiskInfo::Disk;
+    typeName = "disk";
+    name = filePath;
+    kname = filePath;
+    size = INT64_MAX;
+    m_filePath = filePath;
 }
 
 QString DFileDiskInfoPrivate::filePath() const
@@ -39,61 +98,130 @@ QString DFileDiskInfoPrivate::filePath() const
 
 void DFileDiskInfoPrivate::refresh()
 {
+    children.clear();
 
+    DVirtualImageFileIO io(m_filePath);
+
+    if (io.isValid()) {
+        init(m_filePath, &io);
+    }
 }
 
 bool DFileDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode) const
 {
     if (mode == DDiskInfo::Read) {
-
+        if (scope == DDiskInfo::Headgear || scope == DDiskInfo::PartitionTable)
+            return havePartitionTable;
+        else if (scope == DDiskInfo::PartitionTable)
+            return !children.isEmpty();
     } else {
-
+        return true;
     }
+
+    return false;
 }
 
 bool DFileDiskInfoPrivate::openDataStream(int index)
 {
+    switch (currentScope) {
+    case DDiskInfo::Headgear: {
+        m_file.setFileName(getDIMFilePath(m_filePath, "headgear"));
+        break;
+    }
+    case DDiskInfo::PartitionTable: {
+        m_file.setFileName(getDIMFilePath(m_filePath, "pt.json"));
+        break;
+    }
+    case DDiskInfo::Partition: {
+        m_file.setFileName(getDIMFilePath(m_filePath, QString::number(index)));
+        break;
+    }
+    default:
+        break;
+    }
 
+    if (currentMode == DDiskInfo::Read)
+        return m_file.open(QIODevice::ReadOnly);
+
+    return m_file.open(QIODevice::WriteOnly);
 }
 
 void DFileDiskInfoPrivate::closeDataStream()
 {
+    m_file.close();
 
+    if (currentMode == DDiskInfo::Write && currentScope == DDiskInfo::PartitionTable) {
+        refresh();
+    }
 }
 
-quint64 DFileDiskInfoPrivate::totalReadableDataSize() const
+qint64 DFileDiskInfoPrivate::totalReadableDataSize() const
 {
+    DVirtualImageFileIO io(m_filePath);
 
+    if (!io.isValid())
+        return 0;
+
+    return io.fileDataSize();
 }
 
-quint64 DFileDiskInfoPrivate::totalWritableDataSize() const
+qint64 DFileDiskInfoPrivate::maxReadableDataSize() const
 {
+    if (children.isEmpty()) {
+        qint64 size = QFile(getDIMFilePath(m_filePath, "headgear")).size();
 
+        return size < 0 ? 0 : size;
+    }
+
+    return children.last().sizeEnd();
+}
+
+qint64 DFileDiskInfoPrivate::totalWritableDataSize() const
+{
+    DVirtualImageFileIO io(m_filePath);
+
+    if (!io.isValid())
+        return 0;
+
+    return io.writableDataSize();
+}
+
+bool DFileDiskInfoPrivate::setTotalWritableDataSize(qint64 size)
+{
+    DVirtualImageFileIO io(m_filePath);
+
+    if (!io.isValid())
+        return false;
+
+    return io.setSize(size + DVirtualImageFileIO::metaDataSize());
 }
 
 qint64 DFileDiskInfoPrivate::read(char *data, qint64 maxSize)
 {
-
+    return m_file.read(data, maxSize);
 }
 
 qint64 DFileDiskInfoPrivate::write(const char *data, qint64 maxSize)
 {
-
+    return m_file.write(data, maxSize);
 }
 
 bool DFileDiskInfoPrivate::atEnd() const
 {
-
+    return m_file.atEnd();
 }
 
 DFileDiskInfo::DFileDiskInfo()
-    : DDiskInfo(new DFileDiskInfoPrivate(this))
 {
 
 }
 
 DFileDiskInfo::DFileDiskInfo(const QString &fileName)
-    : DFileDiskInfo()
 {
-    d_func()->m_filePath = fileName;
+    DVirtualImageFileIO io(fileName);
+
+    if (io.isValid()) {
+        d = new DFileDiskInfoPrivate(this);
+        d_func()->init(fileName, &io);
+    }
 }

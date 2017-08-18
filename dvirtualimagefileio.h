@@ -11,6 +11,7 @@ public:
     ~DVirtualImageFileIO();
 
     bool setFile(const QString &fileName);
+    bool setSize(qint64 size);
     bool isValid() const;
 
     bool existes(const QString &fileName) const;
@@ -22,10 +23,17 @@ public:
     bool seek(qint64 pos);
 
     qint64 size(const QString &fileName) const;
+    bool resize(const QString &fileName);
+    bool setSize(const QString &fileName, qint64 size);
     bool rename(const QString &from, const QString &to);
     bool isWritable(const QString &fileName);
 
-    qint64 metaDataSize() const;
+    static int maxFileCount();
+    static qint64 metaDataSize();
+    qint64 validMetaDataSize() const;
+    qint64 fileDataSize() const;
+    qint64 writableDataSize() const;
+    QStringList fileList() const;
 
 private:
     bool addFile(const QString &name);
@@ -39,8 +47,8 @@ private:
     struct FileInfo {
         quint8 index;
         QString name;
-        quint64 start;
-        quint64 end;
+        qint64 start;
+        qint64 end;
     };
 
     QMap<QString, FileInfo> m_fileMap;

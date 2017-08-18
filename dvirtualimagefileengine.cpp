@@ -70,13 +70,7 @@ bool DVirtualImageFileEngine::isSequential() const
 
 bool DVirtualImageFileEngine::setSize(qint64 size)
 {
-    if (!m_info->isWritable(m_name))
-        return false;
-
-    if (size < 0)
-        return false;
-
-    return m_info->m_file.resize(m_info->m_file.size() + size - m_info->size(m_name));
+    return m_info->setSize(m_name, size);
 }
 
 QAbstractFileEngine::FileFlags DVirtualImageFileEngine::fileFlags(QAbstractFileEngine::FileFlags type) const

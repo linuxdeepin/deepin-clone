@@ -10,7 +10,7 @@ class DPartInfoPrivate : public QSharedData
 public:
     DPartInfoPrivate(DPartInfo *qq);
 
-    virtual QString device() const {return QString();}
+    virtual QString filePath() const {return QString();}
     virtual void refresh() = 0;
 
     DPartInfo::Type toType(const QString &name);
@@ -19,12 +19,13 @@ public:
 
     QString name;
     QString kname;
+    int blockSize = 4096;
     // Unit: bytes
-    quint64 sizeStart = 0;
-    quint64 sizeEnd = 0;
-    quint64 size = 0;
-    quint64 usedSize = 0;
-    quint64 freeSize = 0;
+    qint64 sizeStart = 0;
+    qint64 sizeEnd = 0;
+    qint64 size = 0;
+    qint64 usedSize = 0;
+    qint64 freeSize = 0;
     QString typeName;
     DPartInfo::Type type;
     QString mountPoint;
