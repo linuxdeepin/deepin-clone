@@ -41,6 +41,9 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
 {
     bool ok = false;
 
+    constexpr int buffer_size = 1024 * 1024;
+    char block[buffer_size];
+
     if (!from.beginScope(scope, DDiskInfo::Read, index)) {
         dCError("beginScope failed! device: %s, mode: Read, scope: %d, index: %d", qPrintable(from.filePath()), scope, index);
 
@@ -53,13 +56,11 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
         goto exit;
     }
 
-
     while (!from.atEnd()) {
-        char block[2048];
-        qint64 read_size = from.read(block, 2048);
+        qint64 read_size = from.read(block, buffer_size);
 
         if (read_size <= 0) {
-            dCError("read data from device: %s is failed, hope size: %lld, actual size: %lld", qPrintable(from.filePath()), 2048, read_size);
+            dCError("read data from device: %s is failed, hope size: %lld, actual size: %lld", qPrintable(from.filePath()), buffer_size, read_size);
 
             goto exit;
         }
