@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    if (a.arguments().count() != 3)
+    if (a.arguments().count() < 3)
         return -1;
 
     if (a.arguments().contains("-i")) {
@@ -49,6 +49,13 @@ int main(int argc, char *argv[])
     CloneJob job;
 
     QObject::connect(&job, &QThread::finished, &a, &QCoreApplication::quit);
+
+    if (a.arguments().contains("-O")) {
+        QFile file(a.arguments().at(2));
+
+        if (file.open(QIODevice::WriteOnly))
+            file.close();
+    }
 
     job.start(a.arguments().at(1), a.arguments().at(2));
 

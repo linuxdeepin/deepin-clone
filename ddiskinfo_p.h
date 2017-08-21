@@ -19,6 +19,8 @@ public:
     virtual bool openDataStream(int index) = 0;
     virtual void closeDataStream() = 0;
 
+    virtual qint64 readableDataSize(DDiskInfo::DataScope scope) const = 0;
+
     virtual qint64 totalReadableDataSize() const = 0;
     virtual qint64 maxReadableDataSize() const;
     virtual qint64 totalWritableDataSize() const = 0;

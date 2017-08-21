@@ -40,7 +40,6 @@ typedef std::function<void(qint64 accomplishBytes)> PipeNotifyFunction;
 static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope scope, int index = 0, PipeNotifyFunction *notify = 0)
 {
     bool ok = false;
-    qint64 accomplish = 0;
 
     if (!from.beginScope(scope, DDiskInfo::Read, index)) {
         dCError("beginScope failed! device: %s, mode: Read, scope: %d, index: %d", qPrintable(from.filePath()), scope, index);
@@ -73,10 +72,8 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
             goto exit;
         }
 
-        accomplish += write_size;
-
         if (notify)
-            (*notify)(accomplish);
+            (*notify)(write_size);
     }
 
     ok = true;
@@ -87,13 +84,6 @@ exit:
     to.endScope();
 
     return ok;
-}
-
-static void print_diskInfoPipe(qint64 bytes)
-{
-    printf("\033[A");
-    fflush(stdout);
-    dCDebug("%lld bytes of data have been written", bytes);
 }
 
 void CloneJob::run()
@@ -141,6 +131,7 @@ void CloneJob::run()
     }
 
     qint64 from_info_total_data_size = from_info.totalReadableDataSize();
+    qint64 have_been_written = 0;
 
     dCDebug("The total amount of data to be backed up: %lld", from_info_total_data_size);
 
@@ -152,7 +143,18 @@ void CloneJob::run()
         }
     }
 
-    PipeNotifyFunction print_fun = print_diskInfoPipe;
+    PipeNotifyFunction print_fun = [from_info_total_data_size, &have_been_written] (qint64 accomplishBytes) {
+        printf("\033[A");
+        fflush(stdout);
+
+        have_been_written += accomplishBytes;
+
+        qreal progress = ((qreal)have_been_written / from_info_total_data_size) * 100;
+
+        progress = qMin(progress, 100.0);
+
+        dCDebug("----%lld bytes of data have been written, total progress: %f----", have_been_written, progress);
+    };
 
     if (from_info.hasScope(DDiskInfo::Headgear)) {
         setStatus(Clone_Headgear);

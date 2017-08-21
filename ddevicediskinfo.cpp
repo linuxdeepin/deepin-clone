@@ -41,6 +41,9 @@ public:
     bool openDataStream(int index) Q_DECL_OVERRIDE;
     void closeDataStream() Q_DECL_OVERRIDE;
 
+    // Unfulfilled
+    qint64 readableDataSize(DDiskInfo::DataScope scope) const Q_DECL_OVERRIDE;
+
     qint64 totalReadableDataSize() const Q_DECL_OVERRIDE;
     qint64 maxReadableDataSize() const Q_DECL_OVERRIDE;
     qint64 totalWritableDataSize() const Q_DECL_OVERRIDE;
@@ -238,6 +241,13 @@ void DDeviceDiskInfoPrivate::closeDataStream()
         buffer.close();
 }
 
+qint64 DDeviceDiskInfoPrivate::readableDataSize(DDiskInfo::DataScope scope) const
+{
+    Q_UNUSED(scope)
+
+    return -1;
+}
+
 qint64 DDeviceDiskInfoPrivate::totalReadableDataSize() const
 {
     qint64 size = 0;
@@ -250,9 +260,9 @@ qint64 DDeviceDiskInfoPrivate::totalReadableDataSize() const
         }
 
         if (ptType == DDiskInfo::MBR) {
-            size = qMax(size, qint64(512));
+            size += 512;
         } else if (ptType == DDiskInfo::GPT) {
-            size = qMax(size, qint64(17408));
+            size += 17408;
             size += 16896;
         }
     }

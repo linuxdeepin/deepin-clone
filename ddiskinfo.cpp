@@ -89,6 +89,11 @@ void DDiskInfo::endScope()
     d->currentScope = NullScope;
 }
 
+qint64 DDiskInfo::readableDataSize(DDiskInfo::DataScope scope) const
+{
+    return d->readableDataSize(scope);
+}
+
 qint64 DDiskInfo::totalReadableDataSize() const
 {
     return d->totalReadableDataSize();

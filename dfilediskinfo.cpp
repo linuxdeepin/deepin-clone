@@ -25,6 +25,9 @@ public:
     bool openDataStream(int index) Q_DECL_OVERRIDE;
     void closeDataStream() Q_DECL_OVERRIDE;
 
+    // Unfulfilled
+    qint64 readableDataSize(DDiskInfo::DataScope scope) const Q_DECL_OVERRIDE;
+
     qint64 totalReadableDataSize() const Q_DECL_OVERRIDE;
     qint64 maxReadableDataSize() const Q_DECL_OVERRIDE;
     qint64 totalWritableDataSize() const Q_DECL_OVERRIDE;
@@ -150,6 +153,13 @@ void DFileDiskInfoPrivate::closeDataStream()
     }
 }
 
+qint64 DFileDiskInfoPrivate::readableDataSize(DDiskInfo::DataScope scope) const
+{
+    Q_UNUSED(scope)
+
+    return -1;
+}
+
 qint64 DFileDiskInfoPrivate::totalReadableDataSize() const
 {
     DVirtualImageFileIO io(m_filePath);
@@ -162,13 +172,24 @@ qint64 DFileDiskInfoPrivate::totalReadableDataSize() const
 
 qint64 DFileDiskInfoPrivate::maxReadableDataSize() const
 {
+    qint64 size = 0;
+
     if (children.isEmpty()) {
-        qint64 size = QFile(getDIMFilePath(m_filePath, "headgear")).size();
+        size = QFile(getDIMFilePath(m_filePath, "headgear")).size();
 
         return size < 0 ? 0 : size;
     }
 
-    return children.last().sizeEnd();
+    DVirtualImageFileIO io(m_filePath);
+
+    for (int i = children.count() - 1; i >= 0; --i) {
+        const QString &part_file_name = QString::number(i);
+
+        if (io.existes(part_file_name))
+            size += io.size(part_file_name);
+    }
+
+    return size;
 }
 
 qint64 DFileDiskInfoPrivate::totalWritableDataSize() const
