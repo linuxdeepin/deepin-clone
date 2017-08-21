@@ -10,6 +10,8 @@ class DDiskInfoPrivate : public QSharedData
 public:
     DDiskInfoPrivate(DDiskInfo *qq);
 
+    void initFromJson(const QByteArray &json);
+
     virtual QString filePath() const {return QString();}
     virtual void refresh() = 0;
 

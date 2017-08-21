@@ -35,35 +35,6 @@ CloneJob::Status CloneJob::status() const
     return m_status;
 }
 
-static DDiskInfo getInfo(const QString &file)
-{
-    DDiskInfo info;
-
-    if (Helper::isBlockSpecialFile(file)) {
-        info = DDeviceDiskInfo(file);
-    } else {
-        QFileInfo file_info(file);
-
-        if (file_info.suffix() != "dim") {
-            return info;
-        }
-
-        if (file_info.exists()) {
-            if (file_info.isFile())
-                info = DFileDiskInfo(file);
-        } else {
-            QFile touch(file);
-
-            if (touch.open(QIODevice::WriteOnly)) {
-                touch.close();
-                info = DFileDiskInfo(file);
-            }
-        }
-    }
-
-    return info;
-}
-
 typedef std::function<void(qint64 accomplishBytes)> PipeNotifyFunction;
 
 static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope scope, int index = 0, PipeNotifyFunction *notify = 0)
@@ -120,9 +91,9 @@ exit:
 
 static void print_diskInfoPipe(qint64 bytes)
 {
-    dCDebug("%lld bytes of data have been written", bytes);
     printf("\033[A");
     fflush(stdout);
+    dCDebug("%lld bytes of data have been written", bytes);
 }
 
 void CloneJob::run()
@@ -141,7 +112,7 @@ void CloneJob::run()
         Helper::refreshSystemPartList(m_from);
     }
 
-    DDiskInfo from_info = getInfo(m_from);
+    DDiskInfo from_info = DDiskInfo::getInfo(m_from);
 
     if (!from_info) {
         dCError("%s is invalid file.", qPrintable(m_from));
@@ -155,7 +126,7 @@ void CloneJob::run()
         Helper::refreshSystemPartList(m_to);
     }
 
-    DDiskInfo to_info = getInfo(m_to);
+    DDiskInfo to_info = DDiskInfo::getInfo(m_to);
 
     if (!to_info) {
         dCError("%s is invalid file.", qPrintable(m_to));
@@ -186,7 +157,7 @@ void CloneJob::run()
     if (from_info.hasScope(DDiskInfo::Headgear)) {
         setStatus(Clone_Headgear);
 
-        dCDebug("begin clone headgear......................");
+        dCDebug("begin clone headgear......................\n");
 
         if (!diskInfoPipe(from_info, to_info, DDiskInfo::Headgear, 0, &print_fun)) {
             dCDebug("failed!!!");
@@ -194,14 +165,13 @@ void CloneJob::run()
             return;
         }
 
-        printf("\033[B");
         fflush(stdout);
     }
 
     if (from_info.hasScope(DDiskInfo::PartitionTable)) {
         setStatus(Clone_PartitionTable);
 
-        dCDebug("begin clone partition table......................");
+        dCDebug("begin clone partition table......................\n");
 
         if (!diskInfoPipe(from_info, to_info, DDiskInfo::PartitionTable, 0, &print_fun)) {
             dCDebug("failed!!!");
@@ -209,7 +179,6 @@ void CloneJob::run()
             return;
         }
 
-        printf("\033[B");
         fflush(stdout);
     }
 
@@ -219,7 +188,7 @@ void CloneJob::run()
         int partition_count = from_info.childrenPartList().count();
 
         for (int i = 0; i < partition_count; ++i) {
-            dCDebug("begin clone partition, index: %d......................", i);
+            dCDebug("begin clone partition, index: %d......................\n", i);
 
             if (!diskInfoPipe(from_info, to_info, DDiskInfo::Partition, i, &print_fun)) {
                 dCDebug("failed!!!");
@@ -227,8 +196,19 @@ void CloneJob::run()
                 return;
             }
 
-            printf("\033[B");
             fflush(stdout);
+        }
+    }
+
+    if (from_info.hasScope(DDiskInfo::JsonInfo) && to_info.hasScope(DDiskInfo::JsonInfo, DDiskInfo::Write)) {
+        setStatus(Save_Info);
+
+        dCDebug("begin clone json info\n");
+
+        if (!diskInfoPipe(from_info, to_info, DDiskInfo::JsonInfo, 0, &print_fun)) {
+            dCDebug("failed!!!");
+
+            return;
         }
     }
 

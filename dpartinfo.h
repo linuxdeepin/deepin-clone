@@ -6,6 +6,10 @@
 #include <QList>
 #include <QExplicitlySharedDataPointer>
 
+QT_BEGIN_NAMESPACE
+class QJsonObject;
+QT_END_NAMESPACE
+
 class DPartInfoPrivate;
 class DPartInfo
 {
@@ -168,8 +172,7 @@ public:
     DPartInfo &operator=(DPartInfo &&other) Q_DECL_NOTHROW { swap(other); return *this; }
 #endif
 
-    inline void swap(DPartInfo &other) Q_DECL_NOTHROW
-    { qSwap(d, other.d); }
+    void swap(DPartInfo &other);
 
     QString filePath() const;
     // device name
@@ -198,16 +201,22 @@ public:
 
     void refresh();
 
+    QByteArray toJson() const;
+
     static GUIDType guidType(const QByteArray &guid);
     static QString guidTypeDescription(GUIDType type);
 
 protected:
     DPartInfo(DPartInfoPrivate *dd);
+    static void fromJson(const QJsonObject &root, DPartInfoPrivate *dd);
+    static void fromJson(const QByteArray &json, DPartInfoPrivate *dd);
 
     QExplicitlySharedDataPointer<DPartInfoPrivate> d;
 
 private:
     friend class DPartInfoPrivate;
+    friend class DDiskInfo;
+    friend class DFileDiskInfoPrivate;
     friend bool operator==(const DPartInfo &first, const DPartInfo &second);
 };
 

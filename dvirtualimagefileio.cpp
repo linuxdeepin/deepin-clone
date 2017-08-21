@@ -222,6 +222,26 @@ qint64 DVirtualImageFileIO::size(const QString &fileName) const
     return info.end - info.start;
 }
 
+qint64 DVirtualImageFileIO::start(const QString &fileName) const
+{
+    if (!m_fileMap.contains(fileName))
+        return -1;
+
+    const FileInfo &info = m_fileMap.value(fileName);
+
+    return info.start;
+}
+
+qint64 DVirtualImageFileIO::end(const QString &fileName) const
+{
+    if (!m_fileMap.contains(fileName))
+        return -1;
+
+    const FileInfo &info = m_fileMap.value(fileName);
+
+    return info.end;
+}
+
 bool DVirtualImageFileIO::resize(const QString &fileName)
 {
     if (!isWritable(fileName))
@@ -235,9 +255,11 @@ bool DVirtualImageFileIO::resize(const QString &fileName)
     QDataStream stream(&m_file);
 
     stream.setVersion(QDataStream::Qt_5_6);
-    stream << (qint64)m_file.size();
+    stream << m_file.size();
 
     m_file.close();
+
+    m_fileMap[fileName].end = m_file.size();
 
     return m_file.error() == QFile::NoError;
 }
@@ -247,7 +269,7 @@ bool DVirtualImageFileIO::setSize(const QString &fileName, qint64 size)
     if (size < 0)
         return false;
 
-    if (!m_file.resize(m_file.size() + size - this->size(fileName)))
+    if (!m_file.resize(fileDataSize() + metaDataSize() + size - this->size(fileName)))
         return false;
 
     return resize(fileName);
@@ -315,21 +337,21 @@ qint64 DVirtualImageFileIO::validMetaDataSize() const
 
 qint64 DVirtualImageFileIO::fileDataSize() const
 {
-    return m_file.size() - metaDataSize();
-}
-
-qint64 DVirtualImageFileIO::writableDataSize() const
-{
     if (m_fileMap.isEmpty())
-        return m_file.size() - metaDataSize();
+        return 0;
 
     qint64 max_end = 0;
 
     for (const FileInfo &info : m_fileMap) {
-        max_end = qMax(max_end, (qint64)info.end);
+        max_end = qMax(max_end, info.end);
     }
 
-    return m_file.size() - max_end;
+    return max_end - metaDataSize();
+}
+
+qint64 DVirtualImageFileIO::writableDataSize() const
+{
+    return m_file.size() - fileDataSize() - metaDataSize();
 }
 
 QStringList DVirtualImageFileIO::fileList() const
@@ -374,7 +396,7 @@ bool DVirtualImageFileIO::addFile(const QString &name)
     FileInfo info;
 
     info.name = name;
-    info.start = m_file.size() + 16;
+    info.start = metaDataSize() + fileDataSize();
     info.end = info.start;
     info.index = m_fileMap.count();
 

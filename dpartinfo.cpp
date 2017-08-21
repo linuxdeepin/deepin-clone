@@ -2,6 +2,8 @@
 #include "helper.h"
 #include "dpartinfo_p.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QDebug>
 
 DPartInfoPrivate::DPartInfoPrivate(DPartInfo *qq)
@@ -56,7 +58,7 @@ DPartInfo::DPartInfo()
 DPartInfo::DPartInfo(const DPartInfo &other)
     : d(other.d)
 {
-
+    d->q = this;
 }
 
 DPartInfo::~DPartInfo()
@@ -64,9 +66,16 @@ DPartInfo::~DPartInfo()
 
 }
 
+void DPartInfo::swap(DPartInfo &other)
+{
+    qSwap(d, other.d);
+
+    d->q = this;
+}
+
 QString DPartInfo::filePath() const
 {
-    return d->filePath();
+    return d->filePath;
 }
 
 DPartInfo &DPartInfo::operator=(const DPartInfo &other)
@@ -153,6 +162,33 @@ DPartInfo::GUIDType DPartInfo::guidType() const
 void DPartInfo::refresh()
 {
     d->refresh();
+}
+
+QByteArray DPartInfo::toJson() const
+{
+    QJsonObject root
+    {
+        {"filePath", filePath()},
+        {"name", name()},
+        {"kname", kname()},
+        {"blockSize", blockSize()},
+        {"totalSize", QString::number(totalSize())},
+        {"sizeStart", QString::number(sizeStart())},
+        {"sizeEnd", QString::number(sizeEnd())},
+        {"usedSize", QString::number(usedSize())},
+        {"freeSize", QString::number(freeSize())},
+        {"typeName", typeName()},
+        {"type", type()},
+        {"mountPoint", mountPoint()},
+        {"label", label()},
+        {"partLabel", partLabel()},
+        {"guidType", guidType()},
+        {"guidTypeDescription", guidTypeDescription(guidType())}
+    };
+
+    QJsonDocument doc(root);
+
+    return doc.toJson();
 }
 
 DPartInfo::GUIDType DPartInfo::guidType(const QByteArray &guid)
@@ -534,7 +570,32 @@ QString DPartInfo::guidTypeDescription(DPartInfo::GUIDType type)
 DPartInfo::DPartInfo(DPartInfoPrivate *dd)
     : d(dd)
 {
+    dd->q = this;
+}
 
+void DPartInfo::fromJson(const QJsonObject &root, DPartInfoPrivate *dd)
+{
+    dd->filePath = root.value("filePath").toString();
+    dd->name = root.value("name").toString();
+    dd->kname = root.value("kname").toString();
+    dd->blockSize = root.value("blockSize").toInt();
+    dd->sizeStart = root.value("sizeStart").toString().toLongLong();
+    dd->sizeEnd = root.value("sizeEnd").toString().toLongLong();
+    dd->size = root.value("totalSize").toString().toLongLong();
+    dd->usedSize = root.value("usedSize").toString().toLongLong();
+    dd->freeSize = root.value("freeSize").toString().toLongLong();
+    dd->typeName = root.value("typeName").toString();
+    dd->type = (Type)root.value("type").toInt();
+    dd->mountPoint = root.value("mountPoint").toString();
+    dd->label = root.value("label").toString();
+    dd->partLabel = root.value("partLabel").toString();
+    dd->partType = root.value("partType").toString();
+    dd->guidType = (GUIDType)root.value("guidType").toInt();
+}
+
+void DPartInfo::fromJson(const QByteArray &json, DPartInfoPrivate *dd)
+{
+    fromJson(QJsonDocument::fromJson(json).object(), dd);
 }
 
 QT_BEGIN_NAMESPACE

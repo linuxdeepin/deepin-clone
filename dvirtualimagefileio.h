@@ -2,7 +2,7 @@
 #define DVIRTUALIMAGEFILEIO_H
 
 #include <QFile>
-#include <QMap>
+#include <QHash>
 
 class DVirtualImageFileIO
 {
@@ -23,6 +23,8 @@ public:
     bool seek(qint64 pos);
 
     qint64 size(const QString &fileName) const;
+    qint64 start(const QString &fileName) const;
+    qint64 end(const QString &fileName) const;
     bool resize(const QString &fileName);
     bool setSize(const QString &fileName, qint64 size);
     bool rename(const QString &from, const QString &to);
@@ -51,7 +53,7 @@ private:
         qint64 end;
     };
 
-    QMap<QString, FileInfo> m_fileMap;
+    QHash<QString, FileInfo> m_fileMap;
     QString m_openedFile;
 
     friend class DVirtualImageFileEngine;

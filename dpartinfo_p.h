@@ -10,13 +10,13 @@ class DPartInfoPrivate : public QSharedData
 public:
     DPartInfoPrivate(DPartInfo *qq);
 
-    virtual QString filePath() const {return QString();}
-    virtual void refresh() = 0;
+    virtual void refresh();
 
     DPartInfo::Type toType(const QString &name);
 
     DPartInfo *q;
 
+    QString filePath;
     QString name;
     QString kname;
     int blockSize = 4096;

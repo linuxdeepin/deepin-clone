@@ -1,13 +1,25 @@
 #include "ddiskinfo.h"
 #include "ddiskinfo_p.h"
+#include "dpartinfo_p.h"
 #include "helper.h"
+#include "ddevicediskinfo.h"
+#include "dfilediskinfo.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QFileInfo>
 #include <QDebug>
 
 DDiskInfoPrivate::DDiskInfoPrivate(DDiskInfo *qq)
     : q(qq)
 {
 
+}
+
+void DDiskInfoPrivate::initFromJson(const QByteArray &json)
+{
+    DDiskInfo::fromJson(json, this);
 }
 
 qint64 DDiskInfoPrivate::maxReadableDataSize() const
@@ -30,12 +42,19 @@ DDiskInfo::DDiskInfo()
 DDiskInfo::DDiskInfo(const DDiskInfo &other)
     : d(other.d)
 {
-
+    d->q = this;
 }
 
 DDiskInfo::~DDiskInfo()
 {
 
+}
+
+void DDiskInfo::swap(DDiskInfo &other)
+{
+    qSwap(d, other.d);
+
+    d->q = this;
 }
 
 DDiskInfo::DataScope DDiskInfo::currentScope() const
@@ -161,10 +180,90 @@ void DDiskInfo::refresh()
     d->refresh();
 }
 
+QByteArray DDiskInfo::toJson() const
+{
+    QJsonObject root
+    {
+        {"totalReadableDataSize", QString::number(totalReadableDataSize())},
+        {"maxReadableDataSize", QString::number(maxReadableDataSize())},
+        {"totalWritableDataSize", QString::number(totalWritableDataSize())},
+        {"filePath", filePath()},
+        {"name", name()},
+        {"kname", kname()},
+        {"totalSize", QString::number(totalSize())},
+        {"typeName", typeName()},
+        {"type", type()},
+        {"ptTypeName", d->ptTypeName},
+        {"ptType", ptType()}
+    };
+
+    QJsonArray children;
+
+    for (const DPartInfo &part : childrenPartList())
+        children.append(QJsonDocument::fromJson(part.toJson()).object());
+
+    root.insert("childrenPartList", children);
+
+    QJsonDocument doc(root);
+
+    return doc.toJson();
+}
+
+DDiskInfo DDiskInfo::getInfo(const QString &file)
+{
+    DDiskInfo info;
+
+    if (Helper::isBlockSpecialFile(file)) {
+        info = DDeviceDiskInfo(file);
+    } else {
+        QFileInfo file_info(file);
+
+        if (file_info.suffix() != "dim") {
+            return info;
+        }
+
+        if (file_info.exists()) {
+            if (file_info.isFile())
+                info = DFileDiskInfo(file);
+        } else {
+            QFile touch(file);
+
+            if (touch.open(QIODevice::WriteOnly)) {
+                touch.close();
+                info = DFileDiskInfo(file);
+            }
+        }
+    }
+
+    return info;
+}
+
 DDiskInfo::DDiskInfo(DDiskInfoPrivate *dd)
     : d(dd)
 {
+    dd->q = this;
+}
 
+void DDiskInfo::fromJson(const QByteArray &json, DDiskInfoPrivate *dd)
+{
+    const QJsonDocument &doc = QJsonDocument::fromJson(json);
+    const QJsonObject &root = doc.object();
+
+    dd->name = root.value("name").toString();
+    dd->kname = root.value("kname").toString();
+    dd->size = root.value("totalSize").toString().toLongLong();
+    dd->typeName = root.value("typeName").toString();
+    dd->type = (Type)root.value("type").toInt();
+    dd->ptTypeName = root.value("ptTypeName").toString();
+    dd->ptType = (PTType)root.value("ptType").toInt();
+    dd->havePartitionTable = dd->type == Disk && !dd->ptTypeName.isEmpty();
+
+    for (const QJsonValue &v : root.value("childrenPartList").toArray()) {
+        DPartInfoPrivate *part_dd = new DPartInfoPrivate(0);
+        DPartInfo::fromJson(v.toObject(), part_dd);
+
+        dd->children << DPartInfo(part_dd);
+    }
 }
 
 QT_BEGIN_NAMESPACE

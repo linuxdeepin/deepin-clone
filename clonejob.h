@@ -13,7 +13,8 @@ public:
         Started,
         Clone_Headgear,
         Clone_PartitionTable,
-        Clone_Partition
+        Clone_Partition,
+        Save_Info
     };
 
     explicit CloneJob(QObject *parent = 0);

@@ -1,5 +1,6 @@
 #include "dfilediskinfo.h"
 #include "ddiskinfo_p.h"
+#include "dpartinfo_p.h"
 #include "dfilepartinfo.h"
 #include "dvirtualimagefileio.h"
 
@@ -8,6 +9,7 @@
 #include <QFileInfo>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QDebug>
 
 class DFileDiskInfoPrivate : public DDiskInfoPrivate
 {
@@ -50,45 +52,32 @@ static QString getDIMFilePath(const QString &base, const QString &file)
 
 void DFileDiskInfoPrivate::init(const QString &filePath, DVirtualImageFileIO *io)
 {
+    Q_UNUSED(io)
+
     m_filePath.clear();
 
-    havePartitionTable = io->existes("pt.json");
-
-    QFile file_pt(getDIMFilePath(filePath, "pt.json"));
+    QFile file_pt(getDIMFilePath(filePath, "info.json"));
 
     if (file_pt.open(QIODevice::ReadOnly)) {
         const QByteArray &data = file_pt.readAll();
 
-        const QJsonDocument jd = QJsonDocument::fromJson(data);
-
-        if (jd.isObject()) {
-            const QJsonValue &root = jd.object().value("partitiontable");
-
-            if (root.isObject()) {
-                ptTypeName = root.toObject().value("label").toString();
-
-                if (ptTypeName == "dos")
-                    ptType = DDiskInfo::MBR;
-                else if (ptTypeName == "gpt")
-                    ptType = DDiskInfo::GPT;
-                else
-                    ptType = DDiskInfo::Unknow;
-            }
-        }
+        initFromJson(data);
+    } else {
+        name = filePath;
+        kname = filePath;
+        size = INT64_MAX;
     }
 
-    children.clear();
-
-    for (const QString &f : io->fileList()) {
-        children << DFilePartInfo(getDIMFilePath(filePath, f));
-    }
-
-    type = DDiskInfo::Disk;
-    typeName = "disk";
-    name = filePath;
-    kname = filePath;
-    size = INT64_MAX;
     m_filePath = filePath;
+
+    int index = 1;
+
+    for (const DPartInfo &part : children) {
+        part.d->filePath = getDIMFilePath(m_filePath, QString::number(index));
+        ++index;
+    }
+
+    typeName = "dim";
 }
 
 QString DFileDiskInfoPrivate::filePath() const
@@ -112,8 +101,10 @@ bool DFileDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::Scope
     if (mode == DDiskInfo::Read) {
         if (scope == DDiskInfo::Headgear || scope == DDiskInfo::PartitionTable)
             return havePartitionTable;
-        else if (scope == DDiskInfo::PartitionTable)
+        else if (scope == DDiskInfo::Partition)
             return !children.isEmpty();
+        else if (scope == DDiskInfo::JsonInfo)
+            return QFile::exists(getDIMFilePath(m_filePath, "info.json"));
     } else {
         return true;
     }
@@ -136,6 +127,10 @@ bool DFileDiskInfoPrivate::openDataStream(int index)
         m_file.setFileName(getDIMFilePath(m_filePath, QString::number(index)));
         break;
     }
+    case DDiskInfo::JsonInfo: {
+        m_file.setFileName(getDIMFilePath(m_filePath, "info.json"));
+        break;
+    }
     default:
         break;
     }
@@ -150,7 +145,7 @@ void DFileDiskInfoPrivate::closeDataStream()
 {
     m_file.close();
 
-    if (currentMode == DDiskInfo::Write && currentScope == DDiskInfo::PartitionTable) {
+    if (currentMode == DDiskInfo::Write && currentScope == DDiskInfo::JsonInfo) {
         refresh();
     }
 }

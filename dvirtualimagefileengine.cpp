@@ -1,6 +1,8 @@
 #include "dvirtualimagefileengine.h"
 #include "dvirtualimagefileio.h"
 
+#include <QDebug>
+
 QAbstractFileEngine *DVirtualImageFileEngineHandler::create(const QString &fileName) const
 {
     if (!fileName.startsWith("dim://"))
@@ -77,15 +79,15 @@ QAbstractFileEngine::FileFlags DVirtualImageFileEngine::fileFlags(QAbstractFileE
 {
     FileFlags flags = 0;
 
-    if (type.testFlag(TypesMask)) {
+    if (type & TypesMask) {
         flags |= FileType;
     }
 
-    if (type.testFlag(FlagsMask) && m_info->existes(m_name)) {
+    if ((type & FlagsMask) && m_info->existes(m_name)) {
         flags |= ExistsFlag;
     }
 
-    if (type.testFlag(PermsMask) && m_info->existes(m_name)) {
+    if ((type & PermsMask) && m_info->existes(m_name)) {
         flags |= (FileFlags)(int)m_info->m_file.permissions();
 
         if (!m_info->isWritable(m_name)) {
@@ -141,7 +143,7 @@ bool DVirtualImageFileEngine::extension(QAbstractFileEngine::Extension extension
     Q_UNUSED(option)
     Q_UNUSED(output)
 
-    return extension == AtEndExtension && m_info->pos() == m_info->size(m_name);
+    return extension == AtEndExtension && (m_info->pos() < 0 || m_info->pos() == m_info->size(m_name));
 }
 
 bool DVirtualImageFileEngine::supportsExtension(QAbstractFileEngine::Extension extension) const

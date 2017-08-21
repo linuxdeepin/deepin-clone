@@ -26,7 +26,8 @@ public:
         NullScope,
         Headgear,
         PartitionTable,
-        Partition
+        Partition,
+        JsonInfo
     };
 
     enum ScopeMode {
@@ -43,8 +44,7 @@ public:
     DDiskInfo &operator=(DDiskInfo &&other) Q_DECL_NOTHROW { swap(other); return *this; }
 #endif
 
-    inline void swap(DDiskInfo &other) Q_DECL_NOTHROW
-    { qSwap(d, other.d); }
+    void swap(DDiskInfo &other);
 
     DataScope currentScope() const;
     bool hasScope(DataScope scope, ScopeMode mode = Read) const;
@@ -79,11 +79,16 @@ public:
 
     void refresh();
 
+    QByteArray toJson() const;
+
     inline operator bool() const
     { return d;}
 
+    static DDiskInfo getInfo(const QString &file);
+
 protected:
     explicit DDiskInfo(DDiskInfoPrivate *dd);
+    static void fromJson(const QByteArray &json, DDiskInfoPrivate *dd);
 
     QExplicitlySharedDataPointer<DDiskInfoPrivate> d;
 

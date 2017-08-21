@@ -13,7 +13,6 @@ class DDevicePartInfoPrivate : public DPartInfoPrivate
 public:
     DDevicePartInfoPrivate(DDevicePartInfo *qq);
 
-    QString filePath() const Q_DECL_OVERRIDE;
     void refresh() Q_DECL_OVERRIDE;
 
     void init(const QJsonObject &obj);
@@ -23,11 +22,6 @@ DDevicePartInfoPrivate::DDevicePartInfoPrivate(DDevicePartInfo *qq)
     : DPartInfoPrivate(qq)
 {
 
-}
-
-QString DDevicePartInfoPrivate::filePath() const
-{
-    return Helper::getDeviceByName(name);
 }
 
 void DDevicePartInfoPrivate::refresh()
@@ -43,6 +37,7 @@ static bool isDiskType(const QString &name, const QString &type)
 void DDevicePartInfoPrivate::init(const QJsonObject &obj)
 {
     name = obj.value("name").toString();
+    filePath = Helper::getDeviceByName(name);
     kname = obj.value("kname").toString();
     size = obj.value("size").toString().toLongLong();
     typeName = obj.value("fstype").toString();
@@ -77,8 +72,8 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
 
             Q_ASSERT(sectors > 0);
 
-            sizeStart = start * size / sectors;
-            sizeEnd = (end + 1) * size / sectors - 1;
+            sizeStart = start * (size / sectors);
+            sizeEnd = (end + 1) * (size / sectors) - 1;
         }
     }
 

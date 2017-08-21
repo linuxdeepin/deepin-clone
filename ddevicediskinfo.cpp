@@ -7,6 +7,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QProcess>
+#include <QBuffer>
 
 static QString getPTName(const QString &device)
 {
@@ -50,6 +51,7 @@ public:
     bool atEnd() const Q_DECL_OVERRIDE;
 
     QProcess *process = NULL;
+    QBuffer buffer;
 };
 
 DDeviceDiskInfoPrivate::DDeviceDiskInfoPrivate(DDeviceDiskInfo *qq)
@@ -95,17 +97,18 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
 
         info.init(obj);
         children << info;
-        havePartitionTable = false;
     }
 
     ptTypeName = getPTName(Helper::getDeviceByName(name));
 
-    if (ptTypeName == "dos")
+    if (ptTypeName == "dos") {
         ptType = DDiskInfo::MBR;
-    else if (ptTypeName == "gpt")
+    } else if (ptTypeName == "gpt") {
         ptType = DDiskInfo::GPT;
-    else
+    } else {
         ptType = DDiskInfo::Unknow;
+        havePartitionTable = false;
+    }
 }
 
 QString DDeviceDiskInfoPrivate::filePath() const
@@ -128,9 +131,13 @@ bool DDeviceDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::Sco
     if (mode == DDiskInfo::Read) {
         if (scope == DDiskInfo::Headgear) {
             return havePartitionTable && (children.isEmpty() || children.first().sizeStart() >= 1048576);
+        } else if (scope == DDiskInfo::JsonInfo) {
+            return true;
         }
 
         return scope == DDiskInfo::PartitionTable ? havePartitionTable : !children.isEmpty();
+    } else if (scope == DDiskInfo::JsonInfo) {
+        return false;
     }
 
     return (scope == DDiskInfo::Headgear || scope == DDiskInfo::PartitionTable) ? type == DDiskInfo::Disk : true;
@@ -180,6 +187,9 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
         const DPartInfo &part = children.at(index);
 
+        if (part.isMounted())
+            return false;
+
         if (currentMode == DDiskInfo::Read) {
             const QString &executer = Helper::getPartcloneExecuter(part);
             process->start(QStringLiteral("%1 -s %2 -o - -c").arg(executer).arg(part.filePath()), QIODevice::ReadOnly);
@@ -189,13 +199,21 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
         break;
     }
+    case DDiskInfo::JsonInfo: {
+        process->deleteLater();
+        process = 0;
+        buffer.setData(q->toJson());
+
+        break;
+    }
     default:
         return false;
     }
 
-    process->waitForStarted();
+    if (process)
+        process->waitForStarted();
 
-    return process->isOpen();
+    return process ? process->isOpen() : buffer.open(QIODevice::ReadOnly);
 }
 
 void DDeviceDiskInfoPrivate::closeDataStream()
@@ -215,6 +233,9 @@ void DDeviceDiskInfoPrivate::closeDataStream()
             refresh();
         }
     }
+
+    if (currentScope == DDiskInfo::JsonInfo)
+        buffer.close();
 }
 
 qint64 DDeviceDiskInfoPrivate::totalReadableDataSize() const
@@ -249,7 +270,7 @@ qint64 DDeviceDiskInfoPrivate::maxReadableDataSize() const
         return totalReadableDataSize();
     }
 
-    return children.last().sizeEnd();
+    return children.last().sizeEnd() + 1;
 }
 
 qint64 DDeviceDiskInfoPrivate::totalWritableDataSize() const
@@ -259,8 +280,9 @@ qint64 DDeviceDiskInfoPrivate::totalWritableDataSize() const
 
 qint64 DDeviceDiskInfoPrivate::read(char *data, qint64 maxSize)
 {
-    if (!process)
-        return -1;
+    if (!process) {
+        return buffer.read(data, maxSize);
+    }
 
     process->waitForReadyRead(-1);
 
@@ -279,8 +301,9 @@ qint64 DDeviceDiskInfoPrivate::write(const char *data, qint64 maxSize)
 
 bool DDeviceDiskInfoPrivate::atEnd() const
 {
-    if (!process)
-        return true;
+    if (!process) {
+        return buffer.atEnd();
+    }
 
     process->waitForReadyRead(-1);
 
