@@ -173,10 +173,12 @@ bool DVirtualImageFileIO::close()
 
     const QFile::OpenMode open_mode = m_file.openMode();
 
+    qint64 pos = m_file.pos();
+
     m_file.close();
 
     if (!m_openedFile.isEmpty() && open_mode.testFlag(QFile::WriteOnly)) {
-        resize(m_openedFile);
+        setSize(m_openedFile, pos - m_fileMap.value(m_openedFile).start);
     }
 
     m_openedFile.clear();
@@ -193,7 +195,7 @@ qint64 DVirtualImageFileIO::pos() const
 
     qint64 pos = m_file.pos();
 
-    if (pos < (qint64)info.start || pos > (qint64)info.end)
+    if (pos < info.start || pos > info.end)
         return -1;
 
     return m_file.pos() - info.start;
@@ -242,37 +244,28 @@ qint64 DVirtualImageFileIO::end(const QString &fileName) const
     return info.end;
 }
 
-bool DVirtualImageFileIO::resize(const QString &fileName)
+bool DVirtualImageFileIO::setSize(const QString &fileName, qint64 size)
 {
     if (!isWritable(fileName))
+        return false;
+
+    if (size < 0)
         return false;
 
     if (!m_file.open(QIODevice::ReadWrite))
         return false;
 
+    m_fileMap[fileName].end = m_fileMap.value(fileName).start + size;
     m_file.seek(3 + m_fileMap.count() * 80 - 8);
 
     QDataStream stream(&m_file);
 
     stream.setVersion(QDataStream::Qt_5_6);
-    stream << m_file.size();
+    stream << m_fileMap.value(fileName).end;
 
     m_file.close();
 
-    m_fileMap[fileName].end = m_file.size();
-
     return m_file.error() == QFile::NoError;
-}
-
-bool DVirtualImageFileIO::setSize(const QString &fileName, qint64 size)
-{
-    if (size < 0)
-        return false;
-
-    if (!m_file.resize(fileDataSize() + metaDataSize() + size - this->size(fileName)))
-        return false;
-
-    return resize(fileName);
 }
 
 bool DVirtualImageFileIO::rename(const QString &from, const QString &to)

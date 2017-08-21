@@ -115,7 +115,7 @@ qint64 DVirtualImageFileEngine::read(char *data, qint64 maxlen)
     if (!m_info->isOpen(m_name))
         return -1;
 
-    maxlen = qMin(maxlen, m_info->size(m_name));
+    maxlen = qMin(maxlen, m_info->size(m_name) - m_info->pos());
 
     return m_info->m_file.read(data, maxlen);
 }
@@ -125,7 +125,7 @@ qint64 DVirtualImageFileEngine::readLine(char *data, qint64 maxlen)
     if (!m_info->isOpen(m_name))
         return -1;
 
-    maxlen = qMin(maxlen, m_info->size(m_name));
+    maxlen = qMin(maxlen, m_info->size(m_name) - m_info->pos());
 
     return m_info->m_file.readLine(data, maxlen);
 }

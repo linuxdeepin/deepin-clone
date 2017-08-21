@@ -25,7 +25,6 @@ public:
     qint64 size(const QString &fileName) const;
     qint64 start(const QString &fileName) const;
     qint64 end(const QString &fileName) const;
-    bool resize(const QString &fileName);
     bool setSize(const QString &fileName, qint64 size);
     bool rename(const QString &from, const QString &to);
     bool isWritable(const QString &fileName);
