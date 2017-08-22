@@ -3,7 +3,7 @@ QT -= gui
 
 CONFIG += c++11
 
-TARGET = deepin-ghost
+TARGET = deepin-clone
 CONFIG += console
 CONFIG -= app_bundle
 
