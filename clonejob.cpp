@@ -41,7 +41,7 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
 {
     bool ok = false;
 
-    constexpr int buffer_size = 1024 * 1024;
+    constexpr int buffer_size = bufferSize * 2;
     char block[buffer_size];
 
     if (!from.beginScope(scope, DDiskInfo::Read, index)) {

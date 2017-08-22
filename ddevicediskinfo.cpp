@@ -195,9 +195,9 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
         if (currentMode == DDiskInfo::Read) {
             const QString &executer = Helper::getPartcloneExecuter(part);
-            process->start(QStringLiteral("%1 -s %2 -o - -c").arg(executer).arg(part.filePath()), QIODevice::ReadOnly);
+            process->start(QStringLiteral("%1 -s %2 -o - -c -z %3").arg(executer).arg(part.filePath()).arg(bufferSize), QIODevice::ReadOnly);
         } else {
-            process->start(QStringLiteral("partclone.restore -s - -o %2").arg(part.filePath()), QIODevice::WriteOnly);
+            process->start(QStringLiteral("partclone.restore -s - -o %2 -z %3").arg(part.filePath()).arg(bufferSize), QIODevice::WriteOnly);
         }
 
         break;
@@ -304,9 +304,12 @@ qint64 DDeviceDiskInfoPrivate::write(const char *data, qint64 maxSize)
     if (!process)
         return -1;
 
-    process->waitForBytesWritten(-1);
+    qint64 size = process->write(data, maxSize);
 
-    return process->write(data, maxSize);
+    if (size > 0)
+        while (process->waitForBytesWritten());
+
+    return size;
 }
 
 bool DDeviceDiskInfoPrivate::atEnd() const
