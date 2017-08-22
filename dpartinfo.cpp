@@ -12,6 +12,11 @@ DPartInfoPrivate::DPartInfoPrivate(DPartInfo *qq)
 
 }
 
+void DPartInfoPrivate::refresh()
+{
+
+}
+
 DPartInfo::Type DPartInfoPrivate::toType(const QString &name)
 {
     if (name.isEmpty())

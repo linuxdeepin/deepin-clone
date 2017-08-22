@@ -11,10 +11,7 @@ public:
 
     void init(const QString &filePath, DVirtualImageFileIO *io);
 
-    QString filePath() const Q_DECL_OVERRIDE;
     void refresh() Q_DECL_OVERRIDE;
-
-    QString m_filePath;
 };
 
 DFilePartInfoPrivate::DFilePartInfoPrivate(DFilePartInfo *qq)
@@ -26,11 +23,6 @@ DFilePartInfoPrivate::DFilePartInfoPrivate(DFilePartInfo *qq)
 void DFilePartInfoPrivate::init(const QString &filePath, DVirtualImageFileIO *io)
 {
 
-}
-
-QString DFilePartInfoPrivate::filePath() const
-{
-    return m_filePath;
 }
 
 void DFilePartInfoPrivate::refresh()

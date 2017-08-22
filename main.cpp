@@ -1,7 +1,6 @@
 #include <QCoreApplication>
 #include <QString>
 #include <QDir>
-#include <QLockFile>
 #include <QDebug>
 
 #include "ddevicediskinfo.h"
