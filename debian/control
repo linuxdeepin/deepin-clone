@@ -1,0 +1,12 @@
+Source: deepin-clone
+Section: devel
+Priority: optional
+Maintainer: Deepin Packages Builder <packages@deepin.com>
+Build-Depends: debhelper (>=9), qt5-default, qtbase5-dev,
+    qtbase5-private-dev, libdtkwidget-dev, pkg-config
+Standards-Version: 3.9.8
+
+Package: deepin-clone
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, partclone
+Description: Deepin Backup Restore Tool
