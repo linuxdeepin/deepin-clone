@@ -15,7 +15,6 @@ SOURCES += main.cpp \
     ddevicediskinfo.cpp \
     ddevicepartinfo.cpp \
     dfilediskinfo.cpp \
-    dfilepartinfo.cpp \
     clonejob.cpp \
     helper.cpp \
     dvirtualimagefileengine.cpp \
@@ -29,7 +28,6 @@ HEADERS += \
     ddevicepartinfo.h \
     dpartinfo_p.h \
     dfilediskinfo.h \
-    dfilepartinfo.h \
     dglobal.h \
     clonejob.h \
     helper.h \

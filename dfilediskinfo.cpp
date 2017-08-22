@@ -1,7 +1,6 @@
 #include "dfilediskinfo.h"
 #include "ddiskinfo_p.h"
 #include "dpartinfo_p.h"
-#include "dfilepartinfo.h"
 #include "dvirtualimagefileio.h"
 
 #include <QString>
