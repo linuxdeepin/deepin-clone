@@ -2,6 +2,7 @@
 #include "ddiskinfo_p.h"
 #include "dpartinfo_p.h"
 #include "dvirtualimagefileio.h"
+#include "dzlibfile.h"
 
 #include <QString>
 #include <QFile>
@@ -38,7 +39,7 @@ public:
     bool atEnd() const Q_DECL_OVERRIDE;
 
     QString m_filePath;
-    QFile m_file;
+    DZlibFile m_file;
 };
 
 DFileDiskInfoPrivate::DFileDiskInfoPrivate(DFileDiskInfo *qq)
@@ -58,7 +59,7 @@ void DFileDiskInfoPrivate::init(const QString &filePath, DVirtualImageFileIO *io
 
     m_filePath.clear();
 
-    QFile file_pt(getDIMFilePath(filePath, "info.json"));
+    DZlibFile file_pt(getDIMFilePath(filePath, "info.json"));
 
     if (file_pt.open(QIODevice::ReadOnly)) {
         const QByteArray &data = file_pt.readAll();
@@ -148,6 +149,12 @@ void DFileDiskInfoPrivate::closeDataStream()
     m_file.close();
 
     if (currentMode == DDiskInfo::Write && currentScope == DDiskInfo::JsonInfo) {
+        DVirtualImageFileIO io(m_filePath);
+
+        if (io.isValid()) {
+            QFile::resize(m_filePath, io.metaDataSize() + io.fileDataSize());
+        }
+
         refresh();
     }
 }
@@ -174,7 +181,7 @@ qint64 DFileDiskInfoPrivate::maxReadableDataSize() const
     qint64 size = 0;
 
     if (children.isEmpty()) {
-        size = QFile(getDIMFilePath(m_filePath, "headgear")).size();
+        size = DZlibFile(getDIMFilePath(m_filePath, "headgear")).size();
 
         return size < 0 ? 0 : size;
     }

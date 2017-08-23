@@ -7,7 +7,6 @@
 #include "ddevicepartinfo.h"
 #include "helper.h"
 #include "clonejob.h"
-
 #include "dvirtualimagefileio.h"
 
 int main(int argc, char *argv[])

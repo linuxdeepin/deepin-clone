@@ -18,7 +18,9 @@ SOURCES += main.cpp \
     clonejob.cpp \
     helper.cpp \
     dvirtualimagefileengine.cpp \
-    dvirtualimagefileio.cpp
+    dvirtualimagefileio.cpp \
+    dzlibiodevice.cpp \
+    dzlibfile.cpp
 
 HEADERS += \
     ddiskinfo.h \
@@ -32,4 +34,6 @@ HEADERS += \
     clonejob.h \
     helper.h \
     dvirtualimagefileengine.h \
-    dvirtualimagefileio.h
+    dvirtualimagefileio.h \
+    dzlibiodevice.h \
+    dzlibfile.h

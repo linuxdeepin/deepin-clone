@@ -22,6 +22,9 @@ public:
     qint64 pos() const;
     bool seek(qint64 pos);
 
+    qint64 read(char *data, qint64 maxlen);
+    qint64 write(const char *data, qint64 len);
+
     qint64 size(const QString &fileName) const;
     qint64 start(const QString &fileName) const;
     qint64 end(const QString &fileName) const;

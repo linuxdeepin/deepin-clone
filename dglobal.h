@@ -6,5 +6,6 @@
     inline const Class##Private* d_func() const { return reinterpret_cast<const Class##Private *>(qGetPtrHelper(d)); }
 
 constexpr int bufferSize = 1024 * 1024;
+constexpr int compressionLevel = 9;
 
 #endif // DGLOBAL_H

@@ -1,5 +1,6 @@
 #include "dvirtualimagefileio.h"
 #include "helper.h"
+#include "dglobal.h"
 
 #include <QDataStream>
 
@@ -173,12 +174,12 @@ bool DVirtualImageFileIO::close()
 
     const QFile::OpenMode open_mode = m_file.openMode();
 
-    qint64 pos = m_file.pos();
-
     m_file.close();
 
     if (!m_openedFile.isEmpty() && open_mode.testFlag(QFile::WriteOnly)) {
-        setSize(m_openedFile, pos - m_fileMap.value(m_openedFile).start);
+        const FileInfo &info = m_fileMap.value(m_openedFile);
+
+        setSize(m_openedFile, info.end - info.start);
     }
 
     m_openedFile.clear();
@@ -212,6 +213,23 @@ bool DVirtualImageFileIO::seek(qint64 pos)
     const FileInfo &info = m_fileMap.value(m_openedFile);
 
     return m_file.seek(info.start + pos);
+}
+
+qint64 DVirtualImageFileIO::read(char *data, qint64 maxlen)
+{
+    maxlen = qMin(maxlen, m_fileMap.value(m_openedFile).end - m_file.pos());
+
+    return m_file.read(data, maxlen);
+}
+
+qint64 DVirtualImageFileIO::write(const char *data, qint64 len)
+{
+    len = m_file.write(data, len);
+
+    FileInfo &info = m_fileMap[m_openedFile];
+    info.end = qMax(info.end, m_file.pos());
+
+    return len;
 }
 
 qint64 DVirtualImageFileIO::size(const QString &fileName) const
