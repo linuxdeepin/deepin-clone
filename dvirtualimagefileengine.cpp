@@ -47,7 +47,7 @@ bool DVirtualImageFileEngine::close()
 
 bool DVirtualImageFileEngine::flush()
 {
-    return m_info->m_file.flush();
+    return m_info->flush();
 }
 
 qint64 DVirtualImageFileEngine::size() const
@@ -67,7 +67,7 @@ bool DVirtualImageFileEngine::seek(qint64 pos)
 
 bool DVirtualImageFileEngine::isSequential() const
 {
-    return m_info->m_file.isSequential();
+    return m_info->isSequential();
 }
 
 bool DVirtualImageFileEngine::setSize(qint64 size)
@@ -88,7 +88,7 @@ QAbstractFileEngine::FileFlags DVirtualImageFileEngine::fileFlags(QAbstractFileE
     }
 
     if ((type & PermsMask) && m_info->existes(m_name)) {
-        flags |= (FileFlags)(int)m_info->m_file.permissions();
+        flags |= (FileFlags)(int)m_info->permissions();
 
         if (!m_info->isWritable(m_name)) {
             flags &= ~(WriteGroupPerm | WriteOtherPerm | WriteOwnerPerm | WriteUserPerm);

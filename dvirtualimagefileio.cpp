@@ -3,9 +3,43 @@
 #include "dglobal.h"
 
 #include <QDataStream>
+#include <QCryptographicHash>
+
+class DVirtualImageFileIOPrivate : public QSharedData
+{
+public:
+    bool isValid = false;
+
+    QFile file;
+
+    quint8 version;
+
+    struct FileInfo {
+        quint8 index;
+        QString name;
+        qint64 start;
+        qint64 end;
+    };
+
+    QHash<QString, FileInfo> fileMap;
+    QString openedFile;
+
+    static QMap<QString, DVirtualImageFileIOPrivate*> dMap;
+};
+
+QMap<QString, DVirtualImageFileIOPrivate*> DVirtualImageFileIOPrivate::dMap;
 
 DVirtualImageFileIO::DVirtualImageFileIO(const QString &fileName)
 {
+    DVirtualImageFileIOPrivate *dd = DVirtualImageFileIOPrivate::dMap.value(fileName);
+
+    if (!dd) {
+        dd = new DVirtualImageFileIOPrivate();
+        DVirtualImageFileIOPrivate::dMap[fileName] = dd;
+    }
+
+    d = dd;
+
     setFile(fileName);
 }
 
@@ -26,46 +60,52 @@ T getData(QDataStream &stream)
 
 bool DVirtualImageFileIO::setFile(const QString &fileName)
 {
-    m_isValid = false;
-    m_file.close();
+    if (d->file.isOpen()) {
+        dCDebug("File %s already open", qPrintable(fileName));
+
+        return false;
+    }
+
+    d->isValid = false;
+    d->file.close();
 
     if (!fileName.endsWith(".dim"))
         return false;
 
-    m_file.setFileName(fileName);
+    d->file.setFileName(fileName);
 
-    if (!m_file.exists())
+    if (!d->file.exists())
         return false;
 
-    if (m_file.size() > 0) {
-        if (m_file.size() < metaDataSize()) {
+    if (d->file.size() > 0) {
+        if (d->file.size() < metaDataSize()) {
             dCDebug("Not a valid dim file");
 
             return false;
         }
 
-        if (!m_file.open(QIODevice::ReadOnly)) {
+        if (!d->file.open(QIODevice::ReadOnly)) {
             return false;
         }
 
-        QDataStream stream(&m_file);
+        QDataStream stream(&d->file);
 
         stream.setVersion(QDataStream::Qt_5_6);
 
         if (getData<quint8>(stream) != 0xdd) {
             dCDebug("The 1dth character should be 0xdd");
 
-            m_file.close();
+            d->file.close();
 
             return false;
         }
 
-        stream >> m_version;
+        stream >> d->version;
 
-        if (m_version != 1) {
-            dCDebug("Unsupported version: %d", (int)m_version);
+        if (d->version != 1) {
+            dCDebug("Unsupported version: %d", (int)d->version);
 
-            m_file.close();
+            d->file.close();
 
             return false;
         }
@@ -74,71 +114,83 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
 
         stream >> file_count;
 
-        if (m_file.size() < 3 + file_count * 80) {
+        if (d->file.size() < 3 + file_count * 80) {
             dCDebug("Not a valid dim file");
 
-            m_file.close();
+            d->file.close();
 
             return false;
         }
 
         for (quint8 i = 0; i < file_count; ++i) {
             if (getData<quint8>(stream) != 0xdd) {
-                dCDebug("The %lldth character should be 0xdd", m_file.pos());
+                dCDebug("The %lldth character should be 0xdd", d->file.pos());
 
-                m_file.close();
+                d->file.close();
 
                 return false;
             }
 
-            FileInfo info;
+            DVirtualImageFileIOPrivate::FileInfo info;
 
-            info.name = QString::fromUtf8(m_file.read(63));
+            info.name = QString::fromUtf8(d->file.read(63));
             info.index = i;
 
             stream >> info.start;
             stream >> info.end;
 
-            m_fileMap[info.name] = info;
+            d->fileMap[info.name] = info;
         }
-    } else if (m_file.open(QIODevice::WriteOnly)) {
-        m_file.resize(metaDataSize());
-        m_file.putChar(0xdd);
-        m_file.putChar(1);
-        m_file.putChar(0);
+
+        const QByteArray &md5 = d->file.read(16);
+
+        if (md5 != md5sum()) {
+            dCDebug("MD5 check failed, file: %s, Is the file open in other application?", qPrintable(fileName));
+
+            return false;
+        }
+    } else if (d->file.open(QIODevice::WriteOnly)) {
+        d->file.resize(metaDataSize());
+        d->file.putChar(0xdd);
+        d->file.putChar(0x01);
+        d->file.putChar(0x00);
+        // init md5 sum
+        uchar md5[16] = {0x21, 0x21, 0x5b, 0x9a, 0xf6, 0xd0, 0x5c, 0x31,
+                        0xd8, 0xcd, 0x42, 0xbb, 0xca, 0x12, 0x97, 0x7f};
+        d->file.write((char*)md5, 16);
     } else {
         return false;
     }
 
-    m_file.close();
-    m_isValid = true;
+    d->file.close();
+    d->isValid = true;
 
     return true;
 }
 
 bool DVirtualImageFileIO::setSize(qint64 size)
 {
-    return m_file.resize(size);
+    return d->file.resize(size);
 }
 
 bool DVirtualImageFileIO::isValid() const
 {
-    return m_isValid;
+    return d->isValid;
 }
 
 bool DVirtualImageFileIO::existes(const QString &fileName) const
 {
-    return m_fileMap.contains(fileName);
+    return d->fileMap.contains(fileName);
 }
 
 bool DVirtualImageFileIO::isOpen(const QString &fileName) const
 {
-    return m_openedFile == fileName;
+    return d->openedFile == fileName;
 }
 
 bool DVirtualImageFileIO::open(const QString &fileName, QIODevice::OpenMode openMode)
 {
-    if (m_file.isOpen() || !isValid())
+    if (d->file.isOpen() || !isValid())
         return false;
 
     if (openMode.testFlag(QIODevice::NotOpen))
@@ -156,50 +208,64 @@ bool DVirtualImageFileIO::open(const QString &fileName, QIODevice::OpenMode open
         addFile(fileName);
     }
 
-    if (!m_file.open(openMode | QIODevice::ReadOnly))
+    if (!d->file.open(openMode | QIODevice::ReadOnly))
         return false;
 
-    const FileInfo &info = m_fileMap.value(fileName);
+    const DVirtualImageFileIOPrivate::FileInfo &info = d->fileMap.value(fileName);
 
-    m_file.seek(info.start);
-    m_openedFile = fileName;
+    d->file.seek(info.start);
+    d->openedFile = fileName;
 
     return true;
 }
 
 bool DVirtualImageFileIO::close()
 {
-    if (!m_file.isOpen())
+    if (!d->file.isOpen())
         return false;
 
-    const QFile::OpenMode open_mode = m_file.openMode();
+    const QFile::OpenMode open_mode = d->file.openMode();
 
-    m_file.close();
+    if (open_mode.testFlag(QFile::WriteOnly)) {
+        if (!d->openedFile.isEmpty()) {
+            const DVirtualImageFileIOPrivate::FileInfo &info = d->fileMap.value(d->openedFile);
 
-    if (!m_openedFile.isEmpty() && open_mode.testFlag(QFile::WriteOnly)) {
-        const FileInfo &info = m_fileMap.value(m_openedFile);
+            d->file.close();
+            setSize(d->openedFile, info.end - info.start);
+        } else {
+            d->openedFile.clear();
+        }
 
-        setSize(m_openedFile, info.end - info.start);
+        if (!d->file.isOpen()) {
+            if (!d->file.open(QIODevice::ReadWrite)) {
+                return false;
+            }
+        }
+
+        const QByteArray &md5 = md5sum();
+
+        d->file.seek(validMetaDataSize());
+        d->file.write(md5);
     }
 
-    m_openedFile.clear();
+    d->file.close();
 
-    return m_file.error() == QFile::NoError;
+    return d->file.error() == QFile::NoError;
 }
 
 qint64 DVirtualImageFileIO::pos() const
 {
-    if (m_openedFile.isEmpty())
+    if (d->openedFile.isEmpty())
         return -1;
 
-    const FileInfo &info = m_fileMap.value(m_openedFile);
+    const DVirtualImageFileIOPrivate::FileInfo &info = d->fileMap.value(d->openedFile);
 
-    qint64 pos = m_file.pos();
+    qint64 pos = d->file.pos();
 
     if (pos < info.start || pos > info.end)
         return -1;
 
-    return m_file.pos() - info.start;
+    return d->file.pos() - info.start;
 }
 
 bool DVirtualImageFileIO::seek(qint64 pos)
@@ -207,57 +273,72 @@ bool DVirtualImageFileIO::seek(qint64 pos)
     if (pos < 0)
         return false;
 
-    if (m_openedFile.isEmpty())
+    if (d->openedFile.isEmpty())
         return -1;
 
-    const FileInfo &info = m_fileMap.value(m_openedFile);
+    const DVirtualImageFileIOPrivate::FileInfo &info = d->fileMap.value(d->openedFile);
 
-    return m_file.seek(info.start + pos);
+    return d->file.seek(info.start + pos);
+}
+
+bool DVirtualImageFileIO::flush()
+{
+    return d->file.flush();
+}
+
+bool DVirtualImageFileIO::isSequential() const
+{
+    return d->file.isSequential();
+}
+
+QFile::Permissions DVirtualImageFileIO::permissions() const
+{
+    return d->file.permissions();
 }
 
 qint64 DVirtualImageFileIO::read(char *data, qint64 maxlen)
 {
-    maxlen = qMin(maxlen, m_fileMap.value(m_openedFile).end - m_file.pos());
+    maxlen = qMin(maxlen, d->fileMap.value(d->openedFile).end - d->file.pos());
 
-    return m_file.read(data, maxlen);
+    return d->file.read(data, maxlen);
 }
 
 qint64 DVirtualImageFileIO::write(const char *data, qint64 len)
 {
-    len = m_file.write(data, len);
+    len = d->file.write(data, len);
 
-    FileInfo &info = m_fileMap[m_openedFile];
-    info.end = qMax(info.end, m_file.pos());
+    DVirtualImageFileIOPrivate::FileInfo &info = d->fileMap[d->openedFile];
+    info.end = qMax(info.end, d->file.pos());
 
     return len;
 }
 
 qint64 DVirtualImageFileIO::size(const QString &fileName) const
 {
-    if (!m_fileMap.contains(fileName))
+    if (!d->fileMap.contains(fileName))
         return -1;
 
-    const FileInfo &info = m_fileMap.value(fileName);
+    const DVirtualImageFileIOPrivate::FileInfo &info = d->fileMap.value(fileName);
 
     return info.end - info.start;
 }
 
 qint64 DVirtualImageFileIO::start(const QString &fileName) const
 {
-    if (!m_fileMap.contains(fileName))
+    if (!d->fileMap.contains(fileName))
         return -1;
 
-    const FileInfo &info = m_fileMap.value(fileName);
+    const DVirtualImageFileIOPrivate::FileInfo &info = d->fileMap.value(fileName);
 
     return info.start;
 }
 
 qint64 DVirtualImageFileIO::end(const QString &fileName) const
 {
-    if (!m_fileMap.contains(fileName))
+    if (!d->fileMap.contains(fileName))
         return -1;
 
-    const FileInfo &info = m_fileMap.value(fileName);
+    const DVirtualImageFileIOPrivate::FileInfo &info = d->fileMap.value(fileName);
 
     return info.end;
 }
@@ -270,20 +351,20 @@ bool DVirtualImageFileIO::setSize(const QString &fileName, qint64 size)
     if (size < 0)
         return false;
 
-    if (!m_file.open(QIODevice::ReadWrite))
+    if (!d->file.open(QIODevice::ReadWrite))
         return false;
 
-    m_fileMap[fileName].end = m_fileMap.value(fileName).start + size;
-    m_file.seek(3 + m_fileMap.count() * 80 - 8);
+    d->fileMap[fileName].end = d->fileMap.value(fileName).start + size;
+    d->file.seek(3 + d->fileMap.count() * 80 - 8);
 
-    QDataStream stream(&m_file);
+    QDataStream stream(&d->file);
 
     stream.setVersion(QDataStream::Qt_5_6);
-    stream << m_fileMap.value(fileName).end;
+    stream << d->fileMap.value(fileName).end;
 
-    m_file.close();
+    d->file.close();
 
-    return m_file.error() == QFile::NoError;
+    return d->file.error() == QFile::NoError;
 }
 
 bool DVirtualImageFileIO::rename(const QString &from, const QString &to)
@@ -291,13 +372,13 @@ bool DVirtualImageFileIO::rename(const QString &from, const QString &to)
     if (!existes(from))
         return false;
 
-    FileInfo info = m_fileMap.take(from);
+    DVirtualImageFileIOPrivate::FileInfo info = d->fileMap.take(from);
 
     info.name = to;
 
-    qint64 pos = m_file.pos();
+    qint64 pos = d->file.pos();
 
-    if (!m_file.seek(3 + info.index * 80 + 1))
+    if (!d->file.seek(3 + info.index * 80 + 1))
         return false;
 
     const QByteArray &file_name = to.toUtf8();
@@ -308,15 +389,15 @@ bool DVirtualImageFileIO::rename(const QString &from, const QString &to)
         return false;
     }
 
-    m_file.write(file_name);
+    d->file.write(file_name);
 
     if (file_name.size() < 63) {
         char empty_ch[63 - file_name.size()] = {0};
 
-        m_file.write(empty_ch, 63 - file_name.size());
+        d->file.write(empty_ch, 63 - file_name.size());
     }
 
-    m_file.seek(pos);
+    d->file.seek(pos);
 
     return true;
 }
@@ -326,9 +407,9 @@ bool DVirtualImageFileIO::isWritable(const QString &fileName)
     if (!existes(fileName))
         return true;
 
-    const FileInfo &info = m_fileMap.value(fileName);
+    const DVirtualImageFileIOPrivate::FileInfo &info = d->fileMap.value(fileName);
 
-    return info.index == m_fileMap.count() - 1;
+    return info.index == d->fileMap.count() - 1;
 }
 
 int DVirtualImageFileIO::maxFileCount()
@@ -343,17 +424,17 @@ qint64 DVirtualImageFileIO::metaDataSize()
 
 qint64 DVirtualImageFileIO::validMetaDataSize() const
 {
-    return 3 + m_fileMap.count() * 80;
+    return 3 + d->fileMap.count() * 80;
 }
 
 qint64 DVirtualImageFileIO::fileDataSize() const
 {
-    if (m_fileMap.isEmpty())
+    if (d->fileMap.isEmpty())
         return 0;
 
     qint64 max_end = 0;
 
-    for (const FileInfo &info : m_fileMap) {
+    for (const DVirtualImageFileIOPrivate::FileInfo &info : d->fileMap) {
         max_end = qMax(max_end, info.end);
     }
 
@@ -362,26 +443,26 @@ qint64 DVirtualImageFileIO::fileDataSize() const
 
 qint64 DVirtualImageFileIO::writableDataSize() const
 {
-    return m_file.size() - fileDataSize() - metaDataSize();
+    return d->file.size() - fileDataSize() - metaDataSize();
 }
 
 QStringList DVirtualImageFileIO::fileList() const
 {
-    return m_fileMap.keys();
+    return d->fileMap.keys();
 }
 
 bool DVirtualImageFileIO::addFile(const QString &name)
 {
-    if (!m_file.open(QIODevice::ReadWrite)) {
+    if (!d->file.open(QIODevice::ReadWrite)) {
         return false;
     }
 
     qint64 start = validMetaDataSize();
 
-    m_file.seek(start);
+    d->file.seek(start);
 
-    if (!m_file.putChar(0xdd)) {
-        m_file.close();
+    if (!d->file.putChar(0xdd)) {
+        d->file.close();
 
         return false;
     }
@@ -391,37 +472,70 @@ bool DVirtualImageFileIO::addFile(const QString &name)
     if (file_name.size() > 63) {
         dCDebug("File name length exceeds limit");
 
-        m_file.close();
+        d->file.close();
 
         return false;
     }
 
-    m_file.write(file_name);
+    d->file.write(file_name);
 
     if (file_name.size() < 63) {
         char empty_ch[63 - file_name.size()] = {0};
 
-        m_file.write(empty_ch, 63 - file_name.size());
+        d->file.write(empty_ch, 63 - file_name.size());
     }
 
-    FileInfo info;
+    DVirtualImageFileIOPrivate::FileInfo info;
 
     info.name = name;
     info.start = metaDataSize() + fileDataSize();
     info.end = info.start;
-    info.index = m_fileMap.count();
+    info.index = d->fileMap.count();
 
-    m_fileMap[name] = info;
+    d->fileMap[name] = info;
 
-    QDataStream stream(&m_file);
+    QDataStream stream(&d->file);
 
     stream.setVersion(QDataStream::Qt_5_6);
     stream << info.start;
     stream << info.end;
 
-    m_file.seek(2);
-    m_file.putChar(m_fileMap.count());
-    m_file.close();
+    d->file.seek(2);
+    d->file.putChar(d->fileMap.count());
+    d->file.close();
 
     return true;
+}
+
+QByteArray DVirtualImageFileIO::md5sum()
+{
+    if (!d->file.isOpen())
+        return QByteArray();
+
+    d->file.seek(0);
+
+    QCryptographicHash md5(QCryptographicHash::Md5);
+
+    md5.addData(d->file.read(validMetaDataSize()));
+
+    for (const DVirtualImageFileIOPrivate::FileInfo &info : d->fileMap) {
+        d->file.seek(info.start);
+
+        while (d->file.pos() < info.end - 1024 * 1024 - 2) {
+            quint16 block_index = 0;
+
+            d->file.read((char*)(&block_index), sizeof(block_index));
+
+            block_index %= 1024;
+
+            if (!d->file.seek(d->file.pos() + block_index * 1024))
+                break;
+
+            md5.addData(d->file.read(1024));
+        }
+
+        md5.addData(d->file.read(info.end - d->file.pos()));
+    }
+
+    return md5.result();
 }

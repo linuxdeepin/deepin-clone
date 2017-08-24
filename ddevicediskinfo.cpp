@@ -201,8 +201,11 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
         const DPartInfo &part = children.at(index);
 
-        if (part.isMounted())
+        if (part.isMounted()) {
+            setErrorString(QObject::tr("%1 is mounted").arg(part.filePath()));
+
             return false;
+        }
 
         if (currentMode == DDiskInfo::Read) {
             const QString &executer = Helper::getPartcloneExecuter(part);

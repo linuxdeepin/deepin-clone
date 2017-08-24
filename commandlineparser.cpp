@@ -18,9 +18,11 @@ CommandLineParser::CommandLineParser()
     o_dim_info.setDescription("Get the dim file info.");
     o_override.setDescription("If the target file exists when the override.");
     o_compress_level.setDescription("Output to the dim file when the data compression level.");
+    o_compress_level.setValueName("Compress Level");
     o_compress_level.setDefaultValue(QString::number(Global::compressionLevel));
     o_buffer_size.setDescription("The size of the buffer when data is transferred.");
-    o_buffer_size.setDescription(QString::number(Global::bufferSize));
+    o_buffer_size.setValueName("Buffer Size");
+    o_buffer_size.setDefaultValue(QString::number(Global::bufferSize));
     o_non_ui.setDescription("Run in TUI mode.");
 
     parser.addOption(o_info);
@@ -33,8 +35,8 @@ CommandLineParser::CommandLineParser()
     parser.addHelpOption();
     parser.addVersionOption();
 
-    parser.addPositionalArgument("source", "Srouce file.", "[Path]");
-    parser.addPositionalArgument("target", "Output file.", "[Path]");
+    parser.addPositionalArgument("source", "Srouce file.", "[path]");
+    parser.addPositionalArgument("target", "Output file.", "[path]");
 
     parser.setApplicationDescription(QString("e.g: %1 /dev/sda ~/sda.dim\n     %1 /dev/sda /dev/sdb\n     %1 ~/sda.dim /dev/sda").arg(qApp->applicationName()));
 }
@@ -100,7 +102,7 @@ void CommandLineParser::process(const QCoreApplication &app)
 
         ::exit(EXIT_SUCCESS);
     } else {
-        if (Global::isTUIMode && parser.positionalArguments().count() != 2) {
+        if ((Global::isTUIMode || !parser.positionalArguments().isEmpty()) && parser.positionalArguments().count() != 2) {
             parser.showHelp(EXIT_FAILURE);
         }
     }

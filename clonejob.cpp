@@ -53,12 +53,16 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
         if (error)
             *error = from.errorString();
 
+        dCDebug("BeginScope failed, scope: %d, index: %d, mode: Read", scope, index);
+
         goto exit;
     }
 
     if (!to.beginScope(scope, DDiskInfo::Write, index)) {
         if (error)
             *error = to.errorString();
+
+        dCDebug("BeginScope failed, scope: %d, index: %d, mode: Write", scope, index);
 
         goto exit;
     }

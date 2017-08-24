@@ -80,7 +80,8 @@ DDiskInfo::DDiskInfo()
 DDiskInfo::DDiskInfo(const DDiskInfo &other)
     : d(other.d)
 {
-    d->q = this;
+    if (d)
+        d->q = this;
 }
 
 DDiskInfo::~DDiskInfo()
@@ -92,7 +93,8 @@ void DDiskInfo::swap(DDiskInfo &other)
 {
     qSwap(d, other.d);
 
-    d->q = this;
+    if (d)
+        d->q = this;
 }
 
 DDiskInfo::DataScope DDiskInfo::currentScope() const
@@ -294,7 +296,8 @@ DDiskInfo DDiskInfo::getInfo(const QString &file)
 DDiskInfo::DDiskInfo(DDiskInfoPrivate *dd)
     : d(dd)
 {
-    dd->q = this;
+    if (dd)
+        dd->q = this;
 }
 
 void DDiskInfo::fromJson(const QByteArray &json, DDiskInfoPrivate *dd)

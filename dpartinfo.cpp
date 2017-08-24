@@ -63,7 +63,8 @@ DPartInfo::DPartInfo()
 DPartInfo::DPartInfo(const DPartInfo &other)
     : d(other.d)
 {
-    d->q = this;
+    if (d)
+        d->q = this;
 }
 
 DPartInfo::~DPartInfo()
@@ -75,7 +76,8 @@ void DPartInfo::swap(DPartInfo &other)
 {
     qSwap(d, other.d);
 
-    d->q = this;
+    if (d)
+        d->q = this;
 }
 
 QString DPartInfo::filePath() const
@@ -575,7 +577,8 @@ QString DPartInfo::guidTypeDescription(DPartInfo::GUIDType type)
 DPartInfo::DPartInfo(DPartInfoPrivate *dd)
     : d(dd)
 {
-    dd->q = this;
+    if (dd)
+        dd->q = this;
 }
 
 void DPartInfo::fromJson(const QJsonObject &root, DPartInfoPrivate *dd)

@@ -1,9 +1,11 @@
 #ifndef DVIRTUALIMAGEFILEIO_H
 #define DVIRTUALIMAGEFILEIO_H
 
-#include <QFile>
 #include <QHash>
+#include <QExplicitlySharedDataPointer>
+#include <QFile>
 
+class DVirtualImageFileIOPrivate;
 class DVirtualImageFileIO
 {
 public:
@@ -21,6 +23,10 @@ public:
     bool close();
     qint64 pos() const;
     bool seek(qint64 pos);
+
+    bool flush();
+    bool isSequential() const;
+    QFileDevice::Permissions permissions() const;
 
     qint64 read(char *data, qint64 maxlen);
     qint64 write(const char *data, qint64 len);
@@ -41,22 +47,9 @@ public:
 
 private:
     bool addFile(const QString &name);
+    QByteArray md5sum();
 
-    bool m_isValid = false;
-
-    QFile m_file;
-
-    quint8 m_version;
-
-    struct FileInfo {
-        quint8 index;
-        QString name;
-        qint64 start;
-        qint64 end;
-    };
-
-    QHash<QString, FileInfo> m_fileMap;
-    QString m_openedFile;
+    QExplicitlySharedDataPointer<DVirtualImageFileIOPrivate> d;
 
     friend class DVirtualImageFileEngine;
 };
