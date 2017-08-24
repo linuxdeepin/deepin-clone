@@ -181,7 +181,12 @@ qint64 DFileDiskInfoPrivate::totalReadableDataSize() const
     if (!io.isValid())
         return 0;
 
-    return io.fileDataSize();
+    qint64 size = 0;
+
+    for (const QString &file : io.fileList())
+        size += DZlibFile(getDIMFilePath(m_filePath, file)).size();
+
+    return size;
 }
 
 qint64 DFileDiskInfoPrivate::maxReadableDataSize() const
