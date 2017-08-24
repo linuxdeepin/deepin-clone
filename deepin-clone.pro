@@ -2,11 +2,10 @@ QT += core core-private widgets
 
 VERSION = 0.0.1
 
-CONFIG += c++11
+CONFIG += c++11 link_pkgconfig
+PKGCONFIG += dtkwidget
 
 TARGET = deepin-clone
-CONFIG += console
-CONFIG -= app_bundle
 
 TEMPLATE = app
 
@@ -22,7 +21,8 @@ SOURCES += src/main.cpp \
     src/corelib/dvirtualimagefileio.cpp \
     src/corelib/dzlibiodevice.cpp \
     src/corelib/dzlibfile.cpp \
-    src/commandlineparser.cpp
+    src/commandlineparser.cpp \
+    src/widgets/mainwindow.cpp
 
 HEADERS += \
     src/corelib/ddiskinfo.h \
@@ -39,6 +39,7 @@ HEADERS += \
     src/corelib/dvirtualimagefileio.h \
     src/corelib/dzlibiodevice.h \
     src/corelib/dzlibfile.h \
-    src/commandlineparser.h
+    src/commandlineparser.h \
+    src/widgets/mainwindow.h
 
-INCLUDEPATH += src src/corelib
+INCLUDEPATH += src src/corelib src/widgets

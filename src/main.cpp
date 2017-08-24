@@ -1,11 +1,16 @@
-#include <QApplication>
 #include <QFile>
 #include <QDebug>
+
+#include <DApplication>
 
 #include "helper.h"
 #include "dglobal.h"
 #include "clonejob.h"
 #include "commandlineparser.h"
+
+#include "mainwindow.h"
+
+DWIDGET_USE_NAMESPACE
 
 bool Global::isOverride = true;
 bool Global::isTUIMode = false;
@@ -34,10 +39,17 @@ int main(int argc, char *argv[])
 
         a = new QCoreApplication(argc, argv);
     } else {
-        QApplication *app = new QApplication(argc, argv);
+        DApplication::loadDXcbPlugin();
+        DApplication *app = new DApplication(argc, argv);
 
         app->setApplicationDisplayName(QObject::tr("Deepin Clone"));
+        app->setTheme("light");
         a = app;
+
+        MainWindow *window = new MainWindow;
+
+        window->setFixedSize(600, 400);
+        window->show();
     }
 
     a->setApplicationName("deepin-clone");
@@ -48,22 +60,24 @@ int main(int argc, char *argv[])
 
     parser.process(*a);
 
-    if (!parser.target().isEmpty()) {
-        CloneJob job;
+    if (Global::isTUIMode) {
+        if (!parser.target().isEmpty()) {
+            CloneJob job;
 
-        QObject::connect(&job, &QThread::finished, a, &QCoreApplication::quit);
+            QObject::connect(&job, &QThread::finished, a, &QCoreApplication::quit);
 
-        if (Global::isOverride) {
-            QFile file(parser.target());
+            if (Global::isOverride) {
+                QFile file(parser.target());
 
-            if (file.open(QIODevice::WriteOnly))
-                file.close();
+                if (file.open(QIODevice::WriteOnly))
+                    file.close();
+            }
+
+            job.start(parser.source(), parser.target());
+
+            return a->exec();
         }
-
-        job.start(parser.source(), parser.target());
-
-        return a->exec();
     }
 
-    return a->exec();
+    return Global::isTUIMode ? qApp->exec() : a->exec();
 }
