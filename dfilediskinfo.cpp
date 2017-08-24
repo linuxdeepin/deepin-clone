@@ -38,6 +38,8 @@ public:
 
     bool atEnd() const Q_DECL_OVERRIDE;
 
+    QString errorString() const Q_DECL_OVERRIDE;
+
     QString m_filePath;
     DZlibFile m_file;
 };
@@ -141,7 +143,13 @@ bool DFileDiskInfoPrivate::openDataStream(int index)
     if (currentMode == DDiskInfo::Read)
         return m_file.open(QIODevice::ReadOnly);
 
-    return m_file.open(QIODevice::WriteOnly);
+    bool ok = m_file.open(QIODevice::WriteOnly);
+
+    if (!ok) {
+        setErrorString(QObject::tr("Device open failed, %1").arg(m_file.errorString()));
+    }
+
+    return ok;
 }
 
 void DFileDiskInfoPrivate::closeDataStream()
@@ -231,6 +239,11 @@ qint64 DFileDiskInfoPrivate::write(const char *data, qint64 maxSize)
 bool DFileDiskInfoPrivate::atEnd() const
 {
     return m_file.atEnd();
+}
+
+QString DFileDiskInfoPrivate::errorString() const
+{
+    return error.isEmpty() ? m_file.errorString() : error;
 }
 
 DFileDiskInfo::DFileDiskInfo()

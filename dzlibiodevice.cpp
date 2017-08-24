@@ -161,6 +161,14 @@ bool DZlibIODevice::waitForBytesWritten(int msecs)
     return m_device->waitForBytesWritten(msecs);
 }
 
+QString DZlibIODevice::errorString() const
+{
+    if (QIODevice::errorString().isEmpty())
+        return m_device->errorString();
+
+    return QIODevice::errorString();
+}
+
 constexpr int DZlibIODevice::metaDataSize()
 {
     return 20;
@@ -247,8 +255,6 @@ bool DZlibIODevice::writeToBlock()
     qint64 write_size = m_device->write(compress_data);
 
     if (write_size != compress_data.size()) {
-        setErrorString(m_device->errorString());
-
         return false;
     }
 

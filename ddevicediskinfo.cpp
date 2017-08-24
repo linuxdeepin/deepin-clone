@@ -53,6 +53,8 @@ public:
 
     bool atEnd() const Q_DECL_OVERRIDE;
 
+    QString errorString() const Q_DECL_OVERRIDE;
+
     QProcess *process = NULL;
     QBuffer buffer;
 };
@@ -154,10 +156,19 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
     process = new QProcess();
 
+    QObject::connect(process, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+                     process, [this] (int code, QProcess::ExitStatus status) {
+        if (status == QProcess::CrashExit) {
+            setErrorString(QObject::tr("The process %1 %2 crashed").arg(process->program()).arg(process->arguments().join(" ")));
+        } else if (code != 0) {
+            setErrorString(process->readAllStandardError());
+        }
+    });
+
     switch (currentScope) {
     case DDiskInfo::Headgear: {
         if (type != DDiskInfo::Disk) {
-            dCError("%s not is disk", qPrintable(filePath()));
+            setErrorString(QObject::tr("%s not is disk").arg(filePath()));
 
             return false;
         }
@@ -172,7 +183,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
     }
     case DDiskInfo::PartitionTable: {
         if (type != DDiskInfo::Disk) {
-            dCError("%s not is disk", qPrintable(filePath()));
+            setErrorString(QObject::tr("%s not is disk").arg(filePath()));
 
             return false;
         }
@@ -213,10 +224,18 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         return false;
     }
 
-    if (process)
-        process->waitForStarted();
+    if (process) {
+        if (!process->waitForStarted())
+            return false;
+    }
 
-    return process ? process->isOpen() : buffer.open(QIODevice::ReadOnly);
+    bool ok = process ? process->isOpen() : buffer.open(QIODevice::ReadOnly);
+
+    if (!ok) {
+        setErrorString(QObject::tr("Device open failed, %1").arg(process ? process->errorString(): buffer.errorString()));
+    }
+
+    return ok;
 }
 
 void DDeviceDiskInfoPrivate::closeDataStream()
@@ -234,6 +253,8 @@ void DDeviceDiskInfoPrivate::closeDataStream()
     if (currentMode == DDiskInfo::Write && currentScope == DDiskInfo::PartitionTable) {
         if (Helper::refreshSystemPartList(filePath())) {
             refresh();
+        } else {
+            dCWarning("Refresh the devcie %s failed", qPrintable(filePath()));
         }
     }
 
@@ -321,6 +342,14 @@ bool DDeviceDiskInfoPrivate::atEnd() const
     process->waitForReadyRead(-1);
 
     return process->atEnd();
+}
+
+QString DDeviceDiskInfoPrivate::errorString() const
+{
+    if (error.isEmpty())
+        return process ? process->errorString() : buffer.errorString();
+
+    return error;
 }
 
 DDeviceDiskInfo::DDeviceDiskInfo()

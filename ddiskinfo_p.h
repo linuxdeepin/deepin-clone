@@ -31,9 +31,16 @@ public:
 
     virtual bool atEnd() const = 0;
 
+    void setErrorString(const QString &error);
+    virtual QString errorString() const;
+
+    static QString scopeString(DDiskInfo::DataScope scope);
+    static QString modeString(DDiskInfo::ScopeMode mode);
+
     DDiskInfo *q;
     DDiskInfo::DataScope currentScope = DDiskInfo::NullScope;
     DDiskInfo::ScopeMode currentMode = DDiskInfo::Read;
+    QString error;
 
     QString name;
     QString kname;

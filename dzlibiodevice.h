@@ -31,6 +31,8 @@ public:
     bool waitForReadyRead(int msecs) Q_DECL_OVERRIDE;
     bool waitForBytesWritten(int msecs) Q_DECL_OVERRIDE;
 
+    QString errorString() const;
+
     static constexpr int metaDataSize();
 
 protected:

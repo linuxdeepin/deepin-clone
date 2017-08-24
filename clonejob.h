@@ -22,18 +22,26 @@ public:
     bool start(const QString &from, const QString &to);
     Status status() const;
 
+    QString errorString() const;
+
 signals:
     void statusChanged(Status status);
+    void failed(const QString &error);
 
 private:
+    using QThread::start;
+
     void run() Q_DECL_OVERRIDE;
 
     void setStatus(Status s);
+    void setErrorString(const QString &error);
 
     Status m_status;
 
     QString m_from;
     QString m_to;
+
+    QString m_errorString;
 };
 
 #endif // CLONEJOB_H

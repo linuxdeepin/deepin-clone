@@ -34,6 +34,44 @@ bool DDiskInfoPrivate::setTotalWritableDataSize(qint64 size)
     return false;
 }
 
+void DDiskInfoPrivate::setErrorString(const QString &error)
+{
+    this->error = error;
+}
+
+QString DDiskInfoPrivate::errorString() const
+{
+    return error;
+}
+
+QString DDiskInfoPrivate::scopeString(DDiskInfo::DataScope scope)
+{
+    switch (scope) {
+    case DDiskInfo::Headgear:
+        return "Headgear";
+    case DDiskInfo::PartitionTable:
+        return "PartitionTable";
+    case DDiskInfo::Partition:
+        return "Partition";
+    case DDiskInfo::JsonInfo:
+        return "JsonInfo";
+    case DDiskInfo::NullScope:
+        return "NullScope";
+    default:
+        break;
+    }
+
+    return QString();
+}
+
+QString DDiskInfoPrivate::modeString(DDiskInfo::ScopeMode mode)
+{
+    if (mode == DDiskInfo::Read)
+        return "Read";
+
+    return "Write";
+}
+
 DDiskInfo::DDiskInfo()
 {
 
@@ -74,8 +112,13 @@ bool DDiskInfo::beginScope(DDiskInfo::DataScope scope, ScopeMode mode, int index
 {
     endScope();
 
-    if (!d->hasScope(scope, mode))
+    d->error.clear();
+
+    if (!d->hasScope(scope, mode)) {
+        d->setErrorString(QObject::tr("Device %1 not support scope: %2 mode: %3").arg(d->scopeString(scope)).arg(d->modeString(mode)));
+
         return false;
+    }
 
     d->currentScope = scope;
     d->currentMode = mode;
@@ -212,6 +255,11 @@ QByteArray DDiskInfo::toJson() const
     QJsonDocument doc(root);
 
     return doc.toJson();
+}
+
+QString DDiskInfo::errorString() const
+{
+    return d->errorString();
 }
 
 DDiskInfo DDiskInfo::getInfo(const QString &file)

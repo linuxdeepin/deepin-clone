@@ -24,6 +24,7 @@ bool CloneJob::start(const QString &from, const QString &to)
 
     m_from = from;
     m_to = to;
+    m_errorString.clear();
 
     QThread::start();
 
@@ -35,22 +36,29 @@ CloneJob::Status CloneJob::status() const
     return m_status;
 }
 
+QString CloneJob::errorString() const
+{
+    return m_errorString;
+}
+
 typedef std::function<void(qint64 accomplishBytes)> PipeNotifyFunction;
 
-static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope scope, int index = 0, PipeNotifyFunction *notify = 0)
+static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope scope, int index = 0, QString *error = 0, PipeNotifyFunction *notify = 0)
 {
     bool ok = false;
 
     char block[bufferSize];
 
     if (!from.beginScope(scope, DDiskInfo::Read, index)) {
-        dCError("beginScope failed! device: %s, mode: Read, scope: %d, index: %d", qPrintable(from.filePath()), scope, index);
+        if (error)
+            *error = from.errorString();
 
         goto exit;
     }
 
     if (!to.beginScope(scope, DDiskInfo::Write, index)) {
-        dCError("beginScope failed! device: %s, mode: Write, scope: %d, index: %d", qPrintable(to.filePath()), scope, index);
+        if (error)
+            *error = to.errorString();
 
         goto exit;
     }
@@ -59,7 +67,8 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
         qint64 read_size = from.read(block, bufferSize);
 
         if (read_size <= 0) {
-            dCError("read data from device: %s is failed, hope size: %lld, actual size: %lld", qPrintable(from.filePath()), bufferSize, read_size);
+            if (error)
+                *error = QObject::tr("Read data from device: %1 is failed, %2").arg(from.filePath()).arg(from.errorString());
 
             goto exit;
         }
@@ -67,7 +76,8 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
         qint64 write_size = to.write(block, read_size);
 
         if (write_size < read_size) {
-            dCError("write data to device: %s is failed, hope size: %lld, actual size: %lld", qPrintable(to.filePath()), read_size, write_size);
+            if (error)
+                *error = QObject::tr("Write data to device: %1 is failed, hope size: %2, actual size: %3, ").arg(to.filePath()).arg(read_size).arg(write_size).arg(to.errorString());
 
             goto exit;
         }
@@ -91,13 +101,13 @@ void CloneJob::run()
     setStatus(Started);
 
     if (!QFile::exists(m_from)) {
-        dCError("%s not found", qPrintable(m_from));
+        setErrorString(QObject::tr("%1 not found").arg(m_from));
 
         return;
     }
 
     if (Helper::isBlockSpecialFile(m_from)) {
-        dCDebug("refresh device: %s", qPrintable(m_from));
+        dCDebug("Refresh device: %s", qPrintable(m_from));
 
         Helper::refreshSystemPartList(m_from);
     }
@@ -105,13 +115,13 @@ void CloneJob::run()
     DDiskInfo from_info = DDiskInfo::getInfo(m_from);
 
     if (!from_info) {
-        dCError("%s is invalid file.", qPrintable(m_from));
+        setErrorString(QObject::tr("%1 is invalid file").arg(m_from));
 
         return;
     }
 
     if (Helper::isBlockSpecialFile(m_to)) {
-        dCDebug("refresh device: %s", qPrintable(m_to));
+        dCDebug("Refresh device: %s", qPrintable(m_to));
 
         Helper::refreshSystemPartList(m_to);
     }
@@ -119,13 +129,13 @@ void CloneJob::run()
     DDiskInfo to_info = DDiskInfo::getInfo(m_to);
 
     if (!to_info) {
-        dCError("%s is invalid file.", qPrintable(m_to));
+        setErrorString(QObject::tr("%1 is invalid file").arg(m_to));
 
         return;
     }
 
     if (to_info.totalSize() < from_info.maxReadableDataSize()) {
-        dCError("device %s must be larger than %lld of device %s", qPrintable(m_to), from_info.maxReadableDataSize(), qPrintable(m_from));
+        setErrorString(QObject::tr("Device %1 must be larger than %2 of device %3").arg(m_to).arg(from_info.maxReadableDataSize()).arg(m_from));
 
         return;
     }
@@ -137,7 +147,7 @@ void CloneJob::run()
 
     if (to_info.totalWritableDataSize() < from_info_total_data_size) {
         if (!to_info.setTotalWritableDataSize(from_info_total_data_size)) {
-            dCError("the writeable size of device %s must be greater than the readable size of device %s", qPrintable(m_to), qPrintable(m_from));
+            setErrorString(QObject::tr("The writeable size of device %s must be greater than the readable size of device %s").arg(m_to).arg(m_from));
 
             return;
         }
@@ -156,18 +166,28 @@ void CloneJob::run()
         dCDebug("----%lld bytes of data have been written, total progress: %f----", have_been_written, progress);
     };
 
+    auto call_disk_pipe = [&print_fun, this, &from_info, &to_info] (DDiskInfo::DataScope scope, int index = 0) {
+        QString error;
+
+        if (!diskInfoPipe(from_info, to_info, scope, index, &error, &print_fun)) {
+            setErrorString(error);
+
+            return false;
+        }
+
+        return true;
+    };
+
     if (from_info.hasScope(DDiskInfo::Headgear)) {
         setStatus(Clone_Headgear);
 
         dCDebug("begin clone headgear......................\n");
 
-        if (!diskInfoPipe(from_info, to_info, DDiskInfo::Headgear, 0, &print_fun)) {
+        if (!call_disk_pipe(DDiskInfo::Headgear)) {
             dCDebug("failed!!!");
 
             return;
         }
-
-        fflush(stdout);
     }
 
     if (from_info.hasScope(DDiskInfo::PartitionTable)) {
@@ -175,13 +195,11 @@ void CloneJob::run()
 
         dCDebug("begin clone partition table......................\n");
 
-        if (!diskInfoPipe(from_info, to_info, DDiskInfo::PartitionTable, 0, &print_fun)) {
+        if (!call_disk_pipe(DDiskInfo::PartitionTable)) {
             dCDebug("failed!!!");
 
             return;
         }
-
-        fflush(stdout);
     }
 
     if (from_info.hasScope(DDiskInfo::Partition)) {
@@ -192,13 +210,11 @@ void CloneJob::run()
         for (int i = 0; i < partition_count; ++i) {
             dCDebug("begin clone partition, index: %d......................\n", i);
 
-            if (!diskInfoPipe(from_info, to_info, DDiskInfo::Partition, i, &print_fun)) {
+            if (!call_disk_pipe(DDiskInfo::Partition, i)) {
                 dCDebug("failed!!!");
 
                 return;
             }
-
-            fflush(stdout);
         }
     }
 
@@ -207,7 +223,7 @@ void CloneJob::run()
 
         dCDebug("begin clone json info\n");
 
-        if (!diskInfoPipe(from_info, to_info, DDiskInfo::JsonInfo, 0, &print_fun)) {
+        if (!call_disk_pipe(DDiskInfo::JsonInfo)) {
             dCDebug("failed!!!");
 
             return;
@@ -225,4 +241,13 @@ void CloneJob::setStatus(CloneJob::Status s)
     m_status = s;
 
     emit statusChanged(s);
+}
+
+void CloneJob::setErrorString(const QString &error)
+{
+    m_errorString = error;
+
+    dCError(error);
+
+    emit failed(error);
 }

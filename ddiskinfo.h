@@ -82,6 +82,8 @@ public:
 
     QByteArray toJson() const;
 
+    QString errorString() const;
+
     inline operator bool() const
     { return d;}
 
