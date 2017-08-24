@@ -1,5 +1,6 @@
-QT += core core-private
-QT -= gui
+QT += core core-private widgets
+
+VERSION = 0.0.1
 
 CONFIG += c++11
 
@@ -20,7 +21,8 @@ SOURCES += main.cpp \
     dvirtualimagefileengine.cpp \
     dvirtualimagefileio.cpp \
     dzlibiodevice.cpp \
-    dzlibfile.cpp
+    dzlibfile.cpp \
+    commandlineparser.cpp
 
 HEADERS += \
     ddiskinfo.h \
@@ -36,4 +38,5 @@ HEADERS += \
     dvirtualimagefileengine.h \
     dvirtualimagefileio.h \
     dzlibiodevice.h \
-    dzlibfile.h
+    dzlibfile.h \
+    commandlineparser.h

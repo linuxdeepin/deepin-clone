@@ -1,4 +1,5 @@
 #include "dzlibiodevice.h"
+#include "dglobal.h"
 
 #include <QDataStream>
 #include <QFile>
@@ -205,7 +206,7 @@ qint64 DZlibIODevice::writeData(const char *data, qint64 len)
 
 QByteArray DZlibIODevice::compress(const QByteArray &data) const
 {
-    return qCompress(data);
+    return qCompress(data, Global::compressionLevel);
 }
 
 QByteArray DZlibIODevice::uncompress(const QByteArray &data) const

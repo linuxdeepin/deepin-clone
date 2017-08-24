@@ -47,7 +47,7 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
 {
     bool ok = false;
 
-    char block[bufferSize];
+    char block[Global::bufferSize];
 
     if (!from.beginScope(scope, DDiskInfo::Read, index)) {
         if (error)
@@ -64,7 +64,7 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
     }
 
     while (!from.atEnd()) {
-        qint64 read_size = from.read(block, bufferSize);
+        qint64 read_size = from.read(block, Global::bufferSize);
 
         if (read_size <= 0) {
             if (error)

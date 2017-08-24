@@ -1,59 +1,69 @@
-#include <QCoreApplication>
-#include <QString>
-#include <QDir>
+#include <QApplication>
+#include <QFile>
 #include <QDebug>
 
-#include "ddevicediskinfo.h"
-#include "ddevicepartinfo.h"
 #include "helper.h"
+#include "dglobal.h"
 #include "clonejob.h"
-#include "dvirtualimagefileio.h"
+#include "commandlineparser.h"
+
+bool Global::isOverride = true;
+bool Global::isTUIMode = false;
+
+int Global::bufferSize = 1024 * 1024;
+int Global::compressionLevel = 4;
+
+static bool isTUIMode(int argc, char *argv[])
+{
+    if (qEnvironmentVariableIsEmpty("DISPLAY"))
+        return true;
+
+    for (int i = 1; i < argc; ++i)
+        if (argv[i] == QByteArray("--tui"))
+            return true;
+
+    return false;
+}
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
+    QCoreApplication *a;
 
-    if (a.arguments().count() < 3)
-        return -1;
+    if (isTUIMode(argc, argv)) {
+        Global::isTUIMode = true;
 
-    if (a.arguments().contains("-i")) {
-        const DDiskInfo &info = DDiskInfo::getInfo(a.arguments().last());
+        a = new QCoreApplication(argc, argv);
+    } else {
+        QApplication *app = new QApplication(argc, argv);
 
-        if (!info)
-            return -1;
+        app->setApplicationDisplayName(QObject::tr("Deepin Clone"));
+        a = app;
+    }
 
-        qDebug().noquote() << info.toJson();
+    a->setApplicationName("deepin-clone");
+    a->setApplicationVersion("0.0.1");
+    a->setOrganizationName("deepin");
 
-        return 0;
-    } else if (a.arguments().contains("--dim-info")) {
-        DVirtualImageFileIO io(a.arguments().last());
+    CommandLineParser parser;
 
-        if (!io.isValid())
-            return -1;
+    parser.process(*a);
 
-        for (const QString &file : io.fileList()) {
-            qDebug() << "file:" << file;
-            qDebug() << "size:" << io.size(file);
-            qDebug() << "start:" << io.start(file);
-            qDebug() << "end:" << io.end(file);
-            qDebug() << endl;
+    if (!parser.target().isEmpty()) {
+        CloneJob job;
+
+        QObject::connect(&job, &QThread::finished, a, &QCoreApplication::quit);
+
+        if (Global::isOverride) {
+            QFile file(parser.target());
+
+            if (file.open(QIODevice::WriteOnly))
+                file.close();
         }
 
-        return 0;
+        job.start(parser.source(), parser.target());
+
+        return a->exec();
     }
 
-    CloneJob job;
-
-    QObject::connect(&job, &QThread::finished, &a, &QCoreApplication::quit);
-
-    if (a.arguments().contains("-O")) {
-        QFile file(a.arguments().at(2));
-
-        if (file.open(QIODevice::WriteOnly))
-            file.close();
-    }
-
-    job.start(a.arguments().at(1), a.arguments().at(2));
-
-    return a.exec();
+    return a->exec();
 }

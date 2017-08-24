@@ -5,7 +5,13 @@
     inline Class##Private* d_func() { return reinterpret_cast<Class##Private *>(qGetPtrHelper(d)); } \
     inline const Class##Private* d_func() const { return reinterpret_cast<const Class##Private *>(qGetPtrHelper(d)); }
 
-constexpr int bufferSize = 1024 * 1024;
-constexpr int compressionLevel = 9;
+class Global {
+public:
+    static bool isOverride;
+    static bool isTUIMode;
+
+    static int bufferSize;
+    static int compressionLevel;
+};
 
 #endif // DGLOBAL_H
