@@ -10,33 +10,35 @@ CONFIG -= app_bundle
 
 TEMPLATE = app
 
-SOURCES += main.cpp \
-    ddiskinfo.cpp \
-    dpartinfo.cpp \
-    ddevicediskinfo.cpp \
-    ddevicepartinfo.cpp \
-    dfilediskinfo.cpp \
-    clonejob.cpp \
-    helper.cpp \
-    dvirtualimagefileengine.cpp \
-    dvirtualimagefileio.cpp \
-    dzlibiodevice.cpp \
-    dzlibfile.cpp \
-    commandlineparser.cpp
+SOURCES += src/main.cpp \
+    src/corelib/ddiskinfo.cpp \
+    src/corelib/dpartinfo.cpp \
+    src/corelib/ddevicediskinfo.cpp \
+    src/corelib/ddevicepartinfo.cpp \
+    src/corelib/dfilediskinfo.cpp \
+    src/corelib/clonejob.cpp \
+    src/corelib/helper.cpp \
+    src/corelib/dvirtualimagefileengine.cpp \
+    src/corelib/dvirtualimagefileio.cpp \
+    src/corelib/dzlibiodevice.cpp \
+    src/corelib/dzlibfile.cpp \
+    src/commandlineparser.cpp
 
 HEADERS += \
-    ddiskinfo.h \
-    dpartinfo.h \
-    ddevicediskinfo.h \
-    ddiskinfo_p.h \
-    ddevicepartinfo.h \
-    dpartinfo_p.h \
-    dfilediskinfo.h \
-    dglobal.h \
-    clonejob.h \
-    helper.h \
-    dvirtualimagefileengine.h \
-    dvirtualimagefileio.h \
-    dzlibiodevice.h \
-    dzlibfile.h \
-    commandlineparser.h
+    src/corelib/ddiskinfo.h \
+    src/corelib/dpartinfo.h \
+    src/corelib/ddevicediskinfo.h \
+    src/corelib/ddiskinfo_p.h \
+    src/corelib/ddevicepartinfo.h \
+    src/corelib/dpartinfo_p.h \
+    src/corelib/dfilediskinfo.h \
+    src/dglobal.h \
+    src/corelib/clonejob.h \
+    src/corelib/helper.h \
+    src/corelib/dvirtualimagefileengine.h \
+    src/corelib/dvirtualimagefileio.h \
+    src/corelib/dzlibiodevice.h \
+    src/corelib/dzlibfile.h \
+    src/commandlineparser.h
+
+INCLUDEPATH += src src/corelib
