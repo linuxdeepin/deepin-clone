@@ -43,3 +43,7 @@ HEADERS += \
     src/widgets/mainwindow.h
 
 INCLUDEPATH += src src/corelib src/widgets
+
+target.path = /usr/sbin
+
+INSTALLS += target
