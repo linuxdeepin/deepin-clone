@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <DMainWindow>
+#include <dpageindicator.h>
 
 #include <QStackedWidget>
 
@@ -9,9 +10,11 @@ QT_BEGIN_NAMESPACE
 class QPushButton;
 QT_END_NAMESPACE
 
+class CloneJob;
+
 DWIDGET_USE_NAMESPACE
 
-class TitleLabel;
+class IconLabel;
 class MainWindow : public DMainWindow
 {
 public:
@@ -23,18 +26,34 @@ public:
         End
     };
 
+    enum Mode {
+        Backup, // Disk to File
+        Clone,  // Disk to Disk
+        Restore,// File to Disk
+    };
+
     explicit MainWindow(QWidget *parent = 0);
 
 private:
     void init();
     void setStatus(Status status);
     void next();
+    void setContent(QWidget *widget);
+    QWidget *content() const;
+
+    bool isError() const;
+
+    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 
     Status m_currentStatus = SelectAction;
+    Mode m_currentMode = Backup;
 
-    TitleLabel *m_title;
+    CloneJob *m_job;
+
+    IconLabel *m_title;
     QStackedWidget *m_contentWidget;
     QPushButton *m_bottomButton;
+    DPageIndicator *m_pageIndicator;
 };
 
 #endif // MAINWINDOW_H

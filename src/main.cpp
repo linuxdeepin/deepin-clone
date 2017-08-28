@@ -4,6 +4,7 @@
 #ifdef ENABLE_GUI
 #include <DApplication>
 #include <DTitlebar>
+#include <DThemeManager>
 
 #include "mainwindow.h"
 
@@ -97,8 +98,12 @@ int main(int argc, char *argv[])
         MainWindow *window = new MainWindow;
 
         window->setFixedSize(860, 660);
-        window->titlebar()->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint);
-        window->titlebar()->setCustomWidget(new QWidget(), false);
+        window->setStyleSheet(DThemeManager::instance()->getQssForWidget("main", window));
+        window->setWindowIcon(QIcon::fromTheme("deepin-clone"));
+        window->titlebar()->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint
+                                           | Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
+        window->titlebar()->setIcon(window->windowIcon().pixmap(24));
+        window->titlebar()->setTitle(QString());
         window->show();
     }
 #endif
