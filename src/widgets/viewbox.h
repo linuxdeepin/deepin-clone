@@ -21,6 +21,8 @@ public:
     void setIcon(const QIcon &icon);
     void setContent(QWidget *widget, bool full = false);
 
+    QWidget *content() const;
+
 private:
     void init();
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;

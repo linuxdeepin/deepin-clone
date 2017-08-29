@@ -37,6 +37,11 @@ void ViewBox::setContent(QWidget *widget, bool full)
     }
 }
 
+QWidget *ViewBox::content() const
+{
+    return m_contentWidget;
+}
+
 void ViewBox::init()
 {
     QVBoxLayout *layout = new QVBoxLayout(this);

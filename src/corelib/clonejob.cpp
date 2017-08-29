@@ -25,6 +25,7 @@ bool CloneJob::start(const QString &from, const QString &to)
     m_from = from;
     m_to = to;
     m_errorString.clear();
+    m_progress = 0;
 
     QThread::start();
 
@@ -34,6 +35,11 @@ bool CloneJob::start(const QString &from, const QString &to)
 CloneJob::Status CloneJob::status() const
 {
     return m_status;
+}
+
+qreal CloneJob::progress() const
+{
+    return m_progress;
 }
 
 QString CloneJob::errorString() const
@@ -157,17 +163,18 @@ void CloneJob::run()
         }
     }
 
-    PipeNotifyFunction print_fun = [from_info_total_data_size, &have_been_written] (qint64 accomplishBytes) {
+    PipeNotifyFunction print_fun = [from_info_total_data_size, &have_been_written, this] (qint64 accomplishBytes) {
         printf("\033[A");
         fflush(stdout);
 
         have_been_written += accomplishBytes;
 
-        qreal progress = ((qreal)have_been_written / from_info_total_data_size) * 100;
+        m_progress = ((have_been_written / 1000000.0) / (from_info_total_data_size  / 1000000.0));
+        m_progress = qMin(m_progress, 0.99);
 
-        progress = qMin(progress, 100.0);
+        dCDebug("----%lld bytes of data have been written, total progress: %f----", have_been_written, m_progress * 100);
 
-        dCDebug("----%lld bytes of data have been written, total progress: %f----", have_been_written, progress);
+        emit progressChanged(m_progress);
     };
 
     auto call_disk_pipe = [&print_fun, this, &from_info, &to_info] (DDiskInfo::DataScope scope, int index = 0) {
@@ -233,6 +240,8 @@ void CloneJob::run()
             return;
         }
     }
+
+    emit progressChanged(1.0);
 
     dCDebug("clone finished!");
 }

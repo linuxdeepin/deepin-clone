@@ -10,6 +10,8 @@ class DiskListItem : public UtilityListDeviceItem
 public:
     explicit DiskListItem(DDiskInfo info, QWidget *parent = 0);
 
+    DDiskInfo info() const;
+
 private:
     DDiskInfo m_info;
 };

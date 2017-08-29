@@ -15,6 +15,8 @@ DWIDGET_USE_NAMESPACE
 
 class SelectFileWidget : public QWidget
 {
+    Q_OBJECT
+
 public:
     enum Mode {
         GetSaveName,
@@ -28,6 +30,9 @@ public:
 private:
     Mode m_mode;
     QString m_filePath;
+    QString m_defaultFileName;
+
+    friend class SelectFilePage;
 };
 
 SelectFileWidget::SelectFileWidget(Mode mode, QWidget *parent)
@@ -62,6 +67,7 @@ SelectFileWidget::SelectFileWidget(Mode mode, QWidget *parent)
         if (m_mode == GetSaveName) {
             dialog.setFileMode(QFileDialog::AnyFile);
             dialog.setAcceptMode(QFileDialog::AcceptSave);
+            dialog.selectFile(m_defaultFileName);
 
             if (dialog.exec() == QFileDialog::Accepted) {
                 m_filePath = dialog.selectedFiles().first();
@@ -157,7 +163,24 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
 
         setRightTitle(tr("选择存储位置"));
 
-        right_widget = new SelectFileWidget(SelectFileWidget::GetSaveName, this);
+        SelectFileWidget *sfw = new SelectFileWidget(SelectFileWidget::GetSaveName, this);
+
+        connect(left_list, &UtilityList::itemSelectionChanged, this, [sfw, left_list] {
+            QWidget *widget = left_list->itemWidget(left_list->selectedItems().first());
+            QString device_name;
+
+            if (DiskListItem *item = qobject_cast<DiskListItem*>(widget)) {
+                device_name = item->info().name();
+            } else if (PartitionListItem *item = qobject_cast<PartitionListItem*>(widget)) {
+                device_name = item->info().name();
+            }
+
+            if (!device_name.isEmpty())
+                sfw->m_defaultFileName = QString("%1.dim").arg(device_name);
+        });
+
+        emit left_list->itemSelectionChanged();
+        right_widget = sfw;
 
         break;
     }
@@ -194,3 +217,32 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
     setLeftContent(left_widget, true);
     setRightContent(right_widget, true);
 }
+
+static QString getFilePath(const QWidget *widget)
+{
+    if (const UtilityList *list = qobject_cast<const UtilityList*>(widget)) {
+        const QWidget *widget = list->itemWidget(list->selectedItems().first());
+
+        if (const DiskListItem *item = qobject_cast<const DiskListItem*>(widget)) {
+            return item->info().filePath();
+        } else if (const PartitionListItem *item = qobject_cast<const PartitionListItem*>(widget)) {
+            return item->info().filePath();
+        }
+    } else if (const SelectFileWidget *file = qobject_cast<const SelectFileWidget*>(widget)) {
+        return file->selectFilePath();
+    }
+
+    return QString();
+}
+
+QString SelectFilePage::source() const
+{
+    return getFilePath(leftContent());
+}
+
+QString SelectFilePage::target() const
+{
+    return getFilePath(rightContent());
+}
+
+#include "selectfilepage.moc"

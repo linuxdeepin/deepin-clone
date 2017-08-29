@@ -73,12 +73,24 @@ void UtilityListItem::setMessage(const QString &message)
     m_label->messageLabel->setText(message);
 }
 
+QString UtilityListItem::title() const
+{
+    return m_label->titleLabel->text();
+}
+
 void UtilityListItem::setIcon(const QIcon &icon, const QSize &size)
 {
+    m_iconFile = icon;
+
     if (size.isValid())
         m_icon->setPixmap(icon.pixmap(size));
     else
         m_icon->setPixmap(icon.pixmap(height()));
+}
+
+QIcon UtilityListItem::icon() const
+{
+    return m_iconFile;
 }
 
 void UtilityListItem::addWidget(QWidget *w, int stretch, Qt::Alignment alignment)

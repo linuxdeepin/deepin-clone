@@ -45,6 +45,9 @@ DVirtualImageFileIO::DVirtualImageFileIO(const QString &fileName)
 
 DVirtualImageFileIO::~DVirtualImageFileIO()
 {
+    if (d->ref == 1)
+        DVirtualImageFileIOPrivate::dMap.remove(d->file.fileName());
+
     close();
 }
 

@@ -11,3 +11,8 @@ PartitionListItem::PartitionListItem(DPartInfo info, QWidget *parent)
     setMessage(info.name());
     setSize(info.usedSize(), info.totalSize());
 }
+
+DPartInfo PartitionListItem::info() const
+{
+    return m_info;
+}

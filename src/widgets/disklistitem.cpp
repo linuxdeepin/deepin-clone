@@ -11,3 +11,8 @@ DiskListItem::DiskListItem(DDiskInfo info, QWidget *parent)
     setMessage(info.name());
     setSize(info.totalReadableDataSize(), info.totalSize());
 }
+
+DDiskInfo DiskListItem::info() const
+{
+    return m_info;
+}

@@ -19,6 +19,9 @@ void UtilityList::addItem(UtilityListItem *item)
 
     lwi->setSizeHint(size);
     setItemWidget(lwi, item);
+
+    if (count() == 1)
+        lwi->setSelected(true);
 }
 
 void UtilityList::addItem(const QIcon &icon, const QString &title, const QString &message, const QSize &iconSize)

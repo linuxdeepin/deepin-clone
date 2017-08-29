@@ -12,8 +12,6 @@ QT_BEGIN_NAMESPACE
 class QPushButton;
 QT_END_NAMESPACE
 
-class CloneJob;
-
 DWIDGET_USE_NAMESPACE
 
 class IconLabel;
@@ -30,6 +28,8 @@ public:
 
     explicit MainWindow(QWidget *parent = 0);
 
+    void startWithFile(const QString &source, const QString &target);
+
 private:
     void init();
     void setStatus(Status status);
@@ -44,8 +44,8 @@ private:
     Status m_currentStatus = (Status)(End + 1);
     SelectActionPage::Action m_currentMode = SelectActionPage::Backup;
     SelectActionPage::Mode m_operateObject = SelectActionPage::Disk;
-
-    CloneJob *m_job;
+    QString m_sourceFile;
+    QString m_targetFile;
 
     IconLabel *m_title;
     QStackedWidget *m_contentWidget;

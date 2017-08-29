@@ -1,6 +1,7 @@
 #include "selectactionpage.h"
 #include "iconlabel.h"
 #include "utilitylist.h"
+#include "utilitylistitem.h"
 
 #include <QListView>
 #include <QHBoxLayout>
@@ -24,6 +25,28 @@ SelectActionPage::Mode SelectActionPage::mode() const
 SelectActionPage::Action SelectActionPage::action() const
 {
     return m_action;
+}
+
+QString SelectActionPage::selectedItemTitle() const
+{
+    if (m_rightContent->selectedItems().isEmpty())
+        return QString();
+
+    if (UtilityListItem *item = qobject_cast<UtilityListItem*>(m_rightContent->itemWidget(m_rightContent->selectedItems().first())))
+        return item->title();
+
+    return QString();
+}
+
+QIcon SelectActionPage::selectedItemIcon() const
+{
+    if (m_rightContent->selectedItems().isEmpty())
+        return QIcon();
+
+    if (UtilityListItem *item = qobject_cast<UtilityListItem*>(m_rightContent->itemWidget(m_rightContent->selectedItems().first())))
+        return item->icon();
+
+    return QIcon();
 }
 
 void SelectActionPage::init()

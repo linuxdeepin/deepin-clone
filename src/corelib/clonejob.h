@@ -21,12 +21,14 @@ public:
 
     bool start(const QString &from, const QString &to);
     Status status() const;
+    qreal progress() const;
 
     QString errorString() const;
 
 signals:
     void statusChanged(Status status);
     void failed(const QString &error);
+    void progressChanged(qreal progress);
 
 private:
     using QThread::start;
@@ -42,6 +44,8 @@ private:
     QString m_to;
 
     QString m_errorString;
+
+    qreal m_progress = 0;
 };
 
 #endif // CLONEJOB_H

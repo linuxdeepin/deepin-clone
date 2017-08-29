@@ -26,6 +26,9 @@ public:
     Mode mode() const;
     Action action() const;
 
+    QString selectedItemTitle() const;
+    QIcon selectedItemIcon() const;
+
 private:
     void init();
     void setMode(Mode mode);

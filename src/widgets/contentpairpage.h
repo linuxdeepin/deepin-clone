@@ -17,6 +17,9 @@ public:
     void setLeftContent(QWidget *widget, bool full = false);
     void setRightContent(QWidget *widget, bool full = false);
 
+    QWidget *leftContent() const;
+    QWidget *rightContent() const;
+
 private:
     void init();
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;

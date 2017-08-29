@@ -31,6 +31,16 @@ void ContentPairPage::setRightContent(QWidget *widget, bool full)
     m_rightBox->setContent(widget, full);
 }
 
+QWidget *ContentPairPage::leftContent() const
+{
+    return m_leftBox->content();
+}
+
+QWidget *ContentPairPage::rightContent() const
+{
+    return m_rightBox->content();
+}
+
 void ContentPairPage::init()
 {
     QHBoxLayout *layout = new QHBoxLayout(this);

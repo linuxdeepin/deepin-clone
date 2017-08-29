@@ -2,6 +2,8 @@
 #include "clonejob.h"
 #include "iconlabel.h"
 #include "selectfilepage.h"
+#include "helper.h"
+#include "workingpage.h"
 
 #include <QVBoxLayout>
 #include <QLabel>
@@ -16,10 +18,16 @@ MainWindow::MainWindow(QWidget *parent)
     setStatus(SelectAction);
 }
 
+void MainWindow::startWithFile(const QString &source, const QString &target)
+{
+    m_sourceFile = source;
+    m_targetFile = target;
+
+    setStatus(WaitConfirm);
+}
+
 void MainWindow::init()
 {
-    m_job = new CloneJob(this);
-
     m_title = new IconLabel(this);
     m_title->setObjectName("MainTitle");
     m_title->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
@@ -49,12 +57,20 @@ void MainWindow::init()
 
 void MainWindow::setStatus(MainWindow::Status status)
 {
+    m_title->setIcon(QIcon());
     m_bottomButton->setVisible(status != WaitConfirm);
 
     switch (m_currentStatus) {
     case SelectAction: {
         m_currentMode = static_cast<SelectActionPage*>(content())->action();
         m_operateObject = static_cast<SelectActionPage*>(content())->mode();
+        break;
+    }
+    case SelectFile: {
+        SelectFilePage *page = static_cast<SelectFilePage*>(content());
+
+        m_sourceFile = page->source();
+        m_targetFile = page->target();
         break;
     }
     default:
@@ -68,6 +84,13 @@ void MainWindow::setStatus(MainWindow::Status status)
         m_bottomButton->setText(tr("Next"));
         break;
     } case SelectFile: {
+        SelectActionPage *page = qobject_cast<SelectActionPage*>(content());
+
+        if (page) {
+            m_title->setTitle(page->selectedItemTitle());
+            m_title->setIcon(page->selectedItemIcon(), m_title->sizeHint().height() * 2);
+        }
+
         if (m_currentMode == SelectActionPage::Backup) {
             m_bottomButton->setText(tr("Begin Backup"));
         } else if (m_currentMode == SelectActionPage::Clone) {
@@ -81,21 +104,40 @@ void MainWindow::setStatus(MainWindow::Status status)
         break;
     }
     case WaitConfirm: {
+        if (m_sourceFile.isEmpty())
+            return;
 
+        if (m_targetFile.isEmpty())
+            return;
+
+        m_title->setTitle(tr("提醒"));
         break;
     }
     case Working: {
+        if (m_currentMode == SelectActionPage::Backup)
+            m_title->setTitle(tr("正在备份"));
+        else if (m_currentMode == SelectActionPage::Clone)
+            m_title->setTitle(tr("正在克隆"));
+        else
+            m_title->setTitle(tr("正在还原"));
+
         m_bottomButton->setText(tr("Cancel"));
+
+        setContent(new  WorkingPage(m_sourceFile, m_targetFile));
+
         break;
     }
     case End: {
         if (isError()) {
             m_bottomButton->setText(tr("Retry"));
         } else if (m_currentMode == SelectActionPage::Backup) {
+            m_title->setTitle(tr("备份完成"));
             m_bottomButton->setText(tr("Display Backup File"));
         } else if (m_currentMode == SelectActionPage::Clone) {
+            m_title->setTitle(tr("克隆完成"));
             m_bottomButton->setText(tr("Ok"));
         } else {
+            m_title->setTitle(tr("还原完成"));
             m_bottomButton->setText(tr("Restart System"));
         }
 
@@ -111,7 +153,11 @@ void MainWindow::setStatus(MainWindow::Status status)
 void MainWindow::next()
 {
     if (m_currentStatus < End) {
-        setStatus(Status(m_currentStatus + 1));
+        if (m_currentStatus == SelectFile && !Helper::isBlockSpecialFile(m_targetFile)) {
+            setStatus(Status(m_currentStatus + 2));
+        } else {
+            setStatus(Status(m_currentStatus + 1));
+        }
     }
 }
 
@@ -131,7 +177,11 @@ QWidget *MainWindow::content() const
 
 bool MainWindow::isError() const
 {
-    return !m_job->errorString().isEmpty();
+    if (WorkingPage *page = qobject_cast<WorkingPage*>(content())) {
+        return page->isError();
+    }
+
+    return false;
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)
