@@ -23,11 +23,13 @@ public:
 
 private:
     void init();
+    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 
     IconLabel *m_title;
     QFrame *m_borderFrame;
     QBoxLayout *m_borderFrameLayout;
     QWidget *m_contentWidget = NULL;
+    bool m_fullContent = false;
 };
 
 #endif // VIEWBOX_H

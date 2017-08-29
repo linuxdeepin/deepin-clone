@@ -17,9 +17,15 @@ public:
     void setIcon(const QIcon &icon, int extent = 0);
     void setDirection(QBoxLayout::Direction direction);
 
+    void setChecked(bool checked);
+
 private:
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+
     QLabel *m_icon;
     QLabel *m_label;
+
+    bool m_isChecked = false;
 };
 
 #endif // ICONLABEL_H

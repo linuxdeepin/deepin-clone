@@ -19,6 +19,7 @@ public:
 
 private:
     void init();
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
 
     ViewBox *m_leftBox;
     ViewBox *m_rightBox;

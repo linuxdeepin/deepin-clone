@@ -4,7 +4,8 @@
 UtilityList::UtilityList(QWidget *parent)
     : QListWidget(parent)
 {
-
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    setSelectionRectVisible(false);
 }
 
 void UtilityList::addItem(UtilityListItem *item)
@@ -20,7 +21,6 @@ void UtilityList::addItem(const QIcon &icon, QWidget *widget, const QSize &iconS
 {
     UtilityListItem *item = new UtilityListItem(this);
 
-    item->setFixedHeight(60);
     item->setIcon(icon, iconSize);
     item->setWidget(widget);
 

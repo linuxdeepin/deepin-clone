@@ -3,6 +3,7 @@
 
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QDebug>
 
 ViewBox::ViewBox(QWidget *parent)
     : QWidget(parent)
@@ -22,15 +23,18 @@ void ViewBox::setIcon(const QIcon &icon)
 
 void ViewBox::setContent(QWidget *widget, bool full)
 {
-    if (m_contentWidget)
+    if (m_contentWidget) {
         m_borderFrameLayout->removeWidget(m_contentWidget);
+        m_contentWidget->deleteLater();
+    }
 
     m_contentWidget = widget;
+    m_fullContent = full;
+    m_borderFrameLayout->addWidget(widget, 0, Qt::AlignLeft | Qt::AlignTop);
 
-    if (full)
-        m_borderFrameLayout->addWidget(widget);
-    else
-        m_borderFrameLayout->addWidget(widget, 0, Qt::AlignLeft | Qt::AlignTop);
+    if (full) {
+        m_contentWidget->setFixedSize((m_borderFrame->rect() - m_borderFrameLayout->contentsMargins()).size());
+    }
 }
 
 void ViewBox::init()
@@ -45,5 +49,14 @@ void ViewBox::init()
     layout->addWidget(m_borderFrame);
 
     m_borderFrameLayout = new QVBoxLayout(m_borderFrame);
+    m_borderFrameLayout->setContentsMargins(0, 0, 0, 0);
     m_borderFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+}
+
+void ViewBox::resizeEvent(QResizeEvent *e)
+{
+    if (m_contentWidget && m_fullContent)
+        m_contentWidget->setFixedSize((m_borderFrame->rect() - m_borderFrameLayout->contentsMargins()).size());
+
+    return QWidget::resizeEvent(e);
 }

@@ -12,5 +12,6 @@
         <file>icons/clone_disk_to_disk.svg</file>
         <file>icons/2.svg</file>
         <file>icons/1.svg</file>
+        <file>icons/select.svg</file>
     </qresource>
 </RCC>

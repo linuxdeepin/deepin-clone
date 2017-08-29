@@ -49,3 +49,14 @@ void ContentPairPage::init()
     m_rightBox->setIcon(QIcon(":/icons/2.svg"));
     m_rightBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
+
+void ContentPairPage::resizeEvent(QResizeEvent *event)
+{
+    const QMargins &content_margins = static_cast<QBoxLayout*>(layout())->contentsMargins();
+    int valid_width = width() - 60 - content_margins.left() - content_margins.right();
+
+    m_leftBox->setFixedWidth(valid_width / 2);
+    m_rightBox->setFixedWidth(valid_width / 2);
+
+    return QWidget::resizeEvent(event);
+}

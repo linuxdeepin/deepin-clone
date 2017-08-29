@@ -2,6 +2,7 @@
 
 #include <QLabel>
 #include <QIcon>
+#include <QPainter>
 
 IconLabel::IconLabel(QWidget *parent)
     : QWidget(parent)
@@ -13,6 +14,7 @@ IconLabel::IconLabel(QWidget *parent)
 
     layout->addWidget(m_icon, 0, Qt::AlignHCenter);
     layout->addWidget(m_label, 0, Qt::AlignHCenter);
+    layout->addStretch();
 
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
@@ -39,4 +41,32 @@ void IconLabel::setIcon(const QIcon &icon, int extent)
 void IconLabel::setDirection(QBoxLayout::Direction direction)
 {
     static_cast<QBoxLayout*>(layout())->setDirection(direction);
+}
+
+void IconLabel::setChecked(bool checked)
+{
+    if (m_isChecked == checked)
+        return;
+
+    m_isChecked = checked;
+
+    update();
+}
+
+void IconLabel::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event)
+
+    if (!m_isChecked)
+        return;
+
+    QPainter pa(this);
+    QPen pen = pa.pen();
+
+    pen.setColor(QColor("#2ca7f8"));
+    pen.setWidth(2);
+    pen.setJoinStyle(Qt::RoundJoin);
+    pa.setPen(pen);
+    pa.setRenderHint(QPainter::Antialiasing);
+    pa.drawRoundedRect(QRectF(rect()).adjusted(0.5, 0.5, -0.5, -0.5), 8, 8);
 }

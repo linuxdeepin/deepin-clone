@@ -17,6 +17,8 @@ UtilityListItem::UtilityListItem(QWidget *parent)
     QHBoxLayout *main_layout = new QHBoxLayout(this);
 
     m_layout = new QVBoxLayout();
+    m_layout->setContentsMargins(0, 0, 0, 0);
+    m_layout->setSpacing(0);
 
     main_layout->addWidget(m_icon);
     main_layout->addLayout(m_layout);
