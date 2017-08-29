@@ -190,6 +190,11 @@ DDiskInfo &DDiskInfo::operator=(const DDiskInfo &other)
     return *this;
 }
 
+QString DDiskInfo::model() const
+{
+    return d->model;
+}
+
 QString DDiskInfo::name() const
 {
     return d->name;
@@ -238,6 +243,7 @@ QByteArray DDiskInfo::toJson() const
         {"maxReadableDataSize", QString::number(maxReadableDataSize())},
         {"totalWritableDataSize", QString::number(totalWritableDataSize())},
         {"filePath", filePath()},
+        {"model", model()},
         {"name", name()},
         {"kname", kname()},
         {"totalSize", QString::number(totalSize())},
@@ -305,6 +311,7 @@ void DDiskInfo::fromJson(const QByteArray &json, DDiskInfoPrivate *dd)
     const QJsonDocument &doc = QJsonDocument::fromJson(json);
     const QJsonObject &root = doc.object();
 
+    dd->model = root.value("model").toString();
     dd->name = root.value("name").toString();
     dd->kname = root.value("kname").toString();
     dd->size = root.value("totalSize").toString().toLongLong();

@@ -164,7 +164,7 @@ public:
     };
 
     explicit DPartInfo();
-    explicit DPartInfo(const DPartInfo &other);
+    DPartInfo(const DPartInfo &other);
     ~DPartInfo();
 
     DPartInfo &operator=(const DPartInfo &other);

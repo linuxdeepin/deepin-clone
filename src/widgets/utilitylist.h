@@ -11,7 +11,7 @@ public:
     explicit UtilityList(QWidget *parent = 0);
 
     void addItem(UtilityListItem *item);
-    void addItem(const QIcon &icon, QWidget *widget, const QSize &iconSize = QSize());
+    void addItem(const QIcon &icon, const QString &title, const QString &message, const QSize &iconSize = QSize());
 };
 
 #endif // UTILITYLIST_H

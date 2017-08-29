@@ -13,16 +13,21 @@ void UtilityList::addItem(UtilityListItem *item)
     QListWidgetItem *lwi = new QListWidgetItem(this);
     QListWidget::addItem(lwi);
 
-    lwi->setSizeHint(item->sizeHint());
+    QSize size = item->sizeHint();
+
+    size.setWidth(qMin(size.width(), width()));
+
+    lwi->setSizeHint(size);
     setItemWidget(lwi, item);
 }
 
-void UtilityList::addItem(const QIcon &icon, QWidget *widget, const QSize &iconSize)
+void UtilityList::addItem(const QIcon &icon, const QString &title, const QString &message, const QSize &iconSize)
 {
     UtilityListItem *item = new UtilityListItem(this);
 
     item->setIcon(icon, iconSize);
-    item->setWidget(widget);
+    item->setTitle(title);
+    item->setMessage(message);
 
     addItem(item);
 }

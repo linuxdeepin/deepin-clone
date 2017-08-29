@@ -9,28 +9,6 @@
 #include <QLabel>
 #include <QEvent>
 
-class RightContentLabel : public QWidget
-{
-public:
-    explicit RightContentLabel(const QString &title, const QString &message, QWidget *parent = 0);
-};
-
-RightContentLabel::RightContentLabel(const QString &title, const QString &message, QWidget *parent)
-    : QWidget(parent)
-{
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    QLabel *title_label = new QLabel(title, this);
-
-    title_label->setObjectName("RightContentLabel_Title");
-
-    QLabel *message_label = new QLabel(message, this);
-
-    message_label->setObjectName("RightContentLabel_Message");
-
-    layout->addWidget(title_label);
-    layout->addWidget(message_label);
-}
-
 SelectActionPage::SelectActionPage(QWidget *parent)
     : ContentPairPage(parent)
 {
@@ -92,25 +70,25 @@ void SelectActionPage::setMode(SelectActionPage::Mode mode)
 
     if (mode == Disk) {
         m_rightContent->addItem(QIcon(":/icons/clone_disk_to_disk.svg"),
-                               new RightContentLabel(tr("克隆磁盘"), tr("完整复制磁盘到另一个磁盘")),
+                               tr("克隆磁盘"), tr("完整复制磁盘到另一个磁盘"),
                                QSize(120, 49));
         m_rightContent->addItem(QIcon(":/icons/clone_disk_to_image.svg"),
-                               new RightContentLabel(tr("备份磁盘到镜像"), tr("将整个磁盘备份成一个单个文件")),
+                               tr("备份磁盘到镜像"), tr("将整个磁盘备份成一个单个文件"),
                                QSize(120, 49));
         m_rightContent->addItem(QIcon(":/icons/restore_image_to_disk.svg"),
-                               new RightContentLabel(tr("从镜像恢复到磁盘"), tr("将备份的镜像文件恢复到整个磁盘")),
+                               tr("从镜像恢复到磁盘"), tr("将备份的镜像文件恢复到整个磁盘"),
                                QSize(120, 49));
         m_partItem->setChecked(false);
         m_diskItem->setChecked(true);
     } else {
         m_rightContent->addItem(QIcon(":/icons/clone_partition_to_partition.svg"),
-                               new RightContentLabel(tr("克隆分区"), tr("完整复制分区到另一个分区")),
+                               tr("克隆分区"), tr("完整复制分区到另一个分区"),
                                QSize(120, 49));
         m_rightContent->addItem(QIcon(":/icons/clone_partition_to_image.svg"),
-                               new RightContentLabel(tr("备份分区到镜像"), tr("将整个分区备份成一个单个文件")),
+                               tr("备份分区到镜像"), tr("将整个分区备份成一个单个文件"),
                                QSize(120, 49));
         m_rightContent->addItem(QIcon(":/icons/restore_image_to_partition.svg"),
-                               new RightContentLabel(tr("从镜像恢复到分区"), tr("将备份的镜像文件恢复到整个分区")),
+                               tr("从镜像恢复到分区"), tr("将备份的镜像文件恢复到整个分区"),
                                QSize(120, 49));
         m_partItem->setChecked(true);
         m_diskItem->setChecked(false);
@@ -118,6 +96,10 @@ void SelectActionPage::setMode(SelectActionPage::Mode mode)
 
     setRightContent(m_rightContent, true);
     setAction(Clone);
+
+    connect(m_rightContent, &UtilityList::currentRowChanged, this, [this] (int row) {
+        setAction(Action(row));
+    });
 }
 
 void SelectActionPage::setAction(SelectActionPage::Action action)

@@ -65,6 +65,7 @@ public:
     bool atEnd() const;
 
     QString filePath() const;
+    QString model() const;
     // device name
     QString name() const;
     // internal kernal device name

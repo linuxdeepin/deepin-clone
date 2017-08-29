@@ -19,3 +19,16 @@ UtilityList::item:selected {
     background-image: url(:/icons/select.svg);
     background-repeat: no-repeat;
 }
+
+QProgressBar {
+    max-width: 60px;
+    max-height: 6px;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+QProgressBar::chunk {
+    border-radius: 3px;
+    background-color: #2ca7f8;
+}

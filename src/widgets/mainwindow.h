@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "selectactionpage.h"
+
 #include <DMainWindow>
 #include <dpageindicator.h>
 
@@ -26,12 +28,6 @@ public:
         End
     };
 
-    enum Mode {
-        Backup, // Disk to File
-        Clone,  // Disk to Disk
-        Restore,// File to Disk
-    };
-
     explicit MainWindow(QWidget *parent = 0);
 
 private:
@@ -45,8 +41,9 @@ private:
 
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 
-    Status m_currentStatus = SelectAction;
-    Mode m_currentMode = Backup;
+    Status m_currentStatus = (Status)(End + 1);
+    SelectActionPage::Action m_currentMode = SelectActionPage::Backup;
+    SelectActionPage::Mode m_operateObject = SelectActionPage::Disk;
 
     CloneJob *m_job;
 

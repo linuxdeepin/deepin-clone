@@ -10,7 +10,7 @@
 #include <QDebug>
 #include <QLoggingCategory>
 
-#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -o NAME,KNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL %1")
+#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -o NAME,KNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL,MODEL %1")
 
 QByteArray Helper::m_processStandardError;
 QByteArray Helper::m_processStandardOutput;

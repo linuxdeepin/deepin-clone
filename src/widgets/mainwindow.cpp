@@ -1,12 +1,13 @@
 #include "mainwindow.h"
 #include "clonejob.h"
-#include "selectactionpage.h"
 #include "iconlabel.h"
+#include "selectfilepage.h"
 
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QResizeEvent>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)
@@ -42,11 +43,23 @@ void MainWindow::init()
     layout->addWidget(m_contentWidget, 0, Qt::AlignHCenter);
     layout->addWidget(m_bottomButton, 0, Qt::AlignHCenter);
     layout->addWidget(m_pageIndicator, 0, Qt::AlignHCenter);
+
+    connect(m_bottomButton, &QPushButton::clicked, this, &MainWindow::next);
 }
 
 void MainWindow::setStatus(MainWindow::Status status)
 {
     m_bottomButton->setVisible(status != WaitConfirm);
+
+    switch (m_currentStatus) {
+    case SelectAction: {
+        m_currentMode = static_cast<SelectActionPage*>(content())->action();
+        m_operateObject = static_cast<SelectActionPage*>(content())->mode();
+        break;
+    }
+    default:
+        break;
+    }
 
     switch (status) {
     case SelectAction: {
@@ -55,14 +68,16 @@ void MainWindow::setStatus(MainWindow::Status status)
         m_bottomButton->setText(tr("Next"));
         break;
     } case SelectFile: {
-        if (m_currentMode == Backup) {
+        if (m_currentMode == SelectActionPage::Backup) {
             m_bottomButton->setText(tr("Begin Backup"));
-        } else if (m_currentMode == Clone) {
+        } else if (m_currentMode == SelectActionPage::Clone) {
             m_bottomButton->setText(tr("Begin Clone"));
         } else {
             m_bottomButton->setText(tr("Begin Restore"));
         }
 
+        setContent(new SelectFilePage(m_operateObject, m_currentMode));
+        m_bottomButton->setText(tr("Next"));
         break;
     }
     case WaitConfirm: {
@@ -76,9 +91,9 @@ void MainWindow::setStatus(MainWindow::Status status)
     case End: {
         if (isError()) {
             m_bottomButton->setText(tr("Retry"));
-        } else if (m_currentMode == Backup) {
+        } else if (m_currentMode == SelectActionPage::Backup) {
             m_bottomButton->setText(tr("Display Backup File"));
-        } else if (m_currentMode == Clone) {
+        } else if (m_currentMode == SelectActionPage::Clone) {
             m_bottomButton->setText(tr("Ok"));
         } else {
             m_bottomButton->setText(tr("Restart System"));
@@ -89,6 +104,8 @@ void MainWindow::setStatus(MainWindow::Status status)
     default:
         break;
     }
+
+    m_currentStatus = status;
 }
 
 void MainWindow::next()

@@ -72,6 +72,7 @@ DDeviceDiskInfoPrivate::~DDeviceDiskInfoPrivate()
 
 void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
 {
+    model = obj.value("model").toString();
     name = obj.value("name").toString();
     kname = obj.value("kname").toString();
     size = obj.value("size").toString().toLongLong();
@@ -82,6 +83,8 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
     } else if (typeName == "disk") {
         type = DDiskInfo::Disk;
     } else if (typeName == "loop") {
+        model = "Loop Disk Device";
+
         if (name.length() == 5)
             type = DDiskInfo::Disk;
         else
@@ -379,6 +382,7 @@ QList<DDeviceDiskInfo> DDeviceDiskInfo::localeDiskList()
     for (const QJsonValue &value : block_devices) {
         DDeviceDiskInfo info;
 
+        info.d = new DDeviceDiskInfoPrivate(&info);
         info.d_func()->init(value.toObject());
         list << info;
     }

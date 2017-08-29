@@ -42,6 +42,7 @@ public:
     DDiskInfo::ScopeMode currentMode = DDiskInfo::Read;
     QString error;
 
+    QString model;
     QString name;
     QString kname;
     qint64 size = 0;

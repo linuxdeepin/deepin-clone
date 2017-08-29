@@ -10,7 +10,11 @@ SOURCES += \
     $$PWD/selectactionpage.cpp \
     $$PWD/iconlabel.cpp \
     $$PWD/utilitylist.cpp \
-    $$PWD/utilitylistitem.cpp
+    $$PWD/utilitylistitem.cpp \
+    $$PWD/disklistitem.cpp \
+    $$PWD/partitionlistitem.cpp \
+    $$PWD/utilitylistdeviceitem.cpp \
+    $$PWD/selectfilepage.cpp
 
 HEADERS += \
     $$PWD/mainwindow.h \
@@ -19,7 +23,11 @@ HEADERS += \
     $$PWD/selectactionpage.h \
     $$PWD/iconlabel.h \
     $$PWD/utilitylist.h \
-    $$PWD/utilitylistitem.h
+    $$PWD/utilitylistitem.h \
+    $$PWD/disklistitem.h \
+    $$PWD/partitionlistitem.h \
+    $$PWD/utilitylistdeviceitem.h \
+    $$PWD/selectfilepage.h
 
 INCLUDEPATH += $$PWD
 
