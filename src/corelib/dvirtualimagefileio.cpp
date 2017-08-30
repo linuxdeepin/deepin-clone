@@ -4,6 +4,8 @@
 
 #include <QDataStream>
 #include <QCryptographicHash>
+#include <QFileInfo>
+#include <QDateTime>
 
 class DVirtualImageFileIOPrivate : public QSharedData
 {
@@ -37,9 +39,11 @@ public:
     QVarLengthArray<FileInfo> fileList() const;
 
     static QMap<QString, DVirtualImageFileIOPrivate*> dMap;
+    static QMap<QByteArray, QByteArray> md5Cache;
 };
 
 QMap<QString, DVirtualImageFileIOPrivate*> DVirtualImageFileIOPrivate::dMap;
+QMap<QByteArray, QByteArray> DVirtualImageFileIOPrivate::md5Cache;
 
 DVirtualImageFileIO::DVirtualImageFileIO(const QString &fileName)
 {
@@ -524,6 +528,15 @@ bool DVirtualImageFileIO::addFile(const QString &name)
 
 QByteArray DVirtualImageFileIO::md5sum()
 {
+    QFileInfo info(d->file);
+
+    QByteArray key = info.absoluteFilePath().toLocal8Bit() + QByteArray::number(info.lastModified().toTime_t()) + QByteArray::number(info.size());
+
+    key = QCryptographicHash::hash(key, QCryptographicHash::Md5);
+
+    if (d->md5Cache.contains(key))
+        return d->md5Cache.value(key);
+
     if (!d->file.isOpen())
         return QByteArray();
 
@@ -533,15 +546,17 @@ QByteArray DVirtualImageFileIO::md5sum()
 
     md5.addData(d->file.read(validMetaDataSize()));
 
+    constexpr int block_size = 1024 * 1024 * 10;
+
     for (const DVirtualImageFileIOPrivate::FileInfo &info : d->fileList()) {
         d->file.seek(info.start);
 
-        while (d->file.pos() < info.end - 1024 * 1024 - 2) {
+        while (d->file.pos() < info.end - block_size - 2) {
             quint16 block_index = 0;
 
             d->file.read((char*)(&block_index), sizeof(block_index));
 
-            block_index %= 1024;
+            block_index %= (block_size / 1024);
 
             if (!d->file.seek(d->file.pos() + block_index * 1024))
                 break;
@@ -549,10 +564,14 @@ QByteArray DVirtualImageFileIO::md5sum()
             md5.addData(d->file.read(1024));
         }
 
-        md5.addData(d->file.read(info.end - d->file.pos()));
+        md5.addData(d->file.read(qMin(info.end - d->file.pos(), (qint64)1024 * 10)));
     }
 
-    return md5.result();
+    const QByteArray &data = md5.result();
+
+    d->md5Cache[key] = data;
+
+    return data;
 }
 
 QStringList DVirtualImageFileIOPrivate::fileNameList() const

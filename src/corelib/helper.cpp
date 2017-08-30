@@ -318,6 +318,13 @@ QString Helper::getDeviceByName(const QString &name)
     return QStringLiteral("/dev/%1").arg(name);
 }
 
+bool Helper::umountDevice(const QString &device)
+{
+    int code = processExec(QString("umount %1").arg(device));
+
+    return code == 0;
+}
+
 QByteArray Helper::getPartitionTable(const QString &devicePath)
 {
     processExec(QStringLiteral("/sbin/sfdisk -d %1").arg(devicePath));

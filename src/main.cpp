@@ -26,7 +26,7 @@ bool Global::isTUIMode = true;
 #endif
 
 int Global::bufferSize = 1024 * 1024;
-int Global::compressionLevel = 4;
+int Global::compressionLevel = 2;
 
 inline static bool isTUIMode(int argc, char *argv[])
 {

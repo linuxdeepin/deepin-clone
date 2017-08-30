@@ -2,6 +2,7 @@
 #include "ddiskinfo_p.h"
 #include "helper.h"
 #include "ddevicepartinfo.h"
+#include "dpartinfo_p.h"
 
 #include <QJsonObject>
 #include <QJsonArray>
@@ -205,9 +206,13 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         const DPartInfo &part = children.at(index);
 
         if (part.isMounted()) {
-            setErrorString(QObject::tr("%1 is mounted").arg(part.filePath()));
+            if (Helper::umountDevice(part.filePath())) {
+                children[index].d->mountPoint.clear();
+            } else {
+                setErrorString(QObject::tr("%1 is busy").arg(part.filePath()));
 
-            return false;
+                return false;
+            }
         }
 
         if (currentMode == DDiskInfo::Read) {

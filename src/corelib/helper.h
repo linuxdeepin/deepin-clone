@@ -41,6 +41,9 @@ public:
     static QByteArray callLsblk(const QString &extraArg = QString());
     static QJsonArray getBlockDevices(const QString &commandExtraArg = QString());
     static QString getDeviceByName(const QString &name);
+
+    static bool umountDevice(const QString &device);
+
     static QByteArray getPartitionTable(const QString &devicePath);
     static bool setPartitionTable(const QString &devicePath, const QString &ptFile);
     static bool saveToFile(const QString &fileName, const QByteArray &data, bool override = true);

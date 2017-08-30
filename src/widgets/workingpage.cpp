@@ -28,9 +28,9 @@ static QString secondsToString(int seconds)
         return QObject::tr("%1 hours %2 mimutes").arg(hours).arg(minutes + 1);
 
     if (minutes > 0)
-        return QObject::tr("%1 mimutes").arg(seconds);
+        return QObject::tr("%1 mimutes").arg(minutes + 1);
 
-    return "0";
+    return QObject::tr("%1 seconds").arg(seconds);
 }
 
 WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent)
