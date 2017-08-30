@@ -10,7 +10,7 @@
 #include <QDebug>
 #include <QLoggingCategory>
 
-#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -o NAME,KNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL,MODEL %1")
+#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -o NAME,KNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL,MODEL,PHY-SEC,RO,RM %1")
 
 QByteArray Helper::m_processStandardError;
 QByteArray Helper::m_processStandardOutput;
@@ -196,55 +196,91 @@ bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 &used, qint64 &f
 
     env_list.append("LANG=C");
     process.setEnvironment(env_list);
-    process.start(QString("%1 -s %2 -c -q -C").arg(getPartcloneExecuter(info)).arg(info.filePath()));
-    process.setStandardOutputFile("/dev/null");
-    process.setReadChannel(QProcess::StandardError);
-    process.waitForStarted();
 
-    qint64 used_block = -1;
-    qint64 free_block = -1;
+    if (info.isMounted()) {
+        process.start(QString("df -B1 %1").arg(info.filePath()));
+        process.waitForFinished();
 
-    while (process.waitForReadyRead(-1)) {
-        const QByteArray &data = process.readAll();
+        if (process.exitCode() != 0)
+            return false;
 
-        for (QByteArray line : data.split('\n')) {
-            line = line.simplified();
+        QByteArray output = process.readAll();
+        const QByteArrayList &lines = output.trimmed().split('\n');
 
-            if (line.startsWith("Space in use:")) {
-                bool ok = false;
+        if (lines.count() != 2)
+            return false;
 
-                used_block = line.split(' ').value(6, "-1").toLongLong(&ok);
+        output = lines.last().simplified();
 
-                if (!ok) {
-                    return false;
+        const QByteArrayList &values = output.split(' ');
+
+        if (values.count() != 6)
+            return false;
+
+        bool ok = false;
+
+        used = values.at(2).toLongLong(&ok);
+
+        if (!ok)
+            return false;
+
+        free = values.at(3).toLongLong(&ok);
+
+        if (!ok)
+            return false;
+
+        return true;
+    } else {
+        process.start(QString("%1 -s %2 -c -q -C").arg(getPartcloneExecuter(info)).arg(info.filePath()));
+        process.setStandardOutputFile("/dev/null");
+        process.setReadChannel(QProcess::StandardError);
+        process.waitForStarted();
+
+        qint64 used_block = -1;
+        qint64 free_block = -1;
+
+        while (process.waitForReadyRead(-1)) {
+            const QByteArray &data = process.readAll();
+
+            for (QByteArray line : data.split('\n')) {
+                line = line.simplified();
+
+                if (line.startsWith("Space in use:")) {
+                    bool ok = false;
+
+                    used_block = line.split(' ').value(6, "-1").toLongLong(&ok);
+
+                    if (!ok) {
+                        return false;
+                    }
+                } else if (line.startsWith("Free Space:")) {
+                    bool ok = false;
+
+                    free_block = line.split(' ').value(5, "-1").toLongLong(&ok);
+
+                    if (!ok) {
+                        return false;
+                    }
+                } else if (line.startsWith("Block size:")) {
+                    bool ok = false;
+
+                    blockSize = line.split(' ').value(2, "-1").toInt(&ok);
+
+                    if (!ok) {
+                        return false;
+                    }
+
+                    if (used_block < 0 || free_block < 0 || blockSize < 0)
+                        return false;
+
+                    used = used_block * blockSize;
+                    free = free_block * blockSize;
+
+                    process.terminate();
+                    process.waitForFinished();
+
+                    return true;
                 }
-            } else if (line.startsWith("Free Space:")) {
-                bool ok = false;
-
-                free_block = line.split(' ').value(5, "-1").toLongLong(&ok);
-
-                if (!ok) {
-                    return false;
-                }
-            } else if (line.startsWith("Block size:")) {
-                bool ok = false;
-
-                blockSize = line.split(' ').value(2, "-1").toInt(&ok);
-
-                if (!ok) {
-                    return false;
-                }
-
-                if (used_block < 0 || free_block < 0 || blockSize < 0)
-                    return false;
-
-                used = used_block * blockSize;
-                free = free_block * blockSize;
-
-                process.terminate();
-                process.waitForFinished();
-
-                return true;
             }
         }
     }

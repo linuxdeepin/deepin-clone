@@ -33,6 +33,9 @@ public:
     QString partLabel;
     QString partType;
     DPartInfo::GUIDType guidType;
+
+    bool readonly = false;
+    bool removeable = false;
 };
 
 #endif // DPARTINFO_P_H

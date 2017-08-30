@@ -47,6 +47,9 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     partLabel = obj.value("partlabel").toString();
     partType = obj.value("parttype").toString();
     guidType = DPartInfo::guidType(partType.toLatin1().toUpper());
+    blockSize = obj.value("phy-sec").toInt(4096);
+    readonly = obj.value("ro").toInt();
+    removeable = obj.value("rm").toInt();
 
     const QString &device = Helper::getDeviceByName(name);
 
