@@ -206,6 +206,9 @@ qint64 DZlibIODevice::writeData(const char *data, qint64 len)
 
 QByteArray DZlibIODevice::compress(const QByteArray &data) const
 {
+    if (Global::compressionLevel == 0)
+        return data;
+
     return qCompress(data, Global::compressionLevel);
 }
 
