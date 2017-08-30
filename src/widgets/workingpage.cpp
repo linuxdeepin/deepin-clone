@@ -7,6 +7,32 @@
 #include <QProgressBar>
 #include <QLabel>
 
+static QString secondsToString(int seconds)
+{
+    int days = seconds / 86400;
+
+    seconds = seconds % 86400;
+
+    int hours = seconds / 3600;
+
+    seconds = seconds % 3600;
+
+    int minutes = seconds / 60;
+
+    seconds = seconds % 60;
+
+    if (days > 0)
+        return QObject::tr("%1 days %2 hours %3 mimutes").arg(days).arg(hours).arg(minutes + 1);
+
+    if (hours > 0)
+        return QObject::tr("%1 hours %2 mimutes").arg(hours).arg(minutes + 1);
+
+    if (minutes > 0)
+        return QObject::tr("%1 mimutes").arg(seconds);
+
+    return "0";
+}
+
 WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent)
     : QWidget(parent)
 {
@@ -42,7 +68,7 @@ WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent
     connect(m_job, &CloneJob::progressChanged, this, [this, total_readable_data_size] (qreal progress) {
         m_progress->setValue(progress * m_progress->maximum());
         m_writtenSizeLabel->setText(tr("已写入大小：%1").arg(Helper::sizeDisplay(total_readable_data_size * progress)));
-        m_timeRemainingLabel->setText(tr("预计剩余时间："));
+        m_timeRemainingLabel->setText(tr("预计剩余时间： %1").arg(secondsToString(m_job->estimateTime())));
     });
 
     m_job->start(from, to);

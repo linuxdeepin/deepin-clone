@@ -5,6 +5,7 @@
 #include "helper.h"
 
 #include <QDir>
+#include <QElapsedTimer>
 
 #include <functional>
 
@@ -26,6 +27,7 @@ bool CloneJob::start(const QString &from, const QString &to)
     m_to = to;
     m_errorString.clear();
     m_progress = 0;
+    m_estimateTime = 0;
 
     QThread::start();
 
@@ -40,6 +42,11 @@ CloneJob::Status CloneJob::status() const
 qreal CloneJob::progress() const
 {
     return m_progress;
+}
+
+int CloneJob::estimateTime() const
+{
+    return m_estimateTime;
 }
 
 QString CloneJob::errorString() const
@@ -134,6 +141,11 @@ void CloneJob::run()
         dCDebug("Refresh device: %s", qPrintable(m_to));
 
         Helper::refreshSystemPartList(m_to);
+    } else if (Global::isOverride) {
+        QFile file(m_to);
+
+        if (file.open(QIODevice::WriteOnly))
+            file.close();
     }
 
     DDiskInfo to_info = DDiskInfo::getInfo(m_to);
@@ -163,15 +175,21 @@ void CloneJob::run()
         }
     }
 
-    PipeNotifyFunction print_fun = [from_info_total_data_size, &have_been_written, this] (qint64 accomplishBytes) {
-        printf("\033[A");
-        fflush(stdout);
+    int speed = 0;
+    QElapsedTimer elapsedTimer;
 
+    elapsedTimer.start();
+
+    PipeNotifyFunction print_fun = [from_info_total_data_size, &have_been_written, this, &elapsedTimer, &speed] (qint64 accomplishBytes) {
         have_been_written += accomplishBytes;
+        speed = have_been_written / elapsedTimer.elapsed() * 1000;
 
         m_progress = ((have_been_written / 1000000.0) / (from_info_total_data_size  / 1000000.0));
         m_progress = qMin(m_progress, 0.99);
+        m_estimateTime = from_info_total_data_size / (qreal)speed * (1 - m_progress);
 
+        printf("\033[A");
+        fflush(stdout);
         dCDebug("----%lld bytes of data have been written, total progress: %f----", have_been_written, m_progress * 100);
 
         emit progressChanged(m_progress);
@@ -241,6 +259,7 @@ void CloneJob::run()
         }
     }
 
+    m_estimateTime = 0;
     emit progressChanged(1.0);
 
     dCDebug("clone finished!");

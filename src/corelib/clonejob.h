@@ -22,6 +22,7 @@ public:
     bool start(const QString &from, const QString &to);
     Status status() const;
     qreal progress() const;
+    int estimateTime() const; // seconds
 
     QString errorString() const;
 
@@ -46,6 +47,7 @@ private:
     QString m_errorString;
 
     qreal m_progress = 0;
+    int m_estimateTime = 0;
 };
 
 #endif // CLONEJOB_H

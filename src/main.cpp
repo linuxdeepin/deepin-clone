@@ -75,13 +75,6 @@ int main(int argc, char *argv[])
 
     parser.process(*a);
 
-    if (Global::isOverride && !parser.target().isEmpty()) {
-        QFile file(parser.target());
-
-        if (file.open(QIODevice::WriteOnly))
-            file.close();
-    }
-
     if (Global::isTUIMode) {
         if (!parser.target().isEmpty()) {
             CloneJob job;
@@ -95,6 +88,8 @@ int main(int argc, char *argv[])
     }
 #ifdef ENABLE_GUI
     else {
+        Global::isOverride = true;
+
         MainWindow *window = new MainWindow;
 
         window->setFixedSize(860, 660);
