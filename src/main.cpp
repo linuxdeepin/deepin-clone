@@ -75,18 +75,18 @@ int main(int argc, char *argv[])
 
     parser.process(*a);
 
+    if (Global::isOverride && !parser.target().isEmpty()) {
+        QFile file(parser.target());
+
+        if (file.open(QIODevice::WriteOnly))
+            file.close();
+    }
+
     if (Global::isTUIMode) {
         if (!parser.target().isEmpty()) {
             CloneJob job;
 
             QObject::connect(&job, &QThread::finished, a, &QCoreApplication::quit);
-
-            if (Global::isOverride) {
-                QFile file(parser.target());
-
-                if (file.open(QIODevice::WriteOnly))
-                    file.close();
-            }
 
             job.start(parser.source(), parser.target());
 

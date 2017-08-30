@@ -15,6 +15,15 @@ public:
     quint8 version;
 
     struct FileInfo {
+        FileInfo &operator=(const FileInfo &other) {
+            index = other.index;
+            name = other.name;
+            start = other.start;
+            end = other.end;
+
+            return *this;
+        }
+
         quint8 index;
         QString name;
         qint64 start;
@@ -23,6 +32,9 @@ public:
 
     QHash<QString, FileInfo> fileMap;
     QString openedFile;
+
+    QStringList fileNameList() const;
+    QVarLengthArray<FileInfo> fileList() const;
 
     static QMap<QString, DVirtualImageFileIOPrivate*> dMap;
 };
@@ -451,7 +463,7 @@ qint64 DVirtualImageFileIO::writableDataSize() const
 
 QStringList DVirtualImageFileIO::fileList() const
 {
-    return d->fileMap.keys();
+    return d->fileNameList();
 }
 
 bool DVirtualImageFileIO::addFile(const QString &name)
@@ -521,7 +533,7 @@ QByteArray DVirtualImageFileIO::md5sum()
 
     md5.addData(d->file.read(validMetaDataSize()));
 
-    for (const DVirtualImageFileIOPrivate::FileInfo &info : d->fileMap) {
+    for (const DVirtualImageFileIOPrivate::FileInfo &info : d->fileList()) {
         d->file.seek(info.start);
 
         while (d->file.pos() < info.end - 1024 * 1024 - 2) {
@@ -541,4 +553,33 @@ QByteArray DVirtualImageFileIO::md5sum()
     }
 
     return md5.result();
+}
+
+QStringList DVirtualImageFileIOPrivate::fileNameList() const
+{
+    QStringList list;
+
+    list.reserve(fileMap.size());
+
+    while (list.count() < fileMap.count())
+        list.append(QString());
+
+    for (const FileInfo &info : fileMap) {
+        list[info.index] = info.name;
+    }
+
+    return list;
+}
+
+QVarLengthArray<DVirtualImageFileIOPrivate::FileInfo> DVirtualImageFileIOPrivate::fileList() const
+{
+    QVarLengthArray<FileInfo> list;
+
+    list.resize(fileMap.size());
+
+    for (const FileInfo &info : fileMap) {
+        list[info.index] = info;
+    }
+
+    return list;
 }
