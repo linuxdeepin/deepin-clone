@@ -79,12 +79,13 @@ void MainWindow::setStatus(MainWindow::Status status)
 
     switch (status) {
     case SelectAction: {
-        m_title->setTitle(tr("Plase Select Action"));
         setContent(new SelectActionPage());
+        m_title->setTitle(tr("Plase Select Action"));
         m_bottomButton->setText(tr("Next"));
         break;
     } case SelectFile: {
         SelectActionPage *page = qobject_cast<SelectActionPage*>(content());
+        setContent(new SelectFilePage(m_operateObject, m_currentMode));
 
         if (page) {
             m_title->setTitle(page->selectedItemTitle());
@@ -98,9 +99,6 @@ void MainWindow::setStatus(MainWindow::Status status)
         } else {
             m_bottomButton->setText(tr("Begin Restore"));
         }
-
-        setContent(new SelectFilePage(m_operateObject, m_currentMode));
-        m_bottomButton->setText(tr("Next"));
         break;
     }
     case WaitConfirm: {
@@ -114,6 +112,8 @@ void MainWindow::setStatus(MainWindow::Status status)
         break;
     }
     case Working: {
+        setContent(new  WorkingPage(m_sourceFile, m_targetFile));
+
         if (m_currentMode == SelectActionPage::Backup)
             m_title->setTitle(tr("正在备份"));
         else if (m_currentMode == SelectActionPage::Clone)
@@ -122,8 +122,6 @@ void MainWindow::setStatus(MainWindow::Status status)
             m_title->setTitle(tr("正在还原"));
 
         m_bottomButton->setText(tr("Cancel"));
-
-        setContent(new  WorkingPage(m_sourceFile, m_targetFile));
 
         break;
     }
