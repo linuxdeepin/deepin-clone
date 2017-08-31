@@ -261,7 +261,7 @@ bool DVirtualImageFileIO::close()
             }
         }
 
-        const QByteArray &md5 = md5sum();
+        const QByteArray &md5 = md5sum(false);
 
         d->file.seek(validMetaDataSize());
         d->file.write(md5);
@@ -381,6 +381,10 @@ bool DVirtualImageFileIO::setSize(const QString &fileName, qint64 size)
     stream.setVersion(QDataStream::Qt_5_6);
     stream << d->fileMap.value(fileName).end;
 
+    const QByteArray &md5 = md5sum(false);
+
+    d->file.seek(validMetaDataSize());
+    d->file.write(md5);
     d->file.close();
 
     return d->file.error() == QFile::NoError;
@@ -526,15 +530,15 @@ bool DVirtualImageFileIO::addFile(const QString &name)
     return true;
 }
 
-QByteArray DVirtualImageFileIO::md5sum()
+QByteArray DVirtualImageFileIO::md5sum(bool readCache)
 {
     QFileInfo info(d->file);
 
-    QByteArray key = info.absoluteFilePath().toLocal8Bit() + QByteArray::number(info.lastModified().toTime_t()) + QByteArray::number(info.size());
+    QByteArray key = info.absoluteFilePath().toLocal8Bit() + QByteArray::number(info.lastModified().toTime_t()) + QByteArray::number(d->file.size());
 
     key = QCryptographicHash::hash(key, QCryptographicHash::Md5);
 
-    if (d->md5Cache.contains(key))
+    if (readCache && d->md5Cache.contains(key))
         return d->md5Cache.value(key);
 
     if (!d->file.isOpen())

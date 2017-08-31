@@ -37,8 +37,9 @@ static bool isDiskType(const QString &name, const QString &type)
 void DDevicePartInfoPrivate::init(const QJsonObject &obj)
 {
     name = obj.value("name").toString();
-    filePath = Helper::getDeviceByName(name);
     kname = obj.value("kname").toString();
+    parentDiskFilePath = Helper::getDeviceByKName(obj.value("pkname").toString());
+    filePath = Helper::getDeviceByKName(kname);
     size = obj.value("size").toString().toLongLong();
     typeName = obj.value("fstype").toString();
     type = toType(typeName);
@@ -51,7 +52,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     readonly = obj.value("ro").toString() == "1";
     removeable = obj.value("rm").toString() == "1";
 
-    const QString &device = Helper::getDeviceByName(name);
+    const QString &device = kname;
 
     if (isDiskType(name, obj.value("type").toString())) {
         sizeStart = 0;
@@ -101,7 +102,6 @@ DDevicePartInfo::DDevicePartInfo(const QString &name)
 
     for (const QJsonValue &value : block_devices) {
         const QJsonObject &obj = value.toObject();
-        const QString &device_name = obj.value("name").toString();
         const QString &transport = obj.value("tran").toString();
 
         for (const QJsonValue &children : obj.value("children").toArray()) {
@@ -109,7 +109,6 @@ DDevicePartInfo::DDevicePartInfo(const QString &name)
 
             if (part.value("name").toString() == name) {
                 d_func()->init(part);
-                d->parentDiskFilePath = Helper::getDeviceByName(device_name);
                 d->transport = transport;
                 break;
             }
@@ -126,7 +125,6 @@ QList<DDevicePartInfo> DDevicePartInfo::localePartList()
     for (const QJsonValue &value : block_devices) {
         const QJsonObject &obj = value.toObject();
         const QString &fstype = obj.value("fstype").toString();
-        const QString &device_name = obj.value("name").toString();
         const QString &transport = obj.value("tran").toString();
 
         if (fstype.isEmpty()) {
@@ -134,7 +132,6 @@ QList<DDevicePartInfo> DDevicePartInfo::localePartList()
                 DDevicePartInfo info;
 
                 info.d_func()->init(children.toObject());
-                info.d->parentDiskFilePath = Helper::getDeviceByName(device_name);
                 info.d->transport = transport;
                 list << info;
             }
@@ -142,7 +139,6 @@ QList<DDevicePartInfo> DDevicePartInfo::localePartList()
             DDevicePartInfo info;
 
             info.d_func()->init(obj);
-            info.d->parentDiskFilePath = Helper::getDeviceByName(device_name);
             info.d->transport = transport;
             list << info;
         }

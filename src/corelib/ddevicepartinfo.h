@@ -13,7 +13,7 @@ class DDevicePartInfo : public DPartInfo
 {
 public:
     explicit DDevicePartInfo();
-    explicit DDevicePartInfo(const QString &name);
+    explicit DDevicePartInfo(const QString &filePath);
 
     static QList<DDevicePartInfo> localePartList();
 

@@ -10,7 +10,7 @@
 #include <QDebug>
 #include <QLoggingCategory>
 
-#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -o NAME,KNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL,MODEL,PHY-SEC,RO,RM,TRAN %1")
+#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -o NAME,KNAME,PKNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL,MODEL,PHY-SEC,RO,RM,TRAN %1")
 
 QByteArray Helper::m_processStandardError;
 QByteArray Helper::m_processStandardOutput;
@@ -310,7 +310,7 @@ QJsonArray Helper::getBlockDevices(const QString &commandExtraArg)
     return jd.object().value("blockdevices").toArray();
 }
 
-QString Helper::getDeviceByName(const QString &name)
+QString Helper::getDeviceByKName(const QString &name)
 {
     if (name.startsWith("/") || isBlockSpecialFile(name))
         return name;
@@ -377,7 +377,39 @@ bool Helper::isBlockSpecialFile(const QString &fileName)
 bool Helper::isPartcloneFile(const QString &fileName)
 {
     return processExec(QStringLiteral("partclone.info %1").arg(fileName)) == 0;
- }
+}
+
+bool Helper::isDiskDevice(const QString &devicePath)
+{
+    if (!isBlockSpecialFile(devicePath))
+        return false;
+
+    for (const QJsonValue &value : getBlockDevices()) {
+        const QString &kname = value.toObject().value("kname").toString();
+
+        if (getDeviceByKName(kname) == devicePath)
+            return true;
+    }
+
+    return false;
+}
+
+bool Helper::isPartitionDevice(const QString &devicePath)
+{
+    if (!isBlockSpecialFile(devicePath))
+        return false;
+
+    for (const QJsonValue &value : getBlockDevices()) {
+        for (const QJsonValue &part : value.toObject().value("children").toArray()) {
+            const QString &kname = part.toObject().value("kname").toString();
+
+            if (getDeviceByKName(kname) == devicePath)
+                return true;
+        }
+    }
+
+    return false;
+}
 
 int Helper::clonePartition(const DPartInfo &part, const QString &to, bool override)
 {

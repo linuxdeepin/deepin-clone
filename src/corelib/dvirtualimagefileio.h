@@ -47,7 +47,7 @@ public:
 
 private:
     bool addFile(const QString &name);
-    QByteArray md5sum();
+    QByteArray md5sum(bool readCache = true);
 
     QExplicitlySharedDataPointer<DVirtualImageFileIOPrivate> d;
 

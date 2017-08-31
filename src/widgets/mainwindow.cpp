@@ -20,10 +20,31 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::startWithFile(const QString &source, const QString &target)
 {
+    bool s_is_block = Helper::isBlockSpecialFile(m_sourceFile);
+    bool s_is_disk = Helper::isDiskDevice(source);
+
+    bool t_is_block = Helper::isBlockSpecialFile(target);
+    bool t_is_disk = Helper::isDiskDevice(target);
+
+    if (s_is_block) {
+        if (t_is_block) {
+            m_currentMode = SelectActionPage::Clone;
+        } else {
+            m_currentMode = SelectActionPage::Backup;
+        }
+    } else {
+        m_currentMode = SelectActionPage::Restore;
+    }
+
+    if (s_is_disk || t_is_disk)
+        m_operateObject = SelectActionPage::Disk;
+    else
+        m_operateObject = SelectActionPage::Partition;
+
     m_sourceFile = source;
     m_targetFile = target;
 
-    setStatus(WaitConfirm);
+    setStatus(Working);
 }
 
 void MainWindow::init()

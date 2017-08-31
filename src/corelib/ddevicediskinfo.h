@@ -9,7 +9,7 @@ class DDeviceDiskInfo : public DDiskInfo
 {
 public:
     explicit DDeviceDiskInfo();
-    explicit DDeviceDiskInfo(const QString &name);
+    explicit DDeviceDiskInfo(const QString &filePath);
 
     static QList<DDeviceDiskInfo> localeDiskList();
 

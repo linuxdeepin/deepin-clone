@@ -40,7 +40,7 @@ public:
 
     static QByteArray callLsblk(const QString &extraArg = QString());
     static QJsonArray getBlockDevices(const QString &commandExtraArg = QString());
-    static QString getDeviceByName(const QString &name);
+    static QString getDeviceByKName(const QString &name);
 
     static bool umountDevice(const QString &device);
 
@@ -49,6 +49,9 @@ public:
     static bool saveToFile(const QString &fileName, const QByteArray &data, bool override = true);
     static bool isBlockSpecialFile(const QString &fileName);
     static bool isPartcloneFile(const QString &fileName);
+    static bool isDiskDevice(const QString &devicePath);
+    static bool isPartitionDevice(const QString &devicePath);
+
     static int clonePartition(const DPartInfo &part, const QString &to, bool override = true);
     static int restorePartition(const QString &from, const DPartInfo &to);
 

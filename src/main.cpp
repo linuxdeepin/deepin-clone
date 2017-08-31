@@ -100,6 +100,10 @@ int main(int argc, char *argv[])
         window->titlebar()->setIcon(window->windowIcon().pixmap(24));
         window->titlebar()->setTitle(QString());
         window->show();
+
+        if (!parser.source().isEmpty() && !parser.target().isEmpty()) {
+            window->startWithFile(parser.source(), parser.target());
+        }
     }
 #endif
 

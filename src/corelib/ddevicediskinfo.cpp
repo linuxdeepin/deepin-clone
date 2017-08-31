@@ -103,7 +103,6 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
         DDevicePartInfo info;
 
         info.init(part.toObject());
-        info.d->parentDiskFilePath = filePath();
         info.d->transport = transport;
         children << info;
     }
@@ -112,12 +111,11 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
         DDevicePartInfo info;
 
         info.init(obj);
-        info.d->parentDiskFilePath = filePath();
         info.d->transport = transport;
         children << info;
     }
 
-    ptTypeName = getPTName(Helper::getDeviceByName(name));
+    ptTypeName = getPTName(Helper::getDeviceByKName(kname));
 
     if (ptTypeName == "dos") {
         ptType = DDiskInfo::MBR;
@@ -131,14 +129,14 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
 
 QString DDeviceDiskInfoPrivate::filePath() const
 {
-    return Helper::getDeviceByName(name);
+    return Helper::getDeviceByKName(kname);
 }
 
 void DDeviceDiskInfoPrivate::refresh()
 {
     children.clear();
 
-    const QJsonArray &block_devices = Helper::getBlockDevices(Helper::getDeviceByName(name));
+    const QJsonArray &block_devices = Helper::getBlockDevices(Helper::getDeviceByKName(kname));
 
     if (!block_devices.isEmpty())
         init(block_devices.first().toObject());
@@ -377,9 +375,9 @@ DDeviceDiskInfo::DDeviceDiskInfo()
 
 }
 
-DDeviceDiskInfo::DDeviceDiskInfo(const QString &name)
+DDeviceDiskInfo::DDeviceDiskInfo(const QString &filePath)
 {
-    const QJsonArray &block_devices = Helper::getBlockDevices(Helper::getDeviceByName(name));
+    const QJsonArray &block_devices = Helper::getBlockDevices(filePath);
 
     if (!block_devices.isEmpty()) {
         d = new DDeviceDiskInfoPrivate(this);
