@@ -95,7 +95,7 @@ void CommandLineParser::process(const QCoreApplication &app)
 
         for (const QString &file : io.fileList()) {
             printf("File Name: %s\n", qPrintable(file));
-            printf("Size: %s(%lld)\n", qPrintable(Helper::sizeDisplay(io.size(file))), io.size(file));
+            printf("Size: %s (%lld bytes)\n", qPrintable(Helper::sizeDisplay(io.size(file))), io.size(file));
             printf("Data Start: %lld\n", io.start(file));
             printf("Data End: %lld\n\n", io.end(file));
         }

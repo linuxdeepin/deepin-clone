@@ -74,11 +74,14 @@ void DFileDiskInfoPrivate::init(const QString &filePath, DVirtualImageFileIO *io
     }
 
     m_filePath = filePath;
+    readonly = true;
 
     int index = 1;
 
     for (const DPartInfo &part : children) {
         part.d->filePath = getDIMFilePath(m_filePath, QString::number(index));
+        part.d->parentDiskFilePath = m_filePath;
+        part.d->readonly = true;
         ++index;
     }
 
