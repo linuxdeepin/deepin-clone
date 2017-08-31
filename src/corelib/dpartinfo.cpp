@@ -50,6 +50,8 @@ DPartInfo::Type DPartInfoPrivate::toType(const QString &name)
         return DPartInfo::Reiser4;
     } else if (name == "vfat") {
         return DPartInfo::VFAT;
+    } else if (name == "iso9660") {
+        return DPartInfo::ISO9660;
     }
 
     return DPartInfo::Unknow;
@@ -83,6 +85,11 @@ void DPartInfo::swap(DPartInfo &other)
 QString DPartInfo::filePath() const
 {
     return d->filePath;
+}
+
+QString DPartInfo::parentDiskFilePath() const
+{
+    return d->parentDiskFilePath;
 }
 
 DPartInfo &DPartInfo::operator=(const DPartInfo &other)
@@ -166,6 +173,21 @@ DPartInfo::GUIDType DPartInfo::guidType() const
     return d->guidType;
 }
 
+QString DPartInfo::transport() const
+{
+    return d->transport;
+}
+
+bool DPartInfo::isReadonly() const
+{
+    return d->readonly;
+}
+
+bool DPartInfo::isRemoveable() const
+{
+    return d->removeable;
+}
+
 void DPartInfo::refresh()
 {
     d->refresh();
@@ -176,6 +198,7 @@ QByteArray DPartInfo::toJson() const
     QJsonObject root
     {
         {"filePath", filePath()},
+        {"parentDiskFilePath", parentDiskFilePath()},
         {"name", name()},
         {"kname", kname()},
         {"blockSize", blockSize()},
@@ -190,7 +213,10 @@ QByteArray DPartInfo::toJson() const
         {"label", label()},
         {"partLabel", partLabel()},
         {"guidType", guidType()},
-        {"guidTypeDescription", guidTypeDescription(guidType())}
+        {"guidTypeDescription", guidTypeDescription(guidType())},
+        {"readonly", isReadonly()},
+        {"removeable", isRemoveable()},
+        {"transport", transport()}
     };
 
     QJsonDocument doc(root);
@@ -584,6 +610,7 @@ DPartInfo::DPartInfo(DPartInfoPrivate *dd)
 void DPartInfo::fromJson(const QJsonObject &root, DPartInfoPrivate *dd)
 {
     dd->filePath = root.value("filePath").toString();
+    dd->parentDiskFilePath = root.value("parentDiskFilePath").toString();
     dd->name = root.value("name").toString();
     dd->kname = root.value("kname").toString();
     dd->blockSize = root.value("blockSize").toInt();
@@ -599,6 +626,9 @@ void DPartInfo::fromJson(const QJsonObject &root, DPartInfoPrivate *dd)
     dd->partLabel = root.value("partLabel").toString();
     dd->partType = root.value("partType").toString();
     dd->guidType = (GUIDType)root.value("guidType").toInt();
+    dd->readonly = root.value("readonly").toBool();
+    dd->removeable = root.value("removeable").toBool();
+    dd->transport = root.value("transport").toString();
 }
 
 void DPartInfo::fromJson(const QByteArray &json, DPartInfoPrivate *dd)

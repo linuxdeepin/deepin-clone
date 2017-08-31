@@ -6,6 +6,7 @@ UtilityList::UtilityList(QWidget *parent)
 {
     setSelectionMode(QAbstractItemView::SingleSelection);
     setSelectionRectVisible(false);
+    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 }
 
 void UtilityList::addItem(UtilityListItem *item)

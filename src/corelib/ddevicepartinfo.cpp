@@ -48,8 +48,8 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     partType = obj.value("parttype").toString();
     guidType = DPartInfo::guidType(partType.toLatin1().toUpper());
     blockSize = obj.value("phy-sec").toInt(4096);
-    readonly = obj.value("ro").toInt();
-    removeable = obj.value("rm").toInt();
+    readonly = obj.value("ro").toString() == "1";
+    removeable = obj.value("rm").toString() == "1";
 
     const QString &device = Helper::getDeviceByName(name);
 
@@ -97,29 +97,55 @@ DDevicePartInfo::DDevicePartInfo()
 DDevicePartInfo::DDevicePartInfo(const QString &name)
     : DPartInfo(new DDevicePartInfoPrivate(this))
 {
-    const QJsonArray &block_devices = Helper::getBlockDevices(Helper::getDeviceByName(name));
+    const QJsonArray &block_devices = Helper::getBlockDevices();
 
-    if (!block_devices.isEmpty())
-        d_func()->init(block_devices.first().toObject());
+    for (const QJsonValue &value : block_devices) {
+        const QJsonObject &obj = value.toObject();
+        const QString &device_name = obj.value("name").toString();
+        const QString &transport = obj.value("tran").toString();
+
+        for (const QJsonValue &children : obj.value("children").toArray()) {
+            const QJsonObject &part = children.toObject();
+
+            if (part.value("name").toString() == name) {
+                d_func()->init(part);
+                d->parentDiskFilePath = Helper::getDeviceByName(device_name);
+                d->transport = transport;
+                break;
+            }
+        }
+    }
 }
 
 QList<DDevicePartInfo> DDevicePartInfo::localePartList()
 {
-    const QJsonArray &block_devices = Helper::getBlockDevices("-l");
+    const QJsonArray &block_devices = Helper::getBlockDevices();
 
     QList<DDevicePartInfo> list;
 
     for (const QJsonValue &value : block_devices) {
         const QJsonObject &obj = value.toObject();
         const QString &fstype = obj.value("fstype").toString();
+        const QString &device_name = obj.value("name").toString();
+        const QString &transport = obj.value("tran").toString();
 
-        if (fstype.isEmpty())
-            continue;
+        if (fstype.isEmpty()) {
+            for (const QJsonValue &children : obj.value("children").toArray()) {
+                DDevicePartInfo info;
 
-        DDevicePartInfo info;
+                info.d_func()->init(children.toObject());
+                info.d->parentDiskFilePath = Helper::getDeviceByName(device_name);
+                info.d->transport = transport;
+                list << info;
+            }
+        } else {
+            DDevicePartInfo info;
 
-        info.d_func()->init(obj);
-        list << info;
+            info.d_func()->init(obj);
+            info.d->parentDiskFilePath = Helper::getDeviceByName(device_name);
+            info.d->transport = transport;
+            list << info;
+        }
     }
 
     return list;

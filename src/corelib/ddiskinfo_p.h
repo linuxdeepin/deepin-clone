@@ -52,6 +52,10 @@ public:
     QList<DPartInfo> children;
     QString ptTypeName;
     DDiskInfo::PTType ptType;
+
+    bool readonly = false;
+    bool removeable = false;
+    QString transport;
 };
 
 #endif // DDISKINFO_P_H

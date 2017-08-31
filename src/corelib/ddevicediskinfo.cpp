@@ -78,6 +78,9 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
     kname = obj.value("kname").toString();
     size = obj.value("size").toString().toLongLong();
     typeName = obj.value("type").toString();
+    readonly = obj.value("ro").toString() == "1";
+    removeable = obj.value("rm").toString() == "1";
+    transport = obj.value("tran").toString();
 
     if (typeName == "part") {
         type = DDiskInfo::Part;
@@ -90,6 +93,8 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
             type = DDiskInfo::Disk;
         else
             type = DDiskInfo::Part;
+    } else if (typeName == "rom") {
+        type = DDiskInfo::Part;
     }
 
     const QJsonArray &list = obj.value("children").toArray();
@@ -98,6 +103,8 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
         DDevicePartInfo info;
 
         info.init(part.toObject());
+        info.d->parentDiskFilePath = filePath();
+        info.d->transport = transport;
         children << info;
     }
 
@@ -105,6 +112,8 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
         DDevicePartInfo info;
 
         info.init(obj);
+        info.d->parentDiskFilePath = filePath();
+        info.d->transport = transport;
         children << info;
     }
 
@@ -145,7 +154,7 @@ bool DDeviceDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::Sco
         }
 
         return scope == DDiskInfo::PartitionTable ? havePartitionTable : !children.isEmpty();
-    } else if (scope == DDiskInfo::JsonInfo) {
+    } else if (readonly || scope == DDiskInfo::JsonInfo) {
         return false;
     }
 

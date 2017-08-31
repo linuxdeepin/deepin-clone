@@ -225,6 +225,21 @@ DDiskInfo::PTType DDiskInfo::ptType() const
     return d->ptType;
 }
 
+QString DDiskInfo::transport() const
+{
+    return d->transport;
+}
+
+bool DDiskInfo::isReadonly() const
+{
+    return d->readonly;
+}
+
+bool DDiskInfo::isRemoveable() const
+{
+    return d->removeable;
+}
+
 QList<DPartInfo> DDiskInfo::childrenPartList() const
 {
     return d->children;
@@ -250,7 +265,10 @@ QByteArray DDiskInfo::toJson() const
         {"typeName", typeName()},
         {"type", type()},
         {"ptTypeName", d->ptTypeName},
-        {"ptType", ptType()}
+        {"ptType", ptType()},
+        {"readonly", isReadonly()},
+        {"removeable", isRemoveable()},
+        {"transport", transport()}
     };
 
     QJsonArray children;
@@ -320,6 +338,9 @@ void DDiskInfo::fromJson(const QByteArray &json, DDiskInfoPrivate *dd)
     dd->ptTypeName = root.value("ptTypeName").toString();
     dd->ptType = (PTType)root.value("ptType").toInt();
     dd->havePartitionTable = dd->type == Disk && !dd->ptTypeName.isEmpty();
+    dd->readonly = root.value("readonly").toBool();
+    dd->removeable = root.value("removeable").toBool();
+    dd->transport = root.value("transport").toString();
 
     for (const QJsonValue &v : root.value("childrenPartList").toArray()) {
         DPartInfoPrivate *part_dd = new DPartInfoPrivate(0);

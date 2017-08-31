@@ -76,6 +76,10 @@ public:
     QString typeName() const;
     Type type() const;
     PTType ptType() const;
+    QString transport() const;
+
+    bool isReadonly() const;
+    bool isRemoveable() const;
 
     QList<DPartInfo> childrenPartList() const;
 

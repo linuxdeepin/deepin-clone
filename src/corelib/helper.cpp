@@ -10,7 +10,7 @@
 #include <QDebug>
 #include <QLoggingCategory>
 
-#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -o NAME,KNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL,MODEL,PHY-SEC,RO,RM %1")
+#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -o NAME,KNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL,MODEL,PHY-SEC,RO,RM,TRAN %1")
 
 QByteArray Helper::m_processStandardError;
 QByteArray Helper::m_processStandardOutput;
@@ -198,7 +198,7 @@ bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 &used, qint64 &f
     process.setEnvironment(env_list);
 
     if (info.isMounted()) {
-        process.start(QString("df -B1 %1").arg(info.filePath()));
+        process.start(QString("df -B1 -P %1").arg(info.filePath()));
         process.waitForFinished();
 
         if (process.exitCode() != 0)

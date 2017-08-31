@@ -16,6 +16,7 @@ public:
 
     DPartInfo *q;
 
+    QString parentDiskFilePath;
     QString filePath;
     QString name;
     QString kname;
@@ -36,6 +37,7 @@ public:
 
     bool readonly = false;
     bool removeable = false;
+    QString transport;
 };
 
 #endif // DPARTINFO_P_H

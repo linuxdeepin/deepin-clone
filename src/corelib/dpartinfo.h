@@ -30,7 +30,8 @@ public:
         Nilfs2,
         NTFS,
         Reiser4,
-        VFAT
+        VFAT,
+        ISO9660
     };
 
     enum GUIDType {
@@ -175,6 +176,7 @@ public:
     void swap(DPartInfo &other);
 
     QString filePath() const;
+    QString parentDiskFilePath() const;
     // device name
     QString name() const;
     // internal kernal device name
@@ -198,6 +200,10 @@ public:
     // partition label
     QString partLabel() const;
     GUIDType guidType() const;
+    QString transport() const;
+
+    bool isReadonly() const;
+    bool isRemoveable() const;
 
     void refresh();
 
