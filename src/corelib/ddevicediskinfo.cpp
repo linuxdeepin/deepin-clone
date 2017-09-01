@@ -78,7 +78,7 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
     kname = obj.value("kname").toString();
     size = obj.value("size").toString().toLongLong();
     typeName = obj.value("type").toString();
-    readonly = obj.value("ro").toString() == "1";
+    readonly = obj.value("ro").toString() == "1" || typeName == "rom";
     removeable = obj.value("rm").toString() == "1";
     transport = obj.value("tran").toString();
 

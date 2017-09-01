@@ -97,8 +97,8 @@ QString SelectFileWidget::selectFilePath() const
 SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Action action, QWidget *parent)
     : ContentPairPage(parent)
 {
-    QWidget *left_widget;
-    QWidget *right_widget;
+    QWidget *left_widget = 0;
+    QWidget *right_widget = 0;
 
     switch (action) {
     case SelectActionPage::Clone: {
@@ -117,9 +117,11 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
 
                 left_list->addItem(item);
 
-                item = new DiskListItem(info, right_list);
+                if (!info.isReadonly()) {
+                    item = new DiskListItem(info, right_list);
 
-                right_list->addItem(item);
+                    right_list->addItem(item);
+                }
             }
         } else {
             setLeftTitle(tr("请选择您要克隆的原始分区"));
@@ -130,9 +132,11 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
 
                 left_list->addItem(item);
 
-                item = new PartitionListItem(info, right_list);
+                if (!info.isReadonly()) {
+                    item = new PartitionListItem(info, right_list);
 
-                right_list->addItem(item);
+                    right_list->addItem(item);
+                }
             }
         }
 

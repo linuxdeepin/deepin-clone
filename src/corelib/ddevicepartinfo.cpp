@@ -44,7 +44,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     partType = obj.value("parttype").toString();
     guidType = DPartInfo::guidType(partType.toLatin1().toUpper());
     blockSize = obj.value("phy-sec").toInt(4096);
-    readonly = obj.value("ro").toString() == "1";
+    readonly = obj.value("ro").toString() == "1" || obj.value("type").toString() == "rom";
     removeable = obj.value("rm").toString() == "1";
     partUUID = obj.value("partuuid").toString();
 

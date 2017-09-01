@@ -7,6 +7,7 @@
 #include "endpage.h"
 
 #include <DDesktopServices>
+#include <ddialog.h>
 
 #include <QApplication>
 #include <QVBoxLayout>
@@ -96,6 +97,26 @@ void MainWindow::setStatus(MainWindow::Status status)
 
         m_sourceFile = page->source();
         m_targetFile = page->target();
+
+        if (m_sourceFile.isEmpty()) {
+            showErrorMessage(tr("Error"), tr("Source file not found"));
+
+            return;
+        }
+
+        if (m_targetFile.isEmpty()) {
+            showErrorMessage(tr("Error"), tr("Target file is empty"));
+
+            return;
+        }
+
+        if (m_sourceFile == m_targetFile) {
+            showErrorMessage(tr("The source file and the destination file can not be the same file"),
+                             tr("Please re-select"));
+
+            return;
+        }
+
         break;
     }
     default:
@@ -253,6 +274,14 @@ void MainWindow::onButtonClicked()
     default:
         break;
     }
+}
+
+void MainWindow::showErrorMessage(const QString &title, const QString &message)
+{
+    DDialog dialog(title, message, this);
+
+    dialog.addButton(tr("Ok"), true);
+    dialog.exec();
 }
 
 bool MainWindow::isError() const
