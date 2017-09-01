@@ -10,7 +10,8 @@ class EndPage : public QWidget
 public:
     enum Mode {
         Success,
-        Failed
+        Warning,
+        Fail
     };
 
     explicit EndPage(Mode mode, QWidget *parent = nullptr);
@@ -19,6 +20,8 @@ public:
     void setMessage(const QString &message);
 
 private:
+    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+
     QLabel *m_title;
     QLabel *m_message;
 };

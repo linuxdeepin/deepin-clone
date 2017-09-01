@@ -63,6 +63,7 @@ private:
 
     IconLabel *m_title;
     QStackedWidget *m_contentWidget;
+    QPushButton *m_cancelButton;
     QPushButton *m_bottomButton;
     DPageIndicator *m_pageIndicator;
 };

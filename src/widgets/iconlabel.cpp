@@ -8,6 +8,7 @@ IconLabel::IconLabel(QWidget *parent)
     : QWidget(parent)
 {
     m_icon = new QLabel(this);
+    m_icon->hide();
     m_label = new QLabel(this);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -41,6 +42,7 @@ void IconLabel::setIcon(const QIcon &icon, int extent)
     }
 
     m_icon->setPixmap(icon.pixmap(extent));
+    m_icon->setVisible(!icon.isNull());
 }
 
 void IconLabel::setDirection(QBoxLayout::Direction direction)

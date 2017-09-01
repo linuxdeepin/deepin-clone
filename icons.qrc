@@ -13,5 +13,6 @@
         <file>icons/2.svg</file>
         <file>icons/1.svg</file>
         <file>icons/select.svg</file>
+        <file>icons/warning.svg</file>
     </qresource>
 </RCC>

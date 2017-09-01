@@ -58,6 +58,10 @@ void MainWindow::init()
     m_title->setObjectName("MainTitle");
     m_title->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     m_contentWidget = new QStackedWidget(this);
+    m_cancelButton = new QPushButton(this);
+    m_cancelButton->setFixedSize(width() * 0.36, height() * 0.055);
+    m_cancelButton->setText(tr("Cancel"));
+    m_cancelButton->hide();
     m_bottomButton = new QPushButton(this);
     m_bottomButton->setFixedSize(width() * 0.36, height() * 0.055);
     m_pageIndicator = new DPageIndicator(this);
@@ -75,17 +79,18 @@ void MainWindow::init()
 
     layout->addWidget(m_title, 0, Qt::AlignHCenter);
     layout->addWidget(m_contentWidget, 0, Qt::AlignHCenter);
+    layout->addWidget(m_cancelButton, 0, Qt::AlignHCenter);
     layout->addWidget(m_bottomButton, 0, Qt::AlignHCenter);
     layout->addWidget(m_pageIndicator, 0, Qt::AlignHCenter);
 
+    connect(m_cancelButton, &QPushButton::clicked, this, [this] {
+        setStatus(SelectAction);
+    });
     connect(m_bottomButton, &QPushButton::clicked, this, &MainWindow::onButtonClicked);
 }
 
 void MainWindow::setStatus(MainWindow::Status status)
 {
-    m_title->setIcon(QIcon());
-    m_bottomButton->setVisible(status != WaitConfirm);
-
     switch (m_currentStatus) {
     case SelectAction: {
         m_currentMode = static_cast<SelectActionPage*>(content())->action();
@@ -123,6 +128,9 @@ void MainWindow::setStatus(MainWindow::Status status)
         break;
     }
 
+    m_title->setIcon(QIcon());
+    m_cancelButton->setVisible(status == WaitConfirm);
+
     switch (status) {
     case SelectAction: {
         setContent(new SelectActionPage());
@@ -151,13 +159,17 @@ void MainWindow::setStatus(MainWindow::Status status)
         break;
     }
     case WaitConfirm: {
-        if (m_sourceFile.isEmpty())
-            return;
+        if (!Helper::isBlockSpecialFile(m_targetFile))
+            return setStatus(Working);
 
-        if (m_targetFile.isEmpty())
-            return;
+        EndPage *page = new EndPage(EndPage::Warning);
 
+        page->setTitle(tr("您确定要继续吗？"));
+        page->setMessage(tr("还原(克隆)分区(磁盘)会格式化目标位置的所有数据，此过程不可逆也不可取消，为了您的数据安全，你一定要仔细检查您的操作，确定没问题后再继续"));
+        setContent(page);
         m_title->setTitle(tr("提醒"));
+        m_bottomButton->setText(tr("Containue"));
+        m_buttonAction = Next;
         break;
     }
     case Working: {
@@ -181,7 +193,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         bool is_error = isError();
 
         WorkingPage *worker = qobject_cast<WorkingPage*>(content());
-        EndPage *page = new EndPage(is_error ? EndPage::Failed : EndPage::Success);
+        EndPage *page = new EndPage(is_error ? EndPage::Fail : EndPage::Success);
 
         if (is_error) {
             if (m_currentMode == SelectActionPage::Backup) {
@@ -225,11 +237,7 @@ void MainWindow::setStatus(MainWindow::Status status)
 void MainWindow::next()
 {
     if (m_currentStatus < End) {
-        if (m_currentStatus == SelectFile && !Helper::isBlockSpecialFile(m_targetFile)) {
-            setStatus(Status(m_currentStatus + 2));
-        } else {
-            setStatus(Status(m_currentStatus + 1));
-        }
+        setStatus(Status(m_currentStatus + 1));
     }
 }
 
