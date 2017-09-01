@@ -10,6 +10,8 @@ IconLabel::IconLabel(QWidget *parent)
     m_icon = new QLabel(this);
     m_icon->hide();
     m_label = new QLabel(this);
+    m_label->setWordWrap(true);
+    m_label->hide();
 
     QHBoxLayout *layout = new QHBoxLayout(this);
 
@@ -28,6 +30,7 @@ QString IconLabel::title() const
 void IconLabel::setTitle(const QString &title)
 {
     m_label->setText(title);
+    m_label->setVisible(!title.isEmpty());
 }
 
 void IconLabel::setIcon(const QIcon &icon, int extent)

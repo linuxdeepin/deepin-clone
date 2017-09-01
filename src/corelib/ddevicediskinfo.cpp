@@ -82,20 +82,10 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
     removeable = obj.value("rm").toString() == "1";
     transport = obj.value("tran").toString();
 
-    if (typeName == "part") {
-        type = DDiskInfo::Part;
-    } else if (typeName == "disk") {
+    if (obj.value("pkname").isNull())
         type = DDiskInfo::Disk;
-    } else if (typeName == "loop") {
-        model = "Loop Disk Device";
-
-        if (name.length() == 5)
-            type = DDiskInfo::Disk;
-        else
-            type = DDiskInfo::Part;
-    } else if (typeName == "rom") {
+    else
         type = DDiskInfo::Part;
-    }
 
     const QJsonArray &list = obj.value("children").toArray();
     QStringList children_uuids;
@@ -186,7 +176,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
     switch (currentScope) {
     case DDiskInfo::Headgear: {
         if (type != DDiskInfo::Disk) {
-            setErrorString(QObject::tr("%s not is disk").arg(filePath()));
+            setErrorString(QObject::tr("%1 not is disk").arg(filePath()));
 
             return false;
         }
@@ -201,7 +191,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
     }
     case DDiskInfo::PartitionTable: {
         if (type != DDiskInfo::Disk) {
-            setErrorString(QObject::tr("%s not is disk").arg(filePath()));
+            setErrorString(QObject::tr("%1 not is disk").arg(filePath()));
 
             return false;
         }

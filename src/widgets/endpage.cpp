@@ -2,6 +2,7 @@
 
 #include <QIcon>
 #include <QVBoxLayout>
+#include <QDebug>
 
 EndPage::EndPage(Mode mode, QWidget *parent)
     : QWidget(parent)
@@ -41,7 +42,12 @@ void EndPage::setMessage(const QString &message)
 
 void EndPage::resizeEvent(QResizeEvent *e)
 {
-    m_message->resize(width() * 0.606, m_message->heightForWidth(width() * 0.606));
+    int width = this->width() * 0.606;
+
+    if (m_message->sizeHint().width() > width)
+        m_message->resize(width, m_message->heightForWidth(width));
+    else
+        m_message->adjustSize();
 
     return QWidget::resizeEvent(e);
 }

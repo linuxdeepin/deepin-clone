@@ -10,6 +10,12 @@
 
 #include <QVBoxLayout>
 #include <QFileDialog>
+#include <QLabel>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+#include <QMimeData>
+#include <QMimeDatabase>
+#include <QDebug>
 
 DWIDGET_USE_NAMESPACE
 
@@ -27,10 +33,19 @@ public:
 
     QString selectFilePath() const;
 
+protected:
+    void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+
 private:
+    void setFilePath(const QString &path);
+
     Mode m_mode;
     QString m_filePath;
     QString m_defaultFileName;
+    QLabel *m_dragDropLabel = 0;
+    IconLabel *m_label;
+    DLinkButton *m_button;
 
     friend class SelectFilePage;
 };
@@ -40,50 +55,60 @@ SelectFileWidget::SelectFileWidget(Mode mode, QWidget *parent)
     , m_mode(mode)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
-    IconLabel *label = new IconLabel(this);
+    m_label = new IconLabel(this);
 
-    label->setDirection(QBoxLayout::TopToBottom);
+    m_label->setDirection(QBoxLayout::TopToBottom);
 
     if (mode == GetSaveName) {
-        label->setIcon(QIcon::fromTheme("inode-directory"), 80);
+        m_label->setIcon(QIcon::fromTheme("inode-directory"), 80);
     } else {
-        label->setIcon(QIcon::fromTheme("application-x-deepinclone-dim"), 80);
+        m_label->setIcon(QIcon::fromTheme("application-x-deepinclone-dim"), 80);
+        setAcceptDrops(true);
     }
 
-    DLinkButton *button = new DLinkButton(mode == GetSaveName ? tr("选择存储位置") : tr("选择文件"), this);
+    m_button = new DLinkButton(mode == GetSaveName ? tr("选择存储位置") : tr("选择文件"), this);
 
     layout->addStretch();
-    layout->addWidget(label, 0, Qt::AlignCenter);
-    layout->addWidget(button, 0, Qt::AlignCenter);
+    layout->addWidget(m_label, 0, Qt::AlignHCenter);
+
+    if (mode == GetFile) {
+        m_dragDropLabel = new QLabel(tr("拖拽备份的镜像文件到此"), this);
+        m_dragDropLabel->setObjectName("DragDropLabel");
+
+        QWidget *split_line = new QWidget(this);
+
+        split_line->setFixedSize(220, 2);
+        split_line->setObjectName("SplitLine");
+
+        layout->addWidget(m_dragDropLabel, 0, Qt::AlignHCenter);
+        layout->addSpacing(10);
+        layout->addWidget(split_line, 0, Qt::AlignHCenter);
+        layout->addSpacing(10);
+    }
+
+    layout->addWidget(m_button, 0, Qt::AlignHCenter);
     layout->addStretch();
 
-    connect(button, &DLinkButton::clicked, this, [this, button, label] {
+    connect(m_button, &DLinkButton::clicked, this, [this] {
         QFileDialog dialog(this);
 
         dialog.setMimeTypeFilters(QStringList() << "application-x-deepinclone-dim");
-        dialog.setNameFilters(QStringList() << "*.dim");
+        dialog.setNameFilters(QStringList() << tr("Deepin Image File") + "(*.dim)");
         dialog.setDefaultSuffix("dim");
+        dialog.setWindowTitle(m_button->text());
 
         if (m_mode == GetSaveName) {
             dialog.setFileMode(QFileDialog::AnyFile);
             dialog.setAcceptMode(QFileDialog::AcceptSave);
             dialog.selectFile(m_defaultFileName);
-
-            if (dialog.exec() == QFileDialog::Accepted) {
-                m_filePath = dialog.selectedFiles().first();
-                button->setText(tr("重新选择存储位置"));
-            }
         } else {
             dialog.setFileMode(QFileDialog::ExistingFile);
             dialog.setAcceptMode(QFileDialog::AcceptOpen);
-
-            if (dialog.exec() == QFileDialog::Accepted) {
-                m_filePath = dialog.selectedFiles().first();
-                button->setText(tr("重新选择文件"));
-            }
         }
 
-        label->setTitle(m_filePath);
+        if (dialog.exec() == QFileDialog::Accepted) {
+            setFilePath(dialog.selectedFiles().first());
+        }
     });
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -92,6 +117,52 @@ SelectFileWidget::SelectFileWidget(Mode mode, QWidget *parent)
 QString SelectFileWidget::selectFilePath() const
 {
     return m_filePath;
+}
+
+void SelectFileWidget::dragEnterEvent(QDragEnterEvent *event)
+{
+    if (event->mimeData()->hasUrls()) {
+        const QList<QUrl> urls = event->mimeData()->urls();
+
+        if (urls.count() != 1)
+            return QWidget::dragEnterEvent(event);
+
+        const QUrl &first = urls.first();
+
+        if (!first.isLocalFile())
+            return QWidget::dragEnterEvent(event);
+
+        QMimeDatabase db;
+        const QMimeType &type = db.mimeTypeForUrl(first);
+
+        if (type.name() != "application/x-deepinclone-dim")
+            return QWidget::dragEnterEvent(event);
+
+        return event->accept();
+    }
+
+    return QWidget::dragEnterEvent(event);
+}
+
+void SelectFileWidget::dropEvent(QDropEvent *event)
+{
+    setFilePath(event->mimeData()->urls().first().toLocalFile());
+
+    return event->accept();
+}
+
+void SelectFileWidget::setFilePath(const QString &path)
+{
+    m_filePath = path;
+
+    if (m_dragDropLabel) {
+        m_button->setText(tr("重新选择文件"));
+        m_dragDropLabel->hide();
+    } else {
+        m_button->setText(tr("重新选择存储位置"));
+    }
+
+    m_label->setTitle(m_filePath);
 }
 
 SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Action action, QWidget *parent)

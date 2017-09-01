@@ -19,6 +19,16 @@ EndPage #MessageLabel {
     font-family: SourceHanSansSC;
 }
 
+SelectFileWidget #DragDropLabel {
+    font-size: 8pt;
+    color: rgba(0, 0, 0, 0.6);
+    font-family: SourceHanSansSC;
+}
+
+SelectFileWidget #SplitLine {
+    border-top: 1px dot-dash rgba(0, 0, 0, 0.3);
+}
+
 UtilityList::item:selected {
     margin-right: 12;
     background-position: right;
