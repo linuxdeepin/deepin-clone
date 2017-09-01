@@ -13,9 +13,21 @@ CloneJob::CloneJob(QObject *parent)
     : QThread(parent)
     , m_status(Stoped)
 {
-    connect(this, &CloneJob::finished, this, [this] {
+    connect(this, &QThread::finished, this, [this] {
         setStatus(Stoped);
+
+        if (!m_abort)
+            emit finished();
     });
+}
+
+CloneJob::~CloneJob()
+{
+    if (isRunning()) {
+        m_abort = true;
+        quit();
+        wait();
+    }
 }
 
 bool CloneJob::start(const QString &from, const QString &to)
@@ -23,6 +35,7 @@ bool CloneJob::start(const QString &from, const QString &to)
     if (isRunning())
         return false;
 
+    m_abort = false;
     m_from = from;
     m_to = to;
     m_errorString.clear();
@@ -32,6 +45,11 @@ bool CloneJob::start(const QString &from, const QString &to)
     QThread::start();
 
     return true;
+}
+
+void CloneJob::abort()
+{
+    m_abort = true;
 }
 
 CloneJob::Status CloneJob::status() const
@@ -54,13 +72,15 @@ QString CloneJob::errorString() const
     return m_errorString;
 }
 
-typedef std::function<void(qint64 accomplishBytes)> PipeNotifyFunction;
+typedef std::function<bool(qint64 accomplishBytes, int)> PipeNotifyFunction;
 
 static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope scope, int index = 0, QString *error = 0, PipeNotifyFunction *notify = 0)
 {
     bool ok = false;
-
     char block[Global::bufferSize];
+    QElapsedTimer elapsedTimer;
+    int speed = 10000000;
+    qint64 total_size = 0;
 
     if (!from.beginScope(scope, DDiskInfo::Read, index)) {
         if (error)
@@ -79,6 +99,8 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
 
         goto exit;
     }
+
+    elapsedTimer.start();
 
     while (!from.atEnd()) {
         qint64 read_size = from.read(block, Global::bufferSize);
@@ -100,7 +122,13 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
         }
 
         if (notify)
-            (*notify)(write_size);
+            if (!(*notify)(write_size, speed))
+                return false;
+
+        total_size += write_size;
+
+        if (elapsedTimer.elapsed() > 0)
+            speed = total_size / (qreal)elapsedTimer.elapsed() * 1000;
     }
 
     ok = true;
@@ -141,6 +169,16 @@ void CloneJob::run()
         dCDebug("Refresh device: %s", qPrintable(m_to));
 
         Helper::refreshSystemPartList(m_to);
+
+        if (Helper::isDiskDevice(m_from) != Helper::isDiskDevice(m_to)) {
+            if (Helper::isDiskDevice(m_from)) {
+                setErrorString(tr("Hard disk devices can only be cloned to the hard disk"));
+            } else {
+                setErrorString(tr("Partitions can only be cloned to partitions"));
+            }
+
+            return;
+        }
     } else if (Global::isOverride) {
         QFile file(m_to);
 
@@ -169,30 +207,36 @@ void CloneJob::run()
 
     if (to_info.totalWritableDataSize() < from_info_total_data_size) {
         if (!to_info.setTotalWritableDataSize(from_info_total_data_size)) {
-            setErrorString(QObject::tr("The writeable size of device %s must be greater than the readable size of device %s").arg(m_to).arg(m_from));
+            setErrorString(QObject::tr("The writeable size of device %1 must be greater than the readable size of device %1").arg(m_to).arg(m_from));
 
             return;
         }
     }
 
-    int speed = 0;
-    QElapsedTimer elapsedTimer;
+    PipeNotifyFunction print_fun = [from_info_total_data_size, &have_been_written, this] (qint64 accomplishBytes, int speed) {
+        if (m_abort)
+            return false;
 
-    elapsedTimer.start();
-
-    PipeNotifyFunction print_fun = [from_info_total_data_size, &have_been_written, this, &elapsedTimer, &speed] (qint64 accomplishBytes) {
         have_been_written += accomplishBytes;
-        speed = have_been_written / elapsedTimer.elapsed() * 1000;
+
+        if (qFuzzyCompare(m_progress, 0.99))
+            return true;
 
         m_progress = ((have_been_written / 1000000.0) / (from_info_total_data_size  / 1000000.0));
         m_progress = qMin(m_progress, 0.99);
         m_estimateTime = from_info_total_data_size / (qreal)speed * (1 - m_progress);
 
-        printf("\033[A");
-        fflush(stdout);
-        dCDebug("----%lld bytes of data have been written, total progress: %f----", have_been_written, m_progress * 100);
+        if (Global::isTUIMode) {
+            printf("\033[A");
+            fflush(stdout);
+            dCDebug("----%lld bytes of data have been written, total progress: %f----", have_been_written, m_progress * 100);
+        } else if ((m_progress * 100) - (int)(m_progress * 100) < 0.001) {
+            dCDebug("----%lld bytes of data have been written, total progress: %f----", have_been_written, m_progress * 100);
+        }
 
         emit progressChanged(m_progress);
+
+        return true;
     };
 
     auto call_disk_pipe = [&print_fun, this, &from_info, &to_info] (DDiskInfo::DataScope scope, int index = 0) {
@@ -260,9 +304,11 @@ void CloneJob::run()
     }
 
     m_estimateTime = 0;
-    emit progressChanged(1.0);
 
-    dCDebug("clone finished!");
+    if (!m_abort) {
+        emit progressChanged(1.0);
+        dCDebug("clone finished!");
+    }
 }
 
 void CloneJob::setStatus(CloneJob::Status s)

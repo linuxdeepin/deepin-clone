@@ -98,13 +98,20 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
     }
 
     const QJsonArray &list = obj.value("children").toArray();
+    QStringList children_uuids;
 
     for (const QJsonValue &part : list) {
+        const QJsonObject &obj = part.toObject();
+
+        if (children_uuids.contains(obj.value("partuuid").toString()))
+            continue;
+
         DDevicePartInfo info;
 
-        info.init(part.toObject());
+        info.init(obj);
         info.d->transport = transport;
         children << info;
+        children_uuids << info.partUUID();
     }
 
     if (!obj.value("fstype").isNull()) {
@@ -115,7 +122,7 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
         children << info;
     }
 
-    ptTypeName = getPTName(Helper::getDeviceByKName(kname));
+    ptTypeName = getPTName(name);
 
     if (ptTypeName == "dos") {
         ptType = DDiskInfo::MBR;
@@ -129,14 +136,14 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
 
 QString DDeviceDiskInfoPrivate::filePath() const
 {
-    return Helper::getDeviceByKName(kname);
+    return name;
 }
 
 void DDeviceDiskInfoPrivate::refresh()
 {
     children.clear();
 
-    const QJsonArray &block_devices = Helper::getBlockDevices(Helper::getDeviceByKName(kname));
+    const QJsonArray &block_devices = Helper::getBlockDevices(name);
 
     if (!block_devices.isEmpty())
         init(block_devices.first().toObject());
@@ -172,7 +179,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         if (status == QProcess::CrashExit) {
             setErrorString(QObject::tr("The process %1 %2 crashed").arg(process->program()).arg(process->arguments().join(" ")));
         } else if (code != 0) {
-            setErrorString(process->readAllStandardError());
+            setErrorString(QObject::tr("The \"%1 %2\" command execution failed: %3").arg(process->program(), process->arguments().join(" "), process->readAllStandardError()));
         }
     });
 
@@ -243,8 +250,11 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
     }
 
     if (process) {
-        if (!process->waitForStarted())
+        if (!process->waitForStarted()) {
+            setErrorString(QObject::tr("The \"%1 %2\" command start failed: %3").arg(process->program(), process->arguments().join(" "), process->errorString()));
+
             return false;
+        }
     }
 
     bool ok = process ? process->isOpen() : buffer.open(QIODevice::ReadOnly);

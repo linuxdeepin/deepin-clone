@@ -104,6 +104,8 @@ int main(int argc, char *argv[])
         if (!parser.source().isEmpty() && !parser.target().isEmpty()) {
             window->startWithFile(parser.source(), parser.target());
         }
+
+        QObject::connect(a, &QCoreApplication::aboutToQuit, window, &MainWindow::deleteLater);
     }
 #endif
 

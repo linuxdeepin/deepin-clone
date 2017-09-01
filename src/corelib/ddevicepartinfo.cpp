@@ -29,17 +29,12 @@ void DDevicePartInfoPrivate::refresh()
     *q = DDevicePartInfo(name);
 }
 
-static bool isDiskType(const QString &name, const QString &type)
-{
-    return type == "disk" || (type == "loop" && name.length() == 5);
-}
-
 void DDevicePartInfoPrivate::init(const QJsonObject &obj)
 {
     name = obj.value("name").toString();
+    filePath = name;
     kname = obj.value("kname").toString();
-    parentDiskFilePath = Helper::getDeviceByKName(obj.value("pkname").toString());
-    filePath = Helper::getDeviceByKName(kname);
+    parentDiskFilePath = obj.value("pkname").toString();
     size = obj.value("size").toString().toLongLong();
     typeName = obj.value("fstype").toString();
     type = toType(typeName);
@@ -51,10 +46,11 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     blockSize = obj.value("phy-sec").toInt(4096);
     readonly = obj.value("ro").toString() == "1";
     removeable = obj.value("rm").toString() == "1";
+    partUUID = obj.value("partuuid").toString();
 
-    const QString &device = kname;
+    const QString &device = name;
 
-    if (isDiskType(name, obj.value("type").toString())) {
+    if (obj.value("pkname").isNull()) {
         sizeStart = 0;
         sizeEnd = size - 1;
     } else {
@@ -128,12 +124,20 @@ QList<DDevicePartInfo> DDevicePartInfo::localePartList()
         const QString &transport = obj.value("tran").toString();
 
         if (fstype.isEmpty()) {
+            QStringList children_uuids;
+
             for (const QJsonValue &children : obj.value("children").toArray()) {
+                const QJsonObject &obj = children.toObject();
+
+                if (children_uuids.contains(obj.value("partuuid").toString()))
+                    continue;
+
                 DDevicePartInfo info;
 
-                info.d_func()->init(children.toObject());
+                info.d_func()->init(obj);
                 info.d->transport = transport;
                 list << info;
+                children_uuids << info.partUUID();
             }
         } else {
             DDevicePartInfo info;

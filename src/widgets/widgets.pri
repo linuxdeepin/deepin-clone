@@ -15,7 +15,8 @@ SOURCES += \
     $$PWD/partitionlistitem.cpp \
     $$PWD/utilitylistdeviceitem.cpp \
     $$PWD/selectfilepage.cpp \
-    $$PWD/workingpage.cpp
+    $$PWD/workingpage.cpp \
+    $$PWD/endpage.cpp
 
 HEADERS += \
     $$PWD/mainwindow.h \
@@ -29,7 +30,8 @@ HEADERS += \
     $$PWD/partitionlistitem.h \
     $$PWD/utilitylistdeviceitem.h \
     $$PWD/selectfilepage.h \
-    $$PWD/workingpage.h
+    $$PWD/workingpage.h \
+    $$PWD/endpage.h
 
 INCLUDEPATH += $$PWD
 

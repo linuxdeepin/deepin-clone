@@ -72,6 +72,7 @@ public:
     QString kname() const;
     // total size of device
     qint64 totalSize() const;
+    qint64 usedSize() const;
     // type of device
     QString typeName() const;
     Type type() const;

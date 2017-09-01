@@ -16,6 +16,12 @@ public:
     explicit WorkingPage(const QString &from, const QString &to, QWidget *parent = 0);
 
     bool isError() const;
+    QString errorString() const;
+
+    void cancel() const;
+
+signals:
+    void finished();
 
 private:
     CloneJob *m_job;

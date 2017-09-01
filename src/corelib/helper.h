@@ -40,7 +40,6 @@ public:
 
     static QByteArray callLsblk(const QString &extraArg = QString());
     static QJsonArray getBlockDevices(const QString &commandExtraArg = QString());
-    static QString getDeviceByKName(const QString &name);
 
     static bool umountDevice(const QString &device);
 

@@ -201,6 +201,7 @@ public:
     QString partLabel() const;
     GUIDType guidType() const;
     QString transport() const;
+    QString partUUID() const;
 
     bool isReadonly() const;
     bool isRemoveable() const;

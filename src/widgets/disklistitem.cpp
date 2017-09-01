@@ -8,7 +8,7 @@ DiskListItem::DiskListItem(DDiskInfo info, QWidget *parent)
 {
     setTitle(info.model());
     setMessage(info.name());
-    setSize(info.totalReadableDataSize(), info.totalSize());
+    setSize(info.usedSize(), info.totalSize());
 
     QString icon_name;
 

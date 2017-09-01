@@ -19,6 +19,11 @@ IconLabel::IconLabel(QWidget *parent)
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
 
+QString IconLabel::title() const
+{
+    return m_label->text();
+}
+
 void IconLabel::setTitle(const QString &title)
 {
     m_label->setText(title);

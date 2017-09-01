@@ -10,7 +10,7 @@
 #include <QDebug>
 #include <QLoggingCategory>
 
-#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -o NAME,KNAME,PKNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL,MODEL,PHY-SEC,RO,RM,TRAN %1")
+#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -p -o NAME,KNAME,PKNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL,PARTUUID,MODEL,PHY-SEC,RO,RM,TRAN %1")
 
 QByteArray Helper::m_processStandardError;
 QByteArray Helper::m_processStandardOutput;
@@ -310,14 +310,6 @@ QJsonArray Helper::getBlockDevices(const QString &commandExtraArg)
     return jd.object().value("blockdevices").toArray();
 }
 
-QString Helper::getDeviceByKName(const QString &name)
-{
-    if (name.startsWith("/") || isBlockSpecialFile(name))
-        return name;
-
-    return QStringLiteral("/dev/%1").arg(name);
-}
-
 bool Helper::umountDevice(const QString &device)
 {
     int code = processExec(QString("umount %1").arg(device));
@@ -381,34 +373,28 @@ bool Helper::isPartcloneFile(const QString &fileName)
 
 bool Helper::isDiskDevice(const QString &devicePath)
 {
-    if (!isBlockSpecialFile(devicePath))
+    const QJsonArray &blocks = getBlockDevices(devicePath);
+
+    if (blocks.isEmpty())
         return false;
 
-    for (const QJsonValue &value : getBlockDevices()) {
-        const QString &kname = value.toObject().value("kname").toString();
+    if (!blocks.first().isObject())
+        return false;
 
-        if (getDeviceByKName(kname) == devicePath)
-            return true;
-    }
-
-    return false;
+    return blocks.first().toObject().value("pkname").isNull();
 }
 
 bool Helper::isPartitionDevice(const QString &devicePath)
 {
-    if (!isBlockSpecialFile(devicePath))
+    const QJsonArray &blocks = getBlockDevices(devicePath);
+
+    if (blocks.isEmpty())
         return false;
 
-    for (const QJsonValue &value : getBlockDevices()) {
-        for (const QJsonValue &part : value.toObject().value("children").toArray()) {
-            const QString &kname = part.toObject().value("kname").toString();
+    if (!blocks.first().isObject())
+        return false;
 
-            if (getDeviceByKName(kname) == devicePath)
-                return true;
-        }
-    }
-
-    return false;
+    return !blocks.first().toObject().value("pkname").isString();
 }
 
 int Helper::clonePartition(const DPartInfo &part, const QString &to, bool override)

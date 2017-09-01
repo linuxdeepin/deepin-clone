@@ -18,8 +18,11 @@ public:
     };
 
     explicit CloneJob(QObject *parent = 0);
+    ~CloneJob();
 
     bool start(const QString &from, const QString &to);
+    void abort();
+
     Status status() const;
     qreal progress() const;
     int estimateTime() const; // seconds
@@ -29,6 +32,7 @@ public:
 signals:
     void statusChanged(Status status);
     void failed(const QString &error);
+    void finished();
     void progressChanged(qreal progress);
 
 private:
@@ -40,6 +44,7 @@ private:
     void setErrorString(const QString &error);
 
     Status m_status;
+    bool m_abort = false;
 
     QString m_from;
     QString m_to;

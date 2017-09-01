@@ -4,7 +4,11 @@
 #include "selectfilepage.h"
 #include "helper.h"
 #include "workingpage.h"
+#include "endpage.h"
 
+#include <DDesktopServices>
+
+#include <QApplication>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -73,7 +77,7 @@ void MainWindow::init()
     layout->addWidget(m_bottomButton, 0, Qt::AlignHCenter);
     layout->addWidget(m_pageIndicator, 0, Qt::AlignHCenter);
 
-    connect(m_bottomButton, &QPushButton::clicked, this, &MainWindow::next);
+    connect(m_bottomButton, &QPushButton::clicked, this, &MainWindow::onButtonClicked);
 }
 
 void MainWindow::setStatus(MainWindow::Status status)
@@ -103,6 +107,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         setContent(new SelectActionPage());
         m_title->setTitle(tr("Plase Select Action"));
         m_bottomButton->setText(tr("Next"));
+        m_buttonAction = Next;
         break;
     } case SelectFile: {
         SelectActionPage *page = qobject_cast<SelectActionPage*>(content());
@@ -120,6 +125,8 @@ void MainWindow::setStatus(MainWindow::Status status)
         } else {
             m_bottomButton->setText(tr("Begin Restore"));
         }
+
+        m_buttonAction = Next;
         break;
     }
     case WaitConfirm: {
@@ -133,7 +140,10 @@ void MainWindow::setStatus(MainWindow::Status status)
         break;
     }
     case Working: {
-        setContent(new  WorkingPage(m_sourceFile, m_targetFile));
+        WorkingPage *page = new  WorkingPage(m_sourceFile, m_targetFile);
+
+        connect(page, &WorkingPage::finished, this, &MainWindow::next);
+        setContent(page);
 
         if (m_currentMode == SelectActionPage::Backup)
             m_title->setTitle(tr("正在备份"));
@@ -143,23 +153,45 @@ void MainWindow::setStatus(MainWindow::Status status)
             m_title->setTitle(tr("正在还原"));
 
         m_bottomButton->setText(tr("Cancel"));
-
+        m_buttonAction = Cancel;
         break;
     }
     case End: {
-        if (isError()) {
+        bool is_error = isError();
+
+        WorkingPage *worker = qobject_cast<WorkingPage*>(content());
+        EndPage *page = new EndPage(is_error ? EndPage::Failed : EndPage::Success);
+
+        if (is_error) {
+            if (m_currentMode == SelectActionPage::Backup) {
+                m_title->setTitle(tr("备份失败"));
+            } else if (m_currentMode == SelectActionPage::Clone) {
+                m_title->setTitle(tr("克隆失败"));
+            } else {
+                m_title->setTitle(tr("还原失败"));
+            }
+
+            page->setMessage(worker->errorString());
             m_bottomButton->setText(tr("Retry"));
-        } else if (m_currentMode == SelectActionPage::Backup) {
-            m_title->setTitle(tr("备份完成"));
-            m_bottomButton->setText(tr("Display Backup File"));
-        } else if (m_currentMode == SelectActionPage::Clone) {
-            m_title->setTitle(tr("克隆完成"));
-            m_bottomButton->setText(tr("Ok"));
+            m_buttonAction = Retry;
         } else {
-            m_title->setTitle(tr("还原完成"));
-            m_bottomButton->setText(tr("Restart System"));
+            if (m_currentMode == SelectActionPage::Backup) {
+                m_title->setTitle(tr("备份完成"));
+                m_bottomButton->setText(tr("Display Backup File"));
+                m_buttonAction = ShowBackupFile;
+            } else if (m_currentMode == SelectActionPage::Clone) {
+                m_title->setTitle(tr("克隆完成"));
+                m_bottomButton->setText(tr("Ok"));
+                m_buttonAction = Quit;
+            } else {
+                m_title->setTitle(tr("还原完成"));
+                m_bottomButton->setText(tr("Restart System"));
+                m_buttonAction = RestartSystem;
+            }
         }
 
+        page->setTitle(m_title->title());
+        setContent(page);
         break;
     }
     default:
@@ -192,6 +224,35 @@ void MainWindow::setContent(QWidget *widget)
 QWidget *MainWindow::content() const
 {
     return m_contentWidget->count() > 0 ? m_contentWidget->widget(0) : 0;
+}
+
+void MainWindow::onButtonClicked()
+{
+    switch (m_buttonAction) {
+    case Next:
+        return next();
+    case Cancel: {
+        if (WorkingPage *page = qobject_cast<WorkingPage*>(content())) {
+            page->cancel();
+        }
+        return setStatus(SelectAction);
+    }
+    case Retry: {
+        return setStatus(Working);
+    }
+    case ShowBackupFile: {
+        DDesktopServices::showFileItem(m_targetFile);
+        return;
+    }
+    case Quit: {
+        return qApp->quit();
+    }
+    case RestartSystem: {
+        return qApp->quit();
+    }
+    default:
+        break;
+    }
 }
 
 bool MainWindow::isError() const

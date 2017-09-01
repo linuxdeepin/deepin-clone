@@ -26,6 +26,16 @@ public:
         End
     };
 
+    enum ButtonAction {
+        None,
+        Next,
+        Cancel,
+        Retry,
+        ShowBackupFile,
+        Quit,
+        RestartSystem
+    };
+
     explicit MainWindow(QWidget *parent = 0);
 
     void startWithFile(const QString &source, const QString &target);
@@ -36,6 +46,7 @@ private:
     void next();
     void setContent(QWidget *widget);
     QWidget *content() const;
+    void onButtonClicked();
 
     bool isError() const;
 
@@ -44,6 +55,8 @@ private:
     Status m_currentStatus = (Status)(End + 1);
     SelectActionPage::Action m_currentMode = SelectActionPage::Backup;
     SelectActionPage::Mode m_operateObject = SelectActionPage::Disk;
+    ButtonAction m_buttonAction = None;
+
     QString m_sourceFile;
     QString m_targetFile;
 

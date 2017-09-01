@@ -178,6 +178,11 @@ QString DPartInfo::transport() const
     return d->transport;
 }
 
+QString DPartInfo::partUUID() const
+{
+    return d->partUUID;
+}
+
 bool DPartInfo::isReadonly() const
 {
     return d->readonly;

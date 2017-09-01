@@ -38,6 +38,7 @@ public:
     bool readonly = false;
     bool removeable = false;
     QString transport;
+    QString partUUID;
 };
 
 #endif // DPARTINFO_P_H

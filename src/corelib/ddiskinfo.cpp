@@ -210,6 +210,16 @@ qint64 DDiskInfo::totalSize() const
     return d->size;
 }
 
+qint64 DDiskInfo::usedSize() const
+{
+    qint64 size = 0;
+
+    for (const DPartInfo &part : childrenPartList())
+        size += part.usedSize();
+
+    return size;
+}
+
 QString DDiskInfo::typeName() const
 {
     return d->typeName;

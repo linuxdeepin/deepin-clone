@@ -70,6 +70,7 @@ WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent
         m_writtenSizeLabel->setText(tr("已写入大小：%1").arg(Helper::sizeDisplay(total_readable_data_size * progress)));
         m_timeRemainingLabel->setText(tr("预计剩余时间： %1").arg(secondsToString(m_job->estimateTime())));
     });
+    connect(m_job, &CloneJob::finished, this, &WorkingPage::finished);
 
     m_job->start(from, to);
 }
@@ -77,4 +78,14 @@ WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent
 bool WorkingPage::isError() const
 {
     return !m_job->errorString().isEmpty();
+}
+
+QString WorkingPage::errorString() const
+{
+    return m_job->errorString();
+}
+
+void WorkingPage::cancel() const
+{
+    m_job->abort();
 }
