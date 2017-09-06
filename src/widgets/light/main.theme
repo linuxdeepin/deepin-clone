@@ -2,6 +2,13 @@
     font-size: 20pt;
 }
 
+QLabel#SubTitle {
+    font-family: SourceHanSansSC;
+    font-size: 11px;
+    text-align: center;
+    color: #ff5800;
+}
+
 #BorderFrame {
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 4px;

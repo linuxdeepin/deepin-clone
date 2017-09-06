@@ -9,6 +9,7 @@
 #include <QStackedWidget>
 
 QT_BEGIN_NAMESPACE
+class QLabel;
 class QPushButton;
 QT_END_NAMESPACE
 
@@ -62,6 +63,7 @@ private:
     QString m_targetFile;
 
     IconLabel *m_title;
+    QLabel *m_subTitle;
     QStackedWidget *m_contentWidget;
     QPushButton *m_cancelButton;
     QPushButton *m_bottomButton;

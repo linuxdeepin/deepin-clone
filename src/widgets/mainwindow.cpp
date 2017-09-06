@@ -57,6 +57,8 @@ void MainWindow::init()
     m_title = new IconLabel(this);
     m_title->setObjectName("MainTitle");
     m_title->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    m_subTitle = new QLabel(this);
+    m_subTitle->setObjectName("SubTitle");
     m_contentWidget = new QStackedWidget(this);
     m_cancelButton = new QPushButton(this);
     m_cancelButton->setFixedSize(width() * 0.36, height() * 0.055);
@@ -79,6 +81,7 @@ void MainWindow::init()
 
     layout->addWidget(m_title, 0, Qt::AlignHCenter);
     layout->addWidget(m_contentWidget, 0, Qt::AlignHCenter);
+    layout->addWidget(m_subTitle, 0, Qt::AlignHCenter);
     layout->addWidget(m_cancelButton, 0, Qt::AlignHCenter);
     layout->addWidget(m_bottomButton, 0, Qt::AlignHCenter);
     layout->addWidget(m_pageIndicator, 0, Qt::AlignHCenter);
@@ -129,6 +132,7 @@ void MainWindow::setStatus(MainWindow::Status status)
     }
 
     m_title->setIcon(QIcon());
+    m_subTitle->setText(QString());
     m_cancelButton->setVisible(status == WaitConfirm);
 
     switch (status) {
@@ -137,6 +141,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         m_title->setTitle(tr("Plase Select Action"));
         m_bottomButton->setText(tr("Next"));
         m_buttonAction = Next;
+        m_pageIndicator->setCurrentPage(0);
         break;
     } case SelectFile: {
         SelectActionPage *page = qobject_cast<SelectActionPage*>(content());
@@ -151,11 +156,22 @@ void MainWindow::setStatus(MainWindow::Status status)
             m_bottomButton->setText(tr("Begin Backup"));
         } else if (m_currentMode == SelectActionPage::Clone) {
             m_bottomButton->setText(tr("Begin Clone"));
+
+            if (m_operateObject == SelectActionPage::Disk)
+                m_subTitle->setText(tr("克隆磁盘会删除目标磁盘内的所有数据，请一定一定确认后再继续"));
+            else
+                m_subTitle->setText(tr("克隆分区会删除目标分区内的所有数据，请一定一定确认后再继续"));
         } else {
             m_bottomButton->setText(tr("Begin Restore"));
+
+            if (m_operateObject == SelectActionPage::Disk)
+                m_subTitle->setText(tr("恢复操作会删除目标磁盘内的所有数据，请一定一定确认后再继续"));
+            else
+                m_subTitle->setText(tr("恢复操作会删除目标分区内的所有数据，请一定一定确认后再继续"));
         }
 
         m_buttonAction = Next;
+        m_pageIndicator->setCurrentPage(1);
         break;
     }
     case WaitConfirm: {
@@ -170,6 +186,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         m_title->setTitle(tr("提醒"));
         m_bottomButton->setText(tr("Containue"));
         m_buttonAction = Next;
+        m_pageIndicator->setCurrentPage(1);
         break;
     }
     case Working: {
@@ -187,6 +204,7 @@ void MainWindow::setStatus(MainWindow::Status status)
 
         m_bottomButton->setText(tr("Cancel"));
         m_buttonAction = Cancel;
+        m_pageIndicator->setCurrentPage(2);
         break;
     }
     case End: {
@@ -225,6 +243,7 @@ void MainWindow::setStatus(MainWindow::Status status)
 
         page->setTitle(m_title->title());
         setContent(page);
+        m_pageIndicator->setCurrentPage(2);
         break;
     }
     default:
