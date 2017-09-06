@@ -3,7 +3,6 @@
 }
 
 QLabel#SubTitle {
-    font-family: SourceHanSansSC;
     font-size: 11px;
     text-align: center;
     color: #ff5800;
@@ -17,19 +16,16 @@ QLabel#SubTitle {
 QLabel#RightContentLabel_Message {
     font-size: 8pt;
     color: rgba(0, 0, 0, 0.6);
-    font-family: SourceHanSansSC;
 }
 
 EndPage #MessageLabel {
     font-size: 8pt;
     color: rgba(0, 0, 0, 0.6);
-    font-family: SourceHanSansSC;
 }
 
 SelectFileWidget #DragDropLabel {
     font-size: 8pt;
     color: rgba(0, 0, 0, 0.6);
-    font-family: SourceHanSansSC;
 }
 
 SelectFileWidget #SplitLine {

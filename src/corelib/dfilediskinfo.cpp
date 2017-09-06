@@ -251,7 +251,10 @@ bool DFileDiskInfoPrivate::atEnd() const
 
 QString DFileDiskInfoPrivate::errorString() const
 {
-    return error.isEmpty() ? m_file.errorString() : error;
+    if (!error.isEmpty())
+        return error;
+
+    return m_file.errorString();
 }
 
 DFileDiskInfo::DFileDiskInfo()

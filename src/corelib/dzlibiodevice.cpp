@@ -1,3 +1,7 @@
+#define private public
+#include <private/qiodevice_p.h>
+#undef private
+
 #include "dzlibiodevice.h"
 #include "dglobal.h"
 
@@ -164,8 +168,12 @@ bool DZlibIODevice::waitForBytesWritten(int msecs)
 
 QString DZlibIODevice::errorString() const
 {
-    if (QIODevice::errorString().isEmpty())
+    if (d_func()->errorString.isEmpty()) {
+        if (m_device->d_func()->errorString.isEmpty())
+            return QString();
+
         return m_device->errorString();
+    }
 
     return QIODevice::errorString();
 }

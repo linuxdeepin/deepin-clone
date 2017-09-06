@@ -9,6 +9,7 @@
 #include <QFile>
 #include <QDebug>
 #include <QLoggingCategory>
+#include <QRegularExpression>
 
 #define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -p -o NAME,KNAME,PKNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL,PARTUUID,MODEL,PHY-SEC,RO,RM,TRAN %1")
 
@@ -231,7 +232,7 @@ bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 &used, qint64 &f
 
         return true;
     } else {
-        process.start(QString("%1 -s %2 -c -q -C").arg(getPartcloneExecuter(info)).arg(info.filePath()));
+        process.start(QString("%1 -s %2 -c -q -C -L /tmp/partclone.log").arg(getPartcloneExecuter(info)).arg(info.filePath()));
         process.setStandardOutputFile("/dev/null");
         process.setReadChannel(QProcess::StandardError);
         process.waitForStarted();
@@ -244,6 +245,10 @@ bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 &used, qint64 &f
 
             for (QByteArray line : data.split('\n')) {
                 line = line.simplified();
+
+                if (QString::fromLatin1(line).contains(QRegularExpression("\\berror\\b"))) {
+                    dCError("Call \"%s %s\" failed: \"%s\"", qPrintable(process.program()), qPrintable(process.arguments().join(' ')), line.constData());
+                }
 
                 if (line.startsWith("Space in use:")) {
                     bool ok = false;

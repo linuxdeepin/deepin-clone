@@ -1,4 +1,3 @@
-#include <QFile>
 #include <QDebug>
 
 #ifdef ENABLE_GUI

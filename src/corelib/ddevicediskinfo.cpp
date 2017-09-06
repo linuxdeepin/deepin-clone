@@ -1,3 +1,7 @@
+#define private public
+#include <private/qiodevice_p.h>
+#undef private
+
 #include "ddevicediskinfo.h"
 #include "ddiskinfo_p.h"
 #include "helper.h"
@@ -69,6 +73,9 @@ DDeviceDiskInfoPrivate::DDeviceDiskInfoPrivate(DDeviceDiskInfo *qq)
 DDeviceDiskInfoPrivate::~DDeviceDiskInfoPrivate()
 {
     closeDataStream();
+
+    if (process)
+        process->deleteLater();
 }
 
 void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
@@ -167,7 +174,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
     QObject::connect(process, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
                      process, [this] (int code, QProcess::ExitStatus status) {
         if (status == QProcess::CrashExit) {
-            setErrorString(QObject::tr("The process %1 %2 crashed").arg(process->program()).arg(process->arguments().join(" ")));
+            setErrorString(QObject::tr("The process \"%1 %2\" crashed").arg(process->program()).arg(process->arguments().join(" ")));
         } else if (code != 0) {
             setErrorString(QObject::tr("The \"%1 %2\" command execution failed: %3").arg(process->program(), process->arguments().join(" "), process->readAllStandardError()));
         }
@@ -184,7 +191,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         if (currentMode == DDiskInfo::Read) {
             process->start(QStringLiteral("dd if=%1 bs=512 count=2048 status=none").arg(filePath()), QIODevice::ReadOnly);
         } else {
-            process->start(QStringLiteral("dd of=%1 bs=512 status=none conv=fsync").arg(filePath()), QIODevice::WriteOnly);
+            process->start(QStringLiteral("dd of=%1 bs=512 status=none conv=fsync").arg(filePath()));
         }
 
         break;
@@ -197,9 +204,9 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         }
 
         if (currentMode == DDiskInfo::Read)
-            process->start(QStringLiteral("sfdisk -d -J %1").arg(filePath()), QIODevice::ReadOnly);
+            process->start(QStringLiteral("sfdisk -d %1").arg(filePath()), QIODevice::ReadOnly);
         else
-            process->start(QStringLiteral("sfdisk %1").arg(filePath()), QIODevice::WriteOnly);
+            process->start(QStringLiteral("sfdisk %1").arg(filePath()));
 
         break;
     }
@@ -221,9 +228,9 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
         if (currentMode == DDiskInfo::Read) {
             const QString &executer = Helper::getPartcloneExecuter(part);
-            process->start(QStringLiteral("%1 -s %2 -o - -c -z %3").arg(executer).arg(part.filePath()).arg(Global::bufferSize), QIODevice::ReadOnly);
+            process->start(QStringLiteral("%1 -s %2 -o - -c -z %3 -L /tmp/partclone.log").arg(executer).arg(part.filePath()).arg(Global::bufferSize), QIODevice::ReadOnly);
         } else {
-            process->start(QStringLiteral("partclone.restore -s - -o %2 -z %3").arg(part.filePath()).arg(Global::bufferSize), QIODevice::WriteOnly);
+            process->start(QStringLiteral("partclone.restore -s - -o %2 -z %3 -L /tmp/partclone.log").arg(part.filePath()).arg(Global::bufferSize));
         }
 
         break;
@@ -232,7 +239,6 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         process->deleteLater();
         process = 0;
         buffer.setData(q->toJson());
-
         break;
     }
     default:
@@ -260,12 +266,9 @@ void DDeviceDiskInfoPrivate::closeDataStream()
 {
     if (process) {
         if (process->state() != QProcess::NotRunning) {
-            process->terminate();
+            process->closeWriteChannel();
             process->waitForFinished();
         }
-
-        process->deleteLater();
-        process = NULL;
     }
 
     if (currentMode == DDiskInfo::Write && currentScope == DDiskInfo::PartitionTable) {
@@ -364,8 +367,17 @@ bool DDeviceDiskInfoPrivate::atEnd() const
 
 QString DDeviceDiskInfoPrivate::errorString() const
 {
-    if (error.isEmpty())
-        return process ? process->errorString() : buffer.errorString();
+    if (error.isEmpty()) {
+        if (process) {
+            if (process->error() == QProcess::UnknownError)
+                return QString();
+            else
+                return process->errorString();
+        }
+
+        if (!buffer.QIODevice::d_func()->errorString.isEmpty())
+            return buffer.errorString();
+    }
 
     return error;
 }

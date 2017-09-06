@@ -135,8 +135,19 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
 
 exit:
 
-    from.endScope();
-    to.endScope();
+    if (!from.endScope()) {
+        if (error)
+            *error = from.errorString();
+
+        ok = false;
+    }
+
+    if (!to.endScope()) {
+        if (error)
+            *error = to.errorString();
+
+        ok = false;
+    }
 
     return ok;
 }

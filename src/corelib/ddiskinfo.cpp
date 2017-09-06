@@ -128,10 +128,12 @@ bool DDiskInfo::beginScope(DDiskInfo::DataScope scope, ScopeMode mode, int index
     return d->openDataStream(index);
 }
 
-void DDiskInfo::endScope()
+bool DDiskInfo::endScope()
 {
     d->closeDataStream();
     d->currentScope = NullScope;
+
+    return d->errorString().isEmpty();
 }
 
 qint64 DDiskInfo::readableDataSize(DDiskInfo::DataScope scope) const

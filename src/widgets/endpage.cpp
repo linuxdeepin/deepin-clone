@@ -22,11 +22,12 @@ EndPage::EndPage(Mode mode, QWidget *parent)
     m_message = new QLabel(this);
     m_message->setObjectName("MessageLabel");
     m_message->setWordWrap(true);
+    m_message->setAlignment(Qt::AlignHCenter);
 
     layout->addStretch();
-    layout->addWidget(icon, 0, Qt::AlignHCenter);
-    layout->addWidget(m_title, 0, Qt::AlignHCenter);
-    layout->addWidget(m_message, 0, Qt::AlignHCenter);
+    layout->addWidget(icon, 0, Qt::AlignCenter);
+    layout->addWidget(m_title, 0, Qt::AlignCenter);
+    layout->addWidget(m_message, 0, Qt::AlignCenter);
     layout->addStretch();
 }
 
@@ -44,10 +45,7 @@ void EndPage::resizeEvent(QResizeEvent *e)
 {
     int width = this->width() * 0.606;
 
-    if (m_message->sizeHint().width() > width)
-        m_message->resize(width, m_message->heightForWidth(width));
-    else
-        m_message->adjustSize();
+    m_message->setFixedSize(width, m_message->heightForWidth(width));
 
     return QWidget::resizeEvent(e);
 }

@@ -49,7 +49,7 @@ public:
     DataScope currentScope() const;
     bool hasScope(DataScope scope, ScopeMode mode = Read) const;
     bool beginScope(DataScope scope, ScopeMode mode = Read, int index = 0);
-    void endScope();
+    bool endScope();
     qint64 readableDataSize(DataScope scope) const;
 
     qint64 totalReadableDataSize() const;
