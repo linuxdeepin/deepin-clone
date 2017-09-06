@@ -34,7 +34,8 @@ public:
         Retry,
         ShowBackupFile,
         Quit,
-        RestartSystem
+        RestartSystem,
+        RestartToLiveSystem
     };
 
     explicit MainWindow(QWidget *parent = 0);

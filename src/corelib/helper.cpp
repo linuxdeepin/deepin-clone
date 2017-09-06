@@ -310,11 +310,34 @@ QJsonArray Helper::getBlockDevices(const QString &commandExtraArg)
     return jd.object().value("blockdevices").toArray();
 }
 
+bool Helper::isMounted(const QString &device)
+{
+    const QJsonArray &array = getBlockDevices("-l " + device);
+
+    for (const QJsonValue &part : array) {
+        const QJsonObject &obj = part.toObject();
+
+        if (!obj.value("mountpoint").isNull())
+            return true;
+    }
+
+    return false;
+}
+
 bool Helper::umountDevice(const QString &device)
 {
-    int code = processExec(QString("umount %1").arg(device));
+    const QJsonArray &array = getBlockDevices("-l " + device);
 
-    return code == 0;
+    for (const QJsonValue &device : array) {
+        const QJsonObject &obj = device.toObject();
+
+        if (!obj.value("mountpoint").isNull()) {
+            if (processExec(QString("umount -d %1").arg(obj.value("name").toString())) != 0)
+                return false;
+        }
+    }
+
+    return true;
 }
 
 QByteArray Helper::getPartitionTable(const QString &devicePath)

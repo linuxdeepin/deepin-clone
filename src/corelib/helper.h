@@ -41,6 +41,7 @@ public:
     static QByteArray callLsblk(const QString &extraArg = QString());
     static QJsonArray getBlockDevices(const QString &commandExtraArg = QString());
 
+    static bool isMounted(const QString &device);
     static bool umountDevice(const QString &device);
 
     static QByteArray getPartitionTable(const QString &devicePath);

@@ -6,11 +6,16 @@
 
 class SelectFilePage : public ContentPairPage
 {
+    Q_OBJECT
 public:
     explicit SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Action action, QWidget *parent = 0);
 
     QString source() const;
     QString target() const;
+
+signals:
+    void sourceChanged();
+    void targetChanged();
 };
 
 #endif // SELECTFILEPAGE_H

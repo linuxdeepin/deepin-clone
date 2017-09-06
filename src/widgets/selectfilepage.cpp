@@ -33,6 +33,9 @@ public:
 
     QString selectFilePath() const;
 
+signals:
+    void filePathChanged();
+
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
@@ -153,6 +156,9 @@ void SelectFileWidget::dropEvent(QDropEvent *event)
 
 void SelectFileWidget::setFilePath(const QString &path)
 {
+    if (m_filePath == path)
+        return;
+
     m_filePath = path;
 
     if (m_dragDropLabel) {
@@ -163,6 +169,8 @@ void SelectFileWidget::setFilePath(const QString &path)
     }
 
     m_label->setTitle(m_filePath);
+
+    emit filePathChanged();
 }
 
 SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Action action, QWidget *parent)
@@ -211,6 +219,8 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
             }
         }
 
+        connect(left_list, &UtilityList::itemSelectionChanged, this, &SelectFilePage::sourceChanged);
+        connect(right_list, &UtilityList::itemSelectionChanged, this, &SelectFilePage::targetChanged);
         break;
     }
     case SelectActionPage::Backup: {
@@ -257,16 +267,18 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
         emit left_list->itemSelectionChanged();
         right_widget = sfw;
 
+        connect(left_list, &UtilityList::itemSelectionChanged, this, &SelectFilePage::sourceChanged);
+        connect(sfw, &SelectFileWidget::filePathChanged, this, &SelectFilePage::targetChanged);
         break;
     }
     case SelectActionPage::Restore: {
         setLeftTitle(tr("请选择备份的镜像文件"));
         setRightTitle(tr("选择恢复位置"));
 
-        left_widget = new SelectFileWidget(SelectFileWidget::GetFile, this);
-
+        SelectFileWidget *sfw = new SelectFileWidget(SelectFileWidget::GetFile, this);
         UtilityList *right_list = new UtilityList(this);
 
+        left_widget = sfw;
         right_widget = right_list;
 
         if (mode == SelectActionPage::Disk) {
@@ -283,6 +295,8 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
             }
         }
 
+        connect(sfw, &SelectFileWidget::filePathChanged, this, &SelectFilePage::sourceChanged);
+        connect(right_list, &UtilityList::itemSelectionChanged, this, &SelectFilePage::targetChanged);
         break;
     }
     default:

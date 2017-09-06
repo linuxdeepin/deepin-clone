@@ -145,7 +145,11 @@ void MainWindow::setStatus(MainWindow::Status status)
         break;
     } case SelectFile: {
         SelectActionPage *page = qobject_cast<SelectActionPage*>(content());
-        setContent(new SelectFilePage(m_operateObject, m_currentMode));
+        SelectFilePage *new_page = new SelectFilePage(m_operateObject, m_currentMode);
+        QString sub_title;
+        QString button_text;
+
+        setContent(new_page);
 
         if (page) {
             m_title->setTitle(page->selectedItemTitle());
@@ -153,25 +157,58 @@ void MainWindow::setStatus(MainWindow::Status status)
         }
 
         if (m_currentMode == SelectActionPage::Backup) {
-            m_bottomButton->setText(tr("Begin Backup"));
+            button_text = tr("Begin Backup");
         } else if (m_currentMode == SelectActionPage::Clone) {
-            m_bottomButton->setText(tr("Begin Clone"));
+            button_text = tr("Begin Clone");
 
             if (m_operateObject == SelectActionPage::Disk)
-                m_subTitle->setText(tr("克隆磁盘会删除目标磁盘内的所有数据，请一定一定确认后再继续"));
+                sub_title = tr("克隆磁盘会删除目标磁盘内的所有数据，请一定一定确认后再继续");
             else
-                m_subTitle->setText(tr("克隆分区会删除目标分区内的所有数据，请一定一定确认后再继续"));
+                sub_title = tr("克隆分区会删除目标分区内的所有数据，请一定一定确认后再继续");
         } else {
             m_bottomButton->setText(tr("Begin Restore"));
 
             if (m_operateObject == SelectActionPage::Disk)
-                m_subTitle->setText(tr("恢复操作会删除目标磁盘内的所有数据，请一定一定确认后再继续"));
+                sub_title = tr("恢复操作会删除目标磁盘内的所有数据，请一定一定确认后再继续");
             else
-                m_subTitle->setText(tr("恢复操作会删除目标分区内的所有数据，请一定一定确认后再继续"));
+                sub_title = tr("恢复操作会删除目标分区内的所有数据，请一定一定确认后再继续");
         }
+
+        auto on_file_changed = [new_page, sub_title, button_text, this] {
+            const QString &source = new_page->source();
+            const QString &target = new_page->target();
+
+            QString busy_device;
+
+            if (Helper::isMounted(source)) {
+                if (!Helper::umountDevice(source))
+                    busy_device = source;
+            }
+
+            if (busy_device.isEmpty() && Helper::isMounted(target)) {
+                if (!Helper::umountDevice(target))
+                    busy_device = target;
+            }
+
+            if (!busy_device.isEmpty()) {
+                m_subTitle->setText(tr("设备\"%1\"被占用，重启到Live系统继续操作").arg(busy_device));
+                m_bottomButton->setText(tr("重启并继续"));
+                m_buttonAction = RestartToLiveSystem;
+            } else {
+                m_subTitle->setText(sub_title);
+                m_bottomButton->setText(button_text);
+                m_buttonAction = Next;
+            }
+
+            m_bottomButton->setEnabled(!source.isEmpty() && !target.isEmpty());
+        };
 
         m_buttonAction = Next;
         m_pageIndicator->setCurrentPage(1);
+
+        connect(new_page, &SelectFilePage::sourceChanged, new_page, on_file_changed);
+        connect(new_page, &SelectFilePage::targetChanged, new_page, on_file_changed);
+        on_file_changed();
         break;
     }
     case WaitConfirm: {
@@ -297,6 +334,10 @@ void MainWindow::onButtonClicked()
     }
     case RestartSystem: {
         return qApp->quit();
+    }
+    case RestartToLiveSystem: {
+        qDebug() << "restart to live system";
+        break;
     }
     default:
         break;
