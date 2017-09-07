@@ -51,7 +51,10 @@ void MainWindow::startWithFile(const QString &source, const QString &target)
     m_sourceFile = source;
     m_targetFile = target;
 
-    setStatus(Working);
+    if (m_currentStatus == SelectAction)
+        m_currentStatus = (Status)(End + 1);
+
+    setStatus(WaitConfirm);
 }
 
 void MainWindow::init()
@@ -126,7 +129,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         m_sourceFile = page->source();
         m_targetFile = page->target();
 
-        if (m_sourceFile.isEmpty()) {
+        if (!QFile::exists(m_sourceFile)) {
             showErrorMessage(tr("Error"), tr("Source file not found"));
 
             return;
@@ -150,6 +153,10 @@ void MainWindow::setStatus(MainWindow::Status status)
     default:
         break;
     }
+
+    centralWidget()->setEnabled(false);
+    m_loadingIndicator->show();
+    m_player->play();
 
     m_title->setIcon(QIcon());
     m_subTitle->setText(QString());
@@ -201,26 +208,44 @@ void MainWindow::setStatus(MainWindow::Status status)
             QString busy_device;
 
             if (Helper::isMounted(source)) {
-                if (!Helper::umountDevice(source))
+                if (Helper::umountDevice(source)) {
+                    if (!Helper::isBlockSpecialFile(m_targetFile)) {
+                        QFileInfo info(m_targetFile);
+
+                        if (!info.absoluteDir().exists()) {
+                            m_subTitle->setText(tr("The %1 directory not exists").arg(info.absolutePath()));
+                            m_targetFile.clear();
+                        }
+                    }
+                } else {
                     busy_device = source;
+                }
             }
 
             if (busy_device.isEmpty() && Helper::isMounted(target)) {
-                if (!Helper::umountDevice(target))
+                if (Helper::umountDevice(target)) {
+                    if (!Helper::isBlockSpecialFile(m_sourceFile)) {
+                        if (!QFile::exists(m_sourceFile)) {
+                            m_subTitle->setText(tr("The %1 file not found").arg(m_sourceFile));
+                            m_sourceFile.clear();
+                        }
+                    }
+                } else {
                     busy_device = target;
+                }
             }
 
             if (!busy_device.isEmpty()) {
                 m_subTitle->setText(tr("设备\"%1\"被占用，重启到Live系统继续操作").arg(busy_device));
                 m_bottomButton->setText(tr("重启并继续"));
                 m_buttonAction = RestartToLiveSystem;
+                m_bottomButton->setEnabled(true);
             } else {
                 m_subTitle->setText(sub_title);
                 m_bottomButton->setText(button_text);
                 m_buttonAction = Next;
+                m_bottomButton->setEnabled(!source.isEmpty() && !target.isEmpty());
             }
-
-            m_bottomButton->setEnabled(!source.isEmpty() && !target.isEmpty());
         };
 
         m_buttonAction = Next;
@@ -247,6 +272,42 @@ void MainWindow::setStatus(MainWindow::Status status)
         break;
     }
     case Working: {
+        QString busy_device;
+
+        if (Helper::isMounted(m_sourceFile)) {
+            if (!Helper::umountDevice(m_sourceFile))
+                busy_device = m_sourceFile;
+        }
+
+        if (busy_device.isEmpty() && Helper::isMounted(m_targetFile)) {
+            if (!Helper::umountDevice(m_targetFile))
+                busy_device = m_targetFile;
+        }
+
+        if (!busy_device.isEmpty()) {
+            showErrorMessage(tr("Error"), tr("无法继续操作，设备\"%1\"被占用").arg(busy_device));
+            setStatus(SelectFile);
+
+            return;
+        }
+
+        if (!Helper::isBlockSpecialFile(m_sourceFile)) {
+            if (!QFile::exists(m_sourceFile)) {
+                showErrorMessage(tr("Error"), tr("The %1 file not found").arg(m_sourceFile));
+                return setStatus(SelectFile);
+            }
+        }
+
+        if (!Helper::isBlockSpecialFile(m_targetFile)) {
+            QFileInfo info(m_targetFile);
+
+            if (!info.absoluteDir().exists()) {
+                showErrorMessage(tr("Error"), tr("The %1 directory not exists").arg(info.absolutePath()));
+
+                return setStatus(SelectFile);
+            }
+        }
+
         WorkingPage *page = new  WorkingPage(m_sourceFile, m_targetFile);
 
         connect(page, &WorkingPage::finished, this, &MainWindow::next);
@@ -308,20 +369,16 @@ void MainWindow::setStatus(MainWindow::Status status)
     }
 
     m_currentStatus = status;
+
+    m_loadingIndicator->hide();
+    m_player->pause();
+    centralWidget()->setEnabled(true);
 }
 
 void MainWindow::next()
 {
     if (m_currentStatus < End) {
-        centralWidget()->setEnabled(false);
-        m_loadingIndicator->show();
-        m_player->play();
-
         setStatus(Status(m_currentStatus + 1));
-
-        m_loadingIndicator->hide();
-        m_player->pause();
-        centralWidget()->setEnabled(true);
     }
 }
 
