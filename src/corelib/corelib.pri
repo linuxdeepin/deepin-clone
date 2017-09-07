@@ -1,4 +1,4 @@
-QT += core core-private
+QT += core core-private concurrent
 
 SOURCES += \
     $$PWD/ddiskinfo.cpp \

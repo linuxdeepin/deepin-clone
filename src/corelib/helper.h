@@ -5,6 +5,8 @@
 #include <QJsonArray>
 #include <QObject>
 #include <QLoggingCategory>
+#include <QtConcurrent/QtConcurrent>
+#include <QFutureWatcher>
 
 #include <typeinfo>
 
@@ -36,7 +38,7 @@ public:
 
     static bool refreshSystemPartList(const QString &device = QString());
     static QString getPartcloneExecuter(const DPartInfo &info);
-    static bool getPartitionSizeInfo(const DPartInfo &info, qint64 &used, qint64 &free, int &blockSize);
+    static bool getPartitionSizeInfo(const DPartInfo &info, qint64 *used, qint64 *free, int *blockSize);
 
     static QByteArray callLsblk(const QString &extraArg = QString());
     static QJsonArray getBlockDevices(const QString &commandExtraArg = QString());
@@ -93,5 +95,40 @@ static QString __d_asprintf__(const char *format, Args&&... args)
     const QString &__m = __d_asprintf__(format, ##__VA_ARGS__); \
     Helper::instance()->warning(__m); \
     qCCritical(Helper::loggerCategory, qPrintable(__m));}
+
+namespace DThreadUtil {
+template <typename ReturnType>
+class _TMP
+{
+public:
+    template <typename Fun, typename... Args>
+    static ReturnType runInNewThread(Fun fun, Args&&... args)
+    {
+        QFutureWatcher<ReturnType> watcher;
+        QEventLoop loop;
+
+        QObject::connect(&watcher, &QFutureWatcherBase::finished, &loop, &QEventLoop::quit);
+        watcher.setFuture(QtConcurrent::run(fun, std::forward<Args>(args)...));
+
+        loop.exec();
+
+        return watcher.result();
+    }
+};
+
+template <typename Fun, typename... Args>
+auto runInNewThread(Fun fun, Args&&... args) -> decltype(fun(args...))
+{
+    return _TMP<decltype(fun(args...))>::runInNewThread(fun, std::forward<Args>(args)...);
+}
+template <typename Fun, typename... Args>
+typename QtPrivate::FunctionPointer<Fun>::ReturnType runInNewThread(typename QtPrivate::FunctionPointer<Fun>::Object *obj, Fun fun, Args&&... args)
+{
+    return _TMP<typename QtPrivate::FunctionPointer<Fun>::ReturnType>::runInNewThread([&] {
+        return (obj->*fun)(std::forward<Args>(args)...);
+    });
+}
+
+}
 
 #endif // HELPER_H

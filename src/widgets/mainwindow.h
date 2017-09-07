@@ -5,12 +5,14 @@
 
 #include <DMainWindow>
 #include <dpageindicator.h>
+#include <DVideoWidget>
 
 #include <QStackedWidget>
 
 QT_BEGIN_NAMESPACE
 class QLabel;
 class QPushButton;
+class QMediaPlayer;
 QT_END_NAMESPACE
 
 DWIDGET_USE_NAMESPACE
@@ -68,6 +70,8 @@ private:
     QStackedWidget *m_contentWidget;
     QPushButton *m_cancelButton;
     QPushButton *m_bottomButton;
+    QMediaPlayer *m_player;
+    DVideoWidget *m_loadingIndicator;
     DPageIndicator *m_pageIndicator;
 };
 

@@ -190,7 +190,7 @@ QString Helper::getPartcloneExecuter(const DPartInfo &info)
     return "partclone." + executor;
 }
 
-bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 &used, qint64 &free, int &blockSize)
+bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 *used, qint64 *free, int *blockSize)
 {
     QProcess process;
     QStringList env_list = QProcess::systemEnvironment();
@@ -220,12 +220,14 @@ bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 &used, qint64 &f
 
         bool ok = false;
 
-        used = values.at(2).toLongLong(&ok);
+        if (used)
+            *used = values.at(2).toLongLong(&ok);
 
         if (!ok)
             return false;
 
-        free = values.at(3).toLongLong(&ok);
+        if (free)
+            *free = values.at(3).toLongLong(&ok);
 
         if (!ok)
             return false;
@@ -269,17 +271,23 @@ bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 &used, qint64 &f
                 } else if (line.startsWith("Block size:")) {
                     bool ok = false;
 
-                    blockSize = line.split(' ').value(2, "-1").toInt(&ok);
+                    int block_size = line.split(' ').value(2, "-1").toInt(&ok);
 
                     if (!ok) {
                         return false;
                     }
 
-                    if (used_block < 0 || free_block < 0 || blockSize < 0)
+                    if (used_block < 0 || free_block < 0 || block_size < 0)
                         return false;
 
-                    used = used_block * blockSize;
-                    free = free_block * blockSize;
+                    if (used)
+                        *used = used_block * block_size;
+
+                    if (free)
+                        *free = free_block * block_size;
+
+                    if (blockSize)
+                        *blockSize = block_size;
 
                     process.terminate();
                     process.waitForFinished();

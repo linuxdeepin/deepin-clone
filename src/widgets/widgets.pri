@@ -1,4 +1,4 @@
-QT += core widgets
+QT += core widgets multimedia
 CONFIG += c++11 link_pkgconfig
 PKGCONFIG += dtkwidget
 DEFINES += ENABLE_GUI

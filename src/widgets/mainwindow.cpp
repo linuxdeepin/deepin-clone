@@ -8,6 +8,7 @@
 
 #include <DDesktopServices>
 #include <ddialog.h>
+#include <anchors.h>
 
 #include <QApplication>
 #include <QVBoxLayout>
@@ -15,6 +16,7 @@
 #include <QPushButton>
 #include <QResizeEvent>
 #include <QDebug>
+#include <QMediaPlayer>
 
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)
@@ -66,6 +68,19 @@ void MainWindow::init()
     m_cancelButton->hide();
     m_bottomButton = new QPushButton(this);
     m_bottomButton->setFixedSize(width() * 0.36, height() * 0.055);
+    m_loadingIndicator = new DVideoWidget(m_bottomButton);
+    m_player = new QMediaPlayer(m_loadingIndicator);
+
+    int scale_mon = 1;
+
+    if (qEnvironmentVariableIsEmpty("QT_HIGHDPI_DISABLE_2X_IMAGE_LOADING"))
+        scale_mon = qCeil(qApp->devicePixelRatio());
+
+    m_player->setMedia(QMediaContent(QUrl(QString("qrc:/icons/loading@%1x.mov").arg(scale_mon == 1 ? 1 : 2))));
+    m_loadingIndicator->setSource(m_player);
+    m_loadingIndicator->resize(m_bottomButton->height() * 0.8, m_bottomButton->height() * 0.8);
+    m_loadingIndicator->hide();
+    Anchors<DVideoWidget>(m_loadingIndicator).setCenterIn(m_bottomButton);
     m_pageIndicator = new DPageIndicator(this);
     m_pageIndicator->setPageCount(3);
     m_pageIndicator->setCurrentPage(0);
@@ -90,6 +105,11 @@ void MainWindow::init()
         setStatus(SelectAction);
     });
     connect(m_bottomButton, &QPushButton::clicked, this, &MainWindow::onButtonClicked);
+    connect(m_player, &QMediaPlayer::stateChanged, this, [this] (QMediaPlayer::State newState) {
+        if (newState == QMediaPlayer::StoppedState) {
+            m_player->play();
+        }
+    });
 }
 
 void MainWindow::setStatus(MainWindow::Status status)
@@ -293,7 +313,15 @@ void MainWindow::setStatus(MainWindow::Status status)
 void MainWindow::next()
 {
     if (m_currentStatus < End) {
+        centralWidget()->setEnabled(false);
+        m_loadingIndicator->show();
+        m_player->play();
+
         setStatus(Status(m_currentStatus + 1));
+
+        m_loadingIndicator->hide();
+        m_player->pause();
+        centralWidget()->setEnabled(true);
     }
 }
 

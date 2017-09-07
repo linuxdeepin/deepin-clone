@@ -14,5 +14,7 @@
         <file>icons/1.svg</file>
         <file>icons/select.svg</file>
         <file>icons/warning.svg</file>
+        <file>icons/loading@1x.mov</file>
+        <file>icons/loading@2x.mov</file>
     </qresource>
 </RCC>

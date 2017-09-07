@@ -80,7 +80,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     if (type == DPartInfo::Invalid || type == DPartInfo::Unknow) {
         usedSize = size;
         freeSize = 0;
-    } else if (!Helper::getPartitionSizeInfo(*q, usedSize, freeSize, blockSize)) {
+    } else if (!DThreadUtil::runInNewThread(&Helper::getPartitionSizeInfo, *q, &usedSize, &freeSize, &blockSize)) {
         dCError("Get partition used sieze/free size info failed, device: %s", qPrintable(device));
     }
 }
