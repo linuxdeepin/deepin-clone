@@ -100,6 +100,8 @@ int main(int argc, char *argv[])
         window->titlebar()->setTitle(QString());
         window->show();
 
+        qApp->setProductIcon(window->windowIcon().pixmap(128));
+
         if (!parser.source().isEmpty() && !parser.target().isEmpty()) {
             window->startWithFile(parser.source(), parser.target());
         }

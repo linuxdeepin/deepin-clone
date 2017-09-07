@@ -44,5 +44,5 @@ desktop.files = $$_PRO_FILE_PWD_/$${TARGET}.desktop
 INSTALLS += icon desktop
 
 RESOURCES += \
-    $$PWD/../../icons.qrc \
-    $$PWD/qss.qrc
+    $$PWD/qss.qrc \
+    $$PWD/../../sources.qrc
