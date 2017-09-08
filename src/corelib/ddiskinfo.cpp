@@ -285,7 +285,8 @@ QByteArray DDiskInfo::toJson() const
         {"ptType", ptType()},
         {"readonly", isReadonly()},
         {"removeable", isRemoveable()},
-        {"transport", transport()}
+        {"transport", transport()},
+        {"serial", serial()}
     };
 
     QJsonArray children;
@@ -358,6 +359,7 @@ void DDiskInfo::fromJson(const QByteArray &json, DDiskInfoPrivate *dd)
     dd->readonly = root.value("readonly").toBool();
     dd->removeable = root.value("removeable").toBool();
     dd->transport = root.value("transport").toString();
+    dd->serial = root.value("serial").toString();
 
     for (const QJsonValue &v : root.value("childrenPartList").toArray()) {
         DPartInfoPrivate *part_dd = new DPartInfoPrivate(0);
