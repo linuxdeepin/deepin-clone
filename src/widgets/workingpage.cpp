@@ -39,9 +39,7 @@ WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent
     DDiskInfo from_info = DDiskInfo::getInfo(from);
     QVBoxLayout *layout = new QVBoxLayout(this);
 
-    m_progress = new QProgressBar(this);
-    m_progress->setRange(0, 100);
-    m_progress->setFixedWidth(500);
+    m_progress = new DWaterProgress(this);
 
     qint64 total_readable_data_size = 0;
 
@@ -66,13 +64,14 @@ WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent
     m_job = new CloneJob(this);
 
     connect(m_job, &CloneJob::progressChanged, this, [this, total_readable_data_size] (qreal progress) {
-        m_progress->setValue(progress * m_progress->maximum());
+        m_progress->setValue(progress * 100);
         m_writtenSizeLabel->setText(tr("已写入大小：%1").arg(Helper::sizeDisplay(total_readable_data_size * progress)));
         m_timeRemainingLabel->setText(tr("预计剩余时间： %1").arg(secondsToString(m_job->estimateTime())));
     });
     connect(m_job, &CloneJob::finished, this, &WorkingPage::finished);
 
     m_job->start(from, to);
+    m_progress->start();
 }
 
 bool WorkingPage::isError() const

@@ -3,10 +3,13 @@
 
 #include <QWidget>
 
+#include <DWaterProgress>
+
 QT_BEGIN_NAMESPACE
-class QProgressBar;
 class QLabel;
 QT_END_NAMESPACE
+
+DWIDGET_USE_NAMESPACE
 
 class CloneJob;
 class WorkingPage : public QWidget
@@ -26,7 +29,7 @@ signals:
 private:
     CloneJob *m_job;
 
-    QProgressBar *m_progress;
+    DWaterProgress *m_progress;
     QLabel *m_writtenSizeLabel;
     QLabel *m_timeRemainingLabel;
 };
