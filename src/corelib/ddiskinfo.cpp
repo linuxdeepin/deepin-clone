@@ -242,6 +242,11 @@ QString DDiskInfo::transport() const
     return d->transport;
 }
 
+QString DDiskInfo::serial() const
+{
+    return d->serial;
+}
+
 bool DDiskInfo::isReadonly() const
 {
     return d->readonly;

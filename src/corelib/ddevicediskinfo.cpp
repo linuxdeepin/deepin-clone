@@ -88,6 +88,7 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
     readonly = obj.value("ro").toString() == "1" || typeName == "rom";
     removeable = obj.value("rm").toString() == "1";
     transport = obj.value("tran").toString();
+    serial = obj.value("serial").toString();
 
     if (obj.value("pkname").isNull())
         type = DDiskInfo::Disk;

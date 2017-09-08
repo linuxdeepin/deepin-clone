@@ -11,7 +11,7 @@
 #include <QLoggingCategory>
 #include <QRegularExpression>
 
-#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -p -o NAME,KNAME,PKNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL,PARTUUID,MODEL,PHY-SEC,RO,RM,TRAN %1")
+#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -p -o NAME,KNAME,PKNAME,FSTYPE,MOUNTPOINT,LABEL,SIZE,TYPE,PARTTYPE,PARTLABEL,PARTUUID,MODEL,PHY-SEC,RO,RM,TRAN,SERIAL %1")
 
 QByteArray Helper::m_processStandardError;
 QByteArray Helper::m_processStandardOutput;
@@ -323,6 +323,16 @@ QJsonArray Helper::getBlockDevices(const QString &commandExtraArg)
     return jd.object().value("blockdevices").toArray();
 }
 
+QString Helper::mountPoint(const QString &device)
+{
+    const QJsonArray &array = getBlockDevices(device);
+
+    if (array.isEmpty())
+        return QString();
+
+    return array.first().toObject().value("mountpoint").toString();
+}
+
 bool Helper::isMounted(const QString &device)
 {
     const QJsonArray &array = getBlockDevices("-l " + device);
@@ -351,6 +361,60 @@ bool Helper::umountDevice(const QString &device)
     }
 
     return true;
+}
+
+bool Helper::mountDevice(const QString &device, const QString &path)
+{
+    return processExec(QString("mount %1 %2").arg(device, path)) == 0;
+}
+
+QString Helper::findDiskBySerialNumber(const QString &serialNumber, int partIndex)
+{
+    const QJsonArray &array = getBlockDevices();
+
+    for (const QJsonValue &disk : array) {
+        const QJsonObject &obj = disk.toObject();
+
+        if (obj.value("serial").toString().compare(serialNumber, Qt::CaseInsensitive) != 0) {
+            continue;
+        }
+
+        if (partIndex < 0)
+            return obj.value("name").toString();
+
+        const QJsonArray &children = obj.value("children").toArray();
+
+        if (partIndex >= children.count())
+            return QString();
+
+        return children.at(partIndex).toObject().value("name").toString();
+    }
+
+    return QString();
+}
+
+int Helper::partitionIndex(const QString &partDevice)
+{
+    const QJsonArray &array = getBlockDevices(partDevice);
+
+    if (array.isEmpty())
+        return -1;
+
+    const QJsonArray &p_array = getBlockDevices(array.first().toObject().value("pkname").toString());
+
+    if (p_array.isEmpty())
+        return -1;
+
+    const QJsonArray &part_list = p_array.first().toObject().value("children").toArray();
+
+    for (int i = 0; i < part_list.count(); ++i) {
+        const QJsonObject &obj = part_list.at(i).toObject();
+
+        if (obj.value("name").toString() == partDevice || obj.value("kname").toString() == partDevice)
+            return i;
+    }
+
+    return -1;
 }
 
 QByteArray Helper::getPartitionTable(const QString &devicePath)
@@ -431,6 +495,16 @@ bool Helper::isPartitionDevice(const QString &devicePath)
         return false;
 
     return !blocks.first().toObject().value("pkname").isString();
+}
+
+QString Helper::parentDevice(const QString &device)
+{
+    const QJsonArray &blocks = getBlockDevices(device);
+
+    if (blocks.isEmpty())
+        return QString();
+
+    return blocks.first().toObject().value("pkname").toString();
 }
 
 int Helper::clonePartition(const DPartInfo &part, const QString &to, bool override)

@@ -73,6 +73,8 @@ private:
     QMediaPlayer *m_player;
     DVideoWidget *m_loadingIndicator;
     DPageIndicator *m_pageIndicator;
+
+    friend QString parseSerialUrl(const QString &, MainWindow *);
 };
 
 #endif // MAINWINDOW_H

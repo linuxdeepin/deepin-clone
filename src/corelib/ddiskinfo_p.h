@@ -56,6 +56,7 @@ public:
     bool readonly = false;
     bool removeable = false;
     QString transport;
+    QString serial;
 };
 
 #endif // DDISKINFO_P_H

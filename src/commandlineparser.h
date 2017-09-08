@@ -21,6 +21,8 @@ private:
     QCommandLineOption o_compress_level;
     QCommandLineOption o_buffer_size;
     QCommandLineOption o_non_ui;
+    QCommandLineOption o_to_serial_url;
+    QCommandLineOption o_from_serial_url;
 };
 
 #endif // COMMANDLINEPARSER_H

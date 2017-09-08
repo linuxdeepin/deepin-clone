@@ -6,6 +6,10 @@
 
 #include <cstdio>
 
+class MainWindow;
+extern QString parseSerialUrl(const QString &url, MainWindow *window = 0);
+extern QString toSerialUrl(const QString &file);
+
 CommandLineParser::CommandLineParser()
     : o_info(QStringList() << "i" << "info")
     , o_dim_info("dim-info")
@@ -13,6 +17,8 @@ CommandLineParser::CommandLineParser()
     , o_compress_level(QStringList() << "C" << "compress-level")
     , o_buffer_size(QStringList() << "B" << "buffer-size")
     , o_non_ui("tui")
+    , o_to_serial_url("to-serial-url")
+    , o_from_serial_url("from-serial-url")
 {
     o_info.setDescription("Get the device info.");
     o_dim_info.setDescription("Get the dim file info.");
@@ -24,6 +30,10 @@ CommandLineParser::CommandLineParser()
     o_buffer_size.setValueName("Buffer Size");
     o_buffer_size.setDefaultValue(QString::number(Global::bufferSize));
     o_non_ui.setDescription("Run in TUI mode.");
+    o_to_serial_url.setDescription("File path format to serial url format");
+    o_to_serial_url.setValueName("Serial URL");
+    o_from_serial_url.setDescription("Serial url format to file path format");
+    o_from_serial_url.setValueName("File Path");
 
     parser.addOption(o_info);
     parser.addOption(o_dim_info);
@@ -32,13 +42,20 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_compress_level);
     parser.addOption(o_buffer_size);
     parser.addOption(o_non_ui);
+    parser.addOption(o_to_serial_url);
+    parser.addOption(o_from_serial_url);
     parser.addHelpOption();
     parser.addVersionOption();
 
-    parser.addPositionalArgument("source", "Srouce file.", "[path]");
-    parser.addPositionalArgument("target", "Output file.", "[path]");
+    parser.addPositionalArgument("source", "Srouce file.", "[path/serial]");
+    parser.addPositionalArgument("target", "Output file.", "[path/serial]");
 
-    parser.setApplicationDescription(QString("e.g: %1 /dev/sda ~/sda.dim\n     %1 /dev/sda /dev/sdb\n     %1 ~/sda.dim /dev/sda").arg(qApp->applicationName()));
+    parser.setApplicationDescription(QString("e.g(path):   %1 /dev/sda ~/sda.dim\n"
+                                             "             %1 /dev/sda /dev/sdb\n"
+                                             "             %1 ~/sda.dim /dev/sda\n\n"
+                                             "e.g(serial): %1 serial://W530B6RT ~/W530B6RT.dim\n"
+                                             "             %1 serial://W530B6RT:1 serial://W530B6RT:2\n"
+                                             "             %1 serial://W530B6RT.dim serial://W530B6RT:0").arg(qApp->applicationName()));
 }
 
 void CommandLineParser::process(const QCoreApplication &app)
@@ -99,6 +116,16 @@ void CommandLineParser::process(const QCoreApplication &app)
             printf("Data Start: %lld\n", io.start(file));
             printf("Data End: %lld\n\n", io.end(file));
         }
+
+        ::exit(EXIT_SUCCESS);
+    } else if (parser.isSet(o_to_serial_url)) {
+        printf(toSerialUrl(parser.value(o_to_serial_url)).toUtf8().constData());
+        printf("\n");
+
+        ::exit(EXIT_SUCCESS);
+    } else if (parser.isSet(o_from_serial_url)) {
+        printf(parseSerialUrl(parser.value(o_from_serial_url)).toUtf8().constData());
+        printf("\n");
 
         ::exit(EXIT_SUCCESS);
     } else {

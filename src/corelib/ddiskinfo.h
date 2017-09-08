@@ -78,6 +78,7 @@ public:
     Type type() const;
     PTType ptType() const;
     QString transport() const;
+    QString serial() const;
 
     bool isReadonly() const;
     bool isRemoveable() const;

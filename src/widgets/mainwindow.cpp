@@ -6,6 +6,9 @@
 #include "workingpage.h"
 #include "endpage.h"
 
+#include "ddiskinfo.h"
+#include "dpartinfo.h"
+
 #include <DDesktopServices>
 #include <ddialog.h>
 #include <anchors.h>
@@ -25,13 +28,113 @@ MainWindow::MainWindow(QWidget *parent)
     setStatus(SelectAction);
 }
 
+QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
+{
+    if (urlString.isEmpty())
+        return QString();
+
+    const QUrl url(urlString);
+    const QString &serial_number = url.host();
+    const int part_index = url.port();
+    const QString &path = url.path();
+    const QString &device = Helper::findDiskBySerialNumber(serial_number, part_index);
+    const QString &device_url = part_index >= 0 ? QString("serial://%1:%2").arg(serial_number).arg(part_index) : "serial://" + serial_number;
+
+    if (device.isEmpty()) {
+        if (window)
+            window->showErrorMessage(QObject::tr("Error"), QObject::tr("The \"%1\" device not found").arg(device_url));
+
+        return device;
+    }
+
+    if (path.isEmpty())
+        return device;
+
+    QDir mount_point(Helper::mountPoint(device));
+
+    if (mount_point.absolutePath().isEmpty()) {
+        if (part_index >= 0)
+            mount_point.setPath(QString("/mnt/%1-%2").arg(serial_number).arg(part_index));
+        else
+            mount_point.setPath(QString("/mnt/%1").arg(serial_number));
+
+        if (!Helper::mountDevice(device, mount_point.absolutePath())) {
+            if (window)
+                window->showErrorMessage(QObject::tr("Error"), QObject::tr("Mount the device \"%1\" to \"%2\" failed").arg(device_url).arg(mount_point.absolutePath()));
+
+            return QString();
+        }
+    }
+
+    if (mount_point.absolutePath() == "/")
+        return path;
+
+    return mount_point.absolutePath() + path;
+}
+
+QString toSerialUrl(const QString &file)
+{
+    if (file.isEmpty())
+        return QString();
+
+    if (Helper::isBlockSpecialFile(file)) {
+        DDiskInfo info;
+
+        if (Helper::isDiskDevice(file))
+            info = DDiskInfo::getInfo(file);
+        else
+            info = DDiskInfo::getInfo(Helper::parentDevice(file));
+
+        if (info.serial().isEmpty())
+            return QString();
+
+        int index = Helper::partitionIndex(file);
+
+        if (index < 0)
+            return "serial://" + info.serial();
+
+        return QString("serial://%1:%2").arg(info.serial()).arg(index);
+    }
+
+    QFileInfo file_info(file);
+
+    while (!file_info.exists() && file_info.absoluteFilePath() != "/") {
+        file_info.setFile(file_info.absolutePath());
+    }
+
+    QStorageInfo info(file_info.absoluteFilePath());
+    QString url = toSerialUrl(info.device());
+
+    if (info.rootPath() == "/")
+        return url + QFileInfo(file).absoluteFilePath();
+
+    return url + QFileInfo(file).absoluteFilePath().mid(info.rootPath().length());
+}
+
 void MainWindow::startWithFile(const QString &source, const QString &target)
 {
-    bool s_is_block = Helper::isBlockSpecialFile(m_sourceFile);
-    bool s_is_disk = Helper::isDiskDevice(source);
+    m_sourceFile = source;
+    m_targetFile = target;
 
-    bool t_is_block = Helper::isBlockSpecialFile(target);
-    bool t_is_disk = Helper::isDiskDevice(target);
+    if (source.startsWith("serial://")) {
+        m_sourceFile = parseSerialUrl(source, this);
+
+        if (m_sourceFile.isEmpty())
+            return;
+    }
+
+    if (target.startsWith("serial://")) {
+        m_targetFile = parseSerialUrl(target, this);
+
+        if (m_targetFile.isEmpty())
+            return;
+    }
+
+    bool s_is_block = Helper::isBlockSpecialFile(m_sourceFile);
+    bool s_is_disk = Helper::isDiskDevice(m_sourceFile);
+
+    bool t_is_block = Helper::isBlockSpecialFile(m_targetFile);
+    bool t_is_disk = Helper::isDiskDevice(m_targetFile);
 
     if (s_is_block) {
         if (t_is_block) {
@@ -47,9 +150,6 @@ void MainWindow::startWithFile(const QString &source, const QString &target)
         m_operateObject = SelectActionPage::Disk;
     else
         m_operateObject = SelectActionPage::Partition;
-
-    m_sourceFile = source;
-    m_targetFile = target;
 
     if (m_currentStatus == SelectAction)
         m_currentStatus = (Status)(End + 1);
@@ -164,6 +264,9 @@ void MainWindow::setStatus(MainWindow::Status status)
 
     switch (status) {
     case SelectAction: {
+        m_currentMode = SelectActionPage::Backup;
+        m_operateObject = SelectActionPage::Disk;
+
         setContent(new SelectActionPage());
         m_title->setTitle(tr("Plase Select Action"));
         m_bottomButton->setText(tr("Next"));
@@ -171,6 +274,9 @@ void MainWindow::setStatus(MainWindow::Status status)
         m_pageIndicator->setCurrentPage(0);
         break;
     } case SelectFile: {
+        m_sourceFile.clear();
+        m_targetFile.clear();
+
         SelectActionPage *page = qobject_cast<SelectActionPage*>(content());
         SelectFilePage *new_page = new SelectFilePage(m_operateObject, m_currentMode);
         QString sub_title;
@@ -240,6 +346,8 @@ void MainWindow::setStatus(MainWindow::Status status)
                 m_bottomButton->setText(tr("重启并继续"));
                 m_buttonAction = RestartToLiveSystem;
                 m_bottomButton->setEnabled(true);
+                m_sourceFile = new_page->source();
+                m_targetFile = new_page->target();
             } else {
                 m_subTitle->setText(sub_title);
                 m_bottomButton->setText(button_text);
@@ -421,7 +529,11 @@ void MainWindow::onButtonClicked()
         return qApp->quit();
     }
     case RestartToLiveSystem: {
-        qDebug() << "restart to live system";
+        const QString &source_url = toSerialUrl(m_sourceFile);
+        const QString &target_url = toSerialUrl(m_targetFile);
+
+        qDebug() << source_url << target_url;
+
         break;
     }
     default:
