@@ -42,7 +42,7 @@ QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
 
     if (device.isEmpty()) {
         if (window)
-            window->showErrorMessage(QObject::tr("Error"), QObject::tr("The \"%1\" device not found").arg(device_url));
+            window->showErrorMessage(QObject::tr("The \"%1\" device not found").arg(device_url));
 
         return device;
     }
@@ -60,7 +60,7 @@ QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
 
         if (!Helper::mountDevice(device, mount_point.absolutePath())) {
             if (window)
-                window->showErrorMessage(QObject::tr("Error"), QObject::tr("Mount the device \"%1\" to \"%2\" failed").arg(device_url).arg(mount_point.absolutePath()));
+                window->showErrorMessage(QObject::tr("Mount the device \"%1\" to \"%2\" failed").arg(device_url).arg(mount_point.absolutePath()));
 
             return QString();
         }
@@ -230,20 +230,19 @@ void MainWindow::setStatus(MainWindow::Status status)
         m_targetFile = page->target();
 
         if (!QFile::exists(m_sourceFile)) {
-            showErrorMessage(tr("Error"), tr("Source file not found"));
+            showErrorMessage(tr("Source file not found"));
 
             return;
         }
 
         if (m_targetFile.isEmpty()) {
-            showErrorMessage(tr("Error"), tr("Target file is empty"));
+            showErrorMessage(tr("Target file is empty"));
 
             return;
         }
 
         if (m_sourceFile == m_targetFile) {
-            showErrorMessage(tr("The source file and the destination file can not be the same file"),
-                             tr("Please re-select"));
+            showErrorMessage(tr("The source file and the destination file can not be the same file, Please re-select"));
 
             return;
         }
@@ -394,7 +393,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         }
 
         if (!busy_device.isEmpty()) {
-            showErrorMessage(tr("Error"), tr("无法继续操作，设备\"%1\"被占用").arg(busy_device));
+            showErrorMessage(tr("无法继续操作，设备\"%1\"被占用").arg(busy_device));
             setStatus(SelectFile);
 
             return;
@@ -402,7 +401,7 @@ void MainWindow::setStatus(MainWindow::Status status)
 
         if (!Helper::isBlockSpecialFile(m_sourceFile)) {
             if (!QFile::exists(m_sourceFile)) {
-                showErrorMessage(tr("Error"), tr("The %1 file not found").arg(m_sourceFile));
+                showErrorMessage(tr("The %1 file not found").arg(m_sourceFile));
                 return setStatus(SelectFile);
             }
         }
@@ -411,7 +410,7 @@ void MainWindow::setStatus(MainWindow::Status status)
             QFileInfo info(m_targetFile);
 
             if (!info.absoluteDir().exists()) {
-                showErrorMessage(tr("Error"), tr("The %1 directory not exists").arg(info.absolutePath()));
+                showErrorMessage(tr("The %1 directory not exists").arg(info.absolutePath()));
 
                 return setStatus(SelectFile);
             }
@@ -544,10 +543,12 @@ void MainWindow::onButtonClicked()
     }
 }
 
-void MainWindow::showErrorMessage(const QString &title, const QString &message)
+void MainWindow::showErrorMessage(const QString &message)
 {
-    DDialog dialog(title, message, this);
+    DDialog dialog(message, QString(), this);
 
+    dialog.setMaximumWidth(width() / 2);
+    dialog.setIcon(QIcon::fromTheme("dialog-error"));
     dialog.addButton(tr("Ok"), true);
     dialog.exec();
 }

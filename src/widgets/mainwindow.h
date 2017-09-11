@@ -51,7 +51,7 @@ private:
     void setContent(QWidget *widget);
     QWidget *content() const;
     void onButtonClicked();
-    void showErrorMessage(const QString &title, const QString &message);
+    void showErrorMessage(const QString &message);
 
     bool isError() const;
     QString currentModeString() const;
