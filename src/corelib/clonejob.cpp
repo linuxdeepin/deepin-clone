@@ -206,7 +206,7 @@ void CloneJob::run()
     }
 
     if (to_info.totalSize() < from_info.maxReadableDataSize()) {
-        setErrorString(QObject::tr("Device %1 must be larger than %2 of device %3").arg(m_to).arg(from_info.maxReadableDataSize()).arg(m_from));
+        setErrorString(QObject::tr("Device %1 must be larger than %2 of device %3").arg(m_to).arg(Helper::sizeDisplay(from_info.maxReadableDataSize())).arg(m_from));
 
         return;
     }

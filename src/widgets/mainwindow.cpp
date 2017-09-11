@@ -348,6 +348,7 @@ void MainWindow::setStatus(MainWindow::Status status)
                 m_bottomButton->setEnabled(true);
                 m_sourceFile = new_page->source();
                 m_targetFile = new_page->target();
+                m_bottomButton->setEnabled(m_sourceFile != m_targetFile);
             } else {
                 m_subTitle->setText(sub_title);
                 m_bottomButton->setText(button_text);

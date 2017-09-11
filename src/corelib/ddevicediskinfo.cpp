@@ -323,7 +323,10 @@ qint64 DDeviceDiskInfoPrivate::maxReadableDataSize() const
         return totalReadableDataSize();
     }
 
-    return children.last().sizeEnd() + 1;
+    if (type == DDiskInfo::Disk)
+        return children.last().sizeEnd() + 1;
+
+    return children.first().totalSize();
 }
 
 qint64 DDeviceDiskInfoPrivate::totalWritableDataSize() const
