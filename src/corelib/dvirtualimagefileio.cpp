@@ -163,7 +163,7 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
 
         const QByteArray &md5 = d->file.read(16);
 
-        if (md5 != md5sum()) {
+        if (!Global::disableMD5CheckForDimFile && md5 != md5sum()) {
             dCDebug("MD5 check failed, file: %s, Is the file open in other application?", qPrintable(fileName));
 
             return false;

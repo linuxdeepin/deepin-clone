@@ -12,6 +12,8 @@ public:
 
     static int bufferSize;
     static int compressionLevel;
+
+    static bool disableMD5CheckForDimFile;
 };
 
 #endif // DGLOBAL_H

@@ -47,7 +47,7 @@ WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent
         total_readable_data_size = from_info.totalReadableDataSize();
 
     QLabel *tip_label = new QLabel(tr("任务正在进行，请稍后..."), this);
-    QLabel *totalSize_label = new QLabel(tr("数据总大小：%1").arg(Helper::sizeDisplay(total_readable_data_size)), this);
+    QLabel *totalSize_label = new QLabel(tr("预计数据总大小：%1").arg(Helper::sizeDisplay(total_readable_data_size)), this);
 
     m_writtenSizeLabel = new QLabel(this);
     m_timeRemainingLabel = new QLabel(this);

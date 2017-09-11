@@ -19,6 +19,7 @@ CommandLineParser::CommandLineParser()
     , o_non_ui("tui")
     , o_to_serial_url("to-serial-url")
     , o_from_serial_url("from-serial-url")
+    , o_disable_check_dim("no-check-dim")
 {
     o_info.setDescription("Get the device info.");
     o_dim_info.setDescription("Get the dim file info.");
@@ -30,10 +31,11 @@ CommandLineParser::CommandLineParser()
     o_buffer_size.setValueName("Buffer Size");
     o_buffer_size.setDefaultValue(QString::number(Global::bufferSize));
     o_non_ui.setDescription("Run in TUI mode.");
-    o_to_serial_url.setDescription("File path format to serial url format");
+    o_to_serial_url.setDescription("File path format to serial url format.");
     o_to_serial_url.setValueName("Serial URL");
-    o_from_serial_url.setDescription("Serial url format to file path format");
+    o_from_serial_url.setDescription("Serial url format to file path format.");
     o_from_serial_url.setValueName("File Path");
+    o_disable_check_dim.setDescription("Ignore dim file md5 check.");
 
     parser.addOption(o_info);
     parser.addOption(o_dim_info);
@@ -44,6 +46,7 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_non_ui);
     parser.addOption(o_to_serial_url);
     parser.addOption(o_from_serial_url);
+    parser.addOption(o_disable_check_dim);
     parser.addHelpOption();
     parser.addVersionOption();
 
@@ -63,6 +66,7 @@ void CommandLineParser::process(const QCoreApplication &app)
     parser.process(app);
 
     Global::isOverride = parser.isSet(o_override);
+    Global::disableMD5CheckForDimFile = parser.isSet(o_disable_check_dim);
 
     if (parser.isSet(o_buffer_size)) {
         bool ok = false;

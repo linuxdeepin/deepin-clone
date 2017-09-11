@@ -54,6 +54,8 @@ private:
     void showErrorMessage(const QString &title, const QString &message);
 
     bool isError() const;
+    QString currentModeString() const;
+    QString operateObjectString() const;
 
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
 

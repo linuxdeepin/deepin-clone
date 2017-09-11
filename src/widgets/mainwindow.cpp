@@ -299,7 +299,7 @@ void MainWindow::setStatus(MainWindow::Status status)
             else
                 sub_title = tr("克隆分区会删除目标分区内的所有数据，请一定一定确认后再继续");
         } else {
-            m_bottomButton->setText(tr("Begin Restore"));
+            button_text = tr("Begin Restore");
 
             if (m_operateObject == SelectActionPage::Disk)
                 sub_title = tr("恢复操作会删除目标磁盘内的所有数据，请一定一定确认后再继续");
@@ -372,7 +372,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         EndPage *page = new EndPage(EndPage::Warning);
 
         page->setTitle(tr("您确定要继续吗？"));
-        page->setMessage(tr("还原(克隆)分区(磁盘)会格式化目标位置的所有数据，此过程不可逆也不可取消，为了您的数据安全，你一定要仔细检查您的操作，确定没问题后再继续"));
+        page->setMessage(tr("继续%1会格式化\"%2\"%3的所有数据，此过程不可逆也不可取消，为了您的数据安全，一定要仔细检查您的操作，确定没问题后再继续").arg(currentModeString()).arg(m_targetFile).arg(operateObjectString()));
         setContent(page);
         m_title->setTitle(tr("提醒"));
         m_bottomButton->setText(tr("Containue"));
@@ -449,10 +449,13 @@ void MainWindow::setStatus(MainWindow::Status status)
                 m_title->setTitle(tr("还原失败"));
             }
 
+            page->setTitle("抱歉，任务失败");
             page->setMessage(worker->errorString());
             m_bottomButton->setText(tr("Retry"));
             m_buttonAction = Retry;
         } else {
+            page->setTitle(tr("恭喜您，任务完成"));
+
             if (m_currentMode == SelectActionPage::Backup) {
                 m_title->setTitle(tr("备份完成"));
                 m_bottomButton->setText(tr("Display Backup File"));
@@ -468,7 +471,6 @@ void MainWindow::setStatus(MainWindow::Status status)
             }
         }
 
-        page->setTitle(m_title->title());
         setContent(page);
         m_pageIndicator->setCurrentPage(2);
         break;
@@ -557,6 +559,36 @@ bool MainWindow::isError() const
     }
 
     return false;
+}
+
+QString MainWindow::currentModeString() const
+{
+    switch (m_currentMode) {
+    case SelectActionPage::Backup:
+        return tr("Backup");
+    case SelectActionPage::Clone:
+        return tr("Clone");
+    case SelectActionPage::Restore:
+        return tr("Restore");
+    default:
+        break;
+    }
+
+    return QString();
+}
+
+QString MainWindow::operateObjectString() const
+{
+    switch (m_operateObject) {
+    case SelectActionPage::Disk:
+        return tr("Disk");
+    case SelectActionPage::Partition:
+        return tr("Partition");
+    default:
+        break;
+    }
+
+    return QString();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *e)

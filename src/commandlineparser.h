@@ -23,6 +23,7 @@ private:
     QCommandLineOption o_non_ui;
     QCommandLineOption o_to_serial_url;
     QCommandLineOption o_from_serial_url;
+    QCommandLineOption o_disable_check_dim;
 };
 
 #endif // COMMANDLINEPARSER_H

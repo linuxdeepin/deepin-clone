@@ -19,6 +19,7 @@ DWIDGET_USE_NAMESPACE
 #include "commandlineparser.h"
 
 bool Global::isOverride = true;
+bool Global::disableMD5CheckForDimFile = false;
 #ifdef ENABLE_GUI
 bool Global::isTUIMode = false;
 #else
