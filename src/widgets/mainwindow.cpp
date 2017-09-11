@@ -28,6 +28,11 @@ MainWindow::MainWindow(QWidget *parent)
     setStatus(SelectAction);
 }
 
+MainWindow::~MainWindow()
+{
+
+}
+
 QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
 {
     if (urlString.isEmpty())
@@ -84,6 +89,9 @@ QString toSerialUrl(const QString &file)
             info = DDiskInfo::getInfo(file);
         else
             info = DDiskInfo::getInfo(Helper::parentDevice(file));
+
+        if (!info)
+            return QString();
 
         if (info.serial().isEmpty())
             return QString();
@@ -173,15 +181,6 @@ void MainWindow::init()
     m_bottomButton->setFixedSize(width() * 0.36, height() * 0.055);
     m_bottomButton->setObjectName("NextButton");
     m_loadingIndicator = new DVideoWidget(m_bottomButton);
-    m_player = new QMediaPlayer(m_loadingIndicator);
-
-    int scale_mon = 1;
-
-    if (qEnvironmentVariableIsEmpty("QT_HIGHDPI_DISABLE_2X_IMAGE_LOADING"))
-        scale_mon = qCeil(qApp->devicePixelRatio());
-
-    m_player->setMedia(QMediaContent(QUrl(QString("qrc:/icons/loading@%1x.mov").arg(scale_mon == 1 ? 1 : 2))));
-    m_loadingIndicator->setSource(m_player);
     m_loadingIndicator->resize(m_bottomButton->height() * 0.8, m_bottomButton->height() * 0.8);
     m_loadingIndicator->hide();
     Anchors<DVideoWidget>(m_loadingIndicator).setCenterIn(m_bottomButton);
@@ -209,11 +208,6 @@ void MainWindow::init()
         setStatus(SelectAction);
     });
     connect(m_bottomButton, &QPushButton::clicked, this, &MainWindow::onButtonClicked);
-    connect(m_player, &QMediaPlayer::stateChanged, this, [this] (QMediaPlayer::State newState) {
-        if (newState == QMediaPlayer::StoppedState) {
-            m_player->play();
-        }
-    });
 }
 
 void MainWindow::setStatus(MainWindow::Status status)
@@ -255,8 +249,7 @@ void MainWindow::setStatus(MainWindow::Status status)
     }
 
     centralWidget()->setEnabled(false);
-    m_loadingIndicator->show();
-    m_player->play();
+    playLoadingIndicator();
 
     m_title->setIcon(QIcon());
     m_subTitle->setText(QString());
@@ -481,8 +474,7 @@ void MainWindow::setStatus(MainWindow::Status status)
 
     m_currentStatus = status;
 
-    m_loadingIndicator->hide();
-    m_player->pause();
+    stopLoadingIndicator();
     centralWidget()->setEnabled(true);
 }
 
@@ -552,6 +544,32 @@ void MainWindow::showErrorMessage(const QString &message)
     dialog.setIcon(QIcon::fromTheme("dialog-error"));
     dialog.addButton(tr("Ok"), true);
     dialog.exec();
+}
+
+void MainWindow::playLoadingIndicator()
+{
+    int scale_mon = 1;
+
+    if (qEnvironmentVariableIsEmpty("QT_HIGHDPI_DISABLE_2X_IMAGE_LOADING"))
+        scale_mon = qCeil(qApp->devicePixelRatio());
+
+    m_player = new QMediaPlayer(m_loadingIndicator);
+
+    connect(m_player, &QMediaPlayer::stateChanged, m_player, &QMediaPlayer::play);
+
+    m_loadingIndicator->setSource(m_player);
+    m_player->setMedia(QMediaContent(QUrl(QString("qrc:/icons/loading@%1x.mov").arg(scale_mon == 1 ? 1 : 2))));
+    m_loadingIndicator->show();
+    m_player->play();
+}
+
+void MainWindow::stopLoadingIndicator()
+{
+    m_loadingIndicator->hide();
+    disconnect(m_player, &QMediaPlayer::stateChanged, m_player, &QMediaPlayer::play);
+    m_player->pause();
+    m_player->deleteLater();
+    m_player = 0;
 }
 
 bool MainWindow::isError() const

@@ -461,6 +461,9 @@ bool Helper::saveToFile(const QString &fileName, const QByteArray &data, bool ov
 
 bool Helper::isBlockSpecialFile(const QString &fileName)
 {
+    if (fileName.startsWith("/dev/"))
+        return true;
+
     processExec(QStringLiteral("env LANG=C stat -c %F %1").arg(fileName));
 
     return lastProcessStandardOutput() == "block special file\n";
@@ -502,7 +505,7 @@ QString Helper::parentDevice(const QString &device)
     const QJsonArray &blocks = getBlockDevices(device);
 
     if (blocks.isEmpty())
-        return QString();
+        return device;
 
     return blocks.first().toObject().value("pkname").toString();
 }

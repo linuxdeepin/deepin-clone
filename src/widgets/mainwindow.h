@@ -41,6 +41,7 @@ public:
     };
 
     explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
     void startWithFile(const QString &source, const QString &target);
 
@@ -52,6 +53,8 @@ private:
     QWidget *content() const;
     void onButtonClicked();
     void showErrorMessage(const QString &message);
+    void playLoadingIndicator();
+    void stopLoadingIndicator();
 
     bool isError() const;
     QString currentModeString() const;
@@ -72,7 +75,7 @@ private:
     QStackedWidget *m_contentWidget;
     QPushButton *m_cancelButton;
     QPushButton *m_bottomButton;
-    QMediaPlayer *m_player;
+    QMediaPlayer *m_player = 0;
     DVideoWidget *m_loadingIndicator;
     DPageIndicator *m_pageIndicator;
 

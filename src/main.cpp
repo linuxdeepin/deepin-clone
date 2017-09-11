@@ -1,5 +1,4 @@
 #include <QDebug>
-#include <QStorageInfo>
 
 #ifdef ENABLE_GUI
 #include <DApplication>
