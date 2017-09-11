@@ -171,6 +171,7 @@ void MainWindow::init()
     m_cancelButton->hide();
     m_bottomButton = new QPushButton(this);
     m_bottomButton->setFixedSize(width() * 0.36, height() * 0.055);
+    m_bottomButton->setObjectName("NextButton");
     m_loadingIndicator = new DVideoWidget(m_bottomButton);
     m_player = new QMediaPlayer(m_loadingIndicator);
 
