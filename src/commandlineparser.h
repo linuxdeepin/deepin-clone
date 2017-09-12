@@ -12,6 +12,7 @@ public:
 
     QString source() const;
     QString target() const;
+    QString logFile() const;
 
 private:
     QCommandLineParser parser;
@@ -24,6 +25,7 @@ private:
     QCommandLineOption o_to_serial_url;
     QCommandLineOption o_from_serial_url;
     QCommandLineOption o_disable_check_dim;
+    QCommandLineOption o_log_file;
 };
 
 #endif // COMMANDLINEPARSER_H

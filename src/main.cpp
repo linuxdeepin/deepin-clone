@@ -1,4 +1,5 @@
 #include <QDebug>
+#include <DLog>
 
 #ifdef ENABLE_GUI
 #include <DApplication>
@@ -28,6 +29,8 @@ bool Global::isTUIMode = true;
 int Global::bufferSize = 1024 * 1024;
 int Global::compressionLevel = 2;
 
+DCORE_USE_NAMESPACE
+
 inline static bool isTUIMode(int argc, char *argv[])
 {
 #ifndef ENABLE_GUI
@@ -46,6 +49,8 @@ inline static bool isTUIMode(int argc, char *argv[])
 
     return false;
 }
+
+static QString logFormat = "[%{time}{yyyy-MM-dd, HH:mm:ss.zzz}] [%{type:-7}] [%{file}=>%{function}: %{line}] %{message}\n";
 
 int main(int argc, char *argv[])
 {
@@ -74,6 +79,19 @@ int main(int argc, char *argv[])
     CommandLineParser parser;
 
     parser.process(*a);
+
+    ConsoleAppender *consoleAppender = new ConsoleAppender;
+    consoleAppender->setFormat(logFormat);
+
+    RollingFileAppender *rollingFileAppender = new RollingFileAppender(parser.logFile());
+    rollingFileAppender->setFormat(logFormat);
+    rollingFileAppender->setLogFilesLimit(5);
+    rollingFileAppender->setDatePattern(RollingFileAppender::DailyRollover);
+
+    logger->registerCategoryAppender("deepin.ghost", consoleAppender);
+    logger->registerCategoryAppender("deepin.ghost", rollingFileAppender);
+
+    dCDebug("Application command line: %s", qPrintable(a->arguments().join(' ')));
 
     if (Global::isTUIMode) {
         if (!parser.target().isEmpty()) {

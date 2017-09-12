@@ -20,6 +20,7 @@ CommandLineParser::CommandLineParser()
     , o_to_serial_url("to-serial-url")
     , o_from_serial_url("from-serial-url")
     , o_disable_check_dim("no-check-dim")
+    , o_log_file(QStringList() << "L" << "log-file")
 {
     o_info.setDescription("Get the device info.");
     o_dim_info.setDescription("Get the dim file info.");
@@ -36,6 +37,11 @@ CommandLineParser::CommandLineParser()
     o_from_serial_url.setDescription("Serial url format to file path format.");
     o_from_serial_url.setValueName("File Path");
     o_disable_check_dim.setDescription("Ignore dim file md5 check.");
+    o_log_file.setDescription("Log file path");
+    o_log_file.setValueName("File Path");
+    o_log_file.setDefaultValue(QString("%1/%2.log").arg(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).arg(qApp->applicationName()));
+
+    QDir::current().mkpath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
     parser.addOption(o_info);
     parser.addOption(o_dim_info);
@@ -47,6 +53,7 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_to_serial_url);
     parser.addOption(o_from_serial_url);
     parser.addOption(o_disable_check_dim);
+    parser.addOption(o_log_file);
     parser.addHelpOption();
     parser.addVersionOption();
 
@@ -153,4 +160,9 @@ QString CommandLineParser::target() const
         return QString();
 
     return parser.positionalArguments().last();
+}
+
+QString CommandLineParser::logFile() const
+{
+    return parser.value(o_log_file);
 }

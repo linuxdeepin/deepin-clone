@@ -91,12 +91,22 @@ static QString __d_asprintf__(const char *format, Args&&... args)
     return QString::asprintf(format, std::forward<Args>(args)...);
 }
 
+#ifdef dCDebug
+#undef dCDebug
+#endif
 #define dCDebug(...) qCDebug(Helper::loggerCategory, __VA_ARGS__)
 
+#ifdef dCWarning
+#undef dCWarning
+#endif
 #define dCWarning(format, ...) { \
     const QString &__m = __d_asprintf__(format, ##__VA_ARGS__); \
     Helper::instance()->warning(__m); \
     qCWarning(Helper::loggerCategory, qPrintable(__m));}
+
+#ifdef dCError
+#undef dCError
+#endif
 #define dCError(format, ...) { \
     const QString &__m = __d_asprintf__(format, ##__VA_ARGS__); \
     Helper::instance()->warning(__m); \

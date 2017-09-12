@@ -2,6 +2,9 @@ TARGET = deepin-clone
 VERSION = 0.0.1
 TEMPLATE = app
 
+CONFIG += link_pkgconfig
+PKGCONFIG += dtkcore
+
 isEmpty(DISABLE_GUI) {
     include($$PWD/src/widgets/widgets.pri)
 } else {

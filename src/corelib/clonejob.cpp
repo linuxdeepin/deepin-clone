@@ -157,6 +157,8 @@ void CloneJob::run()
 {
     setStatus(Started);
 
+    dCDebug("Clone job start, source: %s, target: %s", qPrintable(m_from), qPrintable(m_to));
+
     if (!QFile::exists(m_from)) {
         setErrorString(QObject::tr("%1 not found").arg(m_from));
 
@@ -239,7 +241,7 @@ void CloneJob::run()
         if (Global::isTUIMode) {
             printf("\033[A");
             fflush(stdout);
-            dCDebug("----%lld bytes of data have been written, total progress: %f----", have_been_written, m_progress * 100);
+            printf("----%lld bytes of data have been written, total progress: %f----\n", have_been_written, m_progress * 100);
         } else if ((m_progress * 100) - (int)(m_progress * 100) < 0.001) {
             dCDebug("----%lld bytes of data have been written, total progress: %f----", have_been_written, m_progress * 100);
         }
