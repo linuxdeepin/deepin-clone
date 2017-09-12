@@ -272,7 +272,21 @@ void DDeviceDiskInfoPrivate::closeDataStream()
     if (process) {
         if (process->state() != QProcess::NotRunning) {
             process->closeWriteChannel();
-            process->waitForFinished();
+
+            while (process->state() != QProcess::NotRunning) {
+                QThread::currentThread()->sleep(1);
+
+                if (!QFile::exists(QString("/proc/%2").arg(process->pid()))) {
+                    process->waitForFinished(-1);
+
+                    if (process->error() == QProcess::Timedout)
+                        process->QIODevice::d_func()->errorString.clear();
+
+                    break;
+                }
+            }
+
+            dCDebug("Process exit code: %d(%s %s)", process->exitCode(), qPrintable(process->program()), qPrintable(process->arguments().join(' ')));
         }
     }
 
@@ -357,7 +371,7 @@ qint64 DDeviceDiskInfoPrivate::write(const char *data, qint64 maxSize)
     qint64 size = process->write(data, maxSize);
 
     if (size > 0)
-        while (process->waitForBytesWritten());
+        while (process->waitForBytesWritten(-1));
 
     return size;
 }
@@ -379,8 +393,8 @@ QString DDeviceDiskInfoPrivate::errorString() const
         if (process) {
             if (process->error() == QProcess::UnknownError)
                 return QString();
-            else
-                return process->errorString();
+
+            return QString("%1 %2: %3").arg(process->program()).arg(process->arguments().join(' ')).arg(process->errorString());
         }
 
         if (!buffer.QIODevice::d_func()->errorString.isEmpty())
