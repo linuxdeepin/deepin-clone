@@ -46,6 +46,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     blockSize = obj.value("phy-sec").toInt(4096);
     readonly = obj.value("ro").toString() == "1" || obj.value("type").toString() == "rom";
     removeable = obj.value("rm").toString() == "1";
+    transport = obj.value("tran").toString();
     partUUID = obj.value("partuuid").toString();
 
     const QString &device = name;
@@ -94,21 +95,17 @@ DDevicePartInfo::DDevicePartInfo()
 DDevicePartInfo::DDevicePartInfo(const QString &name)
     : DPartInfo(new DDevicePartInfoPrivate(this))
 {
-    const QJsonArray &block_devices = Helper::getBlockDevices();
+    const QJsonArray &block_devices = Helper::getBlockDevices("-s " + name);
 
-    for (const QJsonValue &value : block_devices) {
-        const QJsonObject &obj = value.toObject();
-        const QString &transport = obj.value("tran").toString();
+    if (!block_devices.isEmpty()) {
+        const QJsonObject &obj = block_devices.first().toObject();
 
-        for (const QJsonValue &children : obj.value("children").toArray()) {
-            const QJsonObject &part = children.toObject();
+        d_func()->init(obj);
 
-            if (part.value("name").toString() == name) {
-                d_func()->init(part);
-                d->transport = transport;
-                break;
-            }
-        }
+        const QJsonArray &children = obj.value("children").toArray();
+
+        if (!children.isEmpty())
+            d->transport = children.first().toObject().value("tran").toString();
     }
 }
 

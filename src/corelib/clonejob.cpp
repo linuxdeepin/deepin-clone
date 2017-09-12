@@ -74,7 +74,8 @@ QString CloneJob::errorString() const
 
 typedef std::function<bool(qint64 accomplishBytes, int)> PipeNotifyFunction;
 
-static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope scope, int index = 0, QString *error = 0, PipeNotifyFunction *notify = 0)
+static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope scope,
+                         int fromIndex = 0, int toIndex = 0, QString *error = 0, PipeNotifyFunction *notify = 0)
 {
     bool ok = false;
     char block[Global::bufferSize];
@@ -82,20 +83,20 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
     int speed = 10000000;
     qint64 total_size = 0;
 
-    if (!from.beginScope(scope, DDiskInfo::Read, index)) {
+    if (!from.beginScope(scope, DDiskInfo::Read, fromIndex)) {
         if (error)
             *error = from.errorString();
 
-        dCDebug("BeginScope failed, scope: %d, index: %d, mode: Read", scope, index);
+        dCDebug("BeginScope failed, scope: %d, index: %d, mode: Read", scope, fromIndex);
 
         goto exit;
     }
 
-    if (!to.beginScope(scope, DDiskInfo::Write, index)) {
+    if (!to.beginScope(scope, DDiskInfo::Write, toIndex)) {
         if (error)
             *error = to.errorString();
 
-        dCDebug("BeginScope failed, scope: %d, index: %d, mode: Write", scope, index);
+        dCDebug("BeginScope failed, scope: %d, index: %d, mode: Write", scope, toIndex);
 
         goto exit;
     }
@@ -182,13 +183,11 @@ void CloneJob::run()
         Helper::refreshSystemPartList(m_to);
 
         if (Helper::isDiskDevice(m_from) != Helper::isDiskDevice(m_to)) {
-            if (Helper::isDiskDevice(m_from)) {
+            if (Helper::isDiskDevice(m_from) && from_info.hasScope(DDiskInfo::PartitionTable)) {
                 setErrorString(tr("Hard disk devices can only be cloned to the hard disk"));
-            } else {
-                setErrorString(tr("Partitions can only be cloned to partitions"));
-            }
 
-            return;
+                return;
+            }
         }
     } else if (Global::isOverride) {
         QFile file(m_to);
@@ -250,10 +249,10 @@ void CloneJob::run()
         return true;
     };
 
-    auto call_disk_pipe = [&print_fun, this, &from_info, &to_info] (DDiskInfo::DataScope scope, int index = 0) {
+    auto call_disk_pipe = [&print_fun, this, &from_info, &to_info] (DDiskInfo::DataScope scope, int fromIndex = 0, int toIndex = 0) {
         QString error;
 
-        if (!diskInfoPipe(from_info, to_info, scope, index, &error, &print_fun)) {
+        if (!diskInfoPipe(from_info, to_info, scope, fromIndex, toIndex, &error, &print_fun)) {
             setErrorString(error);
 
             return false;
@@ -289,15 +288,25 @@ void CloneJob::run()
     if (from_info.hasScope(DDiskInfo::Partition)) {
         setStatus(Clone_Partition);
 
-        int partition_count = from_info.childrenPartList().count();
+        if (!from_info.hasScope(DDiskInfo::PartitionTable)) {
+            dCDebug("begin clone device\n");
 
-        for (int i = 0; i < partition_count; ++i) {
-            dCDebug("begin clone partition, index: %d......................\n", i);
-
-            if (!call_disk_pipe(DDiskInfo::Partition, i)) {
+            if (!call_disk_pipe(DDiskInfo::Partition, 0, -1)) {
                 dCDebug("failed!!!");
 
                 return;
+            }
+        } else {
+            int partition_count = from_info.childrenPartList().count();
+
+            for (int i = 0; i < partition_count; ++i) {
+                dCDebug("begin clone partition, index: %d......................\n", i);
+
+                if (!call_disk_pipe(DDiskInfo::Partition, i, i)) {
+                    dCDebug("failed!!!");
+
+                    return;
+                }
             }
         }
     }

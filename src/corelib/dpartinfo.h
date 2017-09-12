@@ -223,6 +223,7 @@ protected:
 private:
     friend class DPartInfoPrivate;
     friend class DDiskInfo;
+    friend class DDeviceDiskInfo;
     friend class DFileDiskInfoPrivate;
     friend class DDeviceDiskInfoPrivate;
     friend bool operator==(const DPartInfo &first, const DPartInfo &second);

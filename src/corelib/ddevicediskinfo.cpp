@@ -181,7 +181,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         if (status == QProcess::CrashExit) {
             setErrorString(QObject::tr("The process \"%1 %2\" crashed").arg(process->program()).arg(process->arguments().join(" ")));
         } else if (code != 0) {
-            setErrorString(QObject::tr("The \"%1 %2\" command execution failed: %3").arg(process->program(), process->arguments().join(" "), process->readAllStandardError()));
+            setErrorString(QObject::tr("The \"%1 %2\" command execution failed: %3").arg(process->program()).arg(process->arguments().join(" ")).arg(QString::fromUtf8(process->readAllStandardError())));
         }
     });
 
@@ -219,7 +219,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         if (index >= children.count())
             return false;
 
-        const DPartInfo &part = children.at(index);
+        const DPartInfo &part = index < 0 ? DDevicePartInfo(filePath()) : children.at(index);
 
         if (part.isMounted()) {
             if (Helper::umountDevice(part.filePath())) {
@@ -400,8 +400,20 @@ DDeviceDiskInfo::DDeviceDiskInfo(const QString &filePath)
     const QJsonArray &block_devices = Helper::getBlockDevices(filePath);
 
     if (!block_devices.isEmpty()) {
+        const QJsonObject &obj = block_devices.first().toObject();
+
         d = new DDeviceDiskInfoPrivate(this);
-        d_func()->init(block_devices.first().toObject());
+        d_func()->init(obj);
+
+        if (d->type == Part) {
+            const QJsonArray &parent = Helper::getBlockDevices(obj.value("pkname").toString());
+
+            if (!parent.isEmpty())
+                d->transport = parent.first().toObject().value("tran").toString();
+
+            if (!d->children.isEmpty())
+                d->children.first().d->transport = d->transport;
+        }
     }
 }
 
