@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: qt5integration
-Source: https://github.com/linuxdeepin/qt5integration
+Upstream-Name: deepin-clone
+Source: https://github.com/linuxdeepin/deepin-clone
 
 Files: *
 Copyright: 2017 Deepin.Inc <support@deepin.com>
