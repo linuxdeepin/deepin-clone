@@ -132,6 +132,9 @@ bool DFileDiskInfoPrivate::openDataStream(int index)
         break;
     }
     case DDiskInfo::Partition: {
+        if (index < 0)
+            index = 0;
+
         m_file.setFileName(getDIMFilePath(m_filePath, QString::number(index)));
         break;
     }
@@ -143,10 +146,12 @@ bool DFileDiskInfoPrivate::openDataStream(int index)
         break;
     }
 
-    if (currentMode == DDiskInfo::Read)
-        return m_file.open(QIODevice::ReadOnly);
+    bool ok = true;
 
-    bool ok = m_file.open(QIODevice::WriteOnly);
+    if (currentMode == DDiskInfo::Read)
+        ok = m_file.open(QIODevice::ReadOnly);
+    else
+        ok = m_file.open(QIODevice::WriteOnly);
 
     if (!ok) {
         setErrorString(QObject::tr("Device open failed, %1").arg(m_file.errorString()));
