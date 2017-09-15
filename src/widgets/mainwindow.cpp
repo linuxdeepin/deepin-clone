@@ -325,6 +325,13 @@ void MainWindow::setStatus(MainWindow::Status status)
             const QString &source = new_page->source();
             const QString &target = new_page->target();
 
+            if (source == target) {
+                m_subTitle->setText(tr("源设备和目标设备不能是同一个设备，请重新选择"));
+                m_bottomButton->setEnabled(false);
+
+                return;
+            }
+
             QString busy_device;
 
             if (Helper::isMounted(source)) {
@@ -360,8 +367,8 @@ void MainWindow::setStatus(MainWindow::Status status)
                 m_bottomButton->setText(tr("重启并继续"));
                 m_buttonAction = RestartToLiveSystem;
                 m_bottomButton->setEnabled(true);
-                m_sourceFile = new_page->source();
-                m_targetFile = new_page->target();
+                m_sourceFile = source;
+                m_targetFile = target;
                 m_bottomButton->setEnabled(m_sourceFile != m_targetFile);
             } else {
                 m_subTitle->setText(sub_title);
