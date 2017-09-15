@@ -232,7 +232,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         if (currentMode == DDiskInfo::Read)
             process->start(QStringLiteral("sfdisk -d %1").arg(filePath()), QIODevice::ReadOnly);
         else
-            process->start(QStringLiteral("sfdisk %1").arg(filePath()));
+            process->start(QStringLiteral("sfdisk %1 --no-reread").arg(filePath()));
 
         break;
     }

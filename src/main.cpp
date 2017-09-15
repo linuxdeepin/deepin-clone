@@ -48,7 +48,7 @@ bool Global::isTUIMode = true;
 #endif
 
 int Global::bufferSize = 1024 * 1024;
-int Global::compressionLevel = 2;
+int Global::compressionLevel = 0;
 
 DCORE_USE_NAMESPACE
 
