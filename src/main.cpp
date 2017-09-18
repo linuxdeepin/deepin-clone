@@ -88,6 +88,12 @@ int main(int argc, char *argv[])
         DApplication::loadDXcbPlugin();
         DApplication *app = new DApplication(argc, argv);
 
+        if (!app->setSingleInstance("_deepin_clone_")) {
+            dError("As well as the process is running");
+
+            return -1;
+        }
+
         app->setApplicationDisplayName(QObject::tr("Deepin Clone"));
         app->setTheme("light");
         a = app;
