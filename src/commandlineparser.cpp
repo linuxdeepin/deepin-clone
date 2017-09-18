@@ -42,6 +42,7 @@ CommandLineParser::CommandLineParser()
     , o_from_serial_url("from-serial-url")
     , o_disable_check_dim("no-check-dim")
     , o_log_file(QStringList() << "L" << "log-file")
+    , o_loop_device(QStringList() << "loop-device")
 {
     o_info.setDescription("Get the device info.");
     o_dim_info.setDescription("Get the dim file info.");
@@ -61,6 +62,7 @@ CommandLineParser::CommandLineParser()
     o_log_file.setDescription("Log file path");
     o_log_file.setValueName("File Path");
     o_log_file.setDefaultValue(QString("%1/%2.log").arg(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).arg(qApp->applicationName()));
+    o_loop_device.setDescription("Do not block loop device");
 
     QDir::current().mkpath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
@@ -75,6 +77,7 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_from_serial_url);
     parser.addOption(o_disable_check_dim);
     parser.addOption(o_log_file);
+    parser.addOption(o_loop_device);
     parser.addHelpOption();
     parser.addVersionOption();
 
@@ -95,6 +98,7 @@ void CommandLineParser::process(const QCoreApplication &app)
 
     Global::isOverride = parser.isSet(o_override);
     Global::disableMD5CheckForDimFile = parser.isSet(o_disable_check_dim);
+    Global::disableLoopDevice = !parser.isSet(o_loop_device);
 
     if (parser.isSet(o_buffer_size)) {
         bool ok = false;

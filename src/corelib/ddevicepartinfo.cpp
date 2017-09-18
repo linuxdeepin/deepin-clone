@@ -138,6 +138,10 @@ QList<DDevicePartInfo> DDevicePartInfo::localePartList()
 
     for (const QJsonValue &value : block_devices) {
         const QJsonObject &obj = value.toObject();
+
+        if (Global::disableLoopDevice && obj.value("type").toString() == "loop")
+            continue;
+
         const QString &fstype = obj.value("fstype").toString();
         const QString &transport = obj.value("tran").toString();
 

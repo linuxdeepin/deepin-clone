@@ -41,6 +41,7 @@ DWIDGET_USE_NAMESPACE
 
 bool Global::isOverride = true;
 bool Global::disableMD5CheckForDimFile = false;
+bool Global::disableLoopDevice = true;
 #ifdef ENABLE_GUI
 bool Global::isTUIMode = false;
 #else

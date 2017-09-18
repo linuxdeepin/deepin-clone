@@ -35,6 +35,7 @@ public:
     static int compressionLevel;
 
     static bool disableMD5CheckForDimFile;
+    static bool disableLoopDevice;
 };
 
 #endif // DGLOBAL_H
