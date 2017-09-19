@@ -33,7 +33,7 @@ public:
 
     virtual void refresh();
 
-    DPartInfo::Type toType(const QString &name);
+    DPartInfo::FSType toType(const QString &name);
 
     DPartInfo *q;
 
@@ -41,6 +41,7 @@ public:
     QString filePath;
     QString name;
     QString kname;
+    int index = 0;
     int blockSize = 4096;
     // Unit: bytes
     qint64 sizeStart = 0;
@@ -48,12 +49,13 @@ public:
     qint64 size = 0;
     qint64 usedSize = 0;
     qint64 freeSize = 0;
-    QString typeName;
-    DPartInfo::Type type;
+    QString fsTypeName;
+    DPartInfo::FSType fsType;
     QString mountPoint;
     QString label;
     QString partLabel;
-    QString partType;
+    DPartInfo::Type partType;
+    QString partTypeName;
     DPartInfo::GUIDType guidType;
 
     bool readonly = false;

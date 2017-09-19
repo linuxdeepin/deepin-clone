@@ -151,7 +151,9 @@ bool DDiskInfo::beginScope(DDiskInfo::DataScope scope, ScopeMode mode, int index
 
 bool DDiskInfo::endScope()
 {
-    d->closeDataStream();
+    if (d->currentScope != NullScope)
+        d->closeDataStream();
+
     d->currentScope = NullScope;
 
     return d->errorString().isEmpty();

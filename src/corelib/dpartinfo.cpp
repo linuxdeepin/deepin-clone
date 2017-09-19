@@ -38,7 +38,7 @@ void DPartInfoPrivate::refresh()
 
 }
 
-DPartInfo::Type DPartInfoPrivate::toType(const QString &name)
+DPartInfo::FSType DPartInfoPrivate::toType(const QString &name)
 {
     if (name.isEmpty())
         return DPartInfo::Invalid;
@@ -75,7 +75,7 @@ DPartInfo::Type DPartInfoPrivate::toType(const QString &name)
         return DPartInfo::ISO9660;
     }
 
-    return DPartInfo::Unknow;
+    return DPartInfo::UnknowFS;
 }
 
 DPartInfo::DPartInfo()
@@ -129,6 +129,26 @@ QString DPartInfo::kname() const
     return d->kname;
 }
 
+int DPartInfo::indexNumber() const
+{
+    return d->index;
+}
+
+QString DPartInfo::typeName() const
+{
+    return d->partTypeName;
+}
+
+DPartInfo::Type DPartInfo::type() const
+{
+    return d->partType;
+}
+
+bool DPartInfo::isExtended() const
+{
+    return d->partType == Extended || d->partType == Win95_Extended_LBA || d->partType == Linux_extended;
+}
+
 int DPartInfo::blockSize() const
 {
     return d->blockSize;
@@ -159,14 +179,14 @@ qint64 DPartInfo::freeSize() const
     return d->freeSize;
 }
 
-QString DPartInfo::typeName() const
+QString DPartInfo::fileSystemTypeName() const
 {
-    return d->typeName;
+    return d->fsTypeName;
 }
 
-DPartInfo::Type DPartInfo::type() const
+DPartInfo::FSType DPartInfo::fileSystemType() const
 {
-    return d->type;
+    return d->fsType;
 }
 
 QString DPartInfo::mountPoint() const
@@ -227,14 +247,17 @@ QByteArray DPartInfo::toJson() const
         {"parentDiskFilePath", parentDiskFilePath()},
         {"name", name()},
         {"kname", kname()},
+        {"typeName", typeName()},
+        {"type", type()},
+        {"typeDescription", typeDescription(type())},
         {"blockSize", blockSize()},
         {"totalSize", QString::number(totalSize())},
         {"sizeStart", QString::number(sizeStart())},
         {"sizeEnd", QString::number(sizeEnd())},
         {"usedSize", QString::number(usedSize())},
         {"freeSize", QString::number(freeSize())},
-        {"typeName", typeName()},
-        {"type", type()},
+        {"fsTypeName", fileSystemTypeName()},
+        {"fsType", fileSystemType()},
         {"mountPoint", mountPoint()},
         {"label", label()},
         {"partLabel", partLabel()},
@@ -248,6 +271,205 @@ QByteArray DPartInfo::toJson() const
     QJsonDocument doc(root);
 
     return doc.toJson();
+}
+
+DPartInfo::Type DPartInfo::type(const QString &type)
+{
+    bool ok = false;
+    int t = type.toInt(&ok, 16);
+
+    if (!ok)
+        return Unknow;
+
+    return Type(t);
+}
+
+QString DPartInfo::typeDescription(DPartInfo::Type type)
+{
+    switch (type) {
+    case Empty:
+        return "Empty";
+    case FAT12Type:
+        return "FAT12";
+    case XENIX_root:
+        return "XENIX root";
+    case XENIX_usr:
+        return "XENIX usr";
+    case FAT16_Less_32M:
+        return "FAT16 <32M";
+    case Extended:
+        return "Extended";
+    case FAT16Type:
+        return "FAT16";
+    case HPFS_NTFS:
+        return "HPFS/NTFS";
+    case AIX:
+        return "AIX";
+    case AIX_bootable:
+        return "AIX bootable";
+    case OS2_Boot_Manager:
+        return "OS2 Boot Manager";
+    case Win95_FAT32:
+        return "Win95 FAT32";
+    case Win95_FAT32_LBA:
+        return "Win95 FAT32 (LBA)";
+    case Win95_FAT16_LBA:
+        return "Win95 FAT16 (LBA)";
+    case Win95_Extended_LBA:
+        return "Win95 Ext'd (LBA)";
+    case OPUS:
+        return "OPUS";
+    case Hidden_FAT12:
+        return "Hidden FAT12";
+    case Compaq_diagnostics:
+        return "Compaq diagnostics";
+    case Hidden_FAT16_Less_32M:
+        return "Hidden FAT16 <32M";
+    case Hidden_FAT16:
+        return "Hidden FAT16";
+    case Hidden_HPFS_or_NTFS:
+        return "Hidden HPFS/NTFS";
+    case AST_SmartSleep:
+        return "AST SmartSleep";
+    case Hidden_Win95_FAT32:
+        return "Hidden Win95 FAT32";
+    case Hidden_Win95_FAT32_LBA:
+        return "Hidden Win95 FAT32 (LBA)";
+    case Hidden_Win95_FAT16_LBA:
+        return "Hidden Win95 FAT16";
+    case NEC_DOS:
+        return "NEC DOS";
+    case Plan9:
+        return "Plan 9";
+    case PartitionMagic_recovery:
+        return "PartitionMagic recovery";
+    case Venix_80286:
+        return "Venix 80286";
+    case PPC_PReP_Boot:
+        return "PPC PReP Boot";
+    case SFS:
+        return "SFS";
+    case QNX4_dot_x:
+        return "QNX4.x";
+    case QNX4_dot_x_2nd_part:
+        return "QNX4.x.2nd part";
+    case QNX4_dot_x_3rd_part:
+        return "QNX4.x 3rd part";
+    case OnTrack_DM:
+        return "OnTrack DM";
+    case OnTrack_DM6_Aux1:
+        return "OnTrack DM6 Aux1";
+    case CP_M:
+        return "CP/M";
+    case OnTrack_DM6_Aux3:
+        return "OnTrack DM6 Aux3";
+    case OnTrackDM6:
+        return "OnTrackDM6";
+    case EZ_Drive:
+        return "EZ-Drive";
+    case Golden_Bow:
+        return "Golden Bow";
+    case Priam_Edisk:
+        return "Priam Edisk";
+    case SpeedStor:
+        return "SpeedStor";
+    case GNU_HURD_or_SysV:
+        return "GNU HURD or SysV";
+    case Novell_Netware_286:
+        return "Novell Netware 286";
+    case Novell_Netware_386:
+        return "Novell Netware 386";
+    case DiskSecure_Multi_Boot:
+        return "DiskSecure Multi-Boot";
+    case PC_IX:
+        return "PC/IX";
+    case Old_Minix:
+        return "Old Minix";
+    case Minix_old_Linux:
+        return "Minix / old Linux";
+    case Linux_swap:
+        return "Linux swap";
+    case Linux:
+        return "Linux";
+    case OS2_hidden_C_drive:
+        return "OS/2 hidden C: drive";
+    case Linux_extended:
+        return "Linux extended";
+    case NTFS_volume_set_1:
+        return "NTFS volume set";
+    case NTFS_volume_set_2:
+        return "NTFS volume set";
+    case Linux_LVM:
+        return "Linux LVM";
+    case Amoeba:
+        return "Amoeba";
+    case Amoeba_BBT:
+        return "Amoeba BBT";
+    case BSD_OS:
+        return "BSD/OS";
+    case IBM_Thinkpad_hibernation:
+        return "IBM Thinkpad hibernation";
+    case FreeBSD:
+        return "FreeBSD";
+    case OpenBSD:
+        return "OpenBSD";
+    case NeXTSTEP:
+        return "NeXTSTEP";
+    case NetBSD:
+        return "NetBSD";
+    case BSDI_fs:
+        return "BSDI fs";
+    case BSDI_swap:
+        return "BSDI swap";
+    case Boot_Wizard_hidden:
+        return "Boot Wizard hidden";
+    case DRDOS_sec_FAT12:
+        return "DRDOS/sec (FAT-12)";
+    case DRDOS_sec_FAT16_Less_32M:
+        return "DRDOS/sec (FAT-16 < 32M)";
+    case DRDOS_sec_FAT16:
+        return "DRDOS/sec (FAT-16)";
+    case Syrinx:
+        return "Syrinx";
+    case Non_FS_data:
+        return "Non-FS data";
+    case CP_M_CTOS_dot_dot_dot:
+        return "CP/M / CTOS / ...";
+    case Dell_Utility:
+        return "Dell Utility";
+    case BootIt:
+        return "BootIt";
+    case DOS_access:
+        return "DOS access";
+    case DOS_R_O:
+        return "DOS R/O";
+    case SpeedStor_1:
+        return "SpeedStor";
+    case BeOS_fs:
+        return "BeOS fs";
+    case EFI_GPT:
+        return "EFI GPT";
+    case EFI_FAT12_16_32:
+        return "EFI (FAT-12/16/32)";
+    case Linux_PA_RISC_boot:
+        return "Linux/PA-RISC boot";
+    case SpeedStor_2:
+        return "SpeedStor";
+    case SeppdStor_3:
+        return "SpeedStor";
+    case DOS_secondary:
+        return "DOS secondary";
+    case Linux_raid_autodetect:
+        return "Linux raid autodetect";
+    case LANstep:
+        return "LANstep";
+    case BBT:
+        return "BBT";
+    default:
+        break;
+    }
+
+    return QString();
 }
 
 DPartInfo::GUIDType DPartInfo::guidType(const QByteArray &guid)
@@ -645,12 +867,13 @@ void DPartInfo::fromJson(const QJsonObject &root, DPartInfoPrivate *dd)
     dd->size = root.value("totalSize").toString().toLongLong();
     dd->usedSize = root.value("usedSize").toString().toLongLong();
     dd->freeSize = root.value("freeSize").toString().toLongLong();
-    dd->typeName = root.value("typeName").toString();
-    dd->type = (Type)root.value("type").toInt();
+    dd->fsTypeName = root.value("fsTypeName").toString();
+    dd->fsType = (FSType)root.value("fsType").toInt();
     dd->mountPoint = root.value("mountPoint").toString();
     dd->label = root.value("label").toString();
     dd->partLabel = root.value("partLabel").toString();
-    dd->partType = root.value("partType").toString();
+    dd->partTypeName = root.value("typeName").toString();
+    dd->partType = (Type)root.value("type").toInt();
     dd->guidType = (GUIDType)root.value("guidType").toInt();
     dd->readonly = root.value("readonly").toBool();
     dd->removeable = root.value("removeable").toBool();
@@ -670,7 +893,7 @@ QDebug operator<<(QDebug deg, const DPartInfo &info)
     Q_UNUSED(saver)
 
     deg.space() << "name:" << info.name()
-                << "type:" << info.typeName()
+                << "type:" << info.fileSystemTypeName()
                 << "size:" << Helper::sizeDisplay(info.totalSize())
                 << "used size:" << Helper::sizeDisplay(info.usedSize())
                 << "free size:" << Helper::sizeDisplay(info.freeSize())

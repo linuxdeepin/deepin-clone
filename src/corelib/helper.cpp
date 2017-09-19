@@ -155,7 +155,7 @@ bool Helper::refreshSystemPartList(const QString &device)
     if (code != 0)
         return false;
 
-    processExec("sleep 1");
+    QThread::sleep(1);
 
     return true;
 }
@@ -164,7 +164,7 @@ QString Helper::getPartcloneExecuter(const DPartInfo &info)
 {
     QString executor;
 
-    switch (info.type()) {
+    switch (info.fileSystemType()) {
     case DPartInfo::Invalid:
         break;
     case DPartInfo::Btrfs:
@@ -223,8 +223,11 @@ bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 *used, qint64 *f
         process.start(QString("df -B1 -P %1").arg(info.filePath()));
         process.waitForFinished();
 
-        if (process.exitCode() != 0)
+        if (process.exitCode() != 0) {
+            dCError("Call df failed: %s", qPrintable(process.readAllStandardError()));
+
             return false;
+        }
 
         QByteArray output = process.readAll();
         const QByteArrayList &lines = output.trimmed().split('\n');
@@ -275,26 +278,35 @@ bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 *used, qint64 *f
 
                 if (line.startsWith("Space in use:")) {
                     bool ok = false;
+                    const QByteArray &value = line.split(' ').value(6, "-1");
 
-                    used_block = line.split(' ').value(6, "-1").toLongLong(&ok);
+                    used_block = value.toLongLong(&ok);
 
                     if (!ok) {
+                        dCError("String to LongLong failed, String: %s", value.constData());
+
                         return false;
                     }
                 } else if (line.startsWith("Free Space:")) {
                     bool ok = false;
+                    const QByteArray &value = line.split(' ').value(5, "-1");
 
-                    free_block = line.split(' ').value(5, "-1").toLongLong(&ok);
+                    free_block = value.toLongLong(&ok);
 
                     if (!ok) {
+                        dCError("String to LongLong failed, String: %s", value.constData());
+
                         return false;
                     }
                 } else if (line.startsWith("Block size:")) {
                     bool ok = false;
+                    const QByteArray &value = line.split(' ').value(2, "-1");
 
-                    int block_size = line.split(' ').value(2, "-1").toInt(&ok);
+                    int block_size = value.toInt(&ok);
 
                     if (!ok) {
+                        dCError("String to Int failed, String: %s", value.constData());
+
                         return false;
                     }
 
@@ -535,7 +547,7 @@ int Helper::clonePartition(const DPartInfo &part, const QString &to, bool overri
 {
     QString executor;
 
-    switch (part.type()) {
+    switch (part.fileSystemType()) {
     case DPartInfo::Invalid:
         break;
     case DPartInfo::Btrfs:

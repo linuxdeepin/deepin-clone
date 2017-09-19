@@ -122,12 +122,18 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
     for (const QJsonValue &part : list) {
         const QJsonObject &obj = part.toObject();
 
-        if (children_uuids.contains(obj.value("partuuid").toString()))
+        const QString &uuid = obj.value("partuuid").toString();
+
+        if (!uuid.isEmpty() && children_uuids.contains(uuid))
             continue;
 
         DDevicePartInfo info;
 
         info.init(obj);
+
+        if (!info.partUUID().isEmpty() && children_uuids.contains(info.partUUID()))
+            continue;
+
         info.d->transport = transport;
         children << info;
         children_uuids << info.partUUID();
@@ -137,7 +143,7 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
         return info1.sizeStart() < info2.sizeStart();
     });
 
-    if (!obj.value("fstype").isNull()) {
+    if (!obj.value("fstype").isNull() || type == DDiskInfo::Part) {
         DDevicePartInfo info;
 
         info.init(obj);
@@ -145,7 +151,8 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
         children << info;
     }
 
-    ptTypeName = getPTName(name);
+    if (type == DDiskInfo::Disk)
+        ptTypeName = getPTName(name);
 
     if (ptTypeName == "dos") {
         ptType = DDiskInfo::MBR;
@@ -237,10 +244,25 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         break;
     }
     case DDiskInfo::Partition: {
-        if (index >= children.count())
+        if (index >= children.count()) {
+            setErrorString(QObject::tr("The index out of range of the partition"));
+            dCError("index: %d, parition count: %d", index, children.count());
+
             return false;
+        }
 
         const DPartInfo &part = index < 0 ? DDevicePartInfo(filePath()) : children.at(index);
+
+        dCDebug("Try open device: %s, mode: %s", qPrintable(part.filePath()), currentMode == DDiskInfo::Read ? "Read" : "Write");
+
+        if (part.isExtended() || part.type() == DPartInfo::Unknow) {
+            process->deleteLater();
+            process = 0;
+
+            dCDebug("Skip the \"%s\" partition, type: %s", qPrintable(part.filePath()), qPrintable(part.typeDescription(part.type())));
+
+            return true;
+        }
 
         if (part.isMounted()) {
             if (Helper::umountDevice(part.filePath())) {
@@ -292,23 +314,28 @@ void DDeviceDiskInfoPrivate::closeDataStream()
 {
     if (process) {
         if (process->state() != QProcess::NotRunning) {
-            process->closeWriteChannel();
+            if (currentMode == DDiskInfo::Read) {
+                process->terminate();
+                process->waitForFinished();
+            } else {
+                process->closeWriteChannel();
 
-            while (process->state() != QProcess::NotRunning) {
-                QThread::currentThread()->sleep(1);
+                while (process->state() != QProcess::NotRunning) {
+                    QThread::currentThread()->sleep(1);
 
-                if (!QFile::exists(QString("/proc/%2").arg(process->pid()))) {
-                    process->waitForFinished(-1);
+                    if (!QFile::exists(QString("/proc/%2").arg(process->pid()))) {
+                        process->waitForFinished(-1);
 
-                    if (process->error() == QProcess::Timedout)
-                        process->QIODevice::d_func()->errorString.clear();
+                        if (process->error() == QProcess::Timedout)
+                            process->QIODevice::d_func()->errorString.clear();
 
-                    break;
+                        break;
+                    }
                 }
             }
-
-            dCDebug("Process exit code: %d(%s %s)", process->exitCode(), qPrintable(process->program()), qPrintable(process->arguments().join(' ')));
         }
+
+        dCDebug("Process exit code: %d(%s %s)", process->exitCode(), qPrintable(process->program()), qPrintable(process->arguments().join(' ')));
     }
 
     if (currentMode == DDiskInfo::Write && currentScope == DDiskInfo::PartitionTable) {
@@ -350,7 +377,8 @@ qint64 DDeviceDiskInfoPrivate::totalReadableDataSize() const
     }
 
     for (const DPartInfo &part : children) {
-        size += part.usedSize() + part.totalSize() / part.blockSize() + 100000;
+        if (!part.isExtended())
+            size += part.usedSize();
     }
 
     return size;

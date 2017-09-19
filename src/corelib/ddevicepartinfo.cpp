@@ -57,13 +57,14 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     kname = obj.value("kname").toString();
     parentDiskFilePath = obj.value("pkname").toString();
     size = obj.value("size").toString().toLongLong();
-    typeName = obj.value("fstype").toString();
-    type = toType(typeName);
+    fsTypeName = obj.value("fstype").toString();
+    fsType = toType(fsTypeName);
     mountPoint = obj.value("mountpoint").toString();
     label = obj.value("label").toString();
     partLabel = obj.value("partlabel").toString();
-    partType = obj.value("parttype").toString();
-    guidType = DPartInfo::guidType(partType.toLatin1().toUpper());
+    partTypeName = obj.value("parttype").toString();
+    partType = DPartInfo::type(partTypeName);
+    guidType = DPartInfo::guidType(partTypeName.toLatin1().toUpper());
     blockSize = obj.value("phy-sec").toInt(4096);
     readonly = obj.value("ro").toString() == "1" || obj.value("type").toString() == "rom";
     removeable = obj.value("rm").toString() == "1";
@@ -76,30 +77,50 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
         sizeStart = 0;
         sizeEnd = size - 1;
     } else {
-        int code = Helper::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS").arg(device));
+        int code = Helper::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS,SIZE,TYPE,NR,UUID").arg(device));
 
         if (code == 0) {
             const QByteArray &data = Helper::lastProcessStandardOutput();
             const QByteArrayList &list = data.split(' ');
 
-            if (list.count() != 3) {
-                dCError("Get partition START/END/SECTORS/SIZE info error by partx, device: %s", qPrintable(device));
+            if (list.count() != 7) {
+                dCError("Get partition START/END/SECTORS/SIZE/TYPE/NR/UUID info error by partx, device: %s", qPrintable(device));
 
                 return;
             }
 
             qint64 start = list.first().split('"').at(1).toLongLong();
-            qint64 end = list.at(1).split('"').at(1).toLongLong();
+//            qint64 end = list.at(1).split('"').at(1).toLongLong();
             qint64 sectors = list.at(2).split('"').at(1).toLongLong();
+            qint64 size = list.at(3).split('"').at(1).toLongLong();
+
+            if (partTypeName.isEmpty()) {
+                partTypeName = list.at(4).split('"').at(1);
+                partType = DPartInfo::type(partTypeName);
+            }
+
+            index = list.at(5).split('"').at(1).toInt();
+
+            if (partUUID.isEmpty()) {
+                partUUID = list.at(6).split('"').at(1);
+            }
 
             Q_ASSERT(sectors > 0);
 
             sizeStart = start * (size / sectors);
-            sizeEnd = (end + 1) * (size / sectors) - 1;
+            sizeEnd = sizeStart + this->size - 1;
+        } else {
+            int number_start = 0;
+
+            for (int i = name.size() - 1; i >=0; --i)
+                if (!name.at(i).isDigit())
+                    number_start = i + 1;
+
+            index = name.mid(number_start).toInt();
         }
     }
 
-    if (type == DPartInfo::Invalid || type == DPartInfo::Unknow) {
+    if (fsType == DPartInfo::Invalid || fsType == DPartInfo::UnknowFS) {
         usedSize = size;
         freeSize = 0;
     } else if (!DThreadUtil::runInNewThread(&Helper::getPartitionSizeInfo, *q, &usedSize, &freeSize, &blockSize)) {
@@ -150,13 +171,21 @@ QList<DDevicePartInfo> DDevicePartInfo::localePartList()
 
             for (const QJsonValue &children : obj.value("children").toArray()) {
                 const QJsonObject &obj = children.toObject();
+                const QString &uuid = obj.value("partuuid").toString();
 
-                if (children_uuids.contains(obj.value("partuuid").toString()))
+                if (!uuid.isEmpty() && children_uuids.contains(uuid))
                     continue;
 
                 DDevicePartInfo info;
 
                 info.d_func()->init(obj);
+
+                if (info.isExtended())
+                    continue;
+
+                if (!info.partUUID().isEmpty() && children_uuids.contains(info.partUUID()))
+                    continue;
+
                 info.d->transport = transport;
                 list << info;
                 children_uuids << info.partUUID();
@@ -165,6 +194,10 @@ QList<DDevicePartInfo> DDevicePartInfo::localePartList()
             DDevicePartInfo info;
 
             info.d_func()->init(obj);
+
+            if (info.isExtended())
+                continue;
+
             info.d->transport = transport;
             list << info;
         }

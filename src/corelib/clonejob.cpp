@@ -236,7 +236,7 @@ void CloneJob::run()
     qint64 from_info_total_data_size = from_info.totalReadableDataSize();
     qint64 have_been_written = 0;
 
-    dCDebug("The total amount of data to be backed up: %lld", from_info_total_data_size);
+    dCDebug("The total amount of data to be backed up: %s", qPrintable(Helper::sizeDisplay(from_info_total_data_size)));
 
     if (to_info.totalWritableDataSize() < from_info_total_data_size) {
         if (!to_info.setTotalWritableDataSize(from_info_total_data_size)) {
