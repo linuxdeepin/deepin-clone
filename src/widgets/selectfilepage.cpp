@@ -194,6 +194,28 @@ void SelectFileWidget::setFilePath(const QString &path)
     emit filePathChanged();
 }
 
+static QString getFilePath(const QWidget *widget)
+{
+    if (const UtilityList *list = qobject_cast<const UtilityList*>(widget)) {
+        QListWidgetItem *item = list->selectedItems().first();
+
+        if (item->isHidden())
+            return QString();
+
+        const QWidget *widget = list->itemWidget(item);
+
+        if (const DiskListItem *item = qobject_cast<const DiskListItem*>(widget)) {
+            return item->info().filePath();
+        } else if (const PartitionListItem *item = qobject_cast<const PartitionListItem*>(widget)) {
+            return item->info().filePath();
+        }
+    } else if (const SelectFileWidget *file = qobject_cast<const SelectFileWidget*>(widget)) {
+        return file->selectFilePath();
+    }
+
+    return QString();
+}
+
 SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Action action, QWidget *parent)
     : ContentPairPage(parent)
 {
@@ -240,8 +262,11 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
             }
         }
 
+        hideItemForFile(getFilePath(left_widget), right_list);
+
         connect(left_list, &UtilityList::itemSelectionChanged, this, &SelectFilePage::sourceChanged);
         connect(right_list, &UtilityList::itemSelectionChanged, this, &SelectFilePage::targetChanged);
+        connect(left_list, &UtilityList::itemSelectionChanged, this, &SelectFilePage::onSourceChanged);
         break;
     }
     case SelectActionPage::Backup: {
@@ -328,23 +353,6 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
     setRightContent(right_widget, true);
 }
 
-static QString getFilePath(const QWidget *widget)
-{
-    if (const UtilityList *list = qobject_cast<const UtilityList*>(widget)) {
-        const QWidget *widget = list->itemWidget(list->selectedItems().first());
-
-        if (const DiskListItem *item = qobject_cast<const DiskListItem*>(widget)) {
-            return item->info().filePath();
-        } else if (const PartitionListItem *item = qobject_cast<const PartitionListItem*>(widget)) {
-            return item->info().filePath();
-        }
-    } else if (const SelectFileWidget *file = qobject_cast<const SelectFileWidget*>(widget)) {
-        return file->selectFilePath();
-    }
-
-    return QString();
-}
-
 QString SelectFilePage::source() const
 {
     return getFilePath(leftContent());
@@ -353,6 +361,47 @@ QString SelectFilePage::source() const
 QString SelectFilePage::target() const
 {
     return getFilePath(rightContent());
+}
+
+void SelectFilePage::onSourceChanged()
+{
+    const QString &left_file = source();
+
+    if (UtilityList *list = qobject_cast<UtilityList*>(rightContent())) {
+        hideItemForFile(left_file, list);
+    }
+}
+
+void SelectFilePage::hideItemForFile(const QString &filePath, UtilityList *list)
+{
+    bool hide_tareget_is_selected = false;
+
+    for (int i = 0; i < list->count(); ++i) {
+        QListWidgetItem *item = list->item(i);
+        QString file_path;
+
+        if (const DiskListItem *widget = qobject_cast<const DiskListItem*>(list->itemWidget(item)))
+            file_path = widget->info().filePath();
+        else if (const PartitionListItem *widget = qobject_cast<const PartitionListItem*>(list->itemWidget(item)))
+            file_path = widget->info().filePath();
+
+        if (file_path == filePath) {
+            item->setHidden(true);
+            hide_tareget_is_selected = item->isSelected();
+        } else {
+            item->setHidden(false);
+        }
+    }
+
+    if (!hide_tareget_is_selected)
+        return;
+
+    for (int i = 0; i < list->count(); ++i) {
+        QListWidgetItem *item = list->item(i);
+
+        if (!item->isHidden())
+            item->setSelected(true);
+    }
 }
 
 #include "selectfilepage.moc"

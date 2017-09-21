@@ -37,6 +37,10 @@ public:
 signals:
     void sourceChanged();
     void targetChanged();
+
+private:
+    void onSourceChanged();
+    void hideItemForFile(const QString &filePath, UtilityList *list);
 };
 
 #endif // SELECTFILEPAGE_H
