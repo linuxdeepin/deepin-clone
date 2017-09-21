@@ -146,13 +146,18 @@ bool DDiskInfo::beginScope(DDiskInfo::DataScope scope, ScopeMode mode, int index
     d->currentScope = scope;
     d->currentMode = mode;
 
+    dCDebug("Try open data stream(this=%llx): scope=%d, mode=%d, index=%d", this, scope, mode, index);
+
     return d->openDataStream(index);
 }
 
 bool DDiskInfo::endScope()
 {
-    if (d->currentScope != NullScope)
+    if (d->currentScope != NullScope) {
+        dCDebug("Try close data stream(this=%llx): scope=%d, mode=%d", this, d->currentScope, d->currentMode);
+
         d->closeDataStream();
+    }
 
     d->currentScope = NullScope;
 

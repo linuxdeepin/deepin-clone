@@ -246,7 +246,9 @@ void CloneJob::run()
         }
     }
 
-    PipeNotifyFunction print_fun = [from_info_total_data_size, &have_been_written, this] (qint64 accomplishBytes, int speed) {
+    qint8 progress = 0;
+
+    PipeNotifyFunction print_fun = [from_info_total_data_size, &have_been_written, &progress, this] (qint64 accomplishBytes, int speed) {
         if (m_abort)
             return false;
 
@@ -262,9 +264,10 @@ void CloneJob::run()
         if (Global::isTUIMode) {
             printf("\033[A");
             fflush(stdout);
-            printf("----%lld bytes of data have been written, total progress: %f----\n", have_been_written, m_progress * 100);
-        } else if ((m_progress * 100) - (int)(m_progress * 100) < 0.001) {
-            dCDebug("----%lld bytes of data have been written, total progress: %f----", have_been_written, m_progress * 100);
+            printf("----%lld bytes of data have been written, total progress: %f----", have_been_written, m_progress * 100);
+        } else if (progress != (int)(m_progress * 100)) {
+            progress = m_progress * 100;
+            dCDebug("----%lld bytes of data have been written, total progress: %d----", have_been_written, progress);
         }
 
         emit progressChanged(m_progress);
@@ -275,11 +278,16 @@ void CloneJob::run()
     auto call_disk_pipe = [&print_fun, this, &from_info, &to_info] (DDiskInfo::DataScope scope, int fromIndex = 0, int toIndex = 0) {
         QString error;
 
+        printf("\n");
+
         if (!diskInfoPipe(from_info, to_info, scope, fromIndex, toIndex, &error, &print_fun)) {
             setErrorString(error);
+            printf("\n");
 
             return false;
         }
+
+        printf("\n");
 
         return true;
     };

@@ -63,6 +63,8 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout)
         timer.start();
     }
 
+    dCDebug("Exec: \"%s\", timeout: %d", qPrintable(command), timeout);
+
     process->start(command, QIODevice::ReadOnly);
     process->waitForStarted();
 
@@ -74,8 +76,21 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout)
 
     loop.exec();
 
+    if (process->state() != QProcess::NotRunning) {
+        dCDebug("The \"%s\" timeout, timeout: %d", qPrintable(command), timeout);
+
+        if (QFile::exists(QString("/proc/%1").arg(process->pid()))) {
+            process->terminate();
+            process->waitForFinished();
+        } else {
+            dCDebug("The \"%s\" is quit, but the QProcess object state is not NotRunning");
+        }
+    }
+
     m_processStandardOutput = process->readAllStandardOutput();
     m_processStandardError = process->readAllStandardError();
+
+    dCDebug("Done: \"%s\", exit code: %d", qPrintable(command), process->exitCode());
 
     return process->exitCode();
 }
