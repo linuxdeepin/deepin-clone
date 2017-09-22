@@ -278,55 +278,6 @@ void MainWindow::setStatus(MainWindow::Status status)
             return;
         }
 
-        QString busy_device;
-
-        if (Helper::isMounted(m_sourceFile)) {
-            if (Helper::umountDevice(m_sourceFile)) {
-                if (!Helper::isBlockSpecialFile(m_targetFile)) {
-                    QFileInfo info(m_targetFile);
-
-                    if (!info.absoluteDir().exists()) {
-                        showErrorMessage(tr("The %1 directory not exists").arg(info.absolutePath()));
-
-                        return;
-                    }
-                }
-            } else {
-                busy_device = m_sourceFile;
-            }
-        }
-
-        if (busy_device.isEmpty() && Helper::isMounted(m_targetFile)) {
-            if (Helper::tryUmountDevice(m_targetFile)) {
-                if (!Helper::isBlockSpecialFile(m_sourceFile)) {
-                    if (!QFile::exists(m_sourceFile)) {
-                        showErrorMessage(tr("The %1 file not found").arg(m_sourceFile));
-
-                        return;
-                    }
-                }
-            } else {
-                busy_device = m_targetFile;
-            }
-        }
-
-        if (!busy_device.isEmpty()) {
-            DDialog d(this);
-
-            d.setMaximumWidth(width() / 2);
-            d.setIcon(QIcon::fromTheme("dialog-warning"));
-            d.setMessage(tr("\"%1\" is used, please restart and enter “Maintenance Mode“ to continue").arg(busy_device));
-            d.addButton(tr("Cancel"));
-            d.addButton(tr("Restart to Continue"), DDialog::ButtonRecommend);
-
-            if (d.exec() != 1) {
-                return;
-            }
-
-            m_buttonAction = RestartToLiveSystem;
-            m_bottomButton->setEnabled(true);
-        }
-
         break;
     }
     default:
@@ -338,7 +289,7 @@ void MainWindow::setStatus(MainWindow::Status status)
 
     m_title->setIcon(QIcon());
     m_subTitle->setText(QString());
-    m_cancelButton->setVisible(status == WaitConfirm);
+    m_cancelButton->setVisible(status == WaitConfirm || status == ToLiveSystem);
 
     switch (status) {
     case SelectAction: {
@@ -446,7 +397,7 @@ void MainWindow::setStatus(MainWindow::Status status)
     }
     case WaitConfirm: {
         if (!Helper::isBlockSpecialFile(m_targetFile))
-            return setStatus(Working);
+            return setStatus(ToLiveSystem);
 
         EndPage *page = new EndPage(EndPage::Warning);
 
@@ -456,6 +407,55 @@ void MainWindow::setStatus(MainWindow::Status status)
         m_title->setTitle(tr("Warning"));
         m_bottomButton->setText(tr("Ok"));
         m_buttonAction = Next;
+        m_pageIndicator->setCurrentPage(1);
+        break;
+    }
+    case ToLiveSystem: {
+        QString busy_device;
+
+        if (Helper::isMounted(m_sourceFile)) {
+            if (Helper::umountDevice(m_sourceFile)) {
+                if (!Helper::isBlockSpecialFile(m_targetFile)) {
+                    QFileInfo info(m_targetFile);
+
+                    if (!info.absoluteDir().exists()) {
+                        showErrorMessage(tr("The %1 directory not exists").arg(info.absolutePath()));
+
+                        return;
+                    }
+                }
+            } else {
+                busy_device = m_sourceFile;
+            }
+        }
+
+        if (busy_device.isEmpty() && Helper::isMounted(m_targetFile)) {
+            if (Helper::tryUmountDevice(m_targetFile)) {
+                if (!Helper::isBlockSpecialFile(m_sourceFile)) {
+                    if (!QFile::exists(m_sourceFile)) {
+                        showErrorMessage(tr("The %1 file not found").arg(m_sourceFile));
+
+                        return;
+                    }
+                }
+            } else {
+                busy_device = m_targetFile;
+            }
+        }
+
+        if (busy_device.isEmpty())
+            return setStatus(Working);
+
+        m_buttonAction = RestartToLiveSystem;
+        m_bottomButton->setEnabled(true);
+
+        EndPage *page = new EndPage(EndPage::Warning);
+
+        page->setMessage(tr("\"%1\" is used, please restart and enter “Maintenance Mode“ to continue").arg(busy_device));
+        setContent(page);
+        m_title->setTitle(QString());
+        m_bottomButton->setText(tr("Restart to Continue"));
+        m_buttonAction = RestartToLiveSystem;
         m_pageIndicator->setCurrentPage(1);
         break;
     }

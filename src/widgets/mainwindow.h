@@ -46,6 +46,7 @@ public:
         SelectAction,
         SelectFile,
         WaitConfirm,
+        ToLiveSystem,
         Working,
         End
     };

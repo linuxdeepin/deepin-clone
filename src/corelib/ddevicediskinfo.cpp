@@ -268,7 +268,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
             if (Helper::umountDevice(part.filePath())) {
                 children[index].d->mountPoint.clear();
             } else {
-                setErrorString(QObject::tr("%1 is busy").arg(part.filePath()));
+                setErrorString(QObject::tr("The \"%1\" device is busy").arg(part.filePath()));
 
                 return false;
             }
