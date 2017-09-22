@@ -67,6 +67,7 @@ public:
     static QString mountPoint(const QString &device);
     static bool isMounted(const QString &device);
     static bool umountDevice(const QString &device);
+    static bool tryUmountDevice(const QString &device);
     static bool mountDevice(const QString &device, const QString &path);
 
     static QString findDiskBySerialNumber(const QString &serialNumber, int partIndex = -1);
@@ -80,6 +81,7 @@ public:
     static bool isDiskDevice(const QString &devicePath);
     static bool isPartitionDevice(const QString &devicePath);
     static QString parentDevice(const QString &device);
+    static bool deviceHaveKinship(const QString &device1, const QString &device2);
 
     static int clonePartition(const DPartInfo &part, const QString &to, bool override = true);
     static int restorePartition(const QString &from, const DPartInfo &to);

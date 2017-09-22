@@ -90,13 +90,13 @@ SelectFileWidget::SelectFileWidget(Mode mode, QWidget *parent)
         setAcceptDrops(true);
     }
 
-    m_button = new DLinkButton(mode == GetSaveName ? tr("选择存储位置") : tr("选择文件"), this);
+    m_button = new DLinkButton(mode == GetSaveName ? tr("Select storage location") : tr("Select image file"), this);
 
     layout->addStretch();
     layout->addWidget(m_label, 0, Qt::AlignHCenter);
 
     if (mode == GetFile) {
-        m_dragDropLabel = new QLabel(tr("拖拽备份的镜像文件到此"), this);
+        m_dragDropLabel = new QLabel(tr("Drag and drop backup image file here"), this);
         m_dragDropLabel->setObjectName("DragDropLabel");
 
         QWidget *split_line = new QWidget(this);
@@ -183,10 +183,10 @@ void SelectFileWidget::setFilePath(const QString &path)
     m_filePath = path;
 
     if (m_dragDropLabel) {
-        m_button->setText(tr("重新选择文件"));
+        m_button->setText(tr("Reselect image file"));
         m_dragDropLabel->hide();
     } else {
-        m_button->setText(tr("重新选择存储位置"));
+        m_button->setText(tr("Reselect storage location"));
     }
 
     m_label->setTitle(m_filePath);
@@ -231,8 +231,8 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
         right_widget = right_list;
 
         if (mode == SelectActionPage::Disk) {
-            setLeftTitle(tr("请选择您要克隆的原始磁盘"));
-            setRightTitle(tr("请选择您想克隆的目标磁盘"));
+            setLeftTitle(tr("Select the source disk"));
+            setRightTitle(tr("Select the target disk"));
 
             for (const DDiskInfo &info : DDeviceDiskInfo::localeDiskList()) {
                 DiskListItem *item = new DiskListItem(info, left_list);
@@ -246,8 +246,8 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
                 }
             }
         } else {
-            setLeftTitle(tr("请选择您要克隆的原始分区"));
-            setRightTitle(tr("请选择您想克隆的目标分区"));
+            setLeftTitle(tr("Select the source partition"));
+            setRightTitle(tr("Select the target partition"));
 
             for (const DPartInfo &info : DDevicePartInfo::localePartList()) {
                 PartitionListItem *item = new PartitionListItem(info, left_list);
@@ -275,7 +275,7 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
         left_widget = left_list;
 
         if (mode == SelectActionPage::Disk) {
-            setLeftTitle(tr("请确认您要备份的磁盘"));
+            setLeftTitle(tr("Select a disk to backup"));
 
             for (const DDiskInfo &info : DDeviceDiskInfo::localeDiskList()) {
                 DiskListItem *item = new DiskListItem(info, left_list);
@@ -283,7 +283,7 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
                 left_list->addItem(item);
             }
         } else {
-            setLeftTitle(tr("请确认您要备份的分区"));
+            setLeftTitle(tr("Select a partition to backup"));
 
             for (const DPartInfo &info : DDevicePartInfo::localePartList()) {
                 PartitionListItem *item = new PartitionListItem(info, left_list);
@@ -292,7 +292,7 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
             }
         }
 
-        setRightTitle(tr("选择存储位置"));
+        setRightTitle(tr("Select storage location"));
 
         SelectFileWidget *sfw = new SelectFileWidget(SelectFileWidget::GetSaveName, this);
 
@@ -318,8 +318,12 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
         break;
     }
     case SelectActionPage::Restore: {
-        setLeftTitle(tr("请选择备份的镜像文件"));
-        setRightTitle(tr("选择恢复位置"));
+        setLeftTitle(tr("Select a backup image file"));
+
+        if (mode == SelectActionPage::Disk)
+            setRightTitle(tr("Select a disk to restore"));
+        else
+            setRightTitle(tr("Select a partition to restore"));
 
         SelectFileWidget *sfw = new SelectFileWidget(SelectFileWidget::GetFile, this);
         UtilityList *right_list = new UtilityList(this);

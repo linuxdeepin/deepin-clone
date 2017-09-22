@@ -98,6 +98,27 @@ QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
     return mount_point.absolutePath() + path;
 }
 
+static QString getDeviceForFile(const QString &file, QString *rootPath = 0)
+{
+    if (file.isEmpty())
+        return QString();
+
+    if (Helper::isBlockSpecialFile(file))
+        return file;
+
+    QFileInfo info(file);
+
+    while (!info.exists() && info.absoluteFilePath() != "/")
+        info.setFile(info.absolutePath());
+
+    QStorageInfo storage_info(info.absoluteFilePath());
+
+    if (rootPath)
+        *rootPath = storage_info.rootPath();
+
+    return QString::fromUtf8(storage_info.device());
+}
+
 QString toSerialUrl(const QString &file)
 {
     if (file.isEmpty())
@@ -125,19 +146,13 @@ QString toSerialUrl(const QString &file)
         return QString("serial://%1:%2").arg(info.serial()).arg(index);
     }
 
-    QFileInfo file_info(file);
+    QString root_path;
+    QString url = toSerialUrl(getDeviceForFile(file, &root_path));
 
-    while (!file_info.exists() && file_info.absoluteFilePath() != "/") {
-        file_info.setFile(file_info.absolutePath());
-    }
-
-    QStorageInfo info(file_info.absoluteFilePath());
-    QString url = toSerialUrl(info.device());
-
-    if (info.rootPath() == "/")
+    if (root_path == "/")
         return url + QFileInfo(file).absoluteFilePath();
 
-    return url + QFileInfo(file).absoluteFilePath().mid(info.rootPath().length());
+    return url + QFileInfo(file).absoluteFilePath().mid(root_path.length());
 }
 
 void MainWindow::startWithFile(const QString &source, const QString &target)
@@ -195,11 +210,11 @@ void MainWindow::init()
     m_subTitle->setObjectName("SubTitle");
     m_contentWidget = new QStackedWidget(this);
     m_cancelButton = new QPushButton(this);
-    m_cancelButton->setFixedSize(width() * 0.36, height() * 0.055);
+    m_cancelButton->setFixedSize(310, 36);
     m_cancelButton->setText(tr("Cancel"));
     m_cancelButton->hide();
     m_bottomButton = new QPushButton(this);
-    m_bottomButton->setFixedSize(width() * 0.36, height() * 0.055);
+    m_bottomButton->setFixedSize(310, 36);
     m_bottomButton->setObjectName("NextButton");
     m_loadingIndicator = new DVideoWidget(m_bottomButton);
     m_loadingIndicator->resize(m_bottomButton->height() * 0.8, m_bottomButton->height() * 0.8);
@@ -263,6 +278,55 @@ void MainWindow::setStatus(MainWindow::Status status)
             return;
         }
 
+        QString busy_device;
+
+        if (Helper::isMounted(m_sourceFile)) {
+            if (Helper::umountDevice(m_sourceFile)) {
+                if (!Helper::isBlockSpecialFile(m_targetFile)) {
+                    QFileInfo info(m_targetFile);
+
+                    if (!info.absoluteDir().exists()) {
+                        showErrorMessage(tr("The %1 directory not exists").arg(info.absolutePath()));
+
+                        return;
+                    }
+                }
+            } else {
+                busy_device = m_sourceFile;
+            }
+        }
+
+        if (busy_device.isEmpty() && Helper::isMounted(m_targetFile)) {
+            if (Helper::tryUmountDevice(m_targetFile)) {
+                if (!Helper::isBlockSpecialFile(m_sourceFile)) {
+                    if (!QFile::exists(m_sourceFile)) {
+                        showErrorMessage(tr("The %1 file not found").arg(m_sourceFile));
+
+                        return;
+                    }
+                }
+            } else {
+                busy_device = m_targetFile;
+            }
+        }
+
+        if (!busy_device.isEmpty()) {
+            DDialog d(this);
+
+            d.setMaximumWidth(width() / 2);
+            d.setIcon(QIcon::fromTheme("dialog-warning"));
+            d.setMessage(tr("\"%1\" is used, please restart and enter “Maintenance Mode“ to continue").arg(busy_device));
+            d.addButton(tr("Cancel"));
+            d.addButton(tr("Restart to Continue"), DDialog::ButtonRecommend);
+
+            if (d.exec() != 1) {
+                return;
+            }
+
+            m_buttonAction = RestartToLiveSystem;
+            m_bottomButton->setEnabled(true);
+        }
+
         break;
     }
     default:
@@ -282,7 +346,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         m_operateObject = SelectActionPage::Disk;
 
         setContent(new SelectActionPage());
-        m_title->setTitle(tr("Plase Select Action"));
+        m_title->setTitle(tr("Select Operation"));
         m_bottomButton->setText(tr("Next"));
         m_buttonAction = Next;
         m_pageIndicator->setCurrentPage(0);
@@ -304,78 +368,72 @@ void MainWindow::setStatus(MainWindow::Status status)
         }
 
         if (m_currentMode == SelectActionPage::Backup) {
-            button_text = tr("Begin Backup");
+            button_text = tr("Backup");
         } else if (m_currentMode == SelectActionPage::Clone) {
-            button_text = tr("Begin Clone");
+            button_text = tr("Clone");
 
             if (m_operateObject == SelectActionPage::Disk)
-                sub_title = tr("克隆磁盘会删除目标磁盘内的所有数据，请一定一定确认后再继续");
+                sub_title = tr("Target disk will be permanently overwritten, please confirm to continue");
             else
-                sub_title = tr("克隆分区会删除目标分区内的所有数据，请一定一定确认后再继续");
+                sub_title = tr("Target partition will be permanently overwritten, please confirm to continue");
         } else {
-            button_text = tr("Begin Restore");
+            button_text = tr("Restore");
 
             if (m_operateObject == SelectActionPage::Disk)
-                sub_title = tr("恢复操作会删除目标磁盘内的所有数据，请一定一定确认后再继续");
+                sub_title = tr("Target disk will be permanently overwritten, please confirm to continue");
             else
-                sub_title = tr("恢复操作会删除目标分区内的所有数据，请一定一定确认后再继续");
+                sub_title = tr("Target partition will be permanently overwritten, please confirm to continue");
         }
 
         auto on_file_changed = [new_page, sub_title, button_text, this] {
             const QString &source = new_page->source();
             const QString &target = new_page->target();
+            const QString &source_device = getDeviceForFile(source);
 
-            if (source == target) {
-                m_subTitle->setText(tr("源设备和目标设备不能是同一个设备，请重新选择"));
+            if (source_device == target || Helper::parentDevice(source_device) == target) {
+                if (m_operateObject == SelectActionPage::Disk)
+                    m_subTitle->setText(tr("Please move image file to other location outside the disk to avoid data loss"));
+                else
+                    m_subTitle->setText(tr("Please move image file to other location outside the partition to avoid data loss"));
+
                 m_bottomButton->setEnabled(false);
 
                 return;
             }
 
-            QString busy_device;
+            const DDiskInfo &disk_info = DDiskInfo::getInfo(source);
 
-            if (Helper::isMounted(source)) {
-                if (Helper::umountDevice(source)) {
-                    if (!Helper::isBlockSpecialFile(m_targetFile)) {
-                        QFileInfo info(m_targetFile);
+            if (Helper::isBlockSpecialFile(target)) {
+                const DDiskInfo &target_disk_info = DDiskInfo::getInfo(target);
 
-                        if (!info.absoluteDir().exists()) {
-                            m_subTitle->setText(tr("The %1 directory not exists").arg(info.absolutePath()));
-                            m_targetFile.clear();
-                        }
+                if (target_disk_info) {
+                    if (target_disk_info.totalSize() < disk_info.totalReadableDataSize()) {
+                        if (m_operateObject == SelectActionPage::Disk)
+                            m_subTitle->setText(tr("Not enough total storage size, please select another disk"));
+                        else
+                            m_subTitle->setText(tr("Not enough storage size in target partition, please select another one"));
+
+                        m_bottomButton->setEnabled(false);
                     }
-                } else {
-                    busy_device = source;
                 }
-            }
-
-            if (busy_device.isEmpty() && Helper::isMounted(target)) {
-                if (Helper::umountDevice(target)) {
-                    if (!Helper::isBlockSpecialFile(m_sourceFile)) {
-                        if (!QFile::exists(m_sourceFile)) {
-                            m_subTitle->setText(tr("The %1 file not found").arg(m_sourceFile));
-                            m_sourceFile.clear();
-                        }
-                    }
-                } else {
-                    busy_device = target;
-                }
-            }
-
-            if (!busy_device.isEmpty()) {
-                m_subTitle->setText(tr("设备\"%1\"被占用，重启到Live系统继续操作").arg(busy_device));
-                m_bottomButton->setText(tr("重启并继续"));
-                m_buttonAction = RestartToLiveSystem;
-                m_bottomButton->setEnabled(true);
-                m_sourceFile = source;
-                m_targetFile = target;
-                m_bottomButton->setEnabled(m_sourceFile != m_targetFile);
             } else {
-                m_subTitle->setText(sub_title);
-                m_bottomButton->setText(button_text);
-                m_buttonAction = Next;
-                m_bottomButton->setEnabled(!source.isEmpty() && !target.isEmpty());
+                if (!target.isEmpty()) {
+                    QFileInfo target_info(target);
+                    QStorageInfo storage_info(target_info.absoluteDir());
+
+                    if (storage_info.bytesAvailable() < disk_info.totalReadableDataSize()) {
+                        m_subTitle->setText(tr("Not enough total storage size, please select another disk"));
+                        m_bottomButton->setEnabled(false);
+
+                        return;
+                    }
+                }
             }
+
+            m_subTitle->setText(sub_title);
+            m_bottomButton->setText(button_text);
+            m_buttonAction = Next;
+            m_bottomButton->setEnabled(!source.isEmpty() && !target.isEmpty());
         };
 
         m_buttonAction = Next;
@@ -392,11 +450,11 @@ void MainWindow::setStatus(MainWindow::Status status)
 
         EndPage *page = new EndPage(EndPage::Warning);
 
-        page->setTitle(tr("您确定要继续吗？"));
-        page->setMessage(tr("继续%1会格式化\"%2\"%3的所有数据，此过程不可逆也不可取消，为了您的数据安全，一定要仔细检查您的操作，确定没问题后再继续").arg(currentModeString()).arg(m_targetFile).arg(operateObjectString()));
+        page->setTitle(tr("Proceed to clone?"));
+        page->setMessage(tr("All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.").arg(currentModeString()).arg(m_targetFile).arg(operateObjectString()));
         setContent(page);
-        m_title->setTitle(tr("提醒"));
-        m_bottomButton->setText(tr("Containue"));
+        m_title->setTitle(tr("Warning"));
+        m_bottomButton->setText(tr("Ok"));
         m_buttonAction = Next;
         m_pageIndicator->setCurrentPage(1);
         break;
@@ -415,7 +473,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         }
 
         if (!busy_device.isEmpty()) {
-            showErrorMessage(tr("无法继续操作，设备\"%1\"被占用").arg(busy_device));
+            showErrorMessage(tr("Can not coutinue，The \"%1\" device is busy").arg(busy_device));
             setStatus(SelectFile);
 
             return;
@@ -444,11 +502,11 @@ void MainWindow::setStatus(MainWindow::Status status)
         setContent(page);
 
         if (m_currentMode == SelectActionPage::Backup)
-            m_title->setTitle(tr("正在备份"));
+            m_title->setTitle(tr("Performing Backup"));
         else if (m_currentMode == SelectActionPage::Clone)
-            m_title->setTitle(tr("正在克隆"));
+            m_title->setTitle(tr("Cloning"));
         else
-            m_title->setTitle(tr("正在还原"));
+            m_title->setTitle(tr("Restoring"));
 
         m_bottomButton->setText(tr("Cancel"));
         m_buttonAction = Cancel;
@@ -463,31 +521,31 @@ void MainWindow::setStatus(MainWindow::Status status)
 
         if (is_error) {
             if (m_currentMode == SelectActionPage::Backup) {
-                m_title->setTitle(tr("备份失败"));
+                m_title->setTitle(tr("Backup Failed"));
             } else if (m_currentMode == SelectActionPage::Clone) {
-                m_title->setTitle(tr("克隆失败"));
+                m_title->setTitle(tr("Clone Failed"));
             } else {
-                m_title->setTitle(tr("还原失败"));
+                m_title->setTitle(tr("Restore Failed"));
             }
 
-            page->setTitle("抱歉，任务失败");
+            page->setTitle("Sorry, task failed");
             page->setMessage(worker->errorString());
             m_bottomButton->setText(tr("Retry"));
             m_buttonAction = Retry;
         } else {
-            page->setTitle(tr("恭喜您，任务完成"));
+            page->setTitle(tr("Task done"));
 
             if (m_currentMode == SelectActionPage::Backup) {
-                m_title->setTitle(tr("备份完成"));
-                m_bottomButton->setText(tr("Display Backup File"));
+                m_title->setTitle(tr("Backup Succeeded"));
+                m_bottomButton->setText(tr("View Backup File"));
                 m_buttonAction = ShowBackupFile;
             } else if (m_currentMode == SelectActionPage::Clone) {
-                m_title->setTitle(tr("克隆完成"));
+                m_title->setTitle(tr("Clone Succeeded"));
                 m_bottomButton->setText(tr("Ok"));
                 m_buttonAction = Quit;
             } else {
-                m_title->setTitle(tr("还原完成"));
-                m_bottomButton->setText(tr("Restart System"));
+                m_title->setTitle(tr("Restore Succeeded"));
+                m_bottomButton->setText(tr("Restart"));
                 m_buttonAction = RestartSystem;
             }
         }

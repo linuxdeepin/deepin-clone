@@ -43,15 +43,15 @@ static QString secondsToString(int seconds)
     seconds = seconds % 60;
 
     if (days > 0)
-        return QObject::tr("%1 days %2 hours %3 mimutes").arg(days).arg(hours).arg(minutes + 1);
+        return QObject::tr("%1 d %2 h %3 m").arg(days).arg(hours).arg(minutes + 1);
 
     if (hours > 0)
-        return QObject::tr("%1 hours %2 mimutes").arg(hours).arg(minutes + 1);
+        return QObject::tr("%1 h %2 m").arg(hours).arg(minutes + 1);
 
     if (minutes > 0)
-        return QObject::tr("%1 mimutes").arg(minutes + 1);
+        return QObject::tr("%1 m").arg(minutes + 1);
 
-    return QObject::tr("%1 seconds").arg(seconds);
+    return QObject::tr("%1 s").arg(seconds);
 }
 
 WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent)
@@ -67,8 +67,7 @@ WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent
     if (from_info)
         total_readable_data_size = from_info.totalReadableDataSize();
 
-    QLabel *tip_label = new QLabel(tr("任务正在进行，请稍后..."), this);
-    QLabel *totalSize_label = new QLabel(tr("预计数据总大小：%1").arg(Helper::sizeDisplay(total_readable_data_size)), this);
+    QLabel *tip_label = new QLabel(tr("Task is ongoing, please wait......"), this);
 
     m_writtenSizeLabel = new QLabel(this);
     m_timeRemainingLabel = new QLabel(this);
@@ -77,7 +76,6 @@ WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent
     layout->addWidget(m_progress, 0, Qt::AlignHCenter);
     layout->addWidget(tip_label, 0, Qt::AlignHCenter);
     layout->addWidget(tip_label, 0, Qt::AlignHCenter);
-    layout->addWidget(totalSize_label, 0, Qt::AlignHCenter);
     layout->addWidget(m_writtenSizeLabel, 0, Qt::AlignHCenter);
     layout->addWidget(m_timeRemainingLabel, 0, Qt::AlignHCenter);
     layout->addStretch();
@@ -86,8 +84,8 @@ WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent
 
     connect(m_job, &CloneJob::progressChanged, this, [this, total_readable_data_size] (qreal progress) {
         m_progress->setValue(progress * 100);
-        m_writtenSizeLabel->setText(tr("已写入大小：%1").arg(Helper::sizeDisplay(total_readable_data_size * progress)));
-        m_timeRemainingLabel->setText(tr("预计剩余时间： %1").arg(secondsToString(m_job->estimateTime())));
+        m_writtenSizeLabel->setText(tr("Progress: %1/%2").arg(Helper::sizeDisplay(total_readable_data_size * progress)).arg(Helper::sizeDisplay(total_readable_data_size)));
+        m_timeRemainingLabel->setText(tr("Remaining time: %1").arg(secondsToString(m_job->estimateTime())));
     });
     connect(m_job, &CloneJob::finished, this, &WorkingPage::finished);
 

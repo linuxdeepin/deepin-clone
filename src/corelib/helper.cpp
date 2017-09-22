@@ -411,6 +411,22 @@ bool Helper::umountDevice(const QString &device)
     return true;
 }
 
+bool Helper::tryUmountDevice(const QString &device)
+{
+    const QJsonArray &array = getBlockDevices("-l " + device);
+
+    for (const QJsonValue &device : array) {
+        const QJsonObject &obj = device.toObject();
+
+        if (!obj.value("mountpoint").isNull()) {
+            if (processExec(QString("umount -d %1 --fake").arg(obj.value("name").toString())) != 0)
+                return false;
+        }
+    }
+
+    return true;
+}
+
 bool Helper::mountDevice(const QString &device, const QString &path)
 {
     return processExec(QString("mount %1 %2").arg(device, path)) == 0;
@@ -418,7 +434,7 @@ bool Helper::mountDevice(const QString &device, const QString &path)
 
 QString Helper::findDiskBySerialNumber(const QString &serialNumber, int partIndex)
 {
-    const QJsonArray &array = getBlockDevices();
+    const QJsonArray &array = getBlockDevices("-x NAME");
 
     for (const QJsonValue &disk : array) {
         const QJsonObject &obj = disk.toObject();
@@ -448,7 +464,7 @@ int Helper::partitionIndex(const QString &partDevice)
     if (array.isEmpty())
         return -1;
 
-    const QJsonArray &p_array = getBlockDevices(array.first().toObject().value("pkname").toString());
+    const QJsonArray &p_array = getBlockDevices(array.first().toObject().value("pkname").toString() + " -x NAME");
 
     if (p_array.isEmpty())
         return -1;
@@ -555,7 +571,17 @@ QString Helper::parentDevice(const QString &device)
     if (blocks.isEmpty())
         return device;
 
-    return blocks.first().toObject().value("pkname").toString();
+    const QString &parent = blocks.first().toObject().value("pkname").toString();
+
+    if (parent.isEmpty())
+        return device;
+
+    return parent;
+}
+
+bool Helper::deviceHaveKinship(const QString &device1, const QString &device2)
+{
+    return device1 == device2 || parentDevice(device1) == parentDevice(device2);
 }
 
 int Helper::clonePartition(const DPartInfo &part, const QString &to, bool override)

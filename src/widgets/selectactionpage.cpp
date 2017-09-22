@@ -72,8 +72,8 @@ QIcon SelectActionPage::selectedItemIcon() const
 
 void SelectActionPage::init()
 {
-    setLeftTitle(tr("选择针对磁盘还是分区的操作"));
-    setRightTitle(tr("选择相对应的功能选项"));
+    setLeftTitle(tr("Select media"));
+    setRightTitle(tr("Select operation for media"));
 
     QWidget *left_content = new QWidget(this);
     QHBoxLayout *left_layout = new QHBoxLayout(left_content);
@@ -114,25 +114,25 @@ void SelectActionPage::setMode(SelectActionPage::Mode mode)
 
     if (mode == Disk) {
         m_rightContent->addItem(QIcon(":/icons/clone_disk_to_disk.svg"),
-                               tr("克隆磁盘"), tr("完整复制磁盘到另一个磁盘"),
+                               tr("Clone Disk"), tr("Clone source disk to target disk"),
                                QSize(120, 49));
         m_rightContent->addItem(QIcon(":/icons/clone_disk_to_image.svg"),
-                               tr("备份磁盘到镜像"), tr("将整个磁盘备份成一个单个文件"),
+                               tr("Backup Disk to Image"), tr("Backup disk data to a image file"),
                                QSize(120, 49));
         m_rightContent->addItem(QIcon(":/icons/restore_image_to_disk.svg"),
-                               tr("从镜像恢复到磁盘"), tr("将备份的镜像文件恢复到整个磁盘"),
+                               tr("Restore Image to Disk"), tr("Restore image file to disk"),
                                QSize(120, 49));
         m_partItem->setChecked(false);
         m_diskItem->setChecked(true);
     } else {
         m_rightContent->addItem(QIcon(":/icons/clone_partition_to_partition.svg"),
-                               tr("克隆分区"), tr("完整复制分区到另一个分区"),
+                               tr("Clone Partition"), tr("Clone source partition to target partition"),
                                QSize(120, 49));
         m_rightContent->addItem(QIcon(":/icons/clone_partition_to_image.svg"),
-                               tr("备份分区到镜像"), tr("将整个分区备份成一个单个文件"),
+                               tr("Backup Partition to Image"), tr("Backup partition data to a image file"),
                                QSize(120, 49));
         m_rightContent->addItem(QIcon(":/icons/restore_image_to_partition.svg"),
-                               tr("从镜像恢复到分区"), tr("将备份的镜像文件恢复到整个分区"),
+                               tr("Restore Image to Partition"), tr("Restore image file to partition"),
                                QSize(120, 49));
         m_partItem->setChecked(true);
         m_diskItem->setChecked(false);
