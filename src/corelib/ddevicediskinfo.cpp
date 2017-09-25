@@ -209,7 +209,9 @@ bool DDeviceDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::Sco
             return false;
         }
 
-        if (info.isExtended() || info.type() == DPartInfo::Unknow) {
+        if (info.isExtended() || (info.type() == DPartInfo::Unknow
+                                  && info.fileSystemType() == DPartInfo::Invalid
+                                  && info.guidType() == DPartInfo::InvalidGUID)) {
             dCDebug("Skip the \"%s\" partition, type: %s", qPrintable(info.filePath()), qPrintable(info.typeDescription(info.type())));
 
             return false;
@@ -307,10 +309,12 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
     if (process) {
         if (!process->waitForStarted()) {
-            setErrorString(QObject::tr("The \"%1 %2\" command start failed: %3").arg(process->program(), process->arguments().join(" "), process->errorString()));
+            setErrorString(QObject::tr("The \"%1 %2\" command start failed: %3").arg(process->program()).arg(process->arguments().join(" ")).arg(process->errorString()));
 
             return false;
         }
+
+        dCDebug("The \"%1 %s\" command start finished", qPrintable(process->program()), process->arguments().join(' ').constData());
     }
 
     bool ok = process ? process->isOpen() : buffer.open(QIODevice::ReadOnly);
