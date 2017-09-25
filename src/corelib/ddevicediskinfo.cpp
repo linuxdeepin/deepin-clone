@@ -81,8 +81,11 @@ public:
 
     QString errorString() const Q_DECL_OVERRIDE;
 
+    bool isClosing() const;
+
     QProcess *process = NULL;
     QBuffer buffer;
+    bool closing = false;
 };
 
 DDeviceDiskInfoPrivate::DDeviceDiskInfoPrivate(DDeviceDiskInfo *qq)
@@ -228,6 +231,9 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
     QObject::connect(process, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
                      process, [this] (int code, QProcess::ExitStatus status) {
+        if (isClosing())
+            return;
+
         if (status == QProcess::CrashExit) {
             setErrorString(QObject::tr("process \"%1 %2\" crashed").arg(process->program()).arg(process->arguments().join(" ")));
         } else if (code != 0) {
@@ -318,10 +324,14 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
 void DDeviceDiskInfoPrivate::closeDataStream()
 {
+    closing = true;
+
     if (process) {
         if (process->state() != QProcess::NotRunning) {
             if (currentMode == DDiskInfo::Read) {
-                process->terminate();
+                if (!process->atEnd())
+                    process->terminate();
+
                 process->waitForFinished();
             } else {
                 process->closeWriteChannel();
@@ -354,6 +364,8 @@ void DDeviceDiskInfoPrivate::closeDataStream()
 
     if (currentScope == DDiskInfo::JsonInfo)
         buffer.close();
+
+    closing = false;
 }
 
 qint64 DDeviceDiskInfoPrivate::readableDataSize(DDiskInfo::DataScope scope) const
@@ -457,6 +469,11 @@ QString DDeviceDiskInfoPrivate::errorString() const
     }
 
     return error;
+}
+
+bool DDeviceDiskInfoPrivate::isClosing() const
+{
+    return closing;
 }
 
 DDeviceDiskInfo::DDeviceDiskInfo()
