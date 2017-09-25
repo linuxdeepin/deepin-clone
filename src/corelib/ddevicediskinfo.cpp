@@ -359,6 +359,8 @@ void DDeviceDiskInfoPrivate::closeDataStream()
     }
 
     if (currentMode == DDiskInfo::Write && currentScope == DDiskInfo::PartitionTable) {
+        Helper::umountDevice(filePath());
+
         if (Helper::refreshSystemPartList(filePath())) {
             refresh();
         } else {

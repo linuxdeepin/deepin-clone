@@ -138,7 +138,7 @@ bool DDiskInfo::beginScope(DDiskInfo::DataScope scope, ScopeMode mode, int index
     d->error.clear();
 
     if (!d->hasScope(scope, mode, index)) {
-        d->setErrorString(QObject::tr("Device %1 not support scope: %2 mode: %3").arg(d->scopeString(scope)).arg(d->modeString(mode)));
+        d->setErrorString(QObject::tr("Device %1 not support scope: %2 mode: %3, index: %4").arg(filePath()).arg(d->scopeString(scope)).arg(d->modeString(mode)).arg(index));
 
         return false;
     }
@@ -377,7 +377,9 @@ const DPartInfo &DDiskInfo::getPartByNumber(int index)
             return info;
     }
 
-    return DPartInfo();
+    static DPartInfo global_null_info;
+
+    return global_null_info;
 }
 
 void DDiskInfo::fromJson(const QByteArray &json, DDiskInfoPrivate *dd)
