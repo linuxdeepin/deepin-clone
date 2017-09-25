@@ -172,7 +172,7 @@ bool DFileDiskInfoPrivate::openDataStream(int index)
         ok = m_file.open(QIODevice::WriteOnly);
 
     if (!ok) {
-        setErrorString(QObject::tr("Device open failed, %1").arg(m_file.errorString()));
+        setErrorString(QObject::tr("Failed to open file, error: %1").arg(m_file.errorString()));
     }
 
     return ok;

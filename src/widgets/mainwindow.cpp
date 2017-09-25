@@ -290,6 +290,7 @@ void MainWindow::setStatus(MainWindow::Status status)
     m_title->setIcon(QIcon());
     m_subTitle->setText(QString());
     m_cancelButton->setVisible(status == WaitConfirm || status == ToLiveSystem);
+    m_bottomButton->setVisible(true);
 
     switch (status) {
     case SelectAction: {
@@ -510,6 +511,7 @@ void MainWindow::setStatus(MainWindow::Status status)
 
         m_bottomButton->setText(tr("Cancel"));
         m_buttonAction = Cancel;
+        m_bottomButton->setVisible(m_currentMode == SelectActionPage::Backup);
         m_pageIndicator->setCurrentPage(2);
         break;
     }

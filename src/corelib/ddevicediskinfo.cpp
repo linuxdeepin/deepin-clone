@@ -229,9 +229,9 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
     QObject::connect(process, static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
                      process, [this] (int code, QProcess::ExitStatus status) {
         if (status == QProcess::CrashExit) {
-            setErrorString(QObject::tr("The process \"%1 %2\" crashed").arg(process->program()).arg(process->arguments().join(" ")));
+            setErrorString(QObject::tr("process \"%1 %2\" crashed").arg(process->program()).arg(process->arguments().join(" ")));
         } else if (code != 0) {
-            setErrorString(QObject::tr("The \"%1 %2\" command execution failed: %3").arg(process->program()).arg(process->arguments().join(" ")).arg(QString::fromUtf8(process->readAllStandardError())));
+            setErrorString(QObject::tr("Failed to perform process \"%1 %2\", error: %3").arg(process->program()).arg(process->arguments().join(" ")).arg(QString::fromUtf8(process->readAllStandardError())));
         }
     });
 
@@ -253,7 +253,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
     }
     case DDiskInfo::PartitionTable: {
         if (type != DDiskInfo::Disk) {
-            setErrorString(QObject::tr("%1 not is disk").arg(filePath()));
+            setErrorString(QObject::tr("%1 not is disk device").arg(filePath()));
 
             return false;
         }
@@ -270,11 +270,11 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
         dCDebug("Try open device: %s, mode: %s", qPrintable(part.filePath()), currentMode == DDiskInfo::Read ? "Read" : "Write");
 
-        if (part.isMounted()) {
+        if (Helper::isMounted(part.filePath())) {
             if (Helper::umountDevice(part.filePath())) {
                 children[index].d->mountPoint.clear();
             } else {
-                setErrorString(QObject::tr("The \"%1\" device is busy").arg(part.filePath()));
+                setErrorString(QObject::tr("\"%1\" is busy").arg(part.filePath()));
 
                 return false;
             }
@@ -310,7 +310,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
     bool ok = process ? process->isOpen() : buffer.open(QIODevice::ReadOnly);
 
     if (!ok) {
-        setErrorString(QObject::tr("Device open failed, %1").arg(process ? process->errorString(): buffer.errorString()));
+        setErrorString(QObject::tr("Failed to open process, error: %1").arg(process ? process->errorString(): buffer.errorString()));
     }
 
     return ok;

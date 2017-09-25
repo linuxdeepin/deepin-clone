@@ -138,7 +138,7 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
 
         if (write_size < read_size) {
             if (error)
-                *error = QObject::tr("Write data to device: %1 is failed, hope size: %2, actual size: %3, ").arg(to.filePath()).arg(read_size).arg(write_size).arg(to.errorString());
+                *error = QObject::tr("Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4").arg(to.filePath()).arg(read_size).arg(write_size).arg(to.errorString());
 
             goto exit;
         }
@@ -181,7 +181,7 @@ void CloneJob::run()
     dCDebug("Clone job start, source: %s, target: %s", qPrintable(m_from), qPrintable(m_to));
 
     if (!QFile::exists(m_from)) {
-        setErrorString(QObject::tr("%1 not found").arg(m_from));
+        setErrorString(QObject::tr("%1 not exsit").arg(m_from));
 
         return;
     }
@@ -195,7 +195,7 @@ void CloneJob::run()
     DDiskInfo from_info = DDiskInfo::getInfo(m_from);
 
     if (!from_info) {
-        setErrorString(QObject::tr("%1 is invalid file").arg(m_from));
+        setErrorString(QObject::tr("%1 invalid or not exsit").arg(m_from));
 
         return;
     }
@@ -207,7 +207,7 @@ void CloneJob::run()
 
         if (Helper::isDiskDevice(m_from) != Helper::isDiskDevice(m_to)) {
             if (Helper::isDiskDevice(m_from) && from_info.hasScope(DDiskInfo::PartitionTable)) {
-                setErrorString(tr("Hard disk devices can only be cloned to the hard disk"));
+                setErrorString(tr("Disk only can be cloned to disk"));
 
                 return;
             }
@@ -222,13 +222,13 @@ void CloneJob::run()
     DDiskInfo to_info = DDiskInfo::getInfo(m_to);
 
     if (!to_info) {
-        setErrorString(QObject::tr("%1 is invalid file").arg(m_to));
+        setErrorString(QObject::tr("%1 invalid or not exsit").arg(m_to));
 
         return;
     }
 
     if (to_info.totalSize() < from_info.maxReadableDataSize()) {
-        setErrorString(QObject::tr("Device %1 must be larger than %2 of device %3").arg(m_to).arg(Helper::sizeDisplay(from_info.maxReadableDataSize())).arg(m_from));
+        setErrorString(QObject::tr("%1 total capacity is less than maximum readable data on %2").arg(m_to).arg(Helper::sizeDisplay(from_info.maxReadableDataSize())).arg(m_from));
 
         return;
     }
@@ -239,8 +239,10 @@ void CloneJob::run()
     dCDebug("The total amount of data to be backed up: %s", qPrintable(Helper::sizeDisplay(from_info_total_data_size)));
 
     if (to_info.totalWritableDataSize() < from_info_total_data_size) {
+        dCDebug("%s write space is less than %2 total capacity", qPrintable(m_to), qPrintable(m_from));
+
         if (!to_info.setTotalWritableDataSize(from_info_total_data_size)) {
-            setErrorString(QObject::tr("The writeable size of device %1 must be greater than the readable size of device %1").arg(m_to).arg(m_from));
+            setErrorString(QObject::tr("Failed to change %1 size, please check the free sapce on target disk").arg(m_to));
 
             return;
         }
