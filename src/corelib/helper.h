@@ -86,6 +86,9 @@ public:
     static int clonePartition(const DPartInfo &part, const QString &to, bool override = true);
     static int restorePartition(const QString &from, const DPartInfo &to);
 
+    static bool existLiveSystem();
+    static bool restartToLiveSystem(const QByteArray &autoStart = QByteArray());
+
 signals:
     void newWarning(const QString &message);
     void newError(const QString &message);

@@ -447,7 +447,10 @@ void MainWindow::setStatus(MainWindow::Status status)
         if (busy_device.isEmpty())
             return setStatus(Working);
 
-        m_buttonAction = RestartToLiveSystem;
+        if (!Helper::existLiveSystem()) {
+
+        }
+
         m_bottomButton->setEnabled(true);
 
         EndPage *page = new EndPage(EndPage::Warning);
@@ -615,7 +618,9 @@ void MainWindow::onButtonClicked()
         const QString &source_url = toSerialUrl(m_sourceFile);
         const QString &target_url = toSerialUrl(m_targetFile);
 
-        qDebug() << source_url << target_url;
+        if (!Helper::restartToLiveSystem(QString("deepin-clone %1 %2").arg(source_url).arg(target_url).toUtf8())) {
+            dCError("Restart to live system failed!");
+        }
 
         break;
     }

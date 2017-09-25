@@ -670,3 +670,34 @@ int Helper::restorePartition(const QString &from, const DPartInfo &to)
 
     return code;
 }
+
+bool Helper::existLiveSystem()
+{
+    QFile file("/boot/grub/grub.cfg");
+
+    if (file.open(QIODevice::ReadOnly)) {
+        while (!file.atEnd())
+            if (file.readLine().contains("Deepin Recovery"))
+                return true;
+    }
+
+    return false;
+}
+
+bool Helper::restartToLiveSystem(const QByteArray &autoStart)
+{
+    if (!existLiveSystem())
+        return false;
+
+    QFile file("/boot/deepin/autostart/deepin-clone.sh");
+
+    if (!file.open(QIODevice::WriteOnly)) {
+        return false;
+    }
+
+    QByteArray data = "/bin/sh\n" + autoStart;
+
+    file.write(data);
+
+    return processExec("grub-reboot 'Deepin Recovery'") == 0;
+}
