@@ -35,6 +35,9 @@ public:
     QString target() const;
     QString logFile() const;
 
+    bool isSetOverride() const;
+    bool isSetDebug() const;
+
 private:
     QCommandLineParser parser;
     QCommandLineOption o_info;
@@ -48,6 +51,7 @@ private:
     QCommandLineOption o_disable_check_dim;
     QCommandLineOption o_log_file;
     QCommandLineOption o_loop_device;
+    QCommandLineOption o_debug_level;
 };
 
 #endif // COMMANDLINEPARSER_H

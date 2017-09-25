@@ -36,7 +36,7 @@ public:
     virtual QString filePath() const {return QString();}
     virtual void refresh() = 0;
 
-    virtual bool hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode) const = 0;
+    virtual bool hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode, int index) const = 0;
     virtual bool openDataStream(int index) = 0;
     virtual void closeDataStream() = 0;
 

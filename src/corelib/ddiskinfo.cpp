@@ -123,12 +123,12 @@ DDiskInfo::DataScope DDiskInfo::currentScope() const
     return d->currentScope;
 }
 
-bool DDiskInfo::hasScope(DDiskInfo::DataScope scope, ScopeMode mode) const
+bool DDiskInfo::hasScope(DDiskInfo::DataScope scope, ScopeMode mode, int index) const
 {
     if (scope == NullScope)
         return true;
 
-    return d->hasScope(scope, mode);
+    return d->hasScope(scope, mode, index);
 }
 
 bool DDiskInfo::beginScope(DDiskInfo::DataScope scope, ScopeMode mode, int index)
@@ -137,7 +137,7 @@ bool DDiskInfo::beginScope(DDiskInfo::DataScope scope, ScopeMode mode, int index
 
     d->error.clear();
 
-    if (!d->hasScope(scope, mode)) {
+    if (!d->hasScope(scope, mode, index)) {
         d->setErrorString(QObject::tr("Device %1 not support scope: %2 mode: %3").arg(d->scopeString(scope)).arg(d->modeString(mode)));
 
         return false;
@@ -368,6 +368,16 @@ DDiskInfo::DDiskInfo(DDiskInfoPrivate *dd)
 {
     if (dd)
         dd->q = this;
+}
+
+const DPartInfo &DDiskInfo::getPartByNumber(int index)
+{
+    for (const DPartInfo &info : d->children) {
+        if (info.indexNumber() == index)
+            return info;
+    }
+
+    return DPartInfo();
 }
 
 void DDiskInfo::fromJson(const QByteArray &json, DDiskInfoPrivate *dd)

@@ -21,6 +21,7 @@
 
 #include "helper.h"
 #include "dpartinfo.h"
+#include "dglobal.h"
 
 #include <QProcess>
 #include <QEventLoop>
@@ -63,7 +64,8 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout)
         timer.start();
     }
 
-    dCDebug("Exec: \"%s\", timeout: %d", qPrintable(command), timeout);
+    if (Global::debugLevel > 1)
+        dCDebug("Exec: \"%s\", timeout: %d", qPrintable(command), timeout);
 
     process->start(command, QIODevice::ReadOnly);
     process->waitForStarted();
@@ -90,7 +92,8 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout)
     m_processStandardOutput = process->readAllStandardOutput();
     m_processStandardError = process->readAllStandardError();
 
-    dCDebug("Done: \"%s\", exit code: %d", qPrintable(command), process->exitCode());
+    if (Global::debugLevel > 1)
+        dCDebug("Done: \"%s\", exit code: %d", qPrintable(command), process->exitCode());
 
     return process->exitCode();
 }

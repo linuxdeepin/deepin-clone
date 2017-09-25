@@ -33,6 +33,7 @@ public:
 
     static int bufferSize;
     static int compressionLevel;
+    static int debugLevel;
 
     static bool disableMD5CheckForDimFile;
     static bool disableLoopDevice;

@@ -76,7 +76,7 @@ private:
 
     qint64 m_size = 0;
     qint64 m_blockCount = 0;
-    int m_lastBlockSize = 0;
+    qint32 m_lastBlockSize = 0;
 };
 
 #endif // DZLIBIODEVICE_H

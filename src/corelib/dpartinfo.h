@@ -328,6 +328,9 @@ public:
 
     QByteArray toJson() const;
 
+    inline operator bool() const
+    { return d;}
+
     static Type type(const QString &type);
     static QString typeDescription(Type type);
     static GUIDType guidType(const QByteArray &guid);

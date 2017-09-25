@@ -76,6 +76,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     if (obj.value("pkname").isNull()) {
         sizeStart = 0;
         sizeEnd = size - 1;
+        index = 0;
     } else {
         int code = Helper::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS,SIZE,TYPE,NR,UUID").arg(device));
 

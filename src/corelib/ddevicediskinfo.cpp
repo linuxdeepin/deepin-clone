@@ -63,7 +63,7 @@ public:
     QString filePath() const Q_DECL_OVERRIDE;
     void refresh() Q_DECL_OVERRIDE;
 
-    bool hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode) const Q_DECL_OVERRIDE;
+    bool hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode, int index = 0) const Q_DECL_OVERRIDE;
     bool openDataStream(int index) Q_DECL_OVERRIDE;
     void closeDataStream() Q_DECL_OVERRIDE;
 
@@ -179,7 +179,7 @@ void DDeviceDiskInfoPrivate::refresh()
         init(block_devices.first().toObject());
 }
 
-bool DDeviceDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode) const
+bool DDeviceDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode, int index) const
 {
     if (mode == DDiskInfo::Read) {
         if (scope == DDiskInfo::Headgear) {
@@ -188,9 +188,31 @@ bool DDeviceDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::Sco
             return true;
         }
 
-        return scope == DDiskInfo::PartitionTable ? havePartitionTable : !children.isEmpty();
+        if (scope == DDiskInfo::PartitionTable)
+            return havePartitionTable;
     } else if (readonly || scope == DDiskInfo::JsonInfo) {
         return false;
+    }
+
+    if (scope == DDiskInfo::Partition) {
+        if (index == 0)
+            return mode == DDiskInfo::Write || !havePartitionTable;
+
+        const DPartInfo &info = q->getPartByNumber(index);
+
+        if (!info) {
+            dCDebug("Can not find parition by number(device: \"%s\"): %d", qPrintable(q->filePath()), index);
+
+            return false;
+        }
+
+        if (info.isExtended() || info.type() == DPartInfo::Unknow) {
+            dCDebug("Skip the \"%s\" partition, type: %s", qPrintable(info.filePath()), qPrintable(info.typeDescription(info.type())));
+
+            return false;
+        }
+
+        return mode != DDiskInfo::Write || !info.isReadonly();
     }
 
     return (scope == DDiskInfo::Headgear || scope == DDiskInfo::PartitionTable) ? type == DDiskInfo::Disk : true;
@@ -244,25 +266,9 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         break;
     }
     case DDiskInfo::Partition: {
-        if (index >= children.count()) {
-            setErrorString(QObject::tr("The index out of range of the partition"));
-            dCError("index: %d, parition count: %d", index, children.count());
-
-            return false;
-        }
-
-        const DPartInfo &part = index < 0 ? DDevicePartInfo(filePath()) : children.at(index);
+        const DPartInfo &part = index == 0 ? DDevicePartInfo(filePath()) : q->getPartByNumber(index);
 
         dCDebug("Try open device: %s, mode: %s", qPrintable(part.filePath()), currentMode == DDiskInfo::Read ? "Read" : "Write");
-
-        if (part.isExtended() || part.type() == DPartInfo::Unknow) {
-            process->deleteLater();
-            process = 0;
-
-            dCDebug("Skip the \"%s\" partition, type: %s", qPrintable(part.filePath()), qPrintable(part.typeDescription(part.type())));
-
-            return true;
-        }
 
         if (part.isMounted()) {
             if (Helper::umountDevice(part.filePath())) {

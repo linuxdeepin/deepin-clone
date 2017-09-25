@@ -68,7 +68,7 @@ public:
     void swap(DDiskInfo &other);
 
     DataScope currentScope() const;
-    bool hasScope(DataScope scope, ScopeMode mode = Read) const;
+    bool hasScope(DataScope scope, ScopeMode mode = Read, int index = 0) const;
     bool beginScope(DataScope scope, ScopeMode mode = Read, int index = 0);
     bool endScope();
     qint64 readableDataSize(DataScope scope) const;
@@ -119,12 +119,15 @@ public:
 
 protected:
     explicit DDiskInfo(DDiskInfoPrivate *dd);
+    const DPartInfo &getPartByNumber(int index);
     static void fromJson(const QByteArray &json, DDiskInfoPrivate *dd);
 
     QExplicitlySharedDataPointer<DDiskInfoPrivate> d;
 
 private:
     friend class DDiskInfoPrivate;
+    friend class DDeviceDiskInfoPrivate;
+    friend class DFileDiskInfoPrivate;
     friend bool operator==(const DDiskInfo &first, const DDiskInfo &second);
 };
 

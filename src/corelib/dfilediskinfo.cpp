@@ -42,7 +42,7 @@ public:
     QString filePath() const Q_DECL_OVERRIDE;
     void refresh() Q_DECL_OVERRIDE;
 
-    bool hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode) const Q_DECL_OVERRIDE;
+    bool hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode, int index) const Q_DECL_OVERRIDE;
     bool openDataStream(int index) Q_DECL_OVERRIDE;
     void closeDataStream() Q_DECL_OVERRIDE;
 
@@ -100,7 +100,7 @@ void DFileDiskInfoPrivate::init(const QString &filePath, DVirtualImageFileIO *io
     int index = 1;
 
     for (const DPartInfo &part : children) {
-        part.d->filePath = getDIMFilePath(m_filePath, QString::number(index));
+        part.d->filePath = getDIMFilePath(m_filePath, QString::number(part.indexNumber()));
         part.d->parentDiskFilePath = m_filePath;
         part.d->readonly = true;
         ++index;
@@ -125,13 +125,13 @@ void DFileDiskInfoPrivate::refresh()
     }
 }
 
-bool DFileDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode) const
+bool DFileDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::ScopeMode mode, int index) const
 {
     if (mode == DDiskInfo::Read) {
         if (scope == DDiskInfo::Headgear || scope == DDiskInfo::PartitionTable)
             return havePartitionTable;
         else if (scope == DDiskInfo::Partition)
-            return !children.isEmpty();
+            return q->getPartByNumber(index);
         else if (scope == DDiskInfo::JsonInfo)
             return QFile::exists(getDIMFilePath(m_filePath, "info.json"));
     } else {
@@ -153,9 +153,6 @@ bool DFileDiskInfoPrivate::openDataStream(int index)
         break;
     }
     case DDiskInfo::Partition: {
-        if (index < 0)
-            index = 0;
-
         m_file.setFileName(getDIMFilePath(m_filePath, QString::number(index)));
         break;
     }

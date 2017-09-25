@@ -264,7 +264,7 @@ void CloneJob::run()
         if (Global::isTUIMode) {
             printf("\033[A");
             fflush(stdout);
-            printf("----%lld bytes of data have been written, total progress: %f----", have_been_written, m_progress * 100);
+            printf("----%lld bytes of data have been written, total progress: %f----\n", have_been_written, m_progress * 100);
         } else if (progress != (int)(m_progress * 100)) {
             progress = m_progress * 100;
             dCDebug("----%lld bytes of data have been written, total progress: %d----", have_been_written, progress);
@@ -316,29 +316,20 @@ void CloneJob::run()
         }
     }
 
-    if (from_info.hasScope(DDiskInfo::Partition)) {
+    const QList<DPartInfo> &list = from_info.childrenPartList();
+
+    for (const DPartInfo &info : list) {
+        if (!from_info.hasScope(DDiskInfo::Partition, DDiskInfo::Read, info.indexNumber()))
+            continue;
+
         setStatus(Clone_Partition);
 
-        if (!from_info.hasScope(DDiskInfo::PartitionTable)) {
-            dCDebug("begin clone device\n");
+        dCDebug("begin clone partition, index: %d......................\n", info.indexNumber());
 
-            if (!call_disk_pipe(DDiskInfo::Partition, 0, -1)) {
-                dCDebug("failed!!!");
+        if (!call_disk_pipe(DDiskInfo::Partition, info.indexNumber(), info.indexNumber())) {
+            dCDebug("failed!!!");
 
-                return;
-            }
-        } else {
-            int partition_count = from_info.childrenPartList().count();
-
-            for (int i = 0; i < partition_count; ++i) {
-                dCDebug("begin clone partition, index: %d......................\n", i);
-
-                if (!call_disk_pipe(DDiskInfo::Partition, i, i)) {
-                    dCDebug("failed!!!");
-
-                    return;
-                }
-            }
+            return;
         }
     }
 

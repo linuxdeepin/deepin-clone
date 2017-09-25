@@ -43,6 +43,7 @@ CommandLineParser::CommandLineParser()
     , o_disable_check_dim("no-check-dim")
     , o_log_file(QStringList() << "L" << "log-file")
     , o_loop_device(QStringList() << "loop-device")
+    , o_debug_level(QStringList() << "d" << "debug")
 {
     o_info.setDescription("Get the device info.");
     o_dim_info.setDescription("Get the dim file info.");
@@ -63,6 +64,9 @@ CommandLineParser::CommandLineParser()
     o_log_file.setValueName("File Path");
     o_log_file.setDefaultValue(QString("%1/%2.log").arg(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).arg(qApp->applicationName()));
     o_loop_device.setDescription("Do not block loop device");
+    o_debug_level.setDescription("Set the debug level[0|1|2]");
+    o_debug_level.setValueName("Level");
+    o_debug_level.setDefaultValue(QString::number(Global::debugLevel));
 
     QDir::current().mkpath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
@@ -78,6 +82,7 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_disable_check_dim);
     parser.addOption(o_log_file);
     parser.addOption(o_loop_device);
+    parser.addOption(o_debug_level);
     parser.addHelpOption();
     parser.addVersionOption();
 
@@ -116,6 +121,16 @@ void CommandLineParser::process(const QCoreApplication &app)
         Global::compressionLevel = parser.value(o_compress_level).toInt(&ok);
 
         if (!ok) {
+            parser.showHelp(EXIT_FAILURE);
+        }
+    }
+
+    if (parser.isSet(o_debug_level)) {
+        bool ok = false;
+
+        Global::debugLevel = parser.value(o_debug_level).toInt(&ok);
+
+        if (!ok || Global::debugLevel < 0 || Global::debugLevel > 2) {
             parser.showHelp(EXIT_FAILURE);
         }
     }
@@ -190,4 +205,14 @@ QString CommandLineParser::target() const
 QString CommandLineParser::logFile() const
 {
     return parser.value(o_log_file);
+}
+
+bool CommandLineParser::isSetOverride() const
+{
+    return parser.isSet(o_override);
+}
+
+bool CommandLineParser::isSetDebug() const
+{
+    return parser.isSet(o_debug_level);
 }

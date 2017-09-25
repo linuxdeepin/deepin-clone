@@ -235,9 +235,6 @@ qint64 DZlibIODevice::writeData(const char *data, qint64 len)
 
 QByteArray DZlibIODevice::compress(const QByteArray &data) const
 {
-    if (Global::compressionLevel == 0)
-        return data;
-
     return qCompress(data, Global::compressionLevel);
 }
 
@@ -273,6 +270,12 @@ void DZlibIODevice::readNextBlock()
     stream.setVersion(QDataStream::Qt_5_6);
     stream >> expectedSize;
 
+    if (expectedSize <= 0) {
+        m_readBuffer.append(m_device->read(BLOCK_SIZE));
+
+        return;
+    }
+
     const QByteArray &array = m_device->read(expectedSize);
 
     m_readBuffer.append(uncompress(array));
@@ -281,10 +284,10 @@ void DZlibIODevice::readNextBlock()
 bool DZlibIODevice::writeToBlock()
 {
     const QByteArray &data = m_writeBuffer.left(BLOCK_SIZE);
-    const QByteArray &compress_data = compress(data);
+    const QByteArray &compress_data = Global::compressionLevel > 0 ? compress(data) : data;
     QDataStream stream(m_device);
     stream.setVersion(QDataStream::Qt_5_6);
-    stream << compress_data.size();
+    stream << (Global::compressionLevel > 0 ? compress_data.size() : int(0));
     qint64 write_size = m_device->write(compress_data);
 
     if (write_size != compress_data.size()) {

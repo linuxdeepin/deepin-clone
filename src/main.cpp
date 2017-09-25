@@ -50,6 +50,7 @@ bool Global::isTUIMode = true;
 
 int Global::bufferSize = 1024 * 1024;
 int Global::compressionLevel = 0;
+int Global::debugLevel = 1;
 
 DCORE_USE_NAMESPACE
 
@@ -88,12 +89,6 @@ int main(int argc, char *argv[])
         DApplication::loadDXcbPlugin();
         DApplication *app = new DApplication(argc, argv);
 
-        if (!app->setSingleInstance("_deepin_clone_")) {
-            dError("As well as the process is running");
-
-            return -1;
-        }
-
         app->setApplicationDisplayName(QObject::tr("Deepin Clone"));
         app->setTheme("light");
         a = app;
@@ -121,6 +116,10 @@ int main(int argc, char *argv[])
 
     dCDebug("Application command line: %s", qPrintable(a->arguments().join(' ')));
 
+    if (Global::debugLevel == 0) {
+        QLoggingCategory::setFilterRules("deepin.ghost.debug=false");
+    }
+
     if (Global::isTUIMode) {
         if (!parser.target().isEmpty()) {
             CloneJob job;
@@ -134,7 +133,17 @@ int main(int argc, char *argv[])
     }
 #ifdef ENABLE_GUI
     else {
-        Global::isOverride = true;
+        if (!qApp->setSingleInstance("_deepin_clone_")) {
+            dError("As well as the process is running");
+
+            return -1;
+        }
+
+        if (!parser.isSetOverride())
+            Global::isOverride = true;
+
+        if (!parser.isSetDebug())
+            Global::debugLevel = 2;
 
         MainWindow *window = new MainWindow;
 

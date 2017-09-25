@@ -265,7 +265,8 @@ QByteArray DPartInfo::toJson() const
         {"guidTypeDescription", guidTypeDescription(guidType())},
         {"readonly", isReadonly()},
         {"removeable", isRemoveable()},
-        {"transport", transport()}
+        {"transport", transport()},
+        {"index", indexNumber()}
     };
 
     QJsonDocument doc(root);
@@ -878,6 +879,7 @@ void DPartInfo::fromJson(const QJsonObject &root, DPartInfoPrivate *dd)
     dd->readonly = root.value("readonly").toBool();
     dd->removeable = root.value("removeable").toBool();
     dd->transport = root.value("transport").toString();
+    dd->index = root.value("index").toInt(-1);
 }
 
 void DPartInfo::fromJson(const QByteArray &json, DPartInfoPrivate *dd)
@@ -893,6 +895,7 @@ QDebug operator<<(QDebug deg, const DPartInfo &info)
     Q_UNUSED(saver)
 
     deg.space() << "name:" << info.name()
+                << "index:" << info.indexNumber()
                 << "type:" << info.fileSystemTypeName()
                 << "size:" << Helper::sizeDisplay(info.totalSize())
                 << "used size:" << Helper::sizeDisplay(info.usedSize())
