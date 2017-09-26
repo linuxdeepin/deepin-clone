@@ -87,6 +87,7 @@ void SelectActionPage::init()
     disk_item->setDirection(QBoxLayout::TopToBottom);
     disk_item->setFixedSize(140, 140);
     disk_item->installEventFilter(this);
+    disk_item->setHoverBackground(QColor(0, 0, 0, 0.05 * 255));
 
     IconLabel *partition_item = new IconLabel(left_content);
 
@@ -95,6 +96,7 @@ void SelectActionPage::init()
     partition_item->setDirection(QBoxLayout::TopToBottom);
     partition_item->setFixedSize(140, 140);
     partition_item->installEventFilter(this);
+    partition_item->setHoverBackground(QColor(0, 0, 0, 0.05 * 255));
 
     left_layout->setContentsMargins(20, 20 ,20, 20);
     left_layout->addWidget(disk_item, 0, Qt::AlignHCenter | Qt::AlignTop);

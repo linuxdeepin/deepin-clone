@@ -41,13 +41,18 @@ public:
 
     void setChecked(bool checked);
 
+    void setHoverBackground(const QColor &color);
+
 private:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+    void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
 
     QLabel *m_icon;
     QLabel *m_label;
 
     bool m_isChecked = false;
+    QColor m_background;
 };
 
 #endif // ICONLABEL_H

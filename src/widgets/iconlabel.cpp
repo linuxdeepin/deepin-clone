@@ -41,6 +41,7 @@ IconLabel::IconLabel(QWidget *parent)
     layout->addStretch();
 
     setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    setMouseTracking(true);
 }
 
 QString IconLabel::title() const
@@ -84,20 +85,51 @@ void IconLabel::setChecked(bool checked)
     update();
 }
 
+void IconLabel::setHoverBackground(const QColor &color)
+{
+    m_background = color;
+}
+
 void IconLabel::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event)
 
-    if (!m_isChecked)
-        return;
-
     QPainter pa(this);
-    QPen pen = pa.pen();
 
-    pen.setColor(QColor("#2ca7f8"));
-    pen.setWidth(2);
-    pen.setJoinStyle(Qt::RoundJoin);
-    pa.setPen(pen);
     pa.setRenderHint(QPainter::Antialiasing);
-    pa.drawRoundedRect(QRectF(rect()).adjusted(0.5, 0.5, -0.5, -0.5), 8, 8);
+
+    QPainterPath path;
+
+    path.addRoundedRect(QRectF(rect()).adjusted(0.5, 0.5, -0.5, -0.5), 8, 8);
+
+    if (m_background.isValid() && underMouse()) {
+        pa.fillPath(path, m_background);
+    }
+
+    if (m_isChecked) {
+        QPen pen = pa.pen();
+
+        pen.setColor(QColor("#2ca7f8"));
+        pen.setWidth(2);
+        pen.setJoinStyle(Qt::RoundJoin);
+        pa.setPen(pen);
+
+        pa.drawPath(path);
+    }
+}
+
+void IconLabel::enterEvent(QEvent *event)
+{
+    if (m_background.isValid())
+        update();
+
+    return QWidget::enterEvent(event);
+}
+
+void IconLabel::leaveEvent(QEvent *event)
+{
+    if (m_background.isValid())
+        update();
+
+    return QWidget::leaveEvent(event);
 }
