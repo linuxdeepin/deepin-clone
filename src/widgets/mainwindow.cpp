@@ -340,17 +340,35 @@ void MainWindow::setStatus(MainWindow::Status status)
         auto on_file_changed = [new_page, sub_title, button_text, this] {
             const QString &source = new_page->source();
             const QString &target = new_page->target();
-            const QString &source_device = getDeviceForFile(source);
 
-            if (source_device == target || Helper::parentDevice(source_device) == target) {
-                if (m_operateObject == SelectActionPage::Disk)
-                    m_subTitle->setText(tr("Please move image file to other location outside the disk to avoid data loss"));
-                else
-                    m_subTitle->setText(tr("Please move image file to other location outside the partition to avoid data loss"));
+            if (!Helper::isBlockSpecialFile(source)) {
+                const QString &source_device = getDeviceForFile(source);
 
-                m_bottomButton->setEnabled(false);
+                if (source_device == target || Helper::parentDevice(source_device) == target) {
+                    if (m_operateObject == SelectActionPage::Disk)
+                        m_subTitle->setText(tr("Please move image file to other location outside the disk to avoid data loss"));
+                    else
+                        m_subTitle->setText(tr("Please move image file to other location outside the partition to avoid data loss"));
 
-                return;
+                    m_bottomButton->setEnabled(false);
+
+                    return;
+                }
+            }
+
+            if (!Helper::isBlockSpecialFile(target)) {
+                const QString target_device = getDeviceForFile(target);
+
+                if (target_device == source || Helper::parentDevice(target_device) == source) {
+                    if (m_operateObject == SelectActionPage::Disk)
+                        m_subTitle->setText(tr("Please select a path on another disk"));
+                    else
+                        m_subTitle->setText(tr("Please select the path on the other partition"));
+
+                    m_bottomButton->setEnabled(false);
+
+                    return;
+                }
             }
 
             const DDiskInfo &disk_info = DDiskInfo::getInfo(source);
