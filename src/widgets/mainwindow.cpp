@@ -622,6 +622,12 @@ void MainWindow::onButtonClicked()
         return qApp->quit();
     }
     case RestartSystem: {
+        dCDebug("Try restart system");
+
+        if (Helper::processExec("reboot") != 0) {
+            dCError("Restart system failed");
+        }
+
         return qApp->quit();
     }
     case RestartToLiveSystem: {
