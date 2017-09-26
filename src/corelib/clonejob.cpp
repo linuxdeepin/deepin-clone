@@ -176,6 +176,10 @@ exit:
 
 void CloneJob::run()
 {
+    QElapsedTimer timer;
+
+    timer.start();
+
     setStatus(Started);
 
     dCDebug("Clone job start, source: %s, target: %s", qPrintable(m_from), qPrintable(m_to));
@@ -353,6 +357,8 @@ void CloneJob::run()
         emit progressChanged(1.0);
         dCDebug("clone finished!");
     }
+
+    dCDebug("Total time: %s, Total data: %s", qPrintable(Helper::secondsToString(timer.elapsed())), qPrintable(Helper::sizeDisplay(have_been_written)));
 }
 
 void CloneJob::setStatus(CloneJob::Status s)

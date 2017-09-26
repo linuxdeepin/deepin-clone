@@ -56,6 +56,7 @@ public:
     QString lastErrorString();
 
     static QString sizeDisplay(qint64 size);
+    static QString secondsToString(qint64 seconds);
 
     static bool refreshSystemPartList(const QString &device = QString());
     static QString getPartcloneExecuter(const DPartInfo &info);

@@ -28,32 +28,6 @@
 #include <QProgressBar>
 #include <QLabel>
 
-static QString secondsToString(int seconds)
-{
-    int days = seconds / 86400;
-
-    seconds = seconds % 86400;
-
-    int hours = seconds / 3600;
-
-    seconds = seconds % 3600;
-
-    int minutes = seconds / 60;
-
-    seconds = seconds % 60;
-
-    if (days > 0)
-        return QObject::tr("%1 d %2 h %3 m").arg(days).arg(hours).arg(minutes + 1);
-
-    if (hours > 0)
-        return QObject::tr("%1 h %2 m").arg(hours).arg(minutes + 1);
-
-    if (minutes > 0)
-        return QObject::tr("%1 m").arg(minutes + 1);
-
-    return QObject::tr("%1 s").arg(seconds);
-}
-
 WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent)
     : QWidget(parent)
 {
@@ -85,7 +59,7 @@ WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent
     connect(m_job, &CloneJob::progressChanged, this, [this, total_readable_data_size] (qreal progress) {
         m_progress->setValue(progress * 100);
         m_writtenSizeLabel->setText(tr("Progress: %1/%2").arg(Helper::sizeDisplay(total_readable_data_size * progress)).arg(Helper::sizeDisplay(total_readable_data_size)));
-        m_timeRemainingLabel->setText(tr("Remaining time: %1").arg(secondsToString(m_job->estimateTime())));
+        m_timeRemainingLabel->setText(tr("Remaining time: %1").arg(Helper::secondsToString(m_job->estimateTime())));
     });
     connect(m_job, &CloneJob::finished, this, &WorkingPage::finished);
 
