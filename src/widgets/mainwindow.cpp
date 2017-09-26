@@ -360,13 +360,15 @@ void MainWindow::setStatus(MainWindow::Status status)
                     const DDiskInfo &target_disk_info = DDiskInfo::getInfo(target);
 
                     if (target_disk_info) {
-                        if (target_disk_info.totalSize() < disk_info.totalReadableDataSize()) {
+                        if (target_disk_info.totalSize() < disk_info.totalSize()) {
                             if (m_operateObject == SelectActionPage::Disk)
                                 m_subTitle->setText(tr("Not enough total capacity in target disk, please select another one"));
                             else
                                 m_subTitle->setText(tr("Not enough total capacity in target partition, please select another one"));
 
                             m_bottomButton->setEnabled(false);
+
+                            return;
                         }
                     }
                 } else {
