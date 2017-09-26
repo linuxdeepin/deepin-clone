@@ -62,7 +62,7 @@ CommandLineParser::CommandLineParser()
     o_disable_check_dim.setDescription("Ignore dim file md5 check.");
     o_log_file.setDescription("Log file path");
     o_log_file.setValueName("File Path");
-    o_log_file.setDefaultValue(QString("%1/%2.log").arg(QStandardPaths::writableLocation(QStandardPaths::CacheLocation)).arg(qApp->applicationName()));
+    o_log_file.setDefaultValue(QString("/var/log/%2.log").arg(qApp->applicationName()));
     o_loop_device.setDescription("Do not block loop device");
     o_debug_level.setDescription("Set the debug level[0|1|2]");
     o_debug_level.setValueName("Level");
