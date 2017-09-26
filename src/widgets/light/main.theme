@@ -33,7 +33,20 @@ SelectFileWidget #SplitLine {
 }
 
 UtilityList::item:selected {
-    margin-right: 12;
+    margin-right: 10;
+    background-position: right;
+    background-image: url(:/icons/select.svg);
+    background-repeat: no-repeat;
+}
+
+UtilityList::item:hover {
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.05);
+    margin: 10 10 10 10;
+}
+
+UtilityList::item:hover:selected {
+    margin-right: 10;
     background-position: right;
     background-image: url(:/icons/select.svg);
     background-repeat: no-repeat;

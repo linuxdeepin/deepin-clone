@@ -264,9 +264,9 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
 
         hideItemForFile(getFilePath(left_widget), right_list);
 
-        connect(left_list, &UtilityList::itemSelectionChanged, this, &SelectFilePage::sourceChanged);
-        connect(right_list, &UtilityList::itemSelectionChanged, this, &SelectFilePage::targetChanged);
         connect(left_list, &UtilityList::itemSelectionChanged, this, &SelectFilePage::onSourceChanged);
+        connect(left_list, &UtilityList::itemSelectionChanged, this, &SelectFilePage::sourceChanged, Qt::QueuedConnection);
+        connect(right_list, &UtilityList::itemSelectionChanged, this, &SelectFilePage::targetChanged, Qt::QueuedConnection);
         break;
     }
     case SelectActionPage::Backup: {

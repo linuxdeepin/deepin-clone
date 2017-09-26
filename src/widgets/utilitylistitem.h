@@ -48,10 +48,14 @@ public:
     void addWidget(QWidget *w, int stretch = 0, Qt::Alignment alignment = Qt::Alignment());
 
 private:
+    void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
+
     QIcon m_iconFile;
     QLabel *m_icon;
     RightContentLabel *m_label;
     QHBoxLayout *m_layout;
+    QWidget *m_bottomSeparator;
 };
 
 #endif // UTILITYLISTITEM_H
