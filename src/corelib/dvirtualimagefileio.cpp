@@ -28,6 +28,8 @@
 #include <QFileInfo>
 #include <QDateTime>
 
+#define FILE_NAME_LENGTH 63
+
 class DVirtualImageFileIOPrivate : public QSharedData
 {
 public:
@@ -119,7 +121,7 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
 
     if (d->file.size() > 0) {
         if (d->file.size() < metaDataSize()) {
-            dCDebug("Not a valid dim file");
+            dCError("Not a valid dim file: %s", qPrintable(fileName));
 
             return false;
         }
@@ -133,7 +135,7 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
         stream.setVersion(QDataStream::Qt_5_6);
 
         if (getData<quint8>(stream) != 0xdd) {
-            dCDebug("The 1dth character should be 0xdd");
+            dCError("The 1dth character should be 0xdd");
 
             d->file.close();
 
@@ -143,7 +145,7 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
         stream >> d->version;
 
         if (d->version != 1) {
-            dCDebug("Unsupported version: %d", (int)d->version);
+            dCError("Unsupported version: %d", (int)d->version);
 
             d->file.close();
 
@@ -155,7 +157,7 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
         stream >> file_count;
 
         if (d->file.size() < 3 + file_count * 80) {
-            dCDebug("Not a valid dim file");
+            dCError("Not a valid dim file");
 
             d->file.close();
 
@@ -164,7 +166,7 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
 
         for (quint8 i = 0; i < file_count; ++i) {
             if (getData<quint8>(stream) != 0xdd) {
-                dCDebug("The %lldth character should be 0xdd", d->file.pos());
+                dCError("The %lldth character should be 0xdd", d->file.pos());
 
                 d->file.close();
 
@@ -173,7 +175,7 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
 
             DVirtualImageFileIOPrivate::FileInfo info;
 
-            info.name = QString::fromUtf8(d->file.read(63));
+            info.name = QString::fromUtf8(d->file.read(FILE_NAME_LENGTH));
             info.index = i;
 
             stream >> info.start;
@@ -185,7 +187,7 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
         const QByteArray &md5 = d->file.read(16);
 
         if (!Global::disableMD5CheckForDimFile && md5 != md5sum()) {
-            dCDebug("MD5 check failed, file: %s, Is the file open in other application?", qPrintable(fileName));
+            dCError("MD5 check failed, file: %s, Is the file open in other application?", qPrintable(fileName));
 
             return false;
         }
@@ -427,7 +429,7 @@ bool DVirtualImageFileIO::rename(const QString &from, const QString &to)
 
     const QByteArray &file_name = to.toUtf8();
 
-    if (file_name.size() > 63) {
+    if (file_name.size() > FILE_NAME_LENGTH) {
         dCDebug("File name length exceeds limit");
 
         return false;
@@ -435,10 +437,10 @@ bool DVirtualImageFileIO::rename(const QString &from, const QString &to)
 
     d->file.write(file_name);
 
-    if (file_name.size() < 63) {
-        char empty_ch[63 - file_name.size()] = {0};
+    if (file_name.size() < FILE_NAME_LENGTH) {
+        char empty_ch[FILE_NAME_LENGTH - file_name.size()] = {0};
 
-        d->file.write(empty_ch, 63 - file_name.size());
+        d->file.write(empty_ch, FILE_NAME_LENGTH - file_name.size());
     }
 
     d->file.seek(pos);
@@ -513,7 +515,7 @@ bool DVirtualImageFileIO::addFile(const QString &name)
 
     const QByteArray &file_name = name.toUtf8();
 
-    if (file_name.size() > 63) {
+    if (file_name.size() > FILE_NAME_LENGTH) {
         dCDebug("File name length exceeds limit");
 
         d->file.close();
@@ -523,10 +525,10 @@ bool DVirtualImageFileIO::addFile(const QString &name)
 
     d->file.write(file_name);
 
-    if (file_name.size() < 63) {
-        char empty_ch[63 - file_name.size()] = {0};
+    if (file_name.size() < FILE_NAME_LENGTH) {
+        char empty_ch[FILE_NAME_LENGTH - file_name.size()] = {0};
 
-        d->file.write(empty_ch, 63 - file_name.size());
+        d->file.write(empty_ch, FILE_NAME_LENGTH - file_name.size());
     }
 
     DVirtualImageFileIOPrivate::FileInfo info;
@@ -571,13 +573,13 @@ QByteArray DVirtualImageFileIO::md5sum(bool readCache)
 
     md5.addData(d->file.read(validMetaDataSize()));
 
-    constexpr int block_size = 1024 * 1024 * 10;
+    const int block_size = qMax(1024 * 1024, int(d->file.size() / 1000));
 
     for (const DVirtualImageFileIOPrivate::FileInfo &info : d->fileList()) {
         d->file.seek(info.start);
 
-        while (d->file.pos() < info.end - block_size - 2) {
-            quint16 block_index = 0;
+        while (d->file.pos() < info.end - block_size - 4) {
+            quint32 block_index = 0;
 
             d->file.read((char*)(&block_index), sizeof(block_index));
 
