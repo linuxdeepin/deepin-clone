@@ -5,6 +5,8 @@ TEMPLATE = app
 CONFIG += link_pkgconfig
 PKGCONFIG += dtkcore
 
+DEFINES += QT_MESSAGELOGCONTEXT
+
 isEmpty(DISABLE_GUI) {
     include($$PWD/src/widgets/widgets.pri)
 } else {

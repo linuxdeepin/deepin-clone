@@ -314,7 +314,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
             return false;
         }
 
-        dCDebug("The \"%1 %s\" command start finished", qPrintable(process->program()), process->arguments().join(' ').constData());
+        dCDebug("The \"%s %s\" command start finished", qPrintable(process->program()), process->arguments().join(' ').constData());
     }
 
     bool ok = process ? process->isOpen() : buffer.open(QIODevice::ReadOnly);

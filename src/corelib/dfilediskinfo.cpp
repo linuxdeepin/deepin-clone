@@ -24,6 +24,7 @@
 #include "dpartinfo_p.h"
 #include "dvirtualimagefileio.h"
 #include "dzlibfile.h"
+#include "helper.h"
 
 #include <QString>
 #include <QFile>
@@ -131,7 +132,7 @@ bool DFileDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::Scope
         if (scope == DDiskInfo::Headgear || scope == DDiskInfo::PartitionTable)
             return havePartitionTable;
         else if (scope == DDiskInfo::Partition)
-            return q->getPartByNumber(index);
+            return q->getPartByNumber(index) && QFile::exists(getDIMFilePath(m_filePath, QString::number(index)));
         else if (scope == DDiskInfo::JsonInfo)
             return QFile::exists(getDIMFilePath(m_filePath, "info.json"));
     } else {
@@ -171,8 +172,10 @@ bool DFileDiskInfoPrivate::openDataStream(int index)
     else
         ok = m_file.open(QIODevice::WriteOnly);
 
-    if (!ok) {
-        setErrorString(QObject::tr("Failed to open file, error: %1").arg(m_file.errorString()));
+    if (ok) {
+        dCDebug("Open \"%s\" ok", qPrintable(m_file.fileName()));
+    } else {
+        setErrorString(QObject::tr("Failed to open file(%1), error: %2").arg(m_file.fileName()).arg(m_file.errorString()));
     }
 
     return ok;
