@@ -362,9 +362,9 @@ void MainWindow::setStatus(MainWindow::Status status)
                     if (target_disk_info) {
                         if (target_disk_info.totalSize() < disk_info.totalReadableDataSize()) {
                             if (m_operateObject == SelectActionPage::Disk)
-                                m_subTitle->setText(tr("Not enough total storage size, please select another disk"));
+                                m_subTitle->setText(tr("Not enough total capacity in target disk, please select another one"));
                             else
-                                m_subTitle->setText(tr("Not enough storage size in target partition, please select another one"));
+                                m_subTitle->setText(tr("Not enough total capacity in target partition, please select another one"));
 
                             m_bottomButton->setEnabled(false);
                         }
@@ -375,7 +375,7 @@ void MainWindow::setStatus(MainWindow::Status status)
                         QStorageInfo storage_info(target_info.absoluteDir());
 
                         if (storage_info.bytesAvailable() < disk_info.totalReadableDataSize()) {
-                            m_subTitle->setText(tr("Not enough total storage size, please select another disk"));
+                            m_subTitle->setText(tr("Not enough total capacity, please select another disk"));
                             m_bottomButton->setEnabled(false);
 
                             return;
@@ -408,7 +408,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         page->setMessage(tr("All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.").arg(currentModeString()).arg(m_targetFile).arg(operateObjectString()));
         setContent(page);
         m_title->setTitle(tr("Warning"));
-        m_bottomButton->setText(tr("Ok"));
+        m_bottomButton->setText(tr("OK"));
         m_buttonAction = Next;
         m_pageIndicator->setCurrentPage(1);
         break;
@@ -455,12 +455,12 @@ void MainWindow::setStatus(MainWindow::Status status)
             m_bottomButton->setText(tr("Restart to Continue"));
             m_buttonAction = RestartToLiveSystem;
             page = new EndPage(EndPage::Warning);
-            page->setMessage(tr("\"%1\" is used, please restart and enter \"Maintenance Mode\" to continue").arg(busy_device));
+            page->setMessage(tr("\"%1\" is used, please restart and enter \"Deepin Recovery\" to continue").arg(busy_device));
         } else {
-            m_bottomButton->setText(tr("Ok"));
+            m_bottomButton->setText(tr("OK"));
             m_buttonAction = Cancel;
             page = new EndPage(EndPage::Fail);
-            page->setMessage(tr("\"%1\" is used, please install \"Maintenance Mode\" to retry").arg(busy_device));
+            page->setMessage(tr("\"%1\" is used, please install \"Deepin Recovery\" to retry").arg(busy_device));
         }
 
         setContent(page);
@@ -552,7 +552,7 @@ void MainWindow::setStatus(MainWindow::Status status)
                 m_buttonAction = ShowBackupFile;
             } else if (m_currentMode == SelectActionPage::Clone) {
                 m_title->setTitle(tr("Clone Succeeded"));
-                m_bottomButton->setText(tr("Ok"));
+                m_bottomButton->setText(tr("OK"));
                 m_buttonAction = Quit;
             } else {
                 m_title->setTitle(tr("Restore Succeeded"));
@@ -627,7 +627,7 @@ void MainWindow::onButtonClicked()
         if (!Helper::restartToLiveSystem(QString("deepin-clone %1 %2").arg(source_url).arg(target_url).toUtf8())) {
             dCError("Restart to live system failed!");
 
-            showErrorMessage(tr("Restart to \"Maintenance Mode\" failed"));
+            showErrorMessage(tr("Restart to \"Deepin Recovery\" failed"));
         }
 
         break;
@@ -643,7 +643,7 @@ void MainWindow::showErrorMessage(const QString &message)
 
     dialog.setMaximumWidth(width() / 2);
     dialog.setIcon(QIcon::fromTheme("dialog-error"));
-    dialog.addButton(tr("Ok"), true);
+    dialog.addButton(tr("OK"), true);
     dialog.exec();
 }
 
