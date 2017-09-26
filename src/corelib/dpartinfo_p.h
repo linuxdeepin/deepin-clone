@@ -32,6 +32,8 @@ public:
     DPartInfoPrivate(DPartInfo *qq);
 
     virtual void refresh();
+    virtual qint64 getUsedSize() const;
+    virtual qint64 getFreeSize() const;
 
     DPartInfo::FSType toType(const QString &name);
 

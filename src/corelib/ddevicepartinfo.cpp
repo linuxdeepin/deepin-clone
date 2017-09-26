@@ -35,8 +35,13 @@ public:
     DDevicePartInfoPrivate(DDevicePartInfo *qq);
 
     void refresh() Q_DECL_OVERRIDE;
+    qint64 getUsedSize() const Q_DECL_OVERRIDE;
+    qint64 getFreeSize() const Q_DECL_OVERRIDE;
+    void ensureSizeInfo();
 
     void init(const QJsonObject &obj);
+
+    bool sizeInfoInitialized = false;
 };
 
 DDevicePartInfoPrivate::DDevicePartInfoPrivate(DDevicePartInfo *qq)
@@ -48,6 +53,35 @@ DDevicePartInfoPrivate::DDevicePartInfoPrivate(DDevicePartInfo *qq)
 void DDevicePartInfoPrivate::refresh()
 {
     *q = DDevicePartInfo(name);
+}
+
+qint64 DDevicePartInfoPrivate::getUsedSize() const
+{
+    const_cast<DDevicePartInfoPrivate*>(this)->ensureSizeInfo();
+
+    return usedSize;
+}
+
+qint64 DDevicePartInfoPrivate::getFreeSize() const
+{
+    const_cast<DDevicePartInfoPrivate*>(this)->ensureSizeInfo();
+
+    return freeSize;
+}
+
+void DDevicePartInfoPrivate::ensureSizeInfo()
+{
+    if (sizeInfoInitialized)
+        return;
+
+    if (fsType == DPartInfo::Invalid || fsType == DPartInfo::UnknowFS) {
+        usedSize = size;
+        freeSize = 0;
+    } else if (!DThreadUtil::runInNewThread(&Helper::getPartitionSizeInfo, *q, &usedSize, &freeSize, &blockSize)) {
+        dCError("Get partition used sieze/free size info failed, device: %s", qPrintable(name));
+    }
+
+    sizeInfoInitialized = true;
 }
 
 void DDevicePartInfoPrivate::init(const QJsonObject &obj)
@@ -71,21 +105,19 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     transport = obj.value("tran").toString();
     partUUID = obj.value("partuuid").toString();
 
-    const QString &device = name;
-
     if (obj.value("pkname").isNull()) {
         sizeStart = 0;
         sizeEnd = size - 1;
         index = 0;
     } else {
-        int code = Helper::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS,SIZE,TYPE,NR,UUID").arg(device));
+        int code = Helper::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS,SIZE,TYPE,NR,UUID").arg(name));
 
         if (code == 0) {
             const QByteArray &data = Helper::lastProcessStandardOutput();
             const QByteArrayList &list = data.split(' ');
 
             if (list.count() != 7) {
-                dCError("Get partition START/END/SECTORS/SIZE/TYPE/NR/UUID info error by partx, device: %s", qPrintable(device));
+                dCError("Get partition START/END/SECTORS/SIZE/TYPE/NR/UUID info error by partx, device: %s", qPrintable(name));
 
                 return;
             }
@@ -119,13 +151,6 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
 
             index = name.mid(number_start).toInt();
         }
-    }
-
-    if (fsType == DPartInfo::Invalid || fsType == DPartInfo::UnknowFS) {
-        usedSize = size;
-        freeSize = 0;
-    } else if (!DThreadUtil::runInNewThread(&Helper::getPartitionSizeInfo, *q, &usedSize, &freeSize, &blockSize)) {
-        dCError("Get partition used sieze/free size info failed, device: %s", qPrintable(device));
     }
 }
 

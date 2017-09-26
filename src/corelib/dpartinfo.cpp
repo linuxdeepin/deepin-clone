@@ -38,6 +38,16 @@ void DPartInfoPrivate::refresh()
 
 }
 
+qint64 DPartInfoPrivate::getUsedSize() const
+{
+    return usedSize;
+}
+
+qint64 DPartInfoPrivate::getFreeSize() const
+{
+    return freeSize;
+}
+
 DPartInfo::FSType DPartInfoPrivate::toType(const QString &name)
 {
     if (name.isEmpty())
@@ -171,12 +181,12 @@ qint64 DPartInfo::sizeEnd() const
 
 qint64 DPartInfo::usedSize() const
 {
-    return d->usedSize;
+    return d->getUsedSize();
 }
 
 qint64 DPartInfo::freeSize() const
 {
-    return d->freeSize;
+    return d->getFreeSize();
 }
 
 QString DPartInfo::fileSystemTypeName() const
