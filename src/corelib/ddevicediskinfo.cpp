@@ -146,14 +146,6 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
         return info1.sizeStart() < info2.sizeStart();
     });
 
-    if (!obj.value("fstype").isNull() || type == DDiskInfo::Part) {
-        DDevicePartInfo info;
-
-        info.init(obj);
-        info.d->transport = transport;
-        children << info;
-    }
-
     if (type == DDiskInfo::Disk)
         ptTypeName = getPTName(name);
 
@@ -164,6 +156,14 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
     } else {
         ptType = DDiskInfo::Unknow;
         havePartitionTable = false;
+    }
+
+    if ((!havePartitionTable && children.isEmpty()) || type == DDiskInfo::Part) {
+        DDevicePartInfo info;
+
+        info.init(obj);
+        info.d->transport = transport;
+        children << info;
     }
 }
 

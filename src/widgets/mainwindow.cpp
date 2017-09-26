@@ -613,6 +613,8 @@ void MainWindow::onButtonClicked()
         return setStatus(Working);
     }
     case ShowBackupFile: {
+        dCDebug("Show \"%s\" on file manager", qPrintable(m_targetFile));
+
         DDesktopServices::showFileItem(m_targetFile);
         return;
     }
@@ -625,6 +627,8 @@ void MainWindow::onButtonClicked()
     case RestartToLiveSystem: {
         const QString &source_url = toSerialUrl(m_sourceFile);
         const QString &target_url = toSerialUrl(m_targetFile);
+
+        dCDebug("Try restart to live system, source url: %s, target url: %s", qPrintable(source_url), qPrintable(target_url));
 
         if (!Helper::restartToLiveSystem(QString("deepin-clone %1 %2").arg(source_url).arg(target_url).toUtf8())) {
             dCError("Restart to live system failed!");
