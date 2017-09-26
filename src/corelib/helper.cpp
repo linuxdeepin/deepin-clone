@@ -712,12 +712,23 @@ bool Helper::existLiveSystem()
 
 bool Helper::restartToLiveSystem(const QByteArray &autoStart)
 {
-    if (!existLiveSystem())
+    if (!existLiveSystem()) {
+        dCDebug("Not install live system");
+
         return false;
+    }
 
     QFile file("/boot/deepin/autostart/deepin-clone.sh");
 
+    if (!QDir::current().mkpath("/boot/deepin/autostart")) {
+        dCDebug("mkpath failed");
+
+        return false;
+    }
+
     if (!file.open(QIODevice::WriteOnly)) {
+        dCDebug("Open file failed: \"%s\"", qPrintable(file.fileName()));
+
         return false;
     }
 
@@ -725,5 +736,11 @@ bool Helper::restartToLiveSystem(const QByteArray &autoStart)
 
     file.write(data);
 
-    return processExec("grub-reboot 'Deepin Recovery'") == 0;
+    if (processExec("grub-reboot \"Deepin Recovery\"") != 0) {
+        dCDebug("Exec grub-reboot \"Deepin Recovery\" failed");
+
+        return false;
+    }
+
+    return processExec("reboot") == 0;
 }
