@@ -355,29 +355,31 @@ void MainWindow::setStatus(MainWindow::Status status)
 
             const DDiskInfo &disk_info = DDiskInfo::getInfo(source);
 
-            if (Helper::isBlockSpecialFile(target)) {
-                const DDiskInfo &target_disk_info = DDiskInfo::getInfo(target);
+            if (disk_info) {
+                if (Helper::isBlockSpecialFile(target)) {
+                    const DDiskInfo &target_disk_info = DDiskInfo::getInfo(target);
 
-                if (target_disk_info) {
-                    if (target_disk_info.totalSize() < disk_info.totalReadableDataSize()) {
-                        if (m_operateObject == SelectActionPage::Disk)
-                            m_subTitle->setText(tr("Not enough total storage size, please select another disk"));
-                        else
-                            m_subTitle->setText(tr("Not enough storage size in target partition, please select another one"));
+                    if (target_disk_info) {
+                        if (target_disk_info.totalSize() < disk_info.totalReadableDataSize()) {
+                            if (m_operateObject == SelectActionPage::Disk)
+                                m_subTitle->setText(tr("Not enough total storage size, please select another disk"));
+                            else
+                                m_subTitle->setText(tr("Not enough storage size in target partition, please select another one"));
 
-                        m_bottomButton->setEnabled(false);
+                            m_bottomButton->setEnabled(false);
+                        }
                     }
-                }
-            } else {
-                if (!target.isEmpty()) {
-                    QFileInfo target_info(target);
-                    QStorageInfo storage_info(target_info.absoluteDir());
+                } else {
+                    if (!target.isEmpty()) {
+                        QFileInfo target_info(target);
+                        QStorageInfo storage_info(target_info.absoluteDir());
 
-                    if (storage_info.bytesAvailable() < disk_info.totalReadableDataSize()) {
-                        m_subTitle->setText(tr("Not enough total storage size, please select another disk"));
-                        m_bottomButton->setEnabled(false);
+                        if (storage_info.bytesAvailable() < disk_info.totalReadableDataSize()) {
+                            m_subTitle->setText(tr("Not enough total storage size, please select another disk"));
+                            m_bottomButton->setEnabled(false);
 
-                        return;
+                            return;
+                        }
                     }
                 }
             }
@@ -447,19 +449,23 @@ void MainWindow::setStatus(MainWindow::Status status)
         if (busy_device.isEmpty())
             return setStatus(Working);
 
-        if (!Helper::existLiveSystem()) {
+        EndPage *page;
 
+        if (Helper::existLiveSystem()) {
+            m_bottomButton->setText(tr("Restart to Continue"));
+            m_buttonAction = RestartToLiveSystem;
+            page = new EndPage(EndPage::Warning);
+            page->setMessage(tr("\"%1\" is used, please restart and enter \"Maintenance Mode\" to continue").arg(busy_device));
+        } else {
+            m_bottomButton->setText(tr("Ok"));
+            m_buttonAction = Cancel;
+            page = new EndPage(EndPage::Fail);
+            page->setMessage(tr("\"%1\" is used, please install \"Maintenance Mode\" to retry").arg(busy_device));
         }
 
-        m_bottomButton->setEnabled(true);
-
-        EndPage *page = new EndPage(EndPage::Warning);
-
-        page->setMessage(tr("\"%1\" is used, please restart and enter “Maintenance Mode“ to continue").arg(busy_device));
         setContent(page);
         m_title->setTitle(QString());
-        m_bottomButton->setText(tr("Restart to Continue"));
-        m_buttonAction = RestartToLiveSystem;
+        m_bottomButton->setEnabled(true);
         m_pageIndicator->setCurrentPage(1);
         break;
     }
@@ -620,6 +626,8 @@ void MainWindow::onButtonClicked()
 
         if (!Helper::restartToLiveSystem(QString("deepin-clone %1 %2").arg(source_url).arg(target_url).toUtf8())) {
             dCError("Restart to live system failed!");
+
+            showErrorMessage(tr("Restart to \"Maintenance Mode\" failed"));
         }
 
         break;
