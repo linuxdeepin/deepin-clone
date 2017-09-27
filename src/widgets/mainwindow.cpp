@@ -570,6 +570,11 @@ void MainWindow::setStatus(MainWindow::Status status)
                 m_title->setTitle(tr("Backup Succeeded"));
                 m_bottomButton->setText(tr("View Backup File"));
                 m_buttonAction = ShowBackupFile;
+
+                if (!QFile::setPermissions(m_targetFile, QFile::ReadOwner | QFile::ReadUser | QFile::ReadGroup
+                                           | QFile::WriteOwner | QFile::WriteUser | QFile::WriteGroup)) {
+                    dCDebug("Set the file permissions failed");
+                }
             } else if (m_currentMode == SelectActionPage::Clone) {
                 m_title->setTitle(tr("Clone Succeeded"));
                 m_bottomButton->setText(tr("OK"));
