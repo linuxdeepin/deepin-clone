@@ -4,13 +4,13 @@ minimum_perc = 80
 mode = master
 
 ; translation file
-[deepin-clone.deepin-clone.ts]
+[deepin-clone.deepin-clone]
 file_filter = translations/deepin-clone_<lang>.ts
 source_file = translations/deepin-clone.ts
 source_lang = en
 type = QT
 
-[deepin-clone.desktop.ts]
+[deepin-clone.desktop]
 source_file = deepin-clone.desktop
 source_lang = en
 type = DESKTOP
