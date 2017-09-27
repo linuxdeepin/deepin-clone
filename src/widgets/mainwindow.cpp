@@ -67,8 +67,12 @@ QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
     const QString &device_url = part_index >= 0 ? QString("serial://%1:%2").arg(serial_number).arg(part_index) : "serial://" + serial_number;
 
     if (device.isEmpty()) {
-        if (window)
-            window->showErrorMessage(QObject::tr("The \"%1\" device not found").arg(device_url));
+        if (window) {
+            if (part_index >= 0)
+                window->showErrorMessage(QObject::tr("Partition \"%1\" not found").arg(device_url));
+            else
+                window->showErrorMessage(QObject::tr("Disk \"%1\" not found").arg(device_url));
+        }
 
         return device;
     }
@@ -79,14 +83,20 @@ QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
     QDir mount_point(Helper::mountPoint(device));
 
     if (mount_point.absolutePath().isEmpty()) {
+        if (!QDir::current().mkpath("/tmp/deepin-clone/mount")) {
+            dCError("mkpath \"/tmp/deepin-clone/mount\" failed");
+        }
+
         if (part_index >= 0)
-            mount_point.setPath(QString("/mnt/%1-%2").arg(serial_number).arg(part_index));
+            mount_point.setPath(QString("/tmp/deepin-clone/mount/%1-%2").arg(serial_number).arg(part_index));
         else
-            mount_point.setPath(QString("/mnt/%1").arg(serial_number));
+            mount_point.setPath(QString("/tmp/deepin-clone/mount/%1").arg(serial_number));
 
         if (!Helper::mountDevice(device, mount_point.absolutePath())) {
+            dCError("Mount the device \"%s\" to \"%s\" failed", qPrintable(device_url), qPrintable(mount_point.absolutePath()));
+
             if (window)
-                window->showErrorMessage(QObject::tr("Mount the device \"%1\" to \"%2\" failed").arg(device_url).arg(mount_point.absolutePath()));
+                window->showErrorMessage(QObject::tr("Failed to mount partition \"%1\"").arg(device_url));
 
             return QString();
         }
@@ -261,19 +271,19 @@ void MainWindow::setStatus(MainWindow::Status status)
         m_targetFile = page->target();
 
         if (!QFile::exists(m_sourceFile)) {
-            showErrorMessage(tr("Source file not found"));
+            showErrorMessage("Source file not found");
 
             return;
         }
 
         if (m_targetFile.isEmpty()) {
-            showErrorMessage(tr("Target file is empty"));
+            showErrorMessage("Target file is empty");
 
             return;
         }
 
         if (m_sourceFile == m_targetFile) {
-            showErrorMessage(tr("The source file and the destination file can not be the same file, Please re-select"));
+            showErrorMessage("The source file and the destination file can not be the same file, Please re-select");
 
             return;
         }
@@ -361,9 +371,9 @@ void MainWindow::setStatus(MainWindow::Status status)
 
                 if (target_device == source || Helper::parentDevice(target_device) == source) {
                     if (m_operateObject == SelectActionPage::Disk)
-                        m_subTitle->setText(tr("Please select a path on another disk"));
+                        m_subTitle->setText(tr("Storage location can not be in the disk to backup, please reselect"));
                     else
-                        m_subTitle->setText(tr("Please select the path on the other partition"));
+                        m_subTitle->setText(tr("Storage location can not be in the partition to backup, please reselect"));
 
                     m_bottomButton->setEnabled(false);
 
@@ -442,7 +452,9 @@ void MainWindow::setStatus(MainWindow::Status status)
                     QFileInfo info(m_targetFile);
 
                     if (!info.absoluteDir().exists()) {
-                        showErrorMessage(tr("The %1 directory not exists").arg(info.absolutePath()));
+                        dCError("The \"%s\" directory not exists", qPrintable(info.absolutePath()));
+
+                        showErrorMessage(tr("The selected storage location not found"));
 
                         return;
                     }
@@ -456,7 +468,7 @@ void MainWindow::setStatus(MainWindow::Status status)
             if (Helper::tryUmountDevice(m_targetFile)) {
                 if (!Helper::isBlockSpecialFile(m_sourceFile)) {
                     if (!QFile::exists(m_sourceFile)) {
-                        showErrorMessage(tr("The %1 file not found").arg(m_sourceFile));
+                        showErrorMessage(tr("%1 not exsit").arg(m_sourceFile));
 
                         return;
                     }
@@ -503,7 +515,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         }
 
         if (!busy_device.isEmpty()) {
-            showErrorMessage(tr("Can not coutinue，The \"%1\" device is busy").arg(busy_device));
+            showErrorMessage(QString("Can not coutinue，The \"%1\" device is busy").arg(busy_device));
             setStatus(SelectFile);
 
             return;
@@ -511,7 +523,8 @@ void MainWindow::setStatus(MainWindow::Status status)
 
         if (!Helper::isBlockSpecialFile(m_sourceFile)) {
             if (!QFile::exists(m_sourceFile)) {
-                showErrorMessage(tr("The %1 file not found").arg(m_sourceFile));
+                showErrorMessage(tr("%1 not exsit").arg(m_sourceFile));
+
                 return setStatus(SelectFile);
             }
         }
@@ -520,7 +533,9 @@ void MainWindow::setStatus(MainWindow::Status status)
             QFileInfo info(m_targetFile);
 
             if (!info.absoluteDir().exists()) {
-                showErrorMessage(tr("The %1 directory not exists").arg(info.absolutePath()));
+                dCError("The \"%s\" directory not exists", qPrintable(info.absolutePath()));
+
+                showErrorMessage(tr("The selected storage location not found"));
 
                 return setStatus(SelectFile);
             }
@@ -648,7 +663,9 @@ void MainWindow::onButtonClicked()
         dCDebug("Try restart system");
 
         if (Helper::processExec("reboot") != 0) {
-            dCError("Restart system failed");
+            dCError("Failed to restart system");
+
+            showErrorMessage(tr("Failed to restart system"));
         }
 
         return qApp->quit();
@@ -662,7 +679,7 @@ void MainWindow::onButtonClicked()
         if (!Helper::restartToLiveSystem(QString("deepin-clone %1 %2").arg(source_url).arg(target_url).toUtf8())) {
             dCError("Restart to live system failed!");
 
-            showErrorMessage(tr("Restart to \"Deepin Recovery\" failed"));
+            showErrorMessage(tr("Failed to restart \"Deepin Recovery\""));
         }
 
         break;
@@ -674,6 +691,8 @@ void MainWindow::onButtonClicked()
 
 void MainWindow::showErrorMessage(const QString &message)
 {
+    dCError(qPrintable(message));
+
     DDialog dialog(message, QString(), this);
 
     dialog.setMaximumWidth(width() / 2);

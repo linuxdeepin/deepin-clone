@@ -129,7 +129,9 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
 
         if (read_size <= 0) {
             if (error)
-                *error = QObject::tr("Read data from device: %1 is failed, %2").arg(from.filePath()).arg(from.errorString());
+                *error = from.errorString();
+
+            dCError("Reading data from \"%1\" failed, error: %2", qPrintable(from.filePath()), qPrintable(from.errorString()));
 
             goto exit;
         }
@@ -138,7 +140,7 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
 
         if (write_size < read_size) {
             if (error)
-                *error = QObject::tr("Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4").arg(to.filePath()).arg(read_size).arg(write_size).arg(to.errorString());
+                *error = QCoreApplication::translate("CloneJob", "Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4").arg(to.filePath()).arg(read_size).arg(write_size).arg(to.errorString());
 
             goto exit;
         }
@@ -185,7 +187,7 @@ void CloneJob::run()
     dCDebug("Clone job start, source: %s, target: %s", qPrintable(m_from), qPrintable(m_to));
 
     if (!QFile::exists(m_from)) {
-        setErrorString(QObject::tr("%1 not exsit").arg(m_from));
+        setErrorString(tr("%1 not exsit").arg(m_from));
 
         return;
     }
@@ -199,7 +201,7 @@ void CloneJob::run()
     DDiskInfo from_info = DDiskInfo::getInfo(m_from);
 
     if (!from_info) {
-        setErrorString(QObject::tr("%1 invalid or not exsit").arg(m_from));
+        setErrorString(tr("%1 invalid or not exsit").arg(m_from));
 
         return;
     }
@@ -226,13 +228,13 @@ void CloneJob::run()
     DDiskInfo to_info = DDiskInfo::getInfo(m_to);
 
     if (!to_info) {
-        setErrorString(QObject::tr("%1 invalid or not exsit").arg(m_to));
+        setErrorString(tr("%1 invalid or not exsit").arg(m_to));
 
         return;
     }
 
     if (to_info.totalSize() < from_info.maxReadableDataSize()) {
-        setErrorString(QObject::tr("%1 total capacity is less than maximum readable data on %2").arg(m_to).arg(Helper::sizeDisplay(from_info.maxReadableDataSize())).arg(m_from));
+        setErrorString(tr("%1 total capacity is less than maximum readable data on %2").arg(m_to).arg(Helper::sizeDisplay(from_info.maxReadableDataSize())).arg(m_from));
 
         return;
     }
@@ -246,7 +248,7 @@ void CloneJob::run()
         dCDebug("%s write space is less than %2 total capacity", qPrintable(m_to), qPrintable(m_from));
 
         if (!to_info.setTotalWritableDataSize(from_info_total_data_size)) {
-            setErrorString(QObject::tr("Failed to change %1 size, please check the free sapce on target disk").arg(m_to));
+            setErrorString(tr("Failed to change %1 size, please check the free sapce on target disk").arg(m_to));
 
             return;
         }

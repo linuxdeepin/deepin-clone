@@ -41,6 +41,8 @@ DWIDGET_USE_NAMESPACE
 class IconLabel;
 class MainWindow : public DMainWindow
 {
+    Q_OBJECT
+
 public:
     enum Status {
         SelectAction,

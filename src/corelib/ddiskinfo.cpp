@@ -138,7 +138,7 @@ bool DDiskInfo::beginScope(DDiskInfo::DataScope scope, ScopeMode mode, int index
     d->error.clear();
 
     if (!d->hasScope(scope, mode, index)) {
-        d->setErrorString(QObject::tr("Device %1 not support scope: %2 mode: %3, index: %4").arg(filePath()).arg(d->scopeString(scope)).arg(d->modeString(mode)).arg(index));
+        dCError("Device \"%s\" not support scope: \"%s\" mode: \"%s\", index: %d", qPrintable(filePath()), qPrintable(d->scopeString(scope)), qPrintable(d->modeString(mode)), index);
 
         return false;
     }

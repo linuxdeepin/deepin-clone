@@ -6,6 +6,7 @@ Exec=gksu "ionice -c3 /usr/sbin/deepin-clone"
 Icon=deepin-clone
 MimeType=application/x-deepinclone-dim;
 Name=Deepin Clone
+Name[zh_CN]=深度备份还原工具
 StartupNotify=true
 Terminal=false
 Type=Application

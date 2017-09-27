@@ -246,7 +246,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
     switch (currentScope) {
     case DDiskInfo::Headgear: {
         if (type != DDiskInfo::Disk) {
-            setErrorString(QObject::tr("%1 not is disk").arg(filePath()));
+            setErrorString(QObject::tr("\"%1\" is not a disk device").arg(filePath()));
 
             return false;
         }
@@ -261,7 +261,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
     }
     case DDiskInfo::PartitionTable: {
         if (type != DDiskInfo::Disk) {
-            setErrorString(QObject::tr("%1 not is disk device").arg(filePath()));
+            setErrorString(QObject::tr("\"%1\" is not a disk device").arg(filePath()));
 
             return false;
         }
@@ -309,7 +309,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
     if (process) {
         if (!process->waitForStarted()) {
-            setErrorString(QObject::tr("The \"%1 %2\" command start failed: %3").arg(process->program()).arg(process->arguments().join(" ")).arg(process->errorString()));
+            setErrorString(QObject::tr("Failed to start \"%1 %2\", error: %3").arg(process->program()).arg(process->arguments().join(" ")).arg(process->errorString()));
 
             return false;
         }

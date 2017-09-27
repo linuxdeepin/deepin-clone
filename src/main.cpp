@@ -89,7 +89,13 @@ int main(int argc, char *argv[])
         DApplication::loadDXcbPlugin();
         DApplication *app = new DApplication(argc, argv);
 
+        if (!app->loadTranslator()) {
+            dError("Load translator failed");
+        }
+
         app->setApplicationDisplayName(QObject::tr("Deepin Clone"));
+        app->setApplicationDescription(QObject::tr("Deepin Clone is a tool to backup and restore in deepin. "
+                                                   "It supports to clone, backup and restore disk or partition and other functions."));
         app->setTheme("light");
         a = app;
     }
