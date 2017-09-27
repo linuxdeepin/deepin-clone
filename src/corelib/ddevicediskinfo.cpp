@@ -163,6 +163,7 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
 
         info.init(obj);
         info.d->transport = transport;
+        info.d->index = 0;
         children << info;
     }
 }
@@ -198,8 +199,8 @@ bool DDeviceDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::Sco
     }
 
     if (scope == DDiskInfo::Partition) {
-        if (index == 0)
-            return mode == DDiskInfo::Write || !havePartitionTable;
+        if (index == 0 && mode == DDiskInfo::Write)
+            return true;
 
         const DPartInfo &info = q->getPartByNumber(index);
 
@@ -274,7 +275,13 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         break;
     }
     case DDiskInfo::Partition: {
-        const DPartInfo &part = index == 0 ? DDevicePartInfo(filePath()) : q->getPartByNumber(index);
+        const DPartInfo &part = (index == 0 && currentMode == DDiskInfo::Write) ? DDevicePartInfo(filePath()) : q->getPartByNumber(index);
+
+        if (!part) {
+            dCDebug("Part is null(index: %d)", index);
+
+            return false;
+        }
 
         dCDebug("Try open device: %s, mode: %s", qPrintable(part.filePath()), currentMode == DDiskInfo::Read ? "Read" : "Write");
 
