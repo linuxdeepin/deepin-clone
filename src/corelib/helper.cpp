@@ -735,6 +735,7 @@ bool Helper::restartToLiveSystem(const QByteArray &autoStart)
     QByteArray data = "/bin/sh\n" + autoStart;
 
     file.write(data);
+    file.setPermissions(file.permissions() | QFile::ExeUser | QFile::ExeOwner | QFile::ExeOther | QFile::ExeGroup);
 
     if (processExec("grub-reboot \"Deepin Recovery\"") != 0) {
         dCDebug("Exec grub-reboot \"Deepin Recovery\" failed");
