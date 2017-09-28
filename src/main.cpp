@@ -110,11 +110,14 @@ int main(int argc, char *argv[])
     QFile arguments_file("/lib/live/mount/medium/.tmp/deepin-clone.arguments");
     QStringList arguments;
 
-    if (arguments_file.exists()) {
+    bool load_arg_from_file = arguments_file.exists() && !Global::isTUIMode && !a->arguments().contains("--tui");
+
+    if (load_arg_from_file) {
         while (!arguments_file.atEnd())
             arguments.append(QString::fromUtf8(arguments_file.readLine()));
 
         arguments_file.close();
+        arguments_file.remove();
     } else {
         arguments = a->arguments();
     }
@@ -132,7 +135,7 @@ int main(int argc, char *argv[])
     logger->registerCategoryAppender("deepin.ghost", consoleAppender);
     logger->registerCategoryAppender("deepin.ghost", rollingFileAppender);
 
-    if (arguments_file.exists()) {
+    if (load_arg_from_file) {
         dCDebug("Load arguments from \"%s\"", qPrintable(arguments_file.fileName()));
     }
 
