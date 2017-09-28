@@ -187,7 +187,7 @@ void CloneJob::run()
     dCDebug("Clone job start, source: %s, target: %s", qPrintable(m_from), qPrintable(m_to));
 
     if (!QFile::exists(m_from)) {
-        setErrorString(tr("%1 not exsit").arg(m_from));
+        setErrorString(tr("%1 not exist").arg(m_from));
 
         return;
     }
@@ -201,7 +201,7 @@ void CloneJob::run()
     DDiskInfo from_info = DDiskInfo::getInfo(m_from);
 
     if (!from_info) {
-        setErrorString(tr("%1 invalid or not exsit").arg(m_from));
+        setErrorString(tr("%1 invalid or not exist").arg(m_from));
 
         return;
     }
@@ -228,7 +228,7 @@ void CloneJob::run()
     DDiskInfo to_info = DDiskInfo::getInfo(m_to);
 
     if (!to_info) {
-        setErrorString(tr("%1 invalid or not exsit").arg(m_to));
+        setErrorString(tr("%1 invalid or not exist").arg(m_to));
 
         return;
     }

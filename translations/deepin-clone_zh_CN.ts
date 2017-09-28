@@ -9,14 +9,22 @@
         <translation>写数据到 &quot;%1&quot; 失败，应写入%2字节数据，实际写入%3字节，错误信息：%4</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="190"/>
         <source>%1 not exsit</source>
+        <translation type="vanished">文件 &quot;%1&quot; 不存在</translation>
+    </message>
+    <message>
+        <source>%1 invalid or not exsit</source>
+        <translation type="vanished">&quot;%1&quot; 是一个不存在或者无效的文件</translation>
+    </message>
+    <message>
+        <location filename="../src/corelib/clonejob.cpp" line="190"/>
+        <source>%1 not exist</source>
         <translation>文件 &quot;%1&quot; 不存在</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="204"/>
         <location filename="../src/corelib/clonejob.cpp" line="231"/>
-        <source>%1 invalid or not exsit</source>
+        <source>%1 invalid or not exist</source>
         <translation>&quot;%1&quot; 是一个不存在或者无效的文件</translation>
     </message>
     <message>
@@ -148,10 +156,8 @@
         <translation>未找到所选择的储存位置</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="471"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="526"/>
         <source>%1 not exsit</source>
-        <translation>文件 &quot;%1&quot; 不存在</translation>
+        <translation type="vanished">文件 &quot;%1&quot; 不存在</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="668"/>
@@ -167,6 +173,12 @@
         <location filename="../src/widgets/mainwindow.cpp" line="487"/>
         <source>Restart to Continue</source>
         <translation>重启并继续</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="471"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="526"/>
+        <source>%1 not exist</source>
+        <translation>文件 &quot;%1&quot; 不存在</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="490"/>
@@ -257,33 +269,33 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="240"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="241"/>
         <source>process &quot;%1 %2&quot; crashed</source>
         <translation>进程 &quot;%1 %2&quot; 崩溃了</translation>
     </message>
     <message>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="242"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="243"/>
         <source>Failed to perform process &quot;%1 %2&quot;, error: %3</source>
         <translation>进程 &quot;%1 %2&quot; 执行失败，错误信息：%3</translation>
     </message>
     <message>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="249"/>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="264"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="250"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="265"/>
         <source>&quot;%1&quot; is not a disk device</source>
         <translation>&quot;%1&quot;不是一个 磁盘设备</translation>
     </message>
     <message>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="285"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="292"/>
         <source>&quot;%1&quot; is busy</source>
         <translation>&quot;%1&quot; 正忙</translation>
     </message>
     <message>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="312"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="319"/>
         <source>Failed to start &quot;%1 %2&quot;, error: %3</source>
         <translation>&quot;%1 %2&quot;启动失败，错误信息：%3</translation>
     </message>
     <message>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="323"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="330"/>
         <source>Failed to open process, error: %1</source>
         <translation>进程打开失败，错误信息：%1</translation>
     </message>
@@ -325,12 +337,12 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="72"/>
         <source>Partition &quot;%1&quot; not found</source>
-        <translation type="unfinished"></translation>
+        <translation>无法找到分区&quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="74"/>
         <source>Disk &quot;%1&quot; not found</source>
-        <translation type="unfinished"></translation>
+        <translation>无法找到磁盘&quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="99"/>

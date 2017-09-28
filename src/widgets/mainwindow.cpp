@@ -468,7 +468,7 @@ void MainWindow::setStatus(MainWindow::Status status)
             if (Helper::tryUmountDevice(m_targetFile)) {
                 if (!Helper::isBlockSpecialFile(m_sourceFile)) {
                     if (!QFile::exists(m_sourceFile)) {
-                        showErrorMessage(tr("%1 not exsit").arg(m_sourceFile));
+                        showErrorMessage(tr("%1 not exist").arg(m_sourceFile));
 
                         return;
                     }
@@ -523,7 +523,7 @@ void MainWindow::setStatus(MainWindow::Status status)
 
         if (!Helper::isBlockSpecialFile(m_sourceFile)) {
             if (!QFile::exists(m_sourceFile)) {
-                showErrorMessage(tr("%1 not exsit").arg(m_sourceFile));
+                showErrorMessage(tr("%1 not exist").arg(m_sourceFile));
 
                 return setStatus(SelectFile);
             }

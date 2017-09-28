@@ -10,13 +10,13 @@
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="190"/>
-        <source>%1 not exsit</source>
+        <source>%1 not exist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="204"/>
         <location filename="../src/corelib/clonejob.cpp" line="231"/>
-        <source>%1 invalid or not exsit</source>
+        <source>%1 invalid or not exist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -148,12 +148,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="471"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="526"/>
-        <source>%1 not exsit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="668"/>
         <source>Failed to restart system</source>
         <translation type="unfinished"></translation>
@@ -166,6 +160,12 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="487"/>
         <source>Restart to Continue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="471"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="526"/>
+        <source>%1 not exist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -257,33 +257,33 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="240"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="241"/>
         <source>process &quot;%1 %2&quot; crashed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="242"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="243"/>
         <source>Failed to perform process &quot;%1 %2&quot;, error: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="249"/>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="264"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="250"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="265"/>
         <source>&quot;%1&quot; is not a disk device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="285"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="292"/>
         <source>&quot;%1&quot; is busy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="312"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="319"/>
         <source>Failed to start &quot;%1 %2&quot;, error: %3</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/ddevicediskinfo.cpp" line="323"/>
+        <location filename="../src/corelib/ddevicediskinfo.cpp" line="330"/>
         <source>Failed to open process, error: %1</source>
         <translation type="unfinished"></translation>
     </message>
