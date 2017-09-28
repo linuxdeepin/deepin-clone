@@ -185,7 +185,7 @@ void CommandLineParser::process(const QStringList &arguments)
 
         ::exit(EXIT_SUCCESS);
     } else {
-        if ((Global::isTUIMode || !parser.positionalArguments().isEmpty()) && parser.positionalArguments().count() != 2) {
+        if ((Global::isTUIMode || !parser.positionalArguments().isEmpty()) && parser.positionalArguments().count() > 2) {
             parser.showHelp(EXIT_FAILURE);
         }
     }
@@ -201,10 +201,10 @@ QString CommandLineParser::source() const
 
 QString CommandLineParser::target() const
 {
-    if (parser.positionalArguments().isEmpty())
+    if (parser.positionalArguments().count() < 2)
         return QString();
 
-    return parser.positionalArguments().last();
+    return parser.positionalArguments().at(1);
 }
 
 QString CommandLineParser::logFile() const

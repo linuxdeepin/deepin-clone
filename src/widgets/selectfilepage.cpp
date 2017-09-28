@@ -187,6 +187,10 @@ void SelectFileWidget::setFilePath(const QString &path)
         m_dragDropLabel->hide();
     } else {
         m_button->setText(tr("Reselect storage location"));
+
+        if (QFileInfo(path).isDir()) {
+            m_filePath = QDir(path).absoluteFilePath(m_defaultFileName);
+        }
     }
 
     m_label->setTitle(m_filePath);
@@ -405,6 +409,41 @@ void SelectFilePage::hideItemForFile(const QString &filePath, UtilityList *list)
 
         if (!item->isHidden())
             item->setSelected(true);
+    }
+}
+
+void SelectFilePage::selectItemForFile(const QString &filePath, UtilityList *list)
+{
+    for (int i = 0; i < list->count(); ++i) {
+        QListWidgetItem *item = list->item(i);
+        QString file_path;
+
+        if (const DiskListItem *widget = qobject_cast<const DiskListItem*>(list->itemWidget(item)))
+            file_path = widget->info().filePath();
+        else if (const PartitionListItem *widget = qobject_cast<const PartitionListItem*>(list->itemWidget(item)))
+            file_path = widget->info().filePath();
+
+        if (file_path == filePath) {
+            item->setSelected(true);
+        }
+    }
+}
+
+void SelectFilePage::setSource(const QString &source)
+{
+    if (UtilityList *list = qobject_cast<UtilityList*>(leftContent())) {
+        selectItemForFile(source, list);
+    } else if (SelectFileWidget *widget = qobject_cast<SelectFileWidget*>(leftContent())) {
+        widget->setFilePath(source);
+    }
+}
+
+void SelectFilePage::setTarget(const QString &target)
+{
+    if (UtilityList *list = qobject_cast<UtilityList*>(rightContent())) {
+        selectItemForFile(target, list);
+    } if (SelectFileWidget *widget = qobject_cast<SelectFileWidget*>(leftContent())) {
+        widget->setFilePath(target);
     }
 }
 

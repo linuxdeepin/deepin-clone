@@ -47,13 +47,14 @@ public:
     Mode mode() const;
     Action action() const;
 
+    void setMode(Mode mode);
+    void setAction(Action action);
+
     QString selectedItemTitle() const;
     QIcon selectedItemIcon() const;
 
 private:
     void init();
-    void setMode(Mode mode);
-    void setAction(Action action);
 
     bool eventFilter(QObject *watched, QEvent *event) Q_DECL_OVERRIDE;
 

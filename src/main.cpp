@@ -180,7 +180,7 @@ int main(int argc, char *argv[])
 
         qApp->setProductIcon(window->windowIcon().pixmap(128));
 
-        if (!parser.source().isEmpty() && !parser.target().isEmpty()) {
+        if (!parser.source().isEmpty()) {
             window->startWithFile(parser.source(), parser.target());
         }
 

@@ -34,6 +34,9 @@ public:
     QString source() const;
     QString target() const;
 
+    void setSource(const QString &source);
+    void setTarget(const QString &target);
+
 signals:
     void sourceChanged();
     void targetChanged();
@@ -41,6 +44,7 @@ signals:
 private:
     void onSourceChanged();
     void hideItemForFile(const QString &filePath, UtilityList *list);
+    void selectItemForFile(const QString &filePath, UtilityList *list);
 };
 
 #endif // SELECTFILEPAGE_H

@@ -187,6 +187,11 @@ void MainWindow::startWithFile(const QString &source, const QString &target)
     }
 
     bool s_is_block = Helper::isBlockSpecialFile(m_sourceFile);
+
+    if (s_is_block && m_targetFile.isEmpty()) {
+        return;
+    }
+
     bool s_is_disk = Helper::isDiskDevice(m_sourceFile);
 
     bool t_is_block = Helper::isBlockSpecialFile(m_targetFile);
@@ -200,6 +205,27 @@ void MainWindow::startWithFile(const QString &source, const QString &target)
         }
     } else {
         m_currentMode = SelectActionPage::Restore;
+
+        if (m_targetFile.isEmpty()) {
+            DDiskInfo info = DDiskInfo::getInfo(m_sourceFile);
+
+            if (!info)
+                return;
+
+            if (info.type() == DDiskInfo::Disk)
+                m_operateObject = SelectActionPage::Disk;
+            else
+                m_operateObject = SelectActionPage::Partition;
+
+            SelectActionPage *page = qobject_cast<SelectActionPage*>(content());
+
+            if (page) {
+                page->setMode(m_operateObject);
+                page->setAction(m_currentMode);
+            }
+
+            return setStatus(SelectFile);
+        }
     }
 
     if (s_is_disk || t_is_disk)
@@ -316,13 +342,16 @@ void MainWindow::setStatus(MainWindow::Status status)
         m_pageIndicator->setCurrentPage(0);
         break;
     } case SelectFile: {
-        m_sourceFile.clear();
-        m_targetFile.clear();
-
         SelectActionPage *page = qobject_cast<SelectActionPage*>(content());
         SelectFilePage *new_page = new SelectFilePage(m_operateObject, m_currentMode);
         QString sub_title;
         QString button_text;
+
+        if (!m_sourceFile.isEmpty())
+            new_page->setSource(m_sourceFile);
+
+        if (!m_targetFile.isEmpty())
+            new_page->setTarget(m_targetFile);
 
         setContent(new_page);
 
@@ -441,7 +470,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         EndPage *page = new EndPage(EndPage::Warning);
 
         page->setTitle(tr("Proceed to clone?"));
-        page->setMessage(tr("All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.").arg(currentModeString()).arg(m_targetFile).arg(operateObjectString()));
+        page->setMessage(tr("All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation."));
         setContent(page);
         m_title->setTitle(tr("Warning"));
         m_bottomButton->setText(tr("OK"));
