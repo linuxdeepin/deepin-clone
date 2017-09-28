@@ -465,7 +465,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         }
 
         if (busy_device.isEmpty() && Helper::isMounted(m_targetFile)) {
-            if (Helper::tryUmountDevice(m_targetFile)) {
+            if (Helper::umountDevice(m_targetFile)) {
                 if (!Helper::isBlockSpecialFile(m_sourceFile)) {
                     if (!QFile::exists(m_sourceFile)) {
                         showErrorMessage(tr("%1 not exist").arg(m_sourceFile));
