@@ -56,9 +56,9 @@ CommandLineParser::CommandLineParser()
     o_buffer_size.setDefaultValue(QString::number(Global::bufferSize));
     o_non_ui.setDescription("Run in TUI mode.");
     o_to_serial_url.setDescription("File path format to serial url format.");
-    o_to_serial_url.setValueName("Serial URL");
+    o_to_serial_url.setValueName("File Path");
     o_from_serial_url.setDescription("Serial url format to file path format.");
-    o_from_serial_url.setValueName("File Path");
+    o_from_serial_url.setValueName("Serial URL");
     o_disable_check_dim.setDescription("Ignore dim file md5 check.");
     o_log_file.setDescription("Log file path");
     o_log_file.setValueName("File Path");

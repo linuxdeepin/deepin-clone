@@ -22,6 +22,7 @@
 #include "ddevicepartinfo.h"
 #include "dpartinfo_p.h"
 #include "helper.h"
+#include "ddevicediskinfo.h"
 
 #include <QJsonObject>
 #include <QJsonArray>
@@ -145,11 +146,19 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
         } else {
             int number_start = 0;
 
-            for (int i = name.size() - 1; i >=0; --i)
-                if (!name.at(i).isDigit())
+            for (int i = name.size() - 1; i >= 0; --i) {
+                if (!name.at(i).isDigit()) {
                     number_start = i + 1;
+                    break;
+                }
+            }
 
-            index = name.mid(number_start).toInt();
+            bool ok = false;
+
+            index = name.mid(number_start).toInt(&ok);
+
+            if (!ok)
+                index = -1;
         }
     }
 }
@@ -163,17 +172,14 @@ DDevicePartInfo::DDevicePartInfo()
 DDevicePartInfo::DDevicePartInfo(const QString &name)
     : DPartInfo(new DDevicePartInfoPrivate(this))
 {
-    const QJsonArray &block_devices = Helper::getBlockDevices("-s " + name);
+    const QJsonArray &block_devices = Helper::getBlockDevices(name);
 
     if (!block_devices.isEmpty()) {
         const QJsonObject &obj = block_devices.first().toObject();
 
         d_func()->init(obj);
 
-        const QJsonArray &children = obj.value("children").toArray();
-
-        if (!children.isEmpty())
-            d->transport = children.first().toObject().value("tran").toString();
+        d->transport = DDeviceDiskInfo(d_func()->parentDiskFilePath).transport();
     }
 }
 

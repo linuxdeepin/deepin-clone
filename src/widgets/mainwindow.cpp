@@ -30,6 +30,7 @@
 
 #include "ddiskinfo.h"
 #include "dpartinfo.h"
+#include "ddevicepartinfo.h"
 
 #include <DDesktopServices>
 #include <ddialog.h>
@@ -61,15 +62,15 @@ QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
         return QString();
 
     const QUrl url(urlString);
-    const QString &serial_number = url.host();
+    const QString serial_number = urlString.split("//").at(1).split(":").first();
     const int part_index = url.port();
     const QString &path = url.path();
-    const QString &device = Helper::findDiskBySerialNumber(serial_number, part_index);
-    const QString &device_url = part_index >= 0 ? QString("serial://%1:%2").arg(serial_number).arg(part_index) : "serial://" + serial_number;
+    const QString &device = Helper::findDiskBySerialIndexNumber(serial_number, part_index);
+    const QString &device_url = part_index > 0 ? QString("serial://%1:%2").arg(serial_number).arg(part_index) : "serial://" + serial_number;
 
     if (device.isEmpty()) {
         if (window) {
-            if (part_index >= 0)
+            if (part_index > 0)
                 window->showErrorMessage(QObject::tr("Partition \"%1\" not found").arg(device_url));
             else
                 window->showErrorMessage(QObject::tr("Disk \"%1\" not found").arg(device_url));
@@ -149,9 +150,9 @@ QString toSerialUrl(const QString &file)
         if (info.serial().isEmpty())
             return QString();
 
-        int index = Helper::partitionIndex(file);
+        int index = DDevicePartInfo(file).indexNumber();
 
-        if (index < 0)
+        if (index == 0)
             return "serial://" + info.serial();
 
         return QString("serial://%1:%2").arg(info.serial()).arg(index);
@@ -390,6 +391,8 @@ void MainWindow::setStatus(MainWindow::Status status)
 
                     if (target_disk_info) {
                         if (target_disk_info.totalSize() < disk_info.totalSize()) {
+                            dCError("Not enough total capacity in target device, source size: %lld, target size: %lld", disk_info.totalSize(), target_disk_info.totalSize());
+
                             if (m_operateObject == SelectActionPage::Disk)
                                 m_subTitle->setText(tr("Not enough total capacity in target disk, please select another one"));
                             else
@@ -406,6 +409,8 @@ void MainWindow::setStatus(MainWindow::Status status)
                         QStorageInfo storage_info(target_info.absoluteDir());
 
                         if (storage_info.bytesAvailable() < disk_info.totalReadableDataSize()) {
+                            dCError("Not enough total capacity, source size: %lld, target available size: %lld", disk_info.totalSize(), storage_info.bytesAvailable());
+
                             m_subTitle->setText(tr("Not enough total capacity, please select another disk"));
                             m_bottomButton->setEnabled(false);
 

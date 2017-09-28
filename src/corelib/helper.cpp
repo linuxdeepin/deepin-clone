@@ -22,6 +22,7 @@
 #include "helper.h"
 #include "dpartinfo.h"
 #include "dglobal.h"
+#include "ddevicepartinfo.h"
 
 #include <QProcess>
 #include <QEventLoop>
@@ -461,9 +462,9 @@ bool Helper::mountDevice(const QString &device, const QString &path)
     return processExec(QString("mount %1 %2").arg(device, path)) == 0;
 }
 
-QString Helper::findDiskBySerialNumber(const QString &serialNumber, int partIndex)
+QString Helper::findDiskBySerialIndexNumber(const QString &serialNumber, int partIndexNumber)
 {
-    const QJsonArray &array = getBlockDevices("-x NAME");
+    const QJsonArray &array = getBlockDevices();
 
     for (const QJsonValue &disk : array) {
         const QJsonObject &obj = disk.toObject();
@@ -472,21 +473,24 @@ QString Helper::findDiskBySerialNumber(const QString &serialNumber, int partInde
             continue;
         }
 
-        if (partIndex < 0)
+        if (partIndexNumber <= 0)
             return obj.value("name").toString();
 
         const QJsonArray &children = obj.value("children").toArray();
 
-        if (partIndex >= children.count())
-            return QString();
+        for (const QJsonValue &v : children) {
+            const QJsonObject &obj = v.toObject();
+            const QString &name = obj.value("name").toString();
 
-        return children.at(partIndex).toObject().value("name").toString();
+            if (DDevicePartInfo(name).indexNumber() == partIndexNumber)
+                return name;
+        }
     }
 
     return QString();
 }
 
-int Helper::partitionIndex(const QString &partDevice)
+int Helper::partitionIndexNumber(const QString &partDevice)
 {
     const QJsonArray &array = getBlockDevices(partDevice);
 

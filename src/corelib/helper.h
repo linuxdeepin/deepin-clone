@@ -71,8 +71,8 @@ public:
     static bool tryUmountDevice(const QString &device);
     static bool mountDevice(const QString &device, const QString &path);
 
-    static QString findDiskBySerialNumber(const QString &serialNumber, int partIndex = -1);
-    static int partitionIndex(const QString &partDevice);
+    static QString findDiskBySerialIndexNumber(const QString &serialNumber, int partIndexNumber = -1);
+    static int partitionIndexNumber(const QString &partDevice);
 
     static QByteArray getPartitionTable(const QString &devicePath);
     static bool setPartitionTable(const QString &devicePath, const QString &ptFile);
