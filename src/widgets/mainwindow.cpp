@@ -102,6 +102,8 @@ QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
 
             return QString();
         }
+    } else {
+        dCDebug("Mount point: %s, %s", qPrintable(mount_point.absolutePath()), qPrintable(Helper::mountPoint(device)));
     }
 
     if (mount_point.absolutePath() == "/")

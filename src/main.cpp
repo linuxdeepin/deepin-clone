@@ -113,11 +113,19 @@ int main(int argc, char *argv[])
     bool load_arg_from_file = arguments_file.exists() && !Global::isTUIMode && !a->arguments().contains("--tui");
 
     if (load_arg_from_file) {
-        while (!arguments_file.atEnd())
-            arguments.append(QString::fromUtf8(arguments_file.readLine()));
+        if (!arguments_file.open(QIODevice::ReadOnly)) {
+            dCError("Open \"/lib/live/mount/medium/.tmp/deepin-clone.arguments\" failed, error: %s", qPrintable(arguments_file.errorString()));
+        } else {
+            while (!arguments_file.atEnd()) {
+                const QString &arg = QString::fromUtf8(arguments_file.readLine());
 
-        arguments_file.close();
-        arguments_file.remove();
+                if (!arg.isEmpty())
+                    arguments.append(arg);
+            }
+
+            arguments_file.close();
+            arguments_file.remove();
+        }
     } else {
         arguments = a->arguments();
     }

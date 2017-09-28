@@ -342,22 +342,20 @@ void DDeviceDiskInfoPrivate::closeDataStream()
             if (currentMode == DDiskInfo::Read) {
                 if (!process->atEnd())
                     process->terminate();
-
-                process->waitForFinished();
             } else {
                 process->closeWriteChannel();
+            }
 
-                while (process->state() != QProcess::NotRunning) {
-                    QThread::currentThread()->sleep(1);
+            while (process->state() != QProcess::NotRunning) {
+                QThread::currentThread()->sleep(1);
 
-                    if (!QFile::exists(QString("/proc/%2").arg(process->pid()))) {
-                        process->waitForFinished(-1);
+                if (!QFile::exists(QString("/proc/%2").arg(process->pid()))) {
+                    process->waitForFinished(-1);
 
-                        if (process->error() == QProcess::Timedout)
-                            process->QIODevice::d_func()->errorString.clear();
+                    if (process->error() == QProcess::Timedout)
+                        process->QIODevice::d_func()->errorString.clear();
 
-                        break;
-                    }
+                    break;
                 }
             }
         }
