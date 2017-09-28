@@ -88,7 +88,7 @@ public:
     static int restorePartition(const QString &from, const DPartInfo &to);
 
     static bool existLiveSystem();
-    static bool restartToLiveSystem(const QByteArray &autoStart = QByteArray());
+    static bool restartToLiveSystem(const QStringList &arguments);
 
 signals:
     void newWarning(const QString &message);

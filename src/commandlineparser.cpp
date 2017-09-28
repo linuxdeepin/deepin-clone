@@ -99,7 +99,12 @@ CommandLineParser::CommandLineParser()
 
 void CommandLineParser::process(const QCoreApplication &app)
 {
-    parser.process(app);
+    process(app.arguments());
+}
+
+void CommandLineParser::process(const QStringList &arguments)
+{
+    parser.process(arguments);
 
     Global::isOverride = parser.isSet(o_override);
     Global::disableMD5CheckForDimFile = parser.isSet(o_disable_check_dim);

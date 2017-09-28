@@ -26,6 +26,7 @@
 #include "helper.h"
 #include "workingpage.h"
 #include "endpage.h"
+#include "dglobal.h"
 
 #include "ddiskinfo.h"
 #include "dpartinfo.h"
@@ -676,7 +677,22 @@ void MainWindow::onButtonClicked()
 
         dCDebug("Try restart to live system, source url: %s, target url: %s", qPrintable(source_url), qPrintable(target_url));
 
-        if (!Helper::restartToLiveSystem(QString("deepin-clone %1 %2").arg(source_url).arg(target_url).toUtf8())) {
+        QStringList arguments;
+
+        arguments << source_url << target_url
+                  << "-B" << QString::number(Global::bufferSize)
+                  << "-C" << QString::number(Global::compressionLevel)
+                  << "-d" << QString::number(Global::debugLevel);
+
+        if (Global::disableMD5CheckForDimFile) {
+            arguments << "--no-check-dim";
+        }
+
+        if (!Global::disableLoopDevice) {
+            arguments << "--loop-device";
+        }
+
+        if (!Helper::restartToLiveSystem(arguments)) {
             dCError("Restart to live system failed!");
 
             showErrorMessage(tr("Failed to restart \"Deepin Recovery\""));

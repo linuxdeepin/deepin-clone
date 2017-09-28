@@ -107,7 +107,19 @@ int main(int argc, char *argv[])
 
     CommandLineParser parser;
 
-    parser.process(*a);
+    QFile arguments_file("/lib/live/mount/medium/.tmp/deepin-clone.arguments");
+    QStringList arguments;
+
+    if (arguments_file.exists()) {
+        while (!arguments_file.atEnd())
+            arguments.append(QString::fromUtf8(arguments_file.readLine()));
+
+        arguments_file.close();
+    } else {
+        arguments = a->arguments();
+    }
+
+    parser.process(arguments);
 
     ConsoleAppender *consoleAppender = new ConsoleAppender;
     consoleAppender->setFormat(logFormat);
@@ -120,7 +132,11 @@ int main(int argc, char *argv[])
     logger->registerCategoryAppender("deepin.ghost", consoleAppender);
     logger->registerCategoryAppender("deepin.ghost", rollingFileAppender);
 
-    dCDebug("Application command line: %s", qPrintable(a->arguments().join(' ')));
+    if (arguments_file.exists()) {
+        dCDebug("Load arguments from \"%s\"", qPrintable(arguments_file.fileName()));
+    }
+
+    dCDebug("Application command line: %s", qPrintable(arguments.join(' ')));
 
     if (Global::debugLevel == 0) {
         QLoggingCategory::setFilterRules("deepin.ghost.debug=false");

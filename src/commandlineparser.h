@@ -30,6 +30,7 @@ public:
     CommandLineParser();
 
     void process(const QCoreApplication &app);
+    void process(const QStringList &arguments);
 
     QString source() const;
     QString target() const;
