@@ -737,12 +737,18 @@ bool Helper::restartToLiveSystem(const QStringList &arguments)
     }
 
     file.write(arguments.join('\n').toUtf8());
+    file.close();
 
     if (processExec("grub-reboot \"Deepin Recovery\"") != 0) {
         dCDebug("Exec grub-reboot \"Deepin Recovery\" failed");
 
+        file.remove();
+
         return false;
     }
 
-    return processExec("reboot") == 0;
+    if (processExec("reboot") != 0)
+        file.remove();
+
+    return true;
 }
