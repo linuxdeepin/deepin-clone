@@ -63,6 +63,12 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout)
 
     if (timeout > 0) {
         timer.start();
+    } else {
+        QTimer::singleShot(10000, process, [process] {
+            dCWarning("\"%s %s\" running for more than 10 seconds, state=%d, pid_file_exist=%d",
+                      qPrintable(process->program()), qPrintable(process->arguments().join(" ")),
+                      (int)process->state(), (int)QFile::exists(QString("/proc/%1").arg(process->pid())));
+        });
     }
 
     if (Global::debugLevel > 1)

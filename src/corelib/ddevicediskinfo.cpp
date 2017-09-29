@@ -321,7 +321,7 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
             return false;
         }
 
-        dCDebug("The \"%s %s\" command start finished", qPrintable(process->program()), process->arguments().join(' ').constData());
+        dCDebug("The \"%s %s\" command start finished", qPrintable(process->program()), qPrintable(process->arguments().join(" ")));
     }
 
     bool ok = process ? process->isOpen() : buffer.open(QIODevice::ReadOnly);
@@ -439,7 +439,7 @@ qint64 DDeviceDiskInfoPrivate::read(char *data, qint64 maxSize)
     process->waitForReadyRead(-1);
 
     if (process->bytesAvailable() > Global::bufferSize) {
-        dCDebug("The \"%s %s\" process bytes available: %s", qPrintable(process->program()), qPrintable(process->arguments().join(" ")), qPrintable(Helper::sizeDisplay(process->bytesAvailable())));
+        dCWarning("The \"%s %s\" process bytes available: %s", qPrintable(process->program()), qPrintable(process->arguments().join(" ")), qPrintable(Helper::sizeDisplay(process->bytesAvailable())));
     }
 
     return process->read(data, maxSize);
@@ -450,25 +450,24 @@ qint64 DDeviceDiskInfoPrivate::write(const char *data, qint64 maxSize)
     if (!process)
         return -1;
 
-    qint64 size = process->write(data, maxSize);
+    if (process->state() != QProcess::Running)
+        return -1;
 
-    if (process->bytesToWrite() > Global::bufferSize) {
-        dCDebug("The \"%s %s\" process bytes to write: %s", qPrintable(process->program()), qPrintable(process->arguments().join(" ")), qPrintable(Helper::sizeDisplay(process->bytesToWrite())));
-    }
+    qint64 size = process->write(data, maxSize);
 
     QElapsedTimer timer;
 
     timer.start();
 
-    if (size > 0) {
-        int timeout = 5000;
+    int timeout = 5000;
 
-        while (process->waitForBytesWritten(-1)) {
-            if (timer.elapsed() > timeout) {
-                timeout += 5000;
+    while (process->bytesToWrite() > 0) {
+        process->waitForBytesWritten();
 
-                dCDebug("Wait for bytes written timeout, elapsed: %lld, bytes to write: %lld", timer.elapsed(), process->bytesToWrite());
-            }
+        if (timer.elapsed() > timeout) {
+            timeout += 5000;
+
+            dCWarning("Wait for bytes written timeout, elapsed: %lld, bytes to write: %lld", timer.elapsed(), process->bytesToWrite());
         }
     }
 

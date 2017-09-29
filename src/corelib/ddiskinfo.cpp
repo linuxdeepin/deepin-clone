@@ -157,6 +157,8 @@ bool DDiskInfo::endScope()
         dCDebug("Try close data stream(this=%llx): scope=%d, mode=%d", this, d->currentScope, d->currentMode);
 
         d->closeDataStream();
+
+        dCDebug("Close data stream finished");
     }
 
     d->currentScope = NullScope;
