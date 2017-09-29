@@ -87,14 +87,14 @@ QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
     QDir mount_point(mp);
 
     if (mp.isEmpty()) {
-        if (!QDir::current().mkpath("/tmp/deepin-clone/mount")) {
-            dCError("mkpath \"/tmp/deepin-clone/mount\" failed");
-        }
-
         if (part_index >= 0)
             mount_point.setPath(QString("/tmp/deepin-clone/mount/%1-%2").arg(serial_number).arg(part_index));
         else
             mount_point.setPath(QString("/tmp/deepin-clone/mount/%1").arg(serial_number));
+
+        if (!QDir::current().mkpath(mount_point.absolutePath())) {
+            dCError("mkpath \"%s\" failed", qPrintable(mount_point.absolutePath()));
+        }
 
         if (!Helper::mountDevice(device, mount_point.absolutePath())) {
             dCError("Mount the device \"%s\" to \"%s\" failed", qPrintable(device_url), qPrintable(mount_point.absolutePath()));
