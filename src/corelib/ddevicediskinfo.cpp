@@ -438,6 +438,10 @@ qint64 DDeviceDiskInfoPrivate::read(char *data, qint64 maxSize)
 
     process->waitForReadyRead(-1);
 
+    if (process->bytesAvailable() > Global::bufferSize) {
+        dCDebug("The \"%s %s\" process bytes available: %s", qPrintable(process->program()), qPrintable(process->arguments().join(" ")), qPrintable(Helper::sizeDisplay(process->bytesAvailable())));
+    }
+
     return process->read(data, maxSize);
 }
 
@@ -448,8 +452,25 @@ qint64 DDeviceDiskInfoPrivate::write(const char *data, qint64 maxSize)
 
     qint64 size = process->write(data, maxSize);
 
-    if (size > 0)
-        while (process->waitForBytesWritten(-1));
+    if (process->bytesToWrite() > Global::bufferSize) {
+        dCDebug("The \"%s %s\" process bytes to write: %s", qPrintable(process->program()), qPrintable(process->arguments().join(" ")), qPrintable(Helper::sizeDisplay(process->bytesToWrite())));
+    }
+
+    QElapsedTimer timer;
+
+    timer.start();
+
+    if (size > 0) {
+        int timeout = 5000;
+
+        while (process->waitForBytesWritten(-1)) {
+            if (timer.elapsed() > timeout) {
+                timeout += 5000;
+
+                dCDebug("Wait for bytes written timeout, elapsed: %lld, bytes to write: %lld", timer.elapsed(), process->bytesToWrite());
+            }
+        }
+    }
 
     return size;
 }
