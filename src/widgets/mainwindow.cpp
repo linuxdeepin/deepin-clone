@@ -82,9 +82,11 @@ QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
     if (path.isEmpty())
         return device;
 
-    QDir mount_point(Helper::mountPoint(device));
+    const QString &mp = Helper::mountPoint(device);
 
-    if (mount_point.absolutePath().isEmpty()) {
+    QDir mount_point(mp);
+
+    if (mp.isEmpty()) {
         if (!QDir::current().mkpath("/tmp/deepin-clone/mount")) {
             dCError("mkpath \"/tmp/deepin-clone/mount\" failed");
         }
@@ -103,7 +105,7 @@ QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
             return QString();
         }
     } else {
-        dCDebug("Mount point: %s, %s", qPrintable(mount_point.absolutePath()), qPrintable(Helper::mountPoint(device)));
+        dCDebug("Mount point: %s, %s", qPrintable(mount_point.absolutePath()), qPrintable(mp));
     }
 
     if (mount_point.absolutePath() == "/")

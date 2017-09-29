@@ -188,7 +188,7 @@ void SelectFileWidget::setFilePath(const QString &path)
     } else {
         m_button->setText(tr("Reselect storage location"));
 
-        if (QFileInfo(path).isDir()) {
+        if (!path.isEmpty() && QFileInfo(path).isDir()) {
             m_filePath = QDir(path).absoluteFilePath(m_defaultFileName);
         }
     }
