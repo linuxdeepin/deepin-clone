@@ -77,7 +77,8 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout)
         return -1;
     }
 
-    loop.exec();
+    if (process->state() == QProcess::Running)
+        loop.exec();
 
     if (process->state() != QProcess::NotRunning) {
         dCDebug("The \"%s\" timeout, timeout: %d", qPrintable(command), timeout);
