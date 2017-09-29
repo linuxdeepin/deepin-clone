@@ -32,10 +32,24 @@ mimetype_xml.files = $$PWD/mimetype/$${TARGET}.xml
 mimetype_dim_icon.path = /usr/share/icons/hicolor/scalable/mimetypes
 mimetype_dim_icon.files = $$PWD/mimetype/application-x-deepinclone-dim.svg
 
-INSTALLS += target mimetype_xml mimetype_dim_icon
+policy.path = /usr/share/polkit-1/actions
+policy.files = com.deepin.pkexec.deepin-clone.policy
+
+ionice.path = $${target.path}
+ionice.files = deepin-clone-ionice
+
+pkexec.path = /usr/bin
+pkexec.files = deepin-clone-pkexec
+
+INSTALLS += target mimetype_xml mimetype_dim_icon policy ionice pkexec
 
 TRANSLATIONS += $$PWD/translations/$${TARGET}.ts \
                 $$PWD/translations/$${TARGET}_zh_CN.ts
+
+!system(deepin-policy-ts-convert policy2ts com.deepin.pkexec.deepin-clone.policy.tmp translations): message("Failed policy to ts")
+!system(deepin-policy-ts-convert ts2policy com.deepin.pkexec.deepin-clone.policy.tmp translations com.deepin.pkexec.deepin-clone.policy) {
+    system(cp com.deepin.pkexec.deepin-clone.policy.tmp com.deepin.pkexec.deepin-clone.policy)
+}
 
 CONFIG(release, debug|release) {
     !system($$PWD/translate_generation.sh): error("Failed to generate translation")

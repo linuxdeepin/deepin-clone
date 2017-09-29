@@ -14,3 +14,9 @@ type = QT
 source_file = deepin-clone.desktop
 source_lang = en
 type = DESKTOP
+
+[deepin-clone.policy]
+file_filter = translations/policy_<lang>.ts
+source_file = translations/policy.ts
+source_lang = en
+type = QT
