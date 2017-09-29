@@ -42,7 +42,7 @@
 #include <QPushButton>
 #include <QResizeEvent>
 #include <QDebug>
-#include <QMediaPlayer>
+//#include <QMediaPlayer>
 
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)
@@ -256,10 +256,10 @@ void MainWindow::init()
     m_bottomButton = new QPushButton(this);
     m_bottomButton->setFixedSize(310, 36);
     m_bottomButton->setObjectName("NextButton");
-    m_loadingIndicator = new DVideoWidget(m_bottomButton);
-    m_loadingIndicator->resize(m_bottomButton->height() * 0.8, m_bottomButton->height() * 0.8);
-    m_loadingIndicator->hide();
-    Anchors<DVideoWidget>(m_loadingIndicator).setCenterIn(m_bottomButton);
+//    m_loadingIndicator = new DVideoWidget(m_bottomButton);
+//    m_loadingIndicator->resize(m_bottomButton->height() * 0.8, m_bottomButton->height() * 0.8);
+//    m_loadingIndicator->hide();
+//    Anchors<DVideoWidget>(m_loadingIndicator).setCenterIn(m_bottomButton);
     m_pageIndicator = new DPageIndicator(this);
     m_pageIndicator->setPageCount(3);
     m_pageIndicator->setCurrentPage(0);
@@ -755,28 +755,34 @@ void MainWindow::showErrorMessage(const QString &message)
 
 void MainWindow::playLoadingIndicator()
 {
-    int scale_mon = 1;
+    m_buttonTextBackup = m_bottomButton->text();
+    m_bottomButton->setText(tr("Loading..."));
+//    int scale_mon = 1;
 
-    if (qEnvironmentVariableIsEmpty("QT_HIGHDPI_DISABLE_2X_IMAGE_LOADING"))
-        scale_mon = qCeil(qApp->devicePixelRatio());
+//    if (qEnvironmentVariableIsEmpty("QT_HIGHDPI_DISABLE_2X_IMAGE_LOADING"))
+//        scale_mon = qCeil(qApp->devicePixelRatio());
 
-    m_player = new QMediaPlayer(m_loadingIndicator);
+//    m_player = new QMediaPlayer(m_loadingIndicator);
 
-    connect(m_player, &QMediaPlayer::stateChanged, m_player, &QMediaPlayer::play);
+//    connect(m_player, &QMediaPlayer::stateChanged, m_player, &QMediaPlayer::play);
 
-    m_loadingIndicator->setSource(m_player);
-    m_player->setMedia(QMediaContent(QUrl(QString("qrc:/icons/loading@%1x.mov").arg(scale_mon == 1 ? 1 : 2))));
-    m_loadingIndicator->show();
-    m_player->play();
+//    m_loadingIndicator->setSource(m_player);
+//    m_player->setMedia(QMediaContent(QUrl(QString("qrc:/icons/loading@%1x.mov").arg(scale_mon == 1 ? 1 : 2))));
+//    m_loadingIndicator->show();
+//    m_player->play();
 }
 
 void MainWindow::stopLoadingIndicator()
 {
-    m_loadingIndicator->hide();
-    disconnect(m_player, &QMediaPlayer::stateChanged, m_player, &QMediaPlayer::play);
-    m_player->pause();
-    m_player->deleteLater();
-    m_player = 0;
+    if (m_bottomButton->text() == tr("Loading..."))
+        m_bottomButton->setText(m_buttonTextBackup);
+
+    m_buttonTextBackup.clear();
+//    m_loadingIndicator->hide();
+//    disconnect(m_player, &QMediaPlayer::stateChanged, m_player, &QMediaPlayer::play);
+//    m_player->pause();
+//    m_player->deleteLater();
+//    m_player = 0;
 }
 
 bool MainWindow::isError() const

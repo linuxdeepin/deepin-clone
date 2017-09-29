@@ -26,7 +26,7 @@
 
 #include <DMainWindow>
 #include <dpageindicator.h>
-#include <DVideoWidget>
+//#include <DVideoWidget>
 
 #include <QStackedWidget>
 
@@ -99,9 +99,10 @@ private:
     QStackedWidget *m_contentWidget;
     QPushButton *m_cancelButton;
     QPushButton *m_bottomButton;
-    QMediaPlayer *m_player = 0;
-    DVideoWidget *m_loadingIndicator;
+//    QMediaPlayer *m_player = 0;
+//    DVideoWidget *m_loadingIndicator;
     DPageIndicator *m_pageIndicator;
+    QString m_buttonTextBackup;
 
     friend QString parseSerialUrl(const QString &, MainWindow *);
 };

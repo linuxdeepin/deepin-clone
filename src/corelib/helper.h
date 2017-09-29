@@ -127,7 +127,8 @@ static QString __d_asprintf__(const char *format, Args&&... args)
 #undef dCWarning
 #endif
 #define dCWarning(format, ...) { \
-    const QString &__m = __d_asprintf__(format, ##__VA_ARGS__); \
+    QString __m = __d_asprintf__(format, ##__VA_ARGS__); \
+    __m.prepend("\033[30;41m"); __m.append("\033[0m"); \
     Helper::instance()->warning(__m); \
     qCWarning(Helper::loggerCategory, qPrintable(__m));}
 
@@ -135,7 +136,8 @@ static QString __d_asprintf__(const char *format, Args&&... args)
 #undef dCError
 #endif
 #define dCError(format, ...) { \
-    const QString &__m = __d_asprintf__(format, ##__VA_ARGS__); \
+    QString __m = __d_asprintf__(format, ##__VA_ARGS__); \
+    __m.prepend("\033[30;45m"); __m.append("\033[0m"); \
     Helper::instance()->warning(__m); \
     qCCritical(Helper::loggerCategory, qPrintable(__m));}
 

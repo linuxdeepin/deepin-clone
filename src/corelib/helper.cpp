@@ -77,8 +77,9 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout)
         return -1;
     }
 
-    if (process->state() == QProcess::Running)
+    if (process->state() == QProcess::Running) {
         loop.exec();
+    }
 
     if (process->state() != QProcess::NotRunning) {
         dCDebug("The \"%s\" timeout, timeout: %d", qPrintable(command), timeout);
@@ -94,8 +95,13 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout)
     m_processStandardOutput = process->readAllStandardOutput();
     m_processStandardError = process->readAllStandardError();
 
-    if (Global::debugLevel > 1)
+    if (Global::debugLevel > 1) {
         dCDebug("Done: \"%s\", exit code: %d", qPrintable(command), process->exitCode());
+
+        if (process->exitCode() != 0) {
+            dCError("error: \"%s\"\nstdout: \"%s\"", qPrintable(m_processStandardError), qPrintable(m_processStandardOutput));
+        }
+    }
 
     return process->exitCode();
 }

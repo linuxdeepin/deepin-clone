@@ -340,8 +340,8 @@ void DDeviceDiskInfoPrivate::closeDataStream()
     if (process) {
         if (process->state() != QProcess::NotRunning) {
             if (currentMode == DDiskInfo::Read) {
-                if (!process->atEnd())
-                    process->terminate();
+                process->closeReadChannel(QProcess::StandardOutput);
+                process->terminate();
             } else {
                 process->closeWriteChannel();
             }
