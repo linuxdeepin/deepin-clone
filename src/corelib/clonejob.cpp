@@ -360,7 +360,7 @@ void CloneJob::run()
         dCDebug("clone finished!");
     }
 
-    dCDebug("Total time: %s, Total data: %s", qPrintable(Helper::secondsToString(timer.elapsed())), qPrintable(Helper::sizeDisplay(have_been_written)));
+    dCDebug("Total time: %s, Total data: %s", qPrintable(Helper::secondsToString(timer.elapsed() / 1000)), qPrintable(Helper::sizeDisplay(have_been_written)));
 }
 
 void CloneJob::setStatus(CloneJob::Status s)
