@@ -302,16 +302,16 @@ SelectFilePage::SelectFilePage(SelectActionPage::Mode mode, SelectActionPage::Ac
 
         connect(left_list, &UtilityList::itemSelectionChanged, this, [sfw, left_list] {
             QWidget *widget = left_list->itemWidget(left_list->selectedItems().first());
-            QString device_name;
+            QString device_model;
 
             if (DiskListItem *item = qobject_cast<DiskListItem*>(widget)) {
-                device_name = item->info().name();
+                device_model = item->info().model().simplified();
             } else if (PartitionListItem *item = qobject_cast<PartitionListItem*>(widget)) {
-                device_name = item->info().name();
+                device_model = QString("%1-%2").arg(DDeviceDiskInfo(item->info().name()).model().simplified()).arg(item->info().indexNumber());
             }
 
-            if (!device_name.isEmpty())
-                sfw->m_defaultFileName = QString("%1.dim").arg(device_name);
+            if (!device_model.isEmpty())
+                sfw->m_defaultFileName = QString("%1.dim").arg(device_model);
         });
 
         emit left_list->itemSelectionChanged();
