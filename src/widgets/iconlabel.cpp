@@ -25,13 +25,13 @@
 #include <QIcon>
 #include <QPainter>
 
-IconLabel::IconLabel(QWidget *parent)
+IconLabel::IconLabel(QWidget *parent, bool wordWrap)
     : QWidget(parent)
 {
     m_icon = new QLabel(this);
     m_icon->hide();
     m_label = new QLabel(this);
-    m_label->setWordWrap(true);
+    m_label->setWordWrap(wordWrap);
     m_label->hide();
 
     QHBoxLayout *layout = new QHBoxLayout(this);

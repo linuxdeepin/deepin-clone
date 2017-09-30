@@ -65,6 +65,11 @@ UtilityListDeviceItem QProgressBar::chunk {
     background-color: #2ca7f8;
 }
 
+UtilityListDeviceItem QLabel#Title {
+    font-size: 10px;
+    color: #797979;
+}
+
 QPushButton#NextButton {
     color: #2ca7f8;
     border: 1px solid #2ca7f8;

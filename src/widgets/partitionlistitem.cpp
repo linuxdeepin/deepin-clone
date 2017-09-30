@@ -30,7 +30,7 @@ PartitionListItem::PartitionListItem(DPartInfo info, QWidget *parent)
 {
     setTitle(info.mountPoint().isEmpty() ? info.partLabel() : info.mountPoint());
     setMessage(info.name());
-    setSize(info.usedSize(), info.totalSize());
+    setSizeInfo(info.usedSize(), info.totalSize());
 
     QString icon_name;
 

@@ -32,7 +32,7 @@ QT_END_NAMESPACE
 class IconLabel : public QWidget
 {
 public:
-    explicit IconLabel(QWidget *parent = 0);
+    explicit IconLabel(QWidget *parent = 0, bool wordWrap = false);
 
     QString title() const;
     void setTitle(const QString &title);

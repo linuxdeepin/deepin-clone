@@ -56,3 +56,17 @@ void UtilityList::addItem(const QIcon &icon, const QString &title, const QString
 
     addItem(item);
 }
+
+void UtilityList::showEvent(QShowEvent *e)
+{
+    for (int i = 0; i < count(); ++i) {
+        QListWidgetItem *item = this->item(i);
+        const QWidget *widget = itemWidget(item);
+
+        if (widget) {
+            item->setSizeHint(QSize(widget->width(), widget->heightForWidth(width())));
+        }
+    }
+
+    return QListWidget::showEvent(e);
+}

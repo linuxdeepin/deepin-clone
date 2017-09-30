@@ -79,7 +79,7 @@ SelectFileWidget::SelectFileWidget(Mode mode, QWidget *parent)
     , m_mode(mode)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
-    m_label = new IconLabel(this);
+    m_label = new IconLabel(this, true);
 
     m_label->setDirection(QBoxLayout::TopToBottom);
 

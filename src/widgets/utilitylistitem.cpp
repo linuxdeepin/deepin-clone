@@ -36,15 +36,21 @@ public:
     explicit RightContentLabel(const QString &title, const QString &message, QWidget *parent = 0);
     explicit RightContentLabel(QWidget *parent = 0);
 
+    void setTitle(const QString &text);
+
 private:
+    void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+    void updateTitle();
+
     QLabel *titleLabel;
     QLabel *messageLabel;
+    QString titleText;
 
     friend class UtilityListItem;
 };
 
 RightContentLabel::RightContentLabel(const QString &title, const QString &message, QWidget *parent)
-    : QWidget(parent)
+    : RightContentLabel(parent)
 {
     titleLabel->setText(title);
     messageLabel->setText(message);
@@ -60,9 +66,31 @@ RightContentLabel::RightContentLabel(QWidget *parent)
 
     messageLabel = new QLabel(this);
     messageLabel->setObjectName("RightContentLabel_Message");
+    messageLabel->setWordWrap(true);
+    messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     layout->addWidget(titleLabel);
     layout->addWidget(messageLabel);
+}
+
+void RightContentLabel::setTitle(const QString &text)
+{
+    titleText = text;
+    updateTitle();
+}
+
+void RightContentLabel::resizeEvent(QResizeEvent *e)
+{
+    updateTitle();
+
+    return QWidget::resizeEvent(e);
+}
+
+void RightContentLabel::updateTitle()
+{
+    QFontMetrics font_metrics = titleLabel->fontMetrics();
+
+    titleLabel->setText(font_metrics.elidedText(titleText, Qt::ElideMiddle, titleLabel->width()));
 }
 
 UtilityListItem::UtilityListItem(QWidget *parent)
@@ -84,13 +112,13 @@ UtilityListItem::UtilityListItem(QWidget *parent)
     main_layout->addLayout(content_layout);
 
     content_layout->addLayout(m_layout);
-    content_layout->addStretch();
     content_layout->addWidget(m_bottomSeparator);
+    content_layout->addStretch();
 }
 
 void UtilityListItem::setTitle(const QString &title)
 {
-    m_label->titleLabel->setText(title);
+    m_label->setTitle(title);
 }
 
 void UtilityListItem::setMessage(const QString &message)

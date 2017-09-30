@@ -33,6 +33,9 @@ public:
 
     void addItem(UtilityListItem *item);
     void addItem(const QIcon &icon, const QString &title, const QString &message, const QSize &iconSize = QSize());
+
+protected:
+    void showEvent(QShowEvent *e) Q_DECL_OVERRIDE;
 };
 
 #endif // UTILITYLIST_H

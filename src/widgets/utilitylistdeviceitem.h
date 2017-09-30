@@ -34,7 +34,7 @@ class UtilityListDeviceItem : public UtilityListItem
 public:
     explicit UtilityListDeviceItem(QWidget *parent = 0);
 
-    void setSize(qint64 used, qint64 total);
+    void setSizeInfo(qint64 used, qint64 total);
 
 private:
     QProgressBar *m_progressBar;
