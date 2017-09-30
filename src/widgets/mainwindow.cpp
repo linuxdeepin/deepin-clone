@@ -756,7 +756,7 @@ void MainWindow::showErrorMessage(const QString &message)
 void MainWindow::playLoadingIndicator()
 {
     m_buttonTextBackup = m_bottomButton->text();
-    m_bottomButton->setText(tr("Loading..."));
+    m_bottomButton->setText(tr("Loading"));
 //    int scale_mon = 1;
 
 //    if (qEnvironmentVariableIsEmpty("QT_HIGHDPI_DISABLE_2X_IMAGE_LOADING"))
@@ -774,7 +774,7 @@ void MainWindow::playLoadingIndicator()
 
 void MainWindow::stopLoadingIndicator()
 {
-    if (m_bottomButton->text() == tr("Loading..."))
+    if (m_bottomButton->text() == tr("Loading"))
         m_bottomButton->setText(m_buttonTextBackup);
 
     m_buttonTextBackup.clear();

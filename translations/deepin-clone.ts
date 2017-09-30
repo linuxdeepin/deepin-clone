@@ -38,218 +38,224 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="224"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="556"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="254"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="593"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="311"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="341"/>
         <source>Select Operation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="312"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="342"/>
         <source>Next</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="333"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="743"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="366"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="801"/>
         <source>Backup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="335"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="745"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="368"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="803"/>
         <source>Clone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="338"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="345"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="371"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="378"/>
         <source>Target disk will be permanently overwritten, please confirm to continue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="340"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="347"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="373"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="380"/>
         <source>Target partition will be permanently overwritten, please confirm to continue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="342"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="747"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="375"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="805"/>
         <source>Restore</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="359"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="392"/>
         <source>Please move image file to other location outside the disk to avoid data loss</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="361"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="394"/>
         <source>Please move image file to other location outside the partition to avoid data loss</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="374"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="407"/>
         <source>Storage location can not be in the disk to backup, please reselect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="376"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="409"/>
         <source>Storage location can not be in the partition to backup, please reselect</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="393"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="428"/>
         <source>Not enough total capacity in target disk, please select another one</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="395"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="430"/>
         <source>Not enough total capacity in target partition, please select another one</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="408"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="445"/>
         <source>Not enough total capacity, please select another disk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="437"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="474"/>
         <source>Proceed to clone?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="475"/>
         <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="440"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="477"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="441"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="492"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="595"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="700"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="478"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="529"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="632"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="752"/>
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="457"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="538"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="494"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="575"/>
         <source>The selected storage location not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="705"/>
         <source>Failed to restart system</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="682"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="734"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="487"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="524"/>
         <source>Restart to Continue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="471"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="526"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="508"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="563"/>
         <source>%1 not exist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="490"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="527"/>
         <source>&quot;%1&quot; is used, please restart and enter &quot;Deepin Recovery&quot; to continue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="495"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="532"/>
         <source>&quot;%1&quot; is used, please install &quot;Deepin Recovery&quot; to retry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="550"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="587"/>
         <source>Performing Backup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="552"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="589"/>
         <source>Cloning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="554"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="591"/>
         <source>Restoring</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="570"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="607"/>
         <source>Backup Failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="572"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="609"/>
         <source>Clone Failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="574"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="611"/>
         <source>Restore Failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="579"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="616"/>
         <source>Retry</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="582"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="619"/>
         <source>Task done</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="585"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="622"/>
         <source>Backup Succeeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="586"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="623"/>
         <source>View Backup File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="594"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="631"/>
         <source>Clone Succeeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="598"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="635"/>
         <source>Restore Succeeded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="599"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="636"/>
         <source>Restart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="759"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="777"/>
+        <source>Loading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="817"/>
         <source>Disk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="761"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="819"/>
         <source>Partition</source>
         <translation type="unfinished"></translation>
     </message>
@@ -293,22 +299,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="184"/>
+        <location filename="../src/corelib/helper.cpp" line="198"/>
         <source>%1 d %2 h %3 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="187"/>
+        <location filename="../src/corelib/helper.cpp" line="201"/>
         <source>%1 h %2 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="190"/>
+        <location filename="../src/corelib/helper.cpp" line="204"/>
         <source>%1 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="192"/>
+        <location filename="../src/corelib/helper.cpp" line="206"/>
         <source>%1 s</source>
         <translation type="unfinished"></translation>
     </message>
@@ -323,17 +329,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="72"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="74"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="74"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="76"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="99"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="103"/>
         <source>Failed to mount partition &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -424,52 +430,52 @@
 <context>
     <name>SelectFilePage</name>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="234"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="238"/>
         <source>Select the source disk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="235"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="239"/>
         <source>Select the target disk</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="249"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="253"/>
         <source>Select the source partition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="250"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="254"/>
         <source>Select the target partition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="278"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="282"/>
         <source>Select a disk to backup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="286"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="290"/>
         <source>Select a partition to backup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="295"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="299"/>
         <source>Select storage location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="321"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="325"/>
         <source>Select a backup image file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="324"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="328"/>
         <source>Select a disk to restore</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="326"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="330"/>
         <source>Select a partition to restore</source>
         <translation type="unfinished"></translation>
     </message>

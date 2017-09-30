@@ -5,13 +5,13 @@
     <name>policy</name>
     <message>
         <location filename="com.deepin.pkexec.deepin-clone!message" line="0"/>
-        <source>Authentication is required to run the Deepin Clone</source>
-        <translation>启动深度备份还原工具需要验证</translation>
+        <source>Password required to run Deepin Clone</source>
+        <translation>深度备份还原工具需要授权</translation>
     </message>
     <message>
         <location filename="com.deepin.pkexec.deepin-clone!description" line="0"/>
-        <source>Authentication is required to run the &quot;Deepin Clone&quot;</source>
-        <translation>启动&quot;深度备份还原&quot;工具需要验证</translation>
+        <source>Deepin Clone needs to do operations on block device, such as write and read, get info and etc.</source>
+        <translation>深度备份还原工具需要对块设备进行读写和获取信息等操作</translation>
     </message>
 </context>
 </TS>

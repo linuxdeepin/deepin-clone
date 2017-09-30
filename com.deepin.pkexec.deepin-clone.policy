@@ -3,8 +3,8 @@
 "http://www.freedesktop.org/standards/PolicyKit/1.0/policyconfig.dtd">
 <policyconfig>
 	<action id="com.deepin.pkexec.deepin-clone">
-		<message>Authentication is required to run the Deepin Clone</message>
-		<description>Authentication is required to run the "Deepin Clone"</description>
+		<message>Password required to run Deepin Clone</message>
+		<description>Deepin Clone needs to do operations on block device, such as write and read, get info and etc.</description>
 		<icon_name>deepin-clone</icon_name>
 		<defaults>
 			<allow_any>auth_admin</allow_any>
@@ -13,7 +13,7 @@
 		</defaults>
 		<annotate key="org.freedesktop.policykit.exec.path">/usr/sbin/deepin-clone-ionice</annotate>
 		<annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
-		<description xml:lang="zh_CN">启动"深度备份还原"工具需要验证</description>
-		<message xml:lang="zh_CN">启动深度备份还原工具需要验证</message>
+		<description xml:lang="zh_CN">深度备份还原工具需要对块设备进行读写和获取信息等操作</description>
+		<message xml:lang="zh_CN">深度备份还原工具需要授权</message>
 	</action>
 </policyconfig>
