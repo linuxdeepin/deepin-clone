@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
         DApplication::loadDXcbPlugin();
         DApplication *app = new DApplication(argc, argv);
 
-        if (!app->loadTranslator()) {
+        if (!app->loadTranslator(QList<QLocale>() << QLocale(QLocale::Chinese))) {
             dError("Load translator failed");
         }
 
@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 #endif
 
     a->setApplicationName("deepin-clone");
-    a->setApplicationVersion("0.0.1");
+    a->setApplicationVersion("1.0.0");
     a->setOrganizationName("deepin");
 
     CommandLineParser parser;
