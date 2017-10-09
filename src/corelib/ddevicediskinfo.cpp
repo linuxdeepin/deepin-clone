@@ -210,7 +210,8 @@ bool DDeviceDiskInfoPrivate::hasScope(DDiskInfo::DataScope scope, DDiskInfo::Sco
             return false;
         }
 
-        if (info.isExtended() || (info.type() == DPartInfo::Unknow
+        if (info.isExtended() || (mode == DDiskInfo::Read
+                                  && info.type() == DPartInfo::Unknow
                                   && info.fileSystemType() == DPartInfo::Invalid
                                   && info.guidType() == DPartInfo::InvalidGUID)) {
             dCDebug("Skip the \"%s\" partition, type: %s", qPrintable(info.filePath()), qPrintable(info.typeDescription(info.type())));
