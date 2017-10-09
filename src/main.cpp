@@ -86,6 +86,17 @@ int main(int argc, char *argv[])
     }
 #ifdef ENABLE_GUI
     else {
+        ConsoleAppender *consoleAppender = new ConsoleAppender;
+        consoleAppender->setFormat(logFormat);
+
+        RollingFileAppender *rollingFileAppender = new RollingFileAppender("/tmp/.deepin-clone.log");
+        rollingFileAppender->setFormat(logFormat);
+        rollingFileAppender->setLogFilesLimit(5);
+        rollingFileAppender->setDatePattern(RollingFileAppender::DailyRollover);
+
+        logger->registerAppender(consoleAppender);
+        logger->registerAppender(rollingFileAppender);
+
         DApplication::loadDXcbPlugin();
         DApplication *app = new DApplication(argc, argv);
 
@@ -114,7 +125,7 @@ int main(int argc, char *argv[])
 
     if (load_arg_from_file) {
         if (!arguments_file.open(QIODevice::ReadOnly)) {
-            dCError("Open \"/lib/live/mount/medium/.tmp/deepin-clone.arguments\" failed, error: %s", qPrintable(arguments_file.errorString()));
+            qCritical() << "Open \"/lib/live/mount/medium/.tmp/deepin-clone.arguments\" failed, error:" << arguments_file.errorString();
         } else {
             while (!arguments_file.atEnd()) {
                 const QString &arg = QString::fromUtf8(arguments_file.readLine());
@@ -126,6 +137,8 @@ int main(int argc, char *argv[])
             arguments_file.close();
             arguments_file.remove();
         }
+
+        qDebug() << arguments;
     } else {
         arguments = a->arguments();
     }
