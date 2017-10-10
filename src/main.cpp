@@ -100,6 +100,12 @@ int main(int argc, char *argv[])
         DApplication::loadDXcbPlugin();
         DApplication *app = new DApplication(argc, argv);
 
+        if (!qApp->setSingleInstance("_deepin_clone_")) {
+            qCritical() << "As well as the process is running";
+
+            return -1;
+        }
+
         if (!app->loadTranslator(QList<QLocale>() << QLocale(QLocale::Chinese))) {
             dError("Load translator failed");
         }
@@ -181,12 +187,6 @@ int main(int argc, char *argv[])
     }
 #ifdef ENABLE_GUI
     else {
-        if (!qApp->setSingleInstance("_deepin_clone_")) {
-            dError("As well as the process is running");
-
-            return -1;
-        }
-
         if (!parser.isSetOverride())
             Global::isOverride = true;
 

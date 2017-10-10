@@ -201,7 +201,12 @@ void SelectFileWidget::setFilePath(const QString &path)
 static QString getFilePath(const QWidget *widget)
 {
     if (const UtilityList *list = qobject_cast<const UtilityList*>(widget)) {
-        QListWidgetItem *item = list->selectedItems().first();
+        const QList<QListWidgetItem*> selected_items = list->selectedItems();
+
+        if (selected_items.isEmpty())
+            return QString();
+
+        QListWidgetItem *item = selected_items.first();
 
         if (item->isHidden())
             return QString();
