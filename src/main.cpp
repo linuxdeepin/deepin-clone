@@ -124,6 +124,8 @@ int main(int argc, char *argv[])
     bool load_arg_from_file = arguments_file.exists() && !Global::isTUIMode && !a->arguments().contains("--tui");
 
     if (load_arg_from_file) {
+        arguments.append(a->arguments().first());
+
         if (!arguments_file.open(QIODevice::ReadOnly)) {
             qCritical() << "Open \"/lib/live/mount/medium/.tmp/deepin-clone.arguments\" failed, error:" << arguments_file.errorString();
         } else {
