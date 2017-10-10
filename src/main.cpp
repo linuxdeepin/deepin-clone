@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
             qCritical() << "Open \"/lib/live/mount/medium/.tmp/deepin-clone.arguments\" failed, error:" << arguments_file.errorString();
         } else {
             while (!arguments_file.atEnd()) {
-                const QString &arg = QString::fromUtf8(arguments_file.readLine());
+                const QString &arg = QString::fromUtf8(arguments_file.readLine().trimmed());
 
                 if (!arg.isEmpty())
                     arguments.append(arg);
