@@ -87,23 +87,23 @@ QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
     QDir mount_point(mp);
 
     if (mp.isEmpty()) {
+        QString mount_name;
+
         if (part_index >= 0)
-            mount_point.setPath(QString("/tmp/deepin-clone/mount/%1-%2").arg(serial_number).arg(part_index));
+            mount_name = QString("%1-%2").arg(serial_number).arg(part_index);
         else
-            mount_point.setPath(QString("/tmp/deepin-clone/mount/%1").arg(serial_number));
+            mount_name = serial_number;
 
-        if (!QDir::current().mkpath(mount_point.absolutePath())) {
-            dCError("mkpath \"%s\" failed", qPrintable(mount_point.absolutePath()));
-        }
+        const QString &_mount_point = Helper::temporaryMountDevice(device, mount_name);
 
-        if (!Helper::mountDevice(device, mount_point.absolutePath())) {
-            dCError("Mount the device \"%s\" to \"%s\" failed", qPrintable(device_url), qPrintable(mount_point.absolutePath()));
-
+        if (_mount_point.isEmpty()) {
             if (window)
                 window->showErrorMessage(QObject::tr("Failed to mount partition \"%1\"").arg(device_url));
 
             return QString();
         }
+
+        mount_point.setPath(_mount_point);
     }
 
     if (mount_point.absolutePath() == "/")

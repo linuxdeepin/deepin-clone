@@ -69,7 +69,8 @@ public:
     static bool isMounted(const QString &device);
     static bool umountDevice(const QString &device);
     static bool tryUmountDevice(const QString &device);
-    static bool mountDevice(const QString &device, const QString &path);
+    static bool mountDevice(const QString &device, const QString &path, bool readonly = false);
+    static QString temporaryMountDevice(const QString &device, const QString &name, bool readonly = false);
 
     static QString findDiskBySerialIndexNumber(const QString &serialNumber, int partIndexNumber = -1);
     static int partitionIndexNumber(const QString &partDevice);
@@ -89,6 +90,8 @@ public:
 
     static bool existLiveSystem();
     static bool restartToLiveSystem(const QStringList &arguments);
+
+    static bool isDeepinSystem(const DPartInfo &part);
 
 signals:
     void newWarning(const QString &message);

@@ -48,6 +48,11 @@ qint64 DPartInfoPrivate::getFreeSize() const
     return freeSize;
 }
 
+bool DPartInfoPrivate::getIsDeepinSystemRoot() const
+{
+    return isDeepinSystemRoot;
+}
+
 DPartInfo::FSType DPartInfoPrivate::toType(const QString &name)
 {
     if (name.isEmpty())
@@ -244,6 +249,11 @@ bool DPartInfo::isRemoveable() const
     return d->removeable;
 }
 
+bool DPartInfo::isDeepinSystemRoot() const
+{
+    return d->getIsDeepinSystemRoot();
+}
+
 void DPartInfo::refresh()
 {
     d->refresh();
@@ -276,7 +286,8 @@ QByteArray DPartInfo::toJson() const
         {"readonly", isReadonly()},
         {"removeable", isRemoveable()},
         {"transport", transport()},
-        {"index", indexNumber()}
+        {"index", indexNumber()},
+        {"isDeepinSystemRoot", isDeepinSystemRoot()}
     };
 
     QJsonDocument doc(root);
@@ -890,6 +901,7 @@ void DPartInfo::fromJson(const QJsonObject &root, DPartInfoPrivate *dd)
     dd->removeable = root.value("removeable").toBool();
     dd->transport = root.value("transport").toString();
     dd->index = root.value("index").toInt(-1);
+    dd->isDeepinSystemRoot = root.value("isDeepinSystemRoot").toBool();
 }
 
 void DPartInfo::fromJson(const QByteArray &json, DPartInfoPrivate *dd)

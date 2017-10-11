@@ -34,6 +34,7 @@ public:
     virtual void refresh();
     virtual qint64 getUsedSize() const;
     virtual qint64 getFreeSize() const;
+    virtual bool getIsDeepinSystemRoot() const;
 
     DPartInfo::FSType toType(const QString &name);
 
@@ -62,6 +63,7 @@ public:
 
     bool readonly = false;
     bool removeable = false;
+    bool isDeepinSystemRoot = false;
     QString transport;
     QString partUUID;
 };

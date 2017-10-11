@@ -323,6 +323,7 @@ public:
 
     bool isReadonly() const;
     bool isRemoveable() const;
+    bool isDeepinSystemRoot() const;
 
     void refresh();
 

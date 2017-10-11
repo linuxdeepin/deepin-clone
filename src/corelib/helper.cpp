@@ -470,9 +470,34 @@ bool Helper::tryUmountDevice(const QString &device)
     return true;
 }
 
-bool Helper::mountDevice(const QString &device, const QString &path)
+bool Helper::mountDevice(const QString &device, const QString &path, bool readonly)
 {
+    if (readonly)
+        return processExec(QString("mount -r %1 %2").arg(device, path)) == 0;
+
     return processExec(QString("mount %1 %2").arg(device, path)) == 0;
+}
+
+QString Helper::temporaryMountDevice(const QString &device, const QString &name, bool readonly)
+{
+    QString mount_point = "%1/%2/mount/%3";
+    const QStringList &tmp_paths = QStandardPaths::standardLocations(QStandardPaths::TempLocation);
+
+    mount_point = mount_point.arg(tmp_paths.isEmpty() ? "/tmp" : tmp_paths.first()).arg(qApp->applicationName()).arg(name);
+
+    if (!QDir::current().mkpath(mount_point)) {
+        dCError("mkpath \"%s\" failed", qPrintable(mount_point));
+
+        return QString();
+    }
+
+    if (!mountDevice(device, mount_point, readonly)) {
+        dCError("Mount the device \"%s\" to \"%s\" failed", qPrintable(device), qPrintable(mount_point));
+
+        return QString();
+    }
+
+    return mount_point;
 }
 
 QString Helper::findDiskBySerialIndexNumber(const QString &serialNumber, int partIndexNumber)
@@ -764,4 +789,26 @@ bool Helper::restartToLiveSystem(const QStringList &arguments)
         file.remove();
 
     return true;
+}
+
+bool Helper::isDeepinSystem(const DPartInfo &part)
+{
+    QString mout_root = part.mountPoint();
+    bool umount_device = false;
+
+    if (mout_root.isEmpty()) {
+        mout_root = temporaryMountDevice(part.name(), QFileInfo(part.name()).fileName(), true);
+
+        if (mout_root.isEmpty())
+            return false;
+
+        umount_device = true;
+    }
+
+    bool is = QFile::exists(mout_root + "/etc/deepin-version");
+
+    if (umount_device)
+        umountDevice(part.name());
+
+    return is;
 }

@@ -38,11 +38,13 @@ public:
     void refresh() Q_DECL_OVERRIDE;
     qint64 getUsedSize() const Q_DECL_OVERRIDE;
     qint64 getFreeSize() const Q_DECL_OVERRIDE;
+    bool getIsDeepinSystemRoot() const Q_DECL_OVERRIDE;
     void ensureSizeInfo();
 
     void init(const QJsonObject &obj);
 
     bool sizeInfoInitialized = false;
+    bool isDeepinSystemRootInitialized = false;
 };
 
 DDevicePartInfoPrivate::DDevicePartInfoPrivate(DDevicePartInfo *qq)
@@ -68,6 +70,16 @@ qint64 DDevicePartInfoPrivate::getFreeSize() const
     const_cast<DDevicePartInfoPrivate*>(this)->ensureSizeInfo();
 
     return freeSize;
+}
+
+bool DDevicePartInfoPrivate::getIsDeepinSystemRoot() const
+{
+    if (!isDeepinSystemRootInitialized) {
+        const_cast<DDevicePartInfoPrivate*>(this)->isDeepinSystemRoot = Helper::isDeepinSystem(*q);
+        const_cast<DDevicePartInfoPrivate*>(this)->isDeepinSystemRootInitialized = true;
+    }
+
+    return isDeepinSystemRoot;
 }
 
 void DDevicePartInfoPrivate::ensureSizeInfo()
