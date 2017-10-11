@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
             return -1;
         }
 
-        if (!app->loadTranslator(QList<QLocale>() << QLocale(QLocale::Chinese))) {
+        if (!app->loadTranslator()) {
             dError("Load translator failed");
         }
 
