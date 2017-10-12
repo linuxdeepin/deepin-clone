@@ -148,6 +148,8 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
 
     if (type == DDiskInfo::Disk)
         ptTypeName = getPTName(name);
+    else
+        ptTypeName = getPTName(obj.value("pkname").toString());
 
     if (ptTypeName == "dos") {
         ptType = DDiskInfo::MBR;
