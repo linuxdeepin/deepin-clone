@@ -66,8 +66,14 @@ inline static bool isTUIMode(int argc, char *argv[])
     if (qEnvironmentVariableIsEmpty("DISPLAY"))
         return true;
 
+    const QByteArrayList in_tui_args = {
+        "--tui", "-i", "--info", "--dim-info", "--to-serial-url",
+        "--from-serial-url", "-f", "--fix-boot", "-v", "--version",
+        "-h", "--help"
+    };
+
     for (int i = 1; i < argc; ++i)
-        if (argv[i] == QByteArray("--tui"))
+        if (in_tui_args.contains(argv[i]))
             return true;
 
     return false;

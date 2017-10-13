@@ -24,6 +24,7 @@
 #include "dvirtualimagefileio.h"
 #include "helper.h"
 #include "dglobal.h"
+#include "bootdoctor.h"
 
 #include <cstdio>
 
@@ -44,6 +45,7 @@ CommandLineParser::CommandLineParser()
     , o_log_file(QStringList() << "L" << "log-file")
     , o_loop_device(QStringList() << "loop-device")
     , o_debug_level(QStringList() << "d" << "debug")
+    , o_fix_boot(QStringList() << "f" << "fix-boot")
 {
     o_info.setDescription("Get the device info.");
     o_dim_info.setDescription("Get the dim file info.");
@@ -67,6 +69,8 @@ CommandLineParser::CommandLineParser()
     o_debug_level.setDescription("Set the debug level[0|1|2]");
     o_debug_level.setValueName("Level");
     o_debug_level.setDefaultValue(QString::number(Global::debugLevel));
+    o_fix_boot.setDescription("Fix the partition bootloader");
+    o_fix_boot.setValueName("Partition Device Path");
 
     QDir::current().mkpath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
@@ -83,6 +87,7 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_log_file);
     parser.addOption(o_loop_device);
     parser.addOption(o_debug_level);
+    parser.addOption(o_fix_boot);
     parser.addHelpOption();
     parser.addVersionOption();
 
@@ -184,6 +189,14 @@ void CommandLineParser::process(const QStringList &arguments)
         printf("\n");
 
         ::exit(EXIT_SUCCESS);
+    } else if (parser.isSet(o_fix_boot)) {
+        if (BootDoctor::fix(parser.value(o_fix_boot))) {
+            printf("Finished!");
+            ::exit(EXIT_SUCCESS);
+        } else {
+            fputs(qPrintable(BootDoctor::errorString()), stderr);
+            ::exit(EXIT_FAILURE);
+        }
     } else {
         if ((Global::isTUIMode || !parser.positionalArguments().isEmpty()) && parser.positionalArguments().count() > 2) {
             parser.showHelp(EXIT_FAILURE);

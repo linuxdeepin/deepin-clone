@@ -53,6 +53,7 @@ private:
     QCommandLineOption o_log_file;
     QCommandLineOption o_loop_device;
     QCommandLineOption o_debug_level;
+    QCommandLineOption o_fix_boot;
 };
 
 #endif // COMMANDLINEPARSER_H

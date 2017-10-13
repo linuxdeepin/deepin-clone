@@ -6,6 +6,7 @@ CONFIG += link_pkgconfig
 PKGCONFIG += dtkcore
 
 DEFINES += QT_MESSAGELOGCONTEXT
+DEFINES += HOST_ARCH_$$QMAKE_HOST.arch HOST_ARCH=\\\"$$QMAKE_HOST.arch\\\"
 
 isEmpty(DISABLE_GUI) {
     include($$PWD/src/widgets/widgets.pri)
@@ -14,6 +15,7 @@ isEmpty(DISABLE_GUI) {
 }
 
 include($$PWD/src/corelib/corelib.pri)
+include($$PWD/src/fixboot/fixboot.pri)
 
 SOURCES += src/main.cpp \
     src/commandlineparser.cpp
