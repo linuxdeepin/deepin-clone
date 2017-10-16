@@ -145,7 +145,7 @@ bool BootDoctor::fix(const QString &partDevice)
                         }
                     }
 
-                    if (!is_efi) {
+                    if (!is_efi && m_lastErrorString.isEmpty()) {
                         m_lastErrorString = QObject::tr("Not found EFI partition");
                         ok = false;
                     }
