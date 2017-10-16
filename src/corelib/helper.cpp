@@ -251,7 +251,7 @@ QString Helper::getPartcloneExecuter(const DPartInfo &info)
         executor = "nilfs2";
         break;
     case DPartInfo::NTFS:
-        executor = "ntfs";
+        executor = "ntfs -I";
         break;
     case DPartInfo::Reiser4:
         executor = "reiser4";
