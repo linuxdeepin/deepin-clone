@@ -339,6 +339,14 @@ void CloneJob::run()
 
             return;
         }
+
+        Helper::processExec(QString("fsck -f -y %1").arg(info.indexNumber()));
+
+        if (info.fileSystemType() == DPartInfo::EXT4
+                || info.fileSystemType() == DPartInfo::EXT3
+                || info.fileSystemType() == DPartInfo::EXT2) {
+            Helper::processExec(QString("resize2fs -p -f %1").arg(info.indexNumber()));
+        }
     }
 
     if (from_info.hasScope(DDiskInfo::JsonInfo) && to_info.hasScope(DDiskInfo::JsonInfo, DDiskInfo::Write)) {
