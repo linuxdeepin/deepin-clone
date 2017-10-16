@@ -160,6 +160,9 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
         havePartitionTable = false;
     }
 
+    if (type == DDiskInfo::Part)
+        havePartitionTable = false;
+
     if ((!havePartitionTable && children.isEmpty()) || type == DDiskInfo::Part) {
         DDevicePartInfo info;
 
