@@ -467,7 +467,7 @@ qint64 DDeviceDiskInfoPrivate::write(const char *data, qint64 maxSize)
 
     int timeout = 5000;
 
-    while (process->bytesToWrite() > 0) {
+    while (process->state() == QProcess::Running && process->bytesToWrite() > 0) {
         process->waitForBytesWritten();
 
         if (timer.elapsed() > timeout) {
