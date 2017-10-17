@@ -623,6 +623,10 @@ void MainWindow::setStatus(MainWindow::Status status)
         if (is_error) {
             if (m_currentMode == SelectActionPage::Backup) {
                 m_title->setTitle(tr("Backup Failed"));
+
+                if (QFile::remove(m_targetFile)) {
+                    dCDebug("Remove dim file(%s)", qPrintable(m_targetFile));
+                }
             } else if (m_currentMode == SelectActionPage::Clone) {
                 m_title->setTitle(tr("Clone Failed"));
             } else {
