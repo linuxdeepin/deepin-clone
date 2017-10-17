@@ -30,18 +30,19 @@ bool BootDoctor::fix(const QString &partDevice)
 {
     m_lastErrorString.clear();
 
+    bool device_is_mounted = Helper::isMounted(partDevice);
+
     const QString &mount_root = Helper::temporaryMountDevice(partDevice, QFileInfo(partDevice).fileName());
 
     if (mount_root.isEmpty()) {
         m_lastErrorString = QObject::tr("Failed to mount partition \"%1\"").arg(partDevice);
-
-        return false;
+        goto failed;
     }
 
-    const QStringList &tmp_paths = QStandardPaths::standardLocations(QStandardPaths::TempLocation);
-    const QString tmp_dir = (tmp_paths.isEmpty() ? "/tmp" : tmp_paths.first()) + "/.deepin-clone";
-
     {
+        const QStringList &tmp_paths = QStandardPaths::standardLocations(QStandardPaths::TempLocation);
+        const QString tmp_dir = (tmp_paths.isEmpty() ? "/tmp" : tmp_paths.first()) + "/.deepin-clone";
+
         if (!QDir::current().mkpath(tmp_dir)) {
             dCError("mkpath \"%s\" failed", qPrintable(tmp_dir));
             goto failed;
@@ -72,8 +73,7 @@ bool BootDoctor::fix(const QString &partDevice)
             }
 
             if (file_boot_fix.exists()) {
-                dCError("File \"%s\" is exists", qPrintable(file_boot_fix.fileName()));
-                break;
+                file_boot_fix.remove();
             }
 
             if (!QFile::copy(QString(":/scripts/boot_fix_%1.sh").arg(
@@ -96,22 +96,22 @@ bool BootDoctor::fix(const QString &partDevice)
                 break;
             }
 
-            if (Helper::processExec(QString("mount --bind -v --bind /dev/ /%1/dev").arg(mount_root)) != 0) {
+            if (Helper::processExec(QString("mount --bind -v --bind /dev %1/dev").arg(mount_root)) != 0) {
                 dCError("Failed to bind /dev");
                 break;
             }
 
-            if (Helper::processExec(QString("mount --bind -v --bind /dev/pts/ /%1/dev/pts").arg(mount_root)) != 0) {
+            if (Helper::processExec(QString("mount --bind -v --bind /dev/pts %1/dev/pts").arg(mount_root)) != 0) {
                 dCError("Failed to bind /dev/pts");
                 break;
             }
 
-            if (Helper::processExec(QString("mount --bind -v --bind /proc/ /%1/proc").arg(mount_root)) != 0) {
+            if (Helper::processExec(QString("mount --bind -v --bind /proc %1/proc").arg(mount_root)) != 0) {
                 dCError("Failed to bind /proc");
                 break;
             }
 
-            if (Helper::processExec(QString("mount --bind -v --bind /sys/ /%1/sys").arg(mount_root)) != 0) {
+            if (Helper::processExec(QString("mount --bind -v --bind /sys %1/sys").arg(mount_root)) != 0) {
                 dCError("Failed to bind /sys");
                 break;
             }
@@ -129,10 +129,16 @@ bool BootDoctor::fix(const QString &partDevice)
             if (!parent_device.isEmpty()) {
                 DDeviceDiskInfo info(parent_device);
 
+                dCDebug("Disk partition table type: %d", info.ptType());
+
                 if (info.ptType() == DDeviceDiskInfo::GPT) {
                     for (const DPartInfo &part : info.childrenPartList()) {
                         if (part.guidType() == DPartInfo::EFI_SP_None) {
-                            if (Helper::processExec(QString("mount %1 /%2/boot/efi").arg(part.filePath()).arg(mount_root)) != 0) {
+                            const QString &efi_path = mount_root + "/boot/efi";
+
+                            QDir::current().mkpath(efi_path);
+
+                            if (Helper::processExec(QString("mount %1 %2").arg(part.filePath()).arg(efi_path)) != 0) {
                                 dCError("Failed to mount EFI partition");
                                 m_lastErrorString = QObject::tr("Failed to mount partition \"%1\"").arg(part.filePath());
                                 ok = false;
@@ -153,7 +159,18 @@ bool BootDoctor::fix(const QString &partDevice)
             }
 
             if (ok) {
-                process.start(QString("chroot %1 ./boot_fix.sh %2 %3 /deepin-clone").arg(mount_root).arg(partDevice).arg(is_efi ? "true" : "false"));
+                process.setProcessChannelMode(QProcess::MergedChannels);
+                process.start(QString("chroot %1 ./boot_fix.sh %2 %3 /deepin-clone")
+                              .arg(mount_root)
+                              .arg(partDevice)
+                              .arg(is_efi ? "true" : "false"));
+
+                while (process.waitForReadyRead()) {
+                    const QByteArray &data = process.readAll().simplified().constData();
+
+                    dCDebug(data.constData());
+                }
+
                 process.waitForFinished(-1);
 
                 switch (process.exitCode()) {
@@ -166,8 +183,6 @@ bool BootDoctor::fix(const QString &partDevice)
                 default:
                     break;
                 }
-
-                dCDebug("Exec boot_fix.sh log:\n%s", process.readAll().constData());
             }
         }
 
@@ -175,16 +190,22 @@ bool BootDoctor::fix(const QString &partDevice)
         Helper::processExec("umount " + repo_mount_point);
         QDir(mount_root).rmdir("deepin-clone");
         file_boot_fix.remove();
-        Helper::processExec("umount " + mount_root + "/dev");
         Helper::processExec("umount " + mount_root + "/dev/pts");
+        Helper::processExec("umount " + mount_root + "/dev");
         Helper::processExec("umount " + mount_root + "/proc");
         Helper::processExec("umount " + mount_root + "/sys");
         Helper::processExec("umount " + mount_root + "/boot/efi");
+
+        if (!device_is_mounted)
+            Helper::umountDevice(partDevice);
 
         return ok && process.exitCode() == 0;
     }
 
 failed:
+    if (!device_is_mounted)
+        Helper::umountDevice(partDevice);
+
     if (m_lastErrorString.isEmpty())
         m_lastErrorString = QObject::tr("Failed to fix boot loader");
 

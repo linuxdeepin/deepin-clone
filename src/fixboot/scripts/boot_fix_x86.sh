@@ -5,11 +5,17 @@ error () {
     exit $2
 }
 
-DI_BOOTLOADER=$1
+config_item() {
+  if [ -f /etc/default/grub ]; then
+    . /etc/default/grub || return
+  fi
+  eval echo "\$$1"
+}
+
 disk_is_efi=$2
 repo_path=$3
 
-if [[ disk_is_efi == "true" ]]; then
+if [[ $disk_is_efi == "true" ]]; then
     echo "disk is efi mode"
     disk_is_efi=1
 else
@@ -17,18 +23,26 @@ else
     disk_is_efi=0
 fi
 
-dpkg-query -l grub-pc|egrep -i ii\\s+grub-pc
-system_is_efi=$?
+dpkg-query -l grub-pc|egrep -i i\\w\\s+grub-pc
 
-if [[ system_is_efi == 0 ]]; then
+if [[ $? == 0 ]]; then
     echo "system is legacy mode"
     system_is_efi=0
 else
-    echo "system is efi mode"
-    system_is_efi=1
-fi
+    if [[ `uname -m` == "x86_64" ]]; then
+        dpkg-query -l grub-efi-amd64-signed|egrep -i i\\w\\s+grub-efi-amd64-signed
+    else
+        dpkg-query -l grub-efi-ia32|egrep -i i\\w\\s+grub-efi-ia32
+    fi
 
-set -e
+    if [[ $? == 0 ]]; then
+        echo "system is efi mode"
+        system_is_efi=1
+    else
+        echo "system not install grub"
+        system_is_efi=2
+    fi
+fi
 
 if [[ $disk_is_efi != $system_is_efi ]]; then
     cp /etc/apt/sources.list /tmp/sources.list.bak
@@ -38,6 +52,7 @@ if [[ $disk_is_efi != $system_is_efi ]]; then
     export DEBIAN_FRONTEND="noninteractive"
 
     if [[ $disk_is_efi == 0 ]]; then
+        DI_BOOTLOADER=$1
         echo "INFO: Detected legacy machine, installing grub to ${DI_BOOTLOADER}"
         apt-get -y -o Dpkg::Options::="--force-confdef" \
             -o Dpkg::Options::="--force-confold" --no-install-recommends \
@@ -46,6 +61,9 @@ if [[ $disk_is_efi != $system_is_efi ]]; then
         grub-install --no-floppy ${DI_BOOTLOADER} --target=i386-pc --force|| \
             error "grub-install failed! ${DI_BOOTLOADER}" 1
     else
+        BOOTLOADER_ID="$(config_item GRUB_DISTRIBUTOR | tr A-Z a-z | cut -d' ' -f1)"
+        BOOTLOADER_ID="${BOOTLOADER_ID:-deepin}"
+
         if [[ `uname -m` == "x86_64" ]]; then
             # Clover efi loader cannot use grub.efi correctly,
             # so we may patch grub or use grub.efi.signed.
@@ -89,10 +107,12 @@ if [[ $disk_is_efi != $system_is_efi ]]; then
             cp /boot/efi/EFI/${BOOTLOADER_ID}/shim*.efi "${fallback_efi}"
         fi
     fi
-
-    mv -f /tmp/sources.list.bak /etc/apt/sources.list
 fi
 
+echo "restore sources.list file"
+mv -f /tmp/sources.list.bak /etc/apt/sources.list
+
+echo "update grub"
 update-grub || error "Failed update-grub" 2
 
 exit 0
