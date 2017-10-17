@@ -64,7 +64,7 @@ WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent
     connect(m_job, &CloneJob::finished, this, &WorkingPage::finished);
     connect(m_job, &CloneJob::statusChanged, this, [this, tip_label] (CloneJob::Status s) {
         if (s == CloneJob::Fix_Boot) {
-            tip_label->setText(tr("Repair boot is ongoing, please wait......"));
+            tip_label->setText(tr("Repairing system boot, please wait......"));
             m_writtenSizeLabel->clear();
             m_timeRemainingLabel->clear();
         }

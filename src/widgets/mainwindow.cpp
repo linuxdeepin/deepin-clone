@@ -250,7 +250,7 @@ void MainWindow::init()
     m_subTitle->setObjectName("SubTitle");
     m_contentWidget = new QStackedWidget(this);
     m_fixBootCheckBox = new QCheckBox(this);
-    m_fixBootCheckBox->setText(tr("Repair Boot"));
+    m_fixBootCheckBox->setText(tr("Restore boot"));
     m_fixBootCheckBox->hide();
     m_cancelButton = new QPushButton(this);
     m_cancelButton->setFixedSize(310, 36);
