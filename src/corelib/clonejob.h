@@ -35,7 +35,8 @@ public:
         Clone_Headgear,
         Clone_PartitionTable,
         Clone_Partition,
-        Save_Info
+        Save_Info,
+        Fix_Boot
     };
 
     explicit CloneJob(QObject *parent = 0);

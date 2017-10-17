@@ -152,9 +152,12 @@ bool BootDoctor::fix(const QString &partDevice)
                     }
 
                     if (!is_efi && m_lastErrorString.isEmpty()) {
-                        m_lastErrorString = QObject::tr("Not found EFI partition");
+                        m_lastErrorString = QObject::tr("EFI partition not found");
                         ok = false;
                     }
+                } else if (info.type() == DDeviceDiskInfo::Unknow) {
+                    m_lastErrorString = QObject::tr("Unknown partition table format");
+                    ok = false;
                 }
             }
 
@@ -175,10 +178,10 @@ bool BootDoctor::fix(const QString &partDevice)
 
                 switch (process.exitCode()) {
                 case 1:
-                    m_lastErrorString = QObject::tr("grub-install failed");
+                    m_lastErrorString = QObject::tr("Boot for install system failed");
                     break;
                 case 2:
-                    m_lastErrorString = QObject::tr("update-grub failed");
+                    m_lastErrorString = QObject::tr("Boot for update system failed");
                     break;
                 default:
                     break;
@@ -207,7 +210,7 @@ failed:
         Helper::umountDevice(partDevice);
 
     if (m_lastErrorString.isEmpty())
-        m_lastErrorString = QObject::tr("Failed to fix boot loader");
+        m_lastErrorString = QObject::tr("Boot for repair system failed");
 
     return false;
 }

@@ -46,6 +46,7 @@ CommandLineParser::CommandLineParser()
     , o_loop_device(QStringList() << "loop-device")
     , o_debug_level(QStringList() << "d" << "debug")
     , o_fix_boot(QStringList() << "f" << "fix-boot")
+    , o_auto_fix_boot(QStringList() << "auto-fix-boot")
 {
     o_info.setDescription("Get the device info.");
     o_dim_info.setDescription("Get the dim file info.");
@@ -71,6 +72,7 @@ CommandLineParser::CommandLineParser()
     o_debug_level.setDefaultValue(QString::number(Global::debugLevel));
     o_fix_boot.setDescription("Fix the partition bootloader");
     o_fix_boot.setValueName("Partition Device Path");
+    o_auto_fix_boot.setDescription("Auto fix the partition bootloader on the clone/restore job finished");
 
     QDir::current().mkpath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
@@ -88,6 +90,7 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_loop_device);
     parser.addOption(o_debug_level);
     parser.addOption(o_fix_boot);
+    parser.addOption(o_auto_fix_boot);
     parser.addHelpOption();
     parser.addVersionOption();
 
@@ -114,6 +117,7 @@ void CommandLineParser::process(const QStringList &arguments)
     Global::isOverride = parser.isSet(o_override);
     Global::disableMD5CheckForDimFile = parser.isSet(o_disable_check_dim);
     Global::disableLoopDevice = !parser.isSet(o_loop_device);
+    Global::fixBoot = parser.isSet(o_auto_fix_boot);
 
     if (parser.isSet(o_buffer_size)) {
         bool ok = false;

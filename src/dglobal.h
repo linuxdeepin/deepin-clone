@@ -37,6 +37,8 @@ public:
 
     static bool disableMD5CheckForDimFile;
     static bool disableLoopDevice;
+
+    static bool fixBoot;
 };
 
 #endif // DGLOBAL_H

@@ -249,6 +249,9 @@ void MainWindow::init()
     m_subTitle = new QLabel(this);
     m_subTitle->setObjectName("SubTitle");
     m_contentWidget = new QStackedWidget(this);
+    m_fixBootCheckBox = new QCheckBox(this);
+    m_fixBootCheckBox->setText(tr("Repair Boot"));
+    m_fixBootCheckBox->hide();
     m_cancelButton = new QPushButton(this);
     m_cancelButton->setFixedSize(310, 36);
     m_cancelButton->setText(tr("Cancel"));
@@ -275,6 +278,7 @@ void MainWindow::init()
 
     layout->addWidget(m_title, 0, Qt::AlignHCenter);
     layout->addWidget(m_contentWidget, 0, Qt::AlignHCenter);
+    layout->addWidget(m_fixBootCheckBox, 0, Qt::AlignHCenter);
     layout->addWidget(m_subTitle, 0, Qt::AlignHCenter);
     layout->addWidget(m_cancelButton, 0, Qt::AlignHCenter);
     layout->addWidget(m_bottomButton, 0, Qt::AlignHCenter);
@@ -284,6 +288,9 @@ void MainWindow::init()
         setStatus(SelectAction);
     });
     connect(m_bottomButton, &QPushButton::clicked, this, &MainWindow::onButtonClicked);
+    connect(m_fixBootCheckBox, &QCheckBox::toggled, this, [this] {
+        Global::fixBoot = m_fixBootCheckBox->isChecked();
+    });
 }
 
 void MainWindow::setStatus(MainWindow::Status status)
@@ -331,6 +338,7 @@ void MainWindow::setStatus(MainWindow::Status status)
     m_subTitle->setText(QString());
     m_cancelButton->setVisible(status == WaitConfirm || status == ToLiveSystem);
     m_bottomButton->setVisible(true);
+    m_fixBootCheckBox->hide();
 
     switch (status) {
     case SelectAction: {
@@ -432,6 +440,16 @@ void MainWindow::setStatus(MainWindow::Status status)
                             m_bottomButton->setEnabled(false);
 
                             return;
+                        }
+
+                        if (target_disk_info.type() == DDiskInfo::Part
+                                && target_disk_info.ptType() != DDiskInfo::Unknow
+                                && disk_info.childrenPartList().first().isDeepinSystemRoot()
+                                && disk_info.type() == DDiskInfo::Part) {
+                            m_fixBootCheckBox->show();
+                            m_fixBootCheckBox->setChecked(Global::fixBoot);
+                        } else {
+                            m_fixBootCheckBox->hide();
                         }
                     }
                 } else {
@@ -726,6 +744,10 @@ void MainWindow::onButtonClicked()
 
         if (!Global::disableLoopDevice) {
             arguments << "--loop-device";
+        }
+
+        if (Global::fixBoot) {
+            arguments << "--auto-fix-boot";
         }
 
         if (!Helper::restartToLiveSystem(arguments)) {

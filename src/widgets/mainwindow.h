@@ -29,6 +29,7 @@
 //#include <DVideoWidget>
 
 #include <QStackedWidget>
+#include <QCheckBox>
 
 QT_BEGIN_NAMESPACE
 class QLabel;
@@ -97,6 +98,7 @@ private:
     IconLabel *m_title;
     QLabel *m_subTitle;
     QStackedWidget *m_contentWidget;
+    QCheckBox *m_fixBootCheckBox;
     QPushButton *m_cancelButton;
     QPushButton *m_bottomButton;
 //    QMediaPlayer *m_player = 0;

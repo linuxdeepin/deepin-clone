@@ -24,6 +24,7 @@
 #include "ddevicediskinfo.h"
 #include "dfilediskinfo.h"
 #include "helper.h"
+#include "bootdoctor.h"
 
 #include <QDir>
 #include <QElapsedTimer>
@@ -364,8 +365,24 @@ void CloneJob::run()
     m_estimateTime = 0;
 
     if (!m_abort) {
-        emit progressChanged(1.0);
         dCDebug("clone finished!");
+
+        if (Global::fixBoot
+                && to_info.type() == DDiskInfo::Part
+                && to_info.ptType() != DDiskInfo::Unknow
+                && from_info.childrenPartList().first().isDeepinSystemRoot()
+                && from_info.type() == DDiskInfo::Part) {
+            dCDebug("Try fix boot for \"%s\"", qPrintable(m_to));
+            setStatus(Fix_Boot);
+
+            if (!BootDoctor::fix(m_to)) {
+                setErrorString(BootDoctor::errorString());
+
+                dCError("Failed fix boot");
+            }
+        }
+
+        emit progressChanged(1.0);
     }
 
     dCDebug("Total time: %s, Total data: %s", qPrintable(Helper::secondsToString(timer.elapsed() / 1000)), qPrintable(Helper::sizeDisplay(have_been_written)));
