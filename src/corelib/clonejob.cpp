@@ -185,7 +185,7 @@ void CloneJob::run()
 
     setStatus(Started);
 
-    dCDebug("Clone job start, source: %s, target: %s", qPrintable(m_from), qPrintable(m_to));
+    dCInfo("Clone job start, source: %s, target: %s", qPrintable(m_from), qPrintable(m_to));
 
     if (!QFile::exists(m_from)) {
         setErrorString(tr("%1 not exist").arg(m_from));
@@ -304,7 +304,7 @@ void CloneJob::run()
     if (from_info.hasScope(DDiskInfo::Headgear)) {
         setStatus(Clone_Headgear);
 
-        dCDebug("begin clone headgear......................\n");
+        dCInfo("begin clone headgear......................\n");
 
         if (!call_disk_pipe(DDiskInfo::Headgear)) {
             dCDebug("failed!!!");
@@ -316,7 +316,7 @@ void CloneJob::run()
     if (from_info.hasScope(DDiskInfo::PartitionTable)) {
         setStatus(Clone_PartitionTable);
 
-        dCDebug("begin clone partition table......................\n");
+        dCInfo("begin clone partition table......................\n");
 
         if (!call_disk_pipe(DDiskInfo::PartitionTable)) {
             dCDebug("failed!!!");
@@ -333,7 +333,7 @@ void CloneJob::run()
 
         setStatus(Clone_Partition);
 
-        dCDebug("begin clone partition, index: %d......................\n", info.indexNumber());
+        dCInfo("begin clone partition, index: %d......................\n", info.indexNumber());
 
         if (!call_disk_pipe(DDiskInfo::Partition, info.indexNumber(), info.indexNumber())) {
             dCDebug("failed!!!");
@@ -353,7 +353,7 @@ void CloneJob::run()
     if (from_info.hasScope(DDiskInfo::JsonInfo) && to_info.hasScope(DDiskInfo::JsonInfo, DDiskInfo::Write)) {
         setStatus(Save_Info);
 
-        dCDebug("begin clone json info\n");
+        dCInfo("begin clone json info\n");
 
         if (!call_disk_pipe(DDiskInfo::JsonInfo)) {
             dCDebug("failed!!!");
@@ -372,7 +372,7 @@ void CloneJob::run()
                 && to_info.ptType() != DDiskInfo::Unknow
                 && from_info.childrenPartList().first().isDeepinSystemRoot()
                 && from_info.type() == DDiskInfo::Part) {
-            dCDebug("Try fix boot for \"%s\"", qPrintable(m_to));
+            dCInfo("Try fix boot for \"%s\"", qPrintable(m_to));
             setStatus(Fix_Boot);
 
             if (!BootDoctor::fix(m_to)) {
@@ -385,7 +385,7 @@ void CloneJob::run()
         emit progressChanged(1.0);
     }
 
-    dCDebug("Total time: %s, Total data: %s", qPrintable(Helper::secondsToString(timer.elapsed() / 1000)), qPrintable(Helper::sizeDisplay(have_been_written)));
+    dCInfo("Total time: %s, Total data: %s", qPrintable(Helper::secondsToString(timer.elapsed() / 1000)), qPrintable(Helper::sizeDisplay(have_been_written)));
 }
 
 void CloneJob::setStatus(CloneJob::Status s)

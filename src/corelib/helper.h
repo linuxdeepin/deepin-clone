@@ -126,6 +126,14 @@ static QString __d_asprintf__(const char *format, Args&&... args)
 #endif
 #define dCDebug(...) qCDebug(Helper::loggerCategory, __VA_ARGS__)
 
+#ifdef dCInfo
+#undef dCInfo
+#endif
+#define dCInfo(format, ...) { \
+    QString __m = __d_asprintf__(format, ##__VA_ARGS__); \
+    __m.prepend("\033[33m"); __m.append("\033[0m"); \
+    qCInfo(Helper::loggerCategory, qPrintable(__m));}
+
 #ifdef dCWarning
 #undef dCWarning
 #endif

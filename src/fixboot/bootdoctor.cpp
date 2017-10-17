@@ -155,7 +155,7 @@ bool BootDoctor::fix(const QString &partDevice)
                         m_lastErrorString = QObject::tr("EFI partition not found");
                         ok = false;
                     }
-                } else if (info.type() == DDeviceDiskInfo::Unknow) {
+                } else if (info.ptType() == DDeviceDiskInfo::Unknow) {
                     m_lastErrorString = QObject::tr("Unknown partition table format");
                     ok = false;
                 }

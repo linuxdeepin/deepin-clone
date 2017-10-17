@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
         dCDebug("Load arguments from \"%s\"", qPrintable(arguments_file.fileName()));
     }
 
-    dCDebug("Application command line: %s", qPrintable(arguments.join(' ')));
+    dCInfo("Application command line: %s", qPrintable(arguments.join(' ')));
 
     if (Global::debugLevel == 0) {
         QLoggingCategory::setFilterRules("deepin.ghost.debug=false");
