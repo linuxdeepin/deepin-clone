@@ -110,14 +110,19 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
 
     d->isValid = false;
     d->file.close();
-
-    if (!fileName.endsWith(".dim"))
-        return false;
-
     d->file.setFileName(fileName);
 
-    if (!d->file.exists())
+    if (!d->file.exists()) {
+        dCError("\"%s\" not found", qPrintable(fileName));
+
         return false;
+    }
+
+    if (!fileName.endsWith(".dim")) {
+        dCError("\"%s\" is not dim file", qPrintable(fileName));
+
+        return false;
+    }
 
     if (d->file.size() > 0) {
         if (d->file.size() < metaDataSize()) {
@@ -127,6 +132,8 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
         }
 
         if (!d->file.open(QIODevice::ReadOnly)) {
+            dCError("Failed to open \"%s\", error: \"%s\"", qPrintable(fileName), qPrintable(d->file.errorString()));
+
             return false;
         }
 
@@ -201,6 +208,8 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
                         0xd8, 0xcd, 0x42, 0xbb, 0xca, 0x12, 0x97, 0x7f};
         d->file.write((char*)md5, 16);
     } else {
+        dCError("Failed to open \"%s\", error: \"%s\"", qPrintable(fileName), qPrintable(d->file.errorString()));
+
         return false;
     }
 
@@ -278,16 +287,7 @@ bool DVirtualImageFileIO::close()
             d->openedFile.clear();
         }
 
-        if (!d->file.isOpen()) {
-            if (!d->file.open(QIODevice::ReadWrite)) {
-                return false;
-            }
-        }
-
-        const QByteArray &md5 = md5sum(false);
-
-        d->file.seek(validMetaDataSize());
-        d->file.write(md5);
+        updateMD5sum();
     }
 
     d->file.close();
@@ -404,10 +404,8 @@ bool DVirtualImageFileIO::setSize(const QString &fileName, qint64 size)
     stream.setVersion(QDataStream::Qt_5_6);
     stream << d->fileMap.value(fileName).end;
 
-    const QByteArray &md5 = md5sum(false);
+    updateMD5sum();
 
-    d->file.seek(validMetaDataSize());
-    d->file.write(md5);
     d->file.close();
 
     return d->file.error() == QFile::NoError;
@@ -495,6 +493,16 @@ qint64 DVirtualImageFileIO::writableDataSize() const
 QStringList DVirtualImageFileIO::fileList() const
 {
     return d->fileNameList();
+}
+
+bool DVirtualImageFileIO::updateMD5sum(const QString &fileName)
+{
+    bool bak = Global::disableMD5CheckForDimFile;
+    Global::disableMD5CheckForDimFile = true;
+    bool ok = DVirtualImageFileIO(fileName).updateMD5sum();
+    Global::disableMD5CheckForDimFile = bak;
+
+    return ok;
 }
 
 bool DVirtualImageFileIO::addFile(const QString &name)
@@ -585,10 +593,15 @@ QByteArray DVirtualImageFileIO::md5sum(bool readCache)
 
             block_index %= (block_size / 1024);
 
+            qint64 old_pos = d->file.pos();
+
             if (!d->file.seek(d->file.pos() + block_index * 1024))
                 break;
 
             md5.addData(d->file.read(1024));
+
+            if (!d->file.seek(old_pos + block_size))
+                break;
         }
 
         md5.addData(d->file.read(qMin(info.end - d->file.pos(), (qint64)1024 * 10)));
@@ -599,6 +612,50 @@ QByteArray DVirtualImageFileIO::md5sum(bool readCache)
     d->md5Cache[key] = data;
 
     return data;
+}
+
+bool DVirtualImageFileIO::updateMD5sum()
+{
+    if (!isValid())
+        return false;
+
+    bool open_in = false;
+
+    if (!d->file.isOpen()) {
+        if (!d->file.open(QIODevice::ReadWrite)) {
+            dCError("Failed to open \"%s\", error: \"%s\"", qPrintable(d->file.fileName()), qPrintable(d->file.errorString()));
+
+            return false;
+        }
+
+        open_in = true;
+    }
+
+    bool ok = true;
+
+    do {
+        const QByteArray &md5 = md5sum(false);
+
+        if (md5.isEmpty()) {
+            ok = false;
+            break;
+        }
+
+        if (!d->file.seek(validMetaDataSize())) {
+            ok = false;
+            break;
+        }
+
+        if (d->file.write(md5) != md5.size()) {
+            ok = false;
+            break;
+        }
+    } while (0);
+
+    if (open_in)
+        d->file.close();
+
+    return ok;
 }
 
 QStringList DVirtualImageFileIOPrivate::fileNameList() const

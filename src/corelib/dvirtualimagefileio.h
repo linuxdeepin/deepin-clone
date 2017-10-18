@@ -66,9 +66,12 @@ public:
     qint64 writableDataSize() const;
     QStringList fileList() const;
 
+    static bool updateMD5sum(const QString &fileName);
+
 private:
     bool addFile(const QString &name);
     QByteArray md5sum(bool readCache = true);
+    bool updateMD5sum();
 
     QExplicitlySharedDataPointer<DVirtualImageFileIOPrivate> d;
 

@@ -70,7 +70,7 @@ inline static bool isTUIMode(int argc, char *argv[])
     const QByteArrayList in_tui_args = {
         "--tui", "-i", "--info", "--dim-info", "--to-serial-url",
         "--from-serial-url", "-f", "--fix-boot", "-v", "--version",
-        "-h", "--help"
+        "-h", "--help", "--re-checksum"
     };
 
     for (int i = 1; i < argc; ++i)

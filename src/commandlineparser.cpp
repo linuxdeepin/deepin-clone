@@ -42,6 +42,7 @@ CommandLineParser::CommandLineParser()
     , o_to_serial_url("to-serial-url")
     , o_from_serial_url("from-serial-url")
     , o_disable_check_dim("no-check-dim")
+    , o_reset_checksum("re-checksum")
     , o_log_file(QStringList() << "L" << "log-file")
     , o_loop_device(QStringList() << "loop-device")
     , o_debug_level(QStringList() << "d" << "debug")
@@ -63,16 +64,18 @@ CommandLineParser::CommandLineParser()
     o_from_serial_url.setDescription("Serial url format to file path format.");
     o_from_serial_url.setValueName("Serial URL");
     o_disable_check_dim.setDescription("Ignore dim file md5 check.");
-    o_log_file.setDescription("Log file path");
+    o_reset_checksum.setDescription("Recalculate and write the checksum of the dim file.");
+    o_reset_checksum.setValueName("File Path");
+    o_log_file.setDescription("Log file path.");
     o_log_file.setValueName("File Path");
     o_log_file.setDefaultValue(QString("/var/log/%2.log").arg(qApp->applicationName()));
-    o_loop_device.setDescription("Do not block loop device");
-    o_debug_level.setDescription("Set the debug level[0|1|2]");
+    o_loop_device.setDescription("Do not block loop device.");
+    o_debug_level.setDescription("Set the debug level[0|1|2].");
     o_debug_level.setValueName("Level");
     o_debug_level.setDefaultValue(QString::number(Global::debugLevel));
-    o_fix_boot.setDescription("Fix the partition bootloader");
+    o_fix_boot.setDescription("Fix the partition bootloader.");
     o_fix_boot.setValueName("Partition Device Path");
-    o_auto_fix_boot.setDescription("Auto fix the partition bootloader on the clone/restore job finished");
+    o_auto_fix_boot.setDescription("Auto fix the partition bootloader on the clone/restore job finished.");
 
     QDir::current().mkpath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
@@ -86,6 +89,7 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_to_serial_url);
     parser.addOption(o_from_serial_url);
     parser.addOption(o_disable_check_dim);
+    parser.addOption(o_reset_checksum);
     parser.addOption(o_log_file);
     parser.addOption(o_loop_device);
     parser.addOption(o_debug_level);
@@ -199,6 +203,12 @@ void CommandLineParser::process(const QStringList &arguments)
             ::exit(EXIT_SUCCESS);
         } else {
             fputs(qPrintable(BootDoctor::errorString()), stderr);
+            ::exit(EXIT_FAILURE);
+        }
+    } else if (parser.isSet(o_reset_checksum)) {
+        if (DVirtualImageFileIO::updateMD5sum(parser.value(o_reset_checksum))) {
+            ::exit(EXIT_SUCCESS);
+        } else {
             ::exit(EXIT_FAILURE);
         }
     } else {

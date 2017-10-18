@@ -107,10 +107,10 @@ if [[ $disk_is_efi != $system_is_efi ]]; then
             cp /boot/efi/EFI/${BOOTLOADER_ID}/shim*.efi "${fallback_efi}"
         fi
     fi
-fi
 
-echo "restore sources.list file"
-mv -f /tmp/sources.list.bak /etc/apt/sources.list
+    echo "restore sources.list file"
+    mv -f /tmp/sources.list.bak /etc/apt/sources.list
+fi
 
 echo "update grub"
 update-grub || error "Failed update-grub" 2

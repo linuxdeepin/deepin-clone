@@ -50,6 +50,7 @@ private:
     QCommandLineOption o_to_serial_url;
     QCommandLineOption o_from_serial_url;
     QCommandLineOption o_disable_check_dim;
+    QCommandLineOption o_reset_checksum;
     QCommandLineOption o_log_file;
     QCommandLineOption o_loop_device;
     QCommandLineOption o_debug_level;
