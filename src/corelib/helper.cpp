@@ -269,7 +269,7 @@ QString Helper::getPartcloneExecuter(const DPartInfo &info)
     return "partclone." + executor;
 }
 
-bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 *used, qint64 *free, int *blockSize)
+bool Helper::getPartitionSizeInfo(const QString &partDevice, qint64 *used, qint64 *free, int *blockSize)
 {
     QProcess process;
     QStringList env_list = QProcess::systemEnvironment();
@@ -277,8 +277,8 @@ bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 *used, qint64 *f
     env_list.append("LANG=C");
     process.setEnvironment(env_list);
 
-    if (info.isMounted()) {
-        process.start(QString("df -B1 -P %1").arg(info.filePath()));
+    if (Helper::isMounted(partDevice)) {
+        process.start(QString("df -B1 -P %1").arg(partDevice));
         process.waitForFinished();
 
         if (process.exitCode() != 0) {
@@ -316,7 +316,7 @@ bool Helper::getPartitionSizeInfo(const DPartInfo &info, qint64 *used, qint64 *f
 
         return true;
     } else {
-        process.start(QString("%1 -s %2 -c -q -C -L /tmp/partclone.log").arg(getPartcloneExecuter(info)).arg(info.filePath()));
+        process.start(QString("%1 -s %2 -c -q -C -L /tmp/partclone.log").arg(getPartcloneExecuter(DDevicePartInfo(partDevice))).arg(partDevice));
         process.setStandardOutputFile("/dev/null");
         process.setReadChannel(QProcess::StandardError);
         process.waitForStarted();

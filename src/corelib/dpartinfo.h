@@ -351,6 +351,7 @@ private:
     friend class DFileDiskInfoPrivate;
     friend class DDeviceDiskInfoPrivate;
     friend bool operator==(const DPartInfo &first, const DPartInfo &second);
+    friend class PartitionListItem;
 };
 
 inline bool operator==(const DPartInfo &first, const DPartInfo &second)

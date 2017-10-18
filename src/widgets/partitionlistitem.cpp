@@ -46,7 +46,9 @@ PartitionListItem::PartitionListItem(DPartInfo info, QWidget *parent)
             icon_name = "drive-harddisk-" + info.transport();
     }
 
-    setIcon(QIcon::fromTheme(icon_name), QSize(48, 48));
+    const QIcon icon = QIcon::fromTheme(icon_name);
+
+    setIcon(info.isDeepinSystemRoot() ? QIcon::fromTheme("drive-harddisk-deepin", icon) : icon, QSize(48, 48));
 }
 
 DPartInfo PartitionListItem::info() const
