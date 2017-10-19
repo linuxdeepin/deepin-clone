@@ -92,6 +92,7 @@ public:
     static bool restartToLiveSystem(const QStringList &arguments);
 
     static bool isDeepinSystem(const DPartInfo &part);
+    static bool resetPartUUID(const DPartInfo &part, QByteArray uuid = QByteArray());
 
 signals:
     void newWarning(const QString &message);

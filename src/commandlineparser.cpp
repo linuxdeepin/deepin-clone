@@ -117,7 +117,10 @@ void CommandLineParser::process(const QCoreApplication &app)
 void CommandLineParser::process(const QStringList &arguments)
 {
     parser.process(arguments);
+}
 
+void CommandLineParser::parse()
+{
     Global::isOverride = parser.isSet(o_override);
     Global::disableMD5CheckForDimFile = parser.isSet(o_disable_check_dim);
     Global::disableLoopDevice = !parser.isSet(o_loop_device);

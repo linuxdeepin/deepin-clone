@@ -88,6 +88,14 @@ DPartInfo::FSType DPartInfoPrivate::toType(const QString &name)
         return DPartInfo::VFAT;
     } else if (name == "iso9660") {
         return DPartInfo::ISO9660;
+    } else if (name == "jfs") {
+        return DPartInfo::JFS;
+    } else if (name == "xfs") {
+        return DPartInfo::XFS;
+    } else if (name == "swap") {
+        return DPartInfo::Swap;
+    } else if (name == "LVM2_member") {
+        return DPartInfo::LVM2_member;
     }
 
     return DPartInfo::UnknowFS;
@@ -214,6 +222,11 @@ bool DPartInfo::isMounted() const
     return !mountPoint().isEmpty();
 }
 
+QString DPartInfo::uuid() const
+{
+    return d->uuid;
+}
+
 QString DPartInfo::label() const
 {
     return d->label;
@@ -287,7 +300,9 @@ QByteArray DPartInfo::toJson() const
         {"removeable", isRemoveable()},
         {"transport", transport()},
         {"index", indexNumber()},
-        {"isDeepinSystemRoot", isDeepinSystemRoot()}
+        {"isDeepinSystemRoot", isDeepinSystemRoot()},
+        {"partUUID", partUUID()},
+        {"uuid", uuid()}
     };
 
     QJsonDocument doc(root);
@@ -902,6 +917,8 @@ void DPartInfo::fromJson(const QJsonObject &root, DPartInfoPrivate *dd)
     dd->transport = root.value("transport").toString();
     dd->index = root.value("index").toInt(-1);
     dd->isDeepinSystemRoot = root.value("isDeepinSystemRoot").toBool();
+    dd->partUUID = root.value("partUUID").toString();
+    dd->uuid = root.value("uuid").toString();
 }
 
 void DPartInfo::fromJson(const QByteArray &json, DPartInfoPrivate *dd)

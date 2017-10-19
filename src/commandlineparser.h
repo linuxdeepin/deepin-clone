@@ -31,6 +31,7 @@ public:
 
     void process(const QCoreApplication &app);
     void process(const QStringList &arguments);
+    void parse();
 
     QString source() const;
     QString target() const;

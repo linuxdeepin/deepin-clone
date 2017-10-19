@@ -107,6 +107,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     fsTypeName = obj.value("fstype").toString();
     fsType = toType(fsTypeName);
     mountPoint = obj.value("mountpoint").toString();
+    uuid = obj.value("uuid").toString();
     label = obj.value("label").toString();
     partLabel = obj.value("partlabel").toString();
     partTypeName = obj.value("parttype").toString();

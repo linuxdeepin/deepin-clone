@@ -21,8 +21,7 @@
 #include "bootdoctor.h"
 #include "helper.h"
 #include "ddevicediskinfo.h"
-
-#include <QTemporaryDir>
+#include "ddevicepartinfo.h"
 
 QString BootDoctor::m_lastErrorString;
 
@@ -30,8 +29,24 @@ bool BootDoctor::fix(const QString &partDevice)
 {
     m_lastErrorString.clear();
 
-    bool device_is_mounted = Helper::isMounted(partDevice);
+    DDevicePartInfo part_info(partDevice);
+    const QString part_old_uuid = part_info.uuid();
 
+    if (Helper::processExec("lsblk -s -d -n -o UUID") == 0) {
+        if (Helper::lastProcessStandardOutput().contains(part_old_uuid.toLatin1())) {
+            // reset uuid
+            if (Helper::resetPartUUID(part_info)) {
+                QThread::sleep(1);
+                part_info.refresh();
+
+                qDebug() << part_old_uuid << part_info.uuid();
+            } else {
+                dCWarning("Failed to reset uuid");
+            }
+        }
+    }
+
+    bool device_is_mounted = Helper::isMounted(partDevice);
     const QString &mount_root = Helper::temporaryMountDevice(partDevice, QFileInfo(partDevice).fileName());
 
     if (mount_root.isEmpty()) {
@@ -199,10 +214,45 @@ bool BootDoctor::fix(const QString &partDevice)
         Helper::processExec("umount " + mount_root + "/sys");
         Helper::processExec("umount " + mount_root + "/boot/efi");
 
-        if (!device_is_mounted)
-            Helper::umountDevice(partDevice);
+        if (ok && process.exitCode() == 0) {
+            if (part_old_uuid != part_info.uuid()) {
+                dCDebug("Reset the uuid from \"%s\" to \"%s\"", qPrintable(part_old_uuid), qPrintable(part_info.uuid()));
 
-        return ok && process.exitCode() == 0;
+                // update /etc/fstab
+                QFile file(mount_root + "/etc/fstab");
+
+                if (file.exists() && file.open(QIODevice::ReadWrite)) {
+                    QByteArray data = file.readAll();
+
+                    if (file.seek(0)) {
+                        file.write(data.replace(part_old_uuid.toLatin1(), part_info.uuid().toLatin1()));
+                    }
+
+                    file.close();
+                } else {
+                    dCWarning("Failed to update /etc/fstab, error: %s", qPrintable(file.errorString()));
+                }
+
+                file.setFileName(mount_root + "/etc/crypttab");
+
+                if (file.exists() && file.open(QIODevice::ReadWrite)) {
+                    QByteArray data = file.readAll();
+
+                    if (file.seek(0)) {
+                        file.write(data.replace(part_old_uuid.toLatin1(), part_info.uuid().toLatin1()));
+                    }
+
+                    file.close();
+                } else {
+                    dCWarning("Failed to update /etc/crypttab, error: %s", qPrintable(file.errorString()));
+                }
+            }
+
+            if (!device_is_mounted)
+                Helper::umountDevice(partDevice);
+
+            return true;
+        }
     }
 
 failed:
@@ -211,6 +261,12 @@ failed:
 
     if (m_lastErrorString.isEmpty())
         m_lastErrorString = QObject::tr("Boot for repair system failed");
+
+    dCDebug("Restore partition uuid");
+
+    if (!Helper::resetPartUUID(part_info, part_old_uuid.toLatin1())) {
+        dCWarning("Failed to restore partition uuid, part: %s, uuid: %s", qPrintable(partDevice), qPrintable(part_old_uuid));
+    }
 
     return false;
 }

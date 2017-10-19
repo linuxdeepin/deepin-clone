@@ -9,6 +9,7 @@ Standards-Version: 3.9.8
 
 Package: deepin-clone
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, partclone, e2fsprogs
+Depends: ${shlibs:Depends}, ${misc:Depends}, partclone,
+  e2fsprogs, jfsutils, ntfs-3g, xfsprogs
 Description: Deepin Backup Restore Tool
  Deepin Backup Restore Tool.

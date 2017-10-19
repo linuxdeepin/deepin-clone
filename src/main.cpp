@@ -171,6 +171,8 @@ int main(int argc, char *argv[])
     logger->registerCategoryAppender("deepin.ghost", consoleAppender);
     logger->registerCategoryAppender("deepin.ghost", rollingFileAppender);
 
+    parser.parse();
+
     if (load_arg_from_file) {
         dCDebug("Load arguments from \"%s\"", qPrintable(arguments_file.fileName()));
     }

@@ -55,6 +55,7 @@ public:
     QString fsTypeName;
     DPartInfo::FSType fsType;
     QString mountPoint;
+    QString uuid;
     QString label;
     QString partLabel;
     DPartInfo::Type partType;

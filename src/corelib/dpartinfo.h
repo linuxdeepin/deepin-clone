@@ -145,7 +145,11 @@ public:
         NTFS,
         Reiser4,
         VFAT,
-        ISO9660
+        ISO9660,
+        JFS,
+        XFS,
+        Swap,
+        LVM2_member
     };
 
     enum GUIDType {
@@ -313,6 +317,7 @@ public:
     // mount path of partition
     QString mountPoint() const;
     bool isMounted() const;
+    QString uuid() const;
     // file system label of partition
     QString label() const;
     // partition label
@@ -351,7 +356,6 @@ private:
     friend class DFileDiskInfoPrivate;
     friend class DDeviceDiskInfoPrivate;
     friend bool operator==(const DPartInfo &first, const DPartInfo &second);
-    friend class PartitionListItem;
 };
 
 inline bool operator==(const DPartInfo &first, const DPartInfo &second)
