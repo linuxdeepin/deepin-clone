@@ -92,7 +92,7 @@ bool BootDoctor::fix(const QString &partDevice)
             }
 
             if (!QFile::copy(QString(":/scripts/boot_fix_%1.sh").arg(
-                     #if defined(HOST_ARCH_x86_64) || defined(HOST_ARCH_i386)
+                     #if defined(HOST_ARCH_x86_64) || defined(HOST_ARCH_i386) || defined(HOST_ARCH_i686)
                                  "x86"
                      #elif defined(HOST_ARCH_mips64) || defined(HOST_ARCH_mips32)
                                  "mips"
