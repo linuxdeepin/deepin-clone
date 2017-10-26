@@ -132,6 +132,8 @@ int main(int argc, char *argv[])
         DApplication::loadDXcbPlugin();
         DApplication *app = new DApplication(argc, argv);
 
+        app->setAttribute(Qt::AA_UseHighDpiPixmaps);
+
         if (!qApp->setSingleInstance("_deepin_clone_")) {
             qCritical() << "As well as the process is running";
 
@@ -234,7 +236,7 @@ int main(int argc, char *argv[])
         window->setWindowIcon(QIcon::fromTheme("deepin-clone"));
         window->titlebar()->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint
                                            | Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
-        window->titlebar()->setIcon(window->windowIcon().pixmap(24));
+        window->titlebar()->setIcon(window->windowIcon());
         window->titlebar()->setTitle(QString());
         window->show();
 
