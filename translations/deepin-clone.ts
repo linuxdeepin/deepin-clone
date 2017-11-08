@@ -31,7 +31,7 @@
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="252"/>
-        <source>Failed to change %1 size, please check the free sapce on target disk</source>
+        <source>Failed to change %1 size, please check the free space on target disk</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -304,32 +304,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="198"/>
+        <location filename="../src/corelib/helper.cpp" line="199"/>
         <source>%1 d %2 h %3 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="201"/>
+        <location filename="../src/corelib/helper.cpp" line="202"/>
         <source>%1 h %2 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="204"/>
+        <location filename="../src/corelib/helper.cpp" line="205"/>
         <source>%1 m</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="206"/>
+        <location filename="../src/corelib/helper.cpp" line="207"/>
         <source>%1 s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="120"/>
+        <location filename="../src/main.cpp" line="147"/>
         <source>Deepin Clone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="121"/>
+        <location filename="../src/main.cpp" line="148"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -344,35 +344,35 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="38"/>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="71"/>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="143"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="158"/>
         <location filename="../src/widgets/mainwindow.cpp" line="101"/>
         <source>Failed to mount partition &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="155"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
         <source>EFI partition not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="159"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
         <source>Unknown partition table format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="181"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
         <source>Boot for install system failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="184"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for update system failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="213"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
         <source>Boot for repair system failed</source>
         <translation type="unfinished"></translation>
     </message>

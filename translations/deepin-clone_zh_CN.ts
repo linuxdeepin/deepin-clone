@@ -39,8 +39,12 @@
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="252"/>
-        <source>Failed to change %1 size, please check the free sapce on target disk</source>
+        <source>Failed to change %1 size, please check the free space on target disk</source>
         <translation>改变文件 &quot;%1&quot; 的大小失败，请检查目标磁盘可用空间</translation>
+    </message>
+    <message>
+        <source>Failed to change %1 size, please check the free sapce on target disk</source>
+        <translation type="vanished">改变文件 &quot;%1&quot; 的大小失败，请检查目标磁盘可用空间</translation>
     </message>
 </context>
 <context>
@@ -316,32 +320,32 @@
         <translation>打开文件&quot;%1&quot;失败，错误信息：%2</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="198"/>
+        <location filename="../src/corelib/helper.cpp" line="199"/>
         <source>%1 d %2 h %3 m</source>
         <translation>%1天%2小时%3分钟</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="201"/>
+        <location filename="../src/corelib/helper.cpp" line="202"/>
         <source>%1 h %2 m</source>
         <translation>%1小时%2分钟</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="204"/>
+        <location filename="../src/corelib/helper.cpp" line="205"/>
         <source>%1 m</source>
         <translation>%1分钟</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="206"/>
+        <location filename="../src/corelib/helper.cpp" line="207"/>
         <source>%1 s</source>
         <translation>%1秒</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="120"/>
+        <location filename="../src/main.cpp" line="147"/>
         <source>Deepin Clone</source>
         <translation>深度备份还原工具</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="121"/>
+        <location filename="../src/main.cpp" line="148"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
         <translation>备份还原工具是深度操作系统中的备份还原小工具，包括磁盘克隆、磁盘备份、磁盘还原、分区克隆、分区备份、分区还原等功能。</translation>
     </message>
@@ -356,35 +360,35 @@
         <translation>无法找到磁盘&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="38"/>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="71"/>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="143"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="158"/>
         <location filename="../src/widgets/mainwindow.cpp" line="101"/>
         <source>Failed to mount partition &quot;%1&quot;</source>
         <translation>分区&quot;%1&quot;挂载失败</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="155"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
         <source>EFI partition not found</source>
         <translation>未找到EFI分区</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="159"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
         <source>Unknown partition table format</source>
         <translation>未知的分区表格式</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="181"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
         <source>Boot for install system failed</source>
         <translation>安装系统引导失败</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="184"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for update system failed</source>
         <translation>更新系统引导失败</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="213"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
         <source>Boot for repair system failed</source>
         <translation>修复系统引导失败</translation>
     </message>
