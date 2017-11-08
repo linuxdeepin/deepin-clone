@@ -235,8 +235,7 @@ int main(int argc, char *argv[])
         window->setFixedSize(860, 660);
         window->setStyleSheet(DThemeManager::instance()->getQssForWidget("main", window));
         window->setWindowIcon(QIcon::fromTheme("deepin-clone"));
-        window->titlebar()->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint
-                                           | Qt::WindowSystemMenuHint | Qt::WindowTitleHint);
+        window->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint);
         window->titlebar()->setIcon(window->windowIcon());
         window->titlebar()->setTitle(QString());
         window->show();

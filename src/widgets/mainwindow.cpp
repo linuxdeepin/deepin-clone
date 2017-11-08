@@ -35,6 +35,8 @@
 #include <DDesktopServices>
 #include <ddialog.h>
 #include <anchors.h>
+#include <DWindowManagerHelper>
+#include <DTitlebar>
 
 #include <QApplication>
 #include <QVBoxLayout>
@@ -596,6 +598,10 @@ void MainWindow::setStatus(MainWindow::Status status)
             }
         }
 
+        // disable the window close function
+        DWindowManagerHelper::setMotifFunctions(windowHandle(), DWindowManagerHelper::FUNC_CLOSE, false);
+        titlebar()->setDisableFlags(Qt::WindowCloseButtonHint | Qt::WindowMaximizeButtonHint);
+
         WorkingPage *page = new  WorkingPage(m_sourceFile, m_targetFile);
 
         connect(page, &WorkingPage::finished, this, &MainWindow::next);
@@ -615,6 +621,10 @@ void MainWindow::setStatus(MainWindow::Status status)
         break;
     }
     case End: {
+        // enable the window close function
+        DWindowManagerHelper::setMotifFunctions(windowHandle(), DWindowManagerHelper::FUNC_CLOSE, true);
+        titlebar()->setDisableFlags(Qt::WindowMaximizeButtonHint);
+
         bool is_error = isError();
 
         WorkingPage *worker = qobject_cast<WorkingPage*>(content());
