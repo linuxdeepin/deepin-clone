@@ -44,6 +44,7 @@ CommandLineParser::CommandLineParser()
     , o_disable_check_dim("no-check-dim")
     , o_reset_checksum("re-checksum")
     , o_log_file(QStringList() << "L" << "log-file")
+    , o_log_backup(QStringList() << "log-backup")
     , o_loop_device(QStringList() << "loop-device")
     , o_debug_level(QStringList() << "d" << "debug")
     , o_fix_boot(QStringList() << "f" << "fix-boot")
@@ -69,6 +70,8 @@ CommandLineParser::CommandLineParser()
     o_log_file.setDescription("Log file path.");
     o_log_file.setValueName("File Path");
     o_log_file.setDefaultValue(QString("/var/log/%2.log").arg(qApp->applicationName()));
+    o_log_backup.setDescription("Backup log file to path on application quit.");
+    o_log_backup.setValueName("File Path");
     o_loop_device.setDescription("Do not block loop device.");
     o_debug_level.setDescription("Set the debug level[0|1|2].");
     o_debug_level.setValueName("Level");
@@ -91,6 +94,7 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_disable_check_dim);
     parser.addOption(o_reset_checksum);
     parser.addOption(o_log_file);
+    parser.addOption(o_log_backup);
     parser.addOption(o_loop_device);
     parser.addOption(o_debug_level);
     parser.addOption(o_fix_boot);
@@ -240,6 +244,11 @@ QString CommandLineParser::target() const
 QString CommandLineParser::logFile() const
 {
     return parser.value(o_log_file);
+}
+
+QString CommandLineParser::logBackupFile() const
+{
+    return  parser.value(o_log_backup);
 }
 
 bool CommandLineParser::isSetOverride() const

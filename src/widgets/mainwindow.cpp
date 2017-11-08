@@ -647,6 +647,13 @@ void MainWindow::setStatus(MainWindow::Status status)
             page->setMessage(worker->errorString());
             m_bottomButton->setText(tr("Retry"));
             m_buttonAction = Retry;
+
+            dCWarning("!!!!job failed!!!!\n");
+
+            if (Helper::processExec("lsblk -O -J") == 0) {
+                dCInfo("All disk/partition device info\n");
+                dCDebug("\n\"%s\"\n", qPrintable(Helper::lastProcessStandardOutput()));
+            }
         } else {
             page->setTitle(tr("Task done"));
 
@@ -750,7 +757,8 @@ void MainWindow::onButtonClicked()
         arguments << source_url << target_url
                   << "-B" << QString::number(Global::bufferSize)
                   << "-C" << QString::number(Global::compressionLevel)
-                  << "-d" << QString::number(Global::debugLevel);
+                  << "-d" << QString::number(Global::debugLevel)
+                  << "--log-backup" << toSerialUrl("/var/log/deepin-clone-livesystem.log");
 
         if (Global::disableMD5CheckForDimFile) {
             arguments << "--no-check-dim";

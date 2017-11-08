@@ -36,6 +36,7 @@ public:
     QString source() const;
     QString target() const;
     QString logFile() const;
+    QString logBackupFile() const;
 
     bool isSetOverride() const;
     bool isSetDebug() const;
@@ -53,6 +54,7 @@ private:
     QCommandLineOption o_disable_check_dim;
     QCommandLineOption o_reset_checksum;
     QCommandLineOption o_log_file;
+    QCommandLineOption o_log_backup;
     QCommandLineOption o_loop_device;
     QCommandLineOption o_debug_level;
     QCommandLineOption o_fix_boot;

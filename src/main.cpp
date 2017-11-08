@@ -55,6 +55,8 @@ int Global::bufferSize = 1024 * 1024;
 int Global::compressionLevel = 0;
 int Global::debugLevel = 1;
 
+extern QString parseSerialUrl(const QString &url, MainWindow *window = 0);
+
 DCORE_USE_NAMESPACE
 
 inline static bool isTUIMode(int argc, char *argv[])
@@ -218,8 +220,6 @@ int main(int argc, char *argv[])
             QObject::connect(&job, &QThread::finished, a, &QCoreApplication::quit);
 
             job.start(parser.source(), parser.target());
-
-            return a->exec();
         }
     }
 #ifdef ENABLE_GUI
@@ -250,5 +250,20 @@ int main(int argc, char *argv[])
     }
 #endif
 
-    return Global::isTUIMode ? qApp->exec() : a->exec();
+    int exitCode = Global::isTUIMode ? a->exec() : qApp->exec();
+    QString log_backup_file = parser.logBackupFile();
+
+    if (log_backup_file.startsWith("serial://")) {
+        log_backup_file = parseSerialUrl(log_backup_file);
+    }
+
+    if (log_backup_file.isEmpty()) {
+        return exitCode;
+    }
+
+    if (!QFile::copy(parser.logFile(), log_backup_file)) {
+        dCWarning("failed to copy log file to \"%s\"", qPrintable(log_backup_file));
+    }
+
+    return exitCode;
 }
