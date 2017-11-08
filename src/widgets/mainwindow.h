@@ -86,6 +86,7 @@ private:
     QString operateObjectString() const;
 
     void resizeEvent(QResizeEvent *e) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 
     Status m_currentStatus = (Status)(End + 1);
     SelectActionPage::Action m_currentMode = SelectActionPage::Backup;

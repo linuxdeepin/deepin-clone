@@ -856,3 +856,12 @@ void MainWindow::resizeEvent(QResizeEvent *e)
 
     m_contentWidget->setFixedWidth(e->size().width() - content_margins.left() - content_margins.right());
 }
+
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() == Qt::Key_F1 && !e->isAutoRepeat()) {
+        QProcess::startDetached("dman", QStringList() << qApp->applicationName());
+    }
+
+    return DMainWindow::keyPressEvent(e);
+}
