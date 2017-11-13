@@ -55,6 +55,7 @@ private:
     QLabel *m_icon;
     RightContentLabel *m_label;
     QHBoxLayout *m_layout;
+    QWidget *m_spaceSeparator;
     QWidget *m_bottomSeparator;
 };
 

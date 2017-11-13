@@ -104,16 +104,19 @@ UtilityListItem::UtilityListItem(QWidget *parent)
     m_layout = new QHBoxLayout();
     m_label = new RightContentLabel(this);
     m_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    m_layout->addWidget(m_label);
+    m_layout->addWidget(m_label, 0, Qt::AlignVCenter);
 
+    m_spaceSeparator = new QWidget(this);
     m_bottomSeparator = new DSeparatorHorizontal(this);
+
+    m_spaceSeparator->setFixedHeight(1);
 
     main_layout->addWidget(m_icon);
     main_layout->addLayout(content_layout);
 
+    content_layout->addWidget(m_spaceSeparator);
     content_layout->addLayout(m_layout);
     content_layout->addWidget(m_bottomSeparator);
-    content_layout->addStretch();
 }
 
 void UtilityListItem::setTitle(const QString &title)
@@ -153,6 +156,7 @@ void UtilityListItem::addWidget(QWidget *w, int stretch, Qt::Alignment alignment
 
 void UtilityListItem::enterEvent(QEvent *event)
 {
+    m_spaceSeparator->hide();
     m_bottomSeparator->hide();
 
     return QWidget::enterEvent(event);
@@ -160,6 +164,7 @@ void UtilityListItem::enterEvent(QEvent *event)
 
 void UtilityListItem::leaveEvent(QEvent *event)
 {
+    m_spaceSeparator->show();
     m_bottomSeparator->show();
 
     return QWidget::leaveEvent(event);

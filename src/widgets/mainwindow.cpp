@@ -283,7 +283,9 @@ void MainWindow::init()
     layout->addWidget(m_fixBootCheckBox, 0, Qt::AlignHCenter);
     layout->addWidget(m_subTitle, 0, Qt::AlignHCenter);
     layout->addWidget(m_cancelButton, 0, Qt::AlignHCenter);
+    layout->addSpacing(15);
     layout->addWidget(m_bottomButton, 0, Qt::AlignHCenter);
+    layout->addSpacing(5);
     layout->addWidget(m_pageIndicator, 0, Qt::AlignHCenter);
 
     connect(m_cancelButton, &QPushButton::clicked, this, [this] {

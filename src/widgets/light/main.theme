@@ -42,7 +42,7 @@ UtilityList::item:selected {
 UtilityList::item:hover {
     border-radius: 6px;
     background: rgba(0, 0, 0, 0.05);
-    margin: 10 10 10 10;
+    margin: 0 10 0 10;
 }
 
 UtilityList::item:hover:selected {
