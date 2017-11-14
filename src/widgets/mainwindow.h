@@ -53,6 +53,7 @@ public:
         Working,
         End
     };
+    Q_ENUM(Status)
 
     enum ButtonAction {
         None,

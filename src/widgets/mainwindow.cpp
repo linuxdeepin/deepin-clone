@@ -299,6 +299,14 @@ void MainWindow::init()
 
 void MainWindow::setStatus(MainWindow::Status status)
 {
+    dCInfo("current state: \"%s\", new state: \"%s\"",
+           QMetaEnum::fromType<Status>().valueToKey(m_currentStatus),
+           QMetaEnum::fromType<Status>().valueToKey(status));
+    dCInfo("action: \"%s\", mode: \"%s\"\nsource: \"%s\"\ntarget: \"%s\"",
+           QMetaEnum::fromType<SelectActionPage::Action>().valueToKey(m_currentMode),
+           QMetaEnum::fromType<SelectActionPage::Mode>().valueToKey(m_operateObject),
+           qPrintable(m_sourceFile), qPrintable(m_targetFile));
+
     switch (m_currentStatus) {
     case SelectAction: {
         m_currentMode = static_cast<SelectActionPage*>(content())->action();

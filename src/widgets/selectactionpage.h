@@ -35,12 +35,14 @@ public:
         Disk,
         Partition
     };
+    Q_ENUM(Mode)
 
     enum Action {
         Clone,
         Backup,
         Restore
     };
+    Q_ENUM(Action)
 
     explicit SelectActionPage(QWidget *parent = 0);
 
