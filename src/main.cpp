@@ -30,6 +30,7 @@
 #include "mainwindow.h"
 
 #include <pwd.h>
+#include <unistd.h>
 
 DWIDGET_USE_NAMESPACE
 #else
@@ -110,6 +111,7 @@ int main(int argc, char *argv[])
 
         if (qEnvironmentVariableIsSet("PKEXEC_UID")) {
             quint32 pkexec_uid = qgetenv("PKEXEC_UID").toUInt();
+            setuid(pkexec_uid);
             const QDir user_home(getpwuid(pkexec_uid)->pw_dir);
 
             QFile pam_file(user_home.absoluteFilePath(".pam_environment"));
@@ -123,6 +125,7 @@ int main(int argc, char *argv[])
 
                         if (list.count() == 2) {
                             qputenv("QT_SCALE_FACTOR", list.last());
+                            break;
                         }
                     }
                 }

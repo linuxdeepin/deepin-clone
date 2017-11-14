@@ -38,6 +38,9 @@
 #include <QMimeDatabase>
 #include <QDebug>
 
+#include <pwd.h>
+#include <unistd.h>
+
 DWIDGET_USE_NAMESPACE
 
 class SelectFileWidget : public QWidget
@@ -114,7 +117,7 @@ SelectFileWidget::SelectFileWidget(Mode mode, QWidget *parent)
     layout->addStretch();
 
     connect(m_button, &DLinkButton::clicked, this, [this] {
-        QFileDialog dialog(this);
+        QFileDialog dialog(this, QString(), getpwuid(getuid())->pw_dir);
 
         dialog.setMimeTypeFilters(QStringList() << "application-x-deepinclone-dim");
         dialog.setNameFilters(QStringList() << tr("Deepin Image File") + "(*.dim)");
