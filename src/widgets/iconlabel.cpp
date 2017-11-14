@@ -66,7 +66,11 @@ void IconLabel::setIcon(const QIcon &icon, int extent)
             extent = 50;
     }
 
-    m_icon->setPixmap(icon.pixmap(extent));
+    QPixmap pixmap = icon.pixmap(extent);
+
+    pixmap.setDevicePixelRatio(pixmap.width() / qreal(extent));
+
+    m_icon->setPixmap(pixmap);
     m_icon->setVisible(!icon.isNull());
 }
 

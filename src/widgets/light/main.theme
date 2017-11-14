@@ -46,7 +46,6 @@ UtilityList::item:hover {
 }
 
 UtilityList::item:hover:selected {
-    margin-right: 10;
     background-position: right;
     background-image: url(:/icons/select.svg);
     background-repeat: no-repeat;

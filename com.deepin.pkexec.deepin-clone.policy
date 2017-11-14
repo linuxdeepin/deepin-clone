@@ -13,7 +13,37 @@
 		</defaults>
 		<annotate key="org.freedesktop.policykit.exec.path">/usr/sbin/deepin-clone-ionice</annotate>
 		<annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
+		<description xml:lang="es_419">Deepin Clone necesita realizar operaciones específicas en su dispositivo, tales como escribir y leer, obtener información y otras.</description>
+		<message xml:lang="es_419">Se requiere de su contraseña para ejecutar Deepin Clone</message>
+		<description xml:lang="cs">Klonování potřebuje provádět operace na blokovém zařízení, jako je zápis a čtení, získávání údajů atd.</description>
+		<message xml:lang="cs">Ke spuštění Klonování je vyžadováno heslo</message>
+		<description xml:lang="ast">Deepin Clone precisa facer operaciones nel serviciu de bloquéu, como escritura y llectura, consiguir información... etc.</description>
+		<message xml:lang="ast">Ríquese la contraseña pa executar Deepin Clone</message>
+		<description xml:lang="ru">Deepin Clone должен выполнять операции над блочным устройством, такие как запись и чтение, получение информации и т. д.</description>
+		<message xml:lang="ru">Для выполнения Deepin Clone требуется пароль</message>
 		<description xml:lang="zh_CN">深度备份还原工具需要对块设备进行读写和获取信息等操作</description>
 		<message xml:lang="zh_CN">深度备份还原工具需要授权</message>
+		<description xml:lang="sl">Klonirnik Deepin mora na napravini datoteki izvajati nekatere operacije, kot so zapisovanje, branje, pridobivanje informacij itd.</description>
+		<message xml:lang="sl">Za zagon Klonirnika Deepin je potrebno geslo</message>
+		<description xml:lang="ar">ديبين كلون تحتاج للقيام بالعمليات على جهاز كتلى, مثل الكتابة و القراءة, الحصول على المعلومات .. إلخ.</description>
+		<message xml:lang="ar">كلمة المرور مطلوبة لتشغيل ديبين كلون</message>
+		<description xml:lang="de">Deepin Clone führt auf dem Blockspeichergerät Operationen wie Schreiben, Lesen, Informationsabruf, etc. aus.</description>
+		<message xml:lang="de">Zum Ausführen von Deepin Clone wird ein Password benötigt</message>
+		<description xml:lang="sk">Deepin Klonovanie potrebuje urobiť operácie na blokovom zariadení, ako je zápis a čítanie, získavanie informácií atď.</description>
+		<message xml:lang="sk">Je potrebné heslo na spustenie programu Deepin Klonovanie</message>
+		<description xml:lang="tr">Deepin Klon, blok aygıtı üzerinde yazma ve okuma, bilgi alma ve benzeri işlemleri yapmak zorundadır.</description>
+		<message xml:lang="tr">Deepin Klon'u çalıştırmak için gerekli şifre</message>
+		<description xml:lang="da">Deepin Clone skal lave operationer på blok enhed, såsom skrive og læse, få info og osv.</description>
+		<message xml:lang="da">Kodeord er påkrævet for at køre Deepin Clone</message>
+		<description xml:lang="hu">A Deepin Clone-nak írási és olvasási joggal kell rendelkeznie az eszközön</description>
+		<message xml:lang="hu">Jelszó szükséges a Deepin Clone futtatásához</message>
+		<description xml:lang="es">Deepin Clone necesita hacer operaciones en dispositivos de bloque, como escribir y leer, obtener información, etcétera.</description>
+		<message xml:lang="es">Contraseña requerida para correr Deepin Clone</message>
+		<description xml:lang="pt_BR">Deepin Clone precisa fazer operações no dispositivo de bloqueio, como escrever e ler, obter informações e etc.</description>
+		<message xml:lang="pt_BR">Senha necessária para executar Deepin Clone</message>
+		<description xml:lang="it">Deepin Clone necessita di effettuare operazioni sul dispositivo, come leggere e scrivere dati, ottenere informazioni ecc.</description>
+		<message xml:lang="it">Per eseguire Deepin Clone occorre inserire la password da Amministratore</message>
+		<description xml:lang="fr">Deepin Clone effectue des opérations sur les périphériques de bloc, tels que la lecture, l'écriture et l'obtention d'attributs.</description>
+		<message xml:lang="fr">Mot de passe requis pour exécuter Deepin Clone</message>
 	</action>
 </policyconfig>

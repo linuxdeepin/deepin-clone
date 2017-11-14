@@ -63,9 +63,11 @@ signals:
 protected:
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
     void dropEvent(QDropEvent *event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
 
 private:
     void setFilePath(const QString &path);
+    void openFileDialog();
 
     Mode m_mode;
     QString m_filePath;
@@ -116,27 +118,7 @@ SelectFileWidget::SelectFileWidget(Mode mode, QWidget *parent)
     layout->addWidget(m_button, 0, Qt::AlignHCenter);
     layout->addStretch();
 
-    connect(m_button, &DLinkButton::clicked, this, [this] {
-        QFileDialog dialog(this, QString(), getpwuid(getuid())->pw_dir);
-
-        dialog.setMimeTypeFilters(QStringList() << "application-x-deepinclone-dim");
-        dialog.setNameFilters(QStringList() << tr("Deepin Image File") + "(*.dim)");
-        dialog.setDefaultSuffix("dim");
-        dialog.setWindowTitle(m_button->text());
-
-        if (m_mode == GetSaveName) {
-            dialog.setFileMode(QFileDialog::AnyFile);
-            dialog.setAcceptMode(QFileDialog::AcceptSave);
-            dialog.selectFile(m_defaultFileName);
-        } else {
-            dialog.setFileMode(QFileDialog::ExistingFile);
-            dialog.setAcceptMode(QFileDialog::AcceptOpen);
-        }
-
-        if (dialog.exec() == QFileDialog::Accepted) {
-            setFilePath(dialog.selectedFiles().first());
-        }
-    });
+    connect(m_button, &DLinkButton::clicked, this, &SelectFileWidget::openFileDialog);
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
@@ -178,6 +160,13 @@ void SelectFileWidget::dropEvent(QDropEvent *event)
     return event->accept();
 }
 
+void SelectFileWidget::mousePressEvent(QMouseEvent *event)
+{
+    Q_UNUSED(event)
+
+    openFileDialog();
+}
+
 void SelectFileWidget::setFilePath(const QString &path)
 {
     if (m_filePath == path)
@@ -199,6 +188,29 @@ void SelectFileWidget::setFilePath(const QString &path)
     m_label->setTitle(m_filePath);
 
     emit filePathChanged();
+}
+
+void SelectFileWidget::openFileDialog()
+{
+    QFileDialog dialog(this, QString(), getpwuid(getuid())->pw_dir);
+
+    dialog.setMimeTypeFilters(QStringList() << "application-x-deepinclone-dim");
+    dialog.setNameFilters(QStringList() << tr("Deepin Image File") + "(*.dim)");
+    dialog.setDefaultSuffix("dim");
+    dialog.setWindowTitle(m_button->text());
+
+    if (m_mode == GetSaveName) {
+        dialog.setFileMode(QFileDialog::AnyFile);
+        dialog.setAcceptMode(QFileDialog::AcceptSave);
+        dialog.selectFile(m_defaultFileName);
+    } else {
+        dialog.setFileMode(QFileDialog::ExistingFile);
+        dialog.setAcceptMode(QFileDialog::AcceptOpen);
+    }
+
+    if (dialog.exec() == QFileDialog::Accepted) {
+        setFilePath(dialog.selectedFiles().first());
+    }
 }
 
 static QString getFilePath(const QWidget *widget)

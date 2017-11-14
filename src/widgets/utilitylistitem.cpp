@@ -109,14 +109,15 @@ UtilityListItem::UtilityListItem(QWidget *parent)
     m_spaceSeparator = new QWidget(this);
     m_bottomSeparator = new DSeparatorHorizontal(this);
 
-    m_spaceSeparator->setFixedHeight(1);
+    m_spaceSeparator->setFixedHeight(2);
 
+    main_layout->setContentsMargins(10, 0, 10, 0);
     main_layout->addWidget(m_icon);
     main_layout->addLayout(content_layout);
 
     content_layout->addWidget(m_spaceSeparator);
     content_layout->addLayout(m_layout);
-    content_layout->addWidget(m_bottomSeparator);
+    content_layout->addWidget(m_bottomSeparator, 0, Qt::AlignBottom);
 }
 
 void UtilityListItem::setTitle(const QString &title)
