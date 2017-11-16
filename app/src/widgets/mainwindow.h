@@ -71,6 +71,9 @@ public:
 
     void startWithFile(const QString &source, const QString &target);
 
+private slots:
+    bool openUrl(const QUrl &url);
+
 private:
     void init();
     void setStatus(Status status);

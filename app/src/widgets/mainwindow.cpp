@@ -46,6 +46,9 @@
 #include <QDebug>
 //#include <QMediaPlayer>
 
+#include <pwd.h>
+#include <unistd.h>
+
 MainWindow::MainWindow(QWidget *parent)
     : DMainWindow(parent)
 {
@@ -243,6 +246,61 @@ void MainWindow::startWithFile(const QString &source, const QString &target)
     setStatus(WaitConfirm);
 }
 
+QStringList honestChildEnvironment()
+{
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+
+    env.remove("USER");
+    env.remove("LOGNAME");
+    env.remove("PWD");
+
+    QStringList env_list = env.toStringList();
+
+    if (qEnvironmentVariableIsSet("PKEXEC_UID")) {
+        const quint32 &pkexec_uid = qgetenv("PKEXEC_UID").toUInt();
+
+        env_list << QString("%1=%2").arg(DEEPIN_CLONE_UID).arg(pkexec_uid);
+        env_list << QString("HOME=%1").arg(getpwuid(pkexec_uid)->pw_dir);
+        env_list << QString("USER=%1").arg(getpwuid(pkexec_uid)->pw_name);
+    }
+
+    return env_list;
+}
+
+QString findHonestChild()
+{
+    QString honest_child = qApp->applicationDirPath() + "/../honest_child/deepin-clone-honest";
+
+    if (QFile::exists(honest_child))
+        return honest_child;
+
+    return QStandardPaths::findExecutable("deepin-clone-honest");
+}
+
+bool MainWindow::openUrl(const QUrl &url)
+{
+    QString honest_child = findHonestChild();
+
+    if (honest_child.isEmpty())
+        return false;
+
+    QProcess process;
+    QStringList env_list = process.environment();
+
+    env_list << honestChildEnvironment();
+    env_list << QString("%1=%2").arg(DEEPIN_CLONE_OPEN_URL).arg(url.toString());
+
+    process.setProcessChannelMode(QProcess::ForwardedChannels);
+    process.setEnvironment(env_list);
+
+    process.start(honest_child);
+
+    if (!process.waitForFinished())
+        return false;
+
+    return process.exitCode() == 0;
+}
+
 void MainWindow::init()
 {
     m_title = new IconLabel(this);
@@ -351,6 +409,10 @@ void MainWindow::setStatus(MainWindow::Status status)
     m_cancelButton->setVisible(status == WaitConfirm || status == ToLiveSystem);
     m_bottomButton->setVisible(true);
     m_fixBootCheckBox->hide();
+
+    // enable the window close function
+    DWindowManagerHelper::setMotifFunctions(windowHandle(), DWindowManagerHelper::FUNC_CLOSE, true);
+    titlebar()->setDisableFlags(Qt::WindowMaximizeButtonHint);
 
     switch (status) {
     case SelectAction: {
@@ -631,10 +693,6 @@ void MainWindow::setStatus(MainWindow::Status status)
         break;
     }
     case End: {
-        // enable the window close function
-        DWindowManagerHelper::setMotifFunctions(windowHandle(), DWindowManagerHelper::FUNC_CLOSE, true);
-        titlebar()->setDisableFlags(Qt::WindowMaximizeButtonHint);
-
         bool is_error = isError();
 
         WorkingPage *worker = qobject_cast<WorkingPage*>(content());

@@ -26,6 +26,7 @@
 #include "ddevicepartinfo.h"
 #include "utilitylist.h"
 #include "iconlabel.h"
+#include "helper.h"
 
 #include <dlinkbutton.h>
 
@@ -37,6 +38,7 @@
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QDebug>
+#include <QProcess>
 
 #include <pwd.h>
 #include <unistd.h>
@@ -190,9 +192,47 @@ void SelectFileWidget::setFilePath(const QString &path)
     emit filePathChanged();
 }
 
+extern QStringList honestChildEnvironment();
+extern QString findHonestChild();
+
 void SelectFileWidget::openFileDialog()
 {
-    QFileDialog dialog(this, QString(), getpwuid(getuid())->pw_dir);
+//    QString honest_child = findHonestChild();
+
+//    do {
+//        if (honest_child.isEmpty()) {
+//            break;
+//        }
+
+//        QProcess process;
+//        QStringList env_list = process.environment();
+
+//        env_list << honestChildEnvironment();
+//        env_list << QString("%1=%2").arg(DEEPIN_CLONE_OPEN_DIALOG).arg(m_mode == GetSaveName ? DEEPIN_CLONE_GET_FILE : "");
+//        env_list << QString("%1=%2").arg(DEEPIN_CLONE_PARENT_WINID).arg(window()->winId());
+//        env_list << QString("%1=%2").arg(DEEPIN_CLONE_TITLE).arg(m_button->text());
+//        env_list << QString("%1=%2").arg(DEEPIN_CLONE_FILE_NAME).arg(m_defaultFileName);
+//        env_list << QString("%1=%2").arg(DEEPIN_CLONE_NAME_FILTER).arg(tr("Deepin Image File"));
+
+//        process.setEnvironment(env_list);
+
+//        if (Helper::processExec(&process, honest_child) != 0)
+//            break;
+
+//        setFilePath(process.readAllStandardOutput());
+
+//        return;
+//    } while (false);
+
+    QString home_path;
+
+    if (qEnvironmentVariableIsSet("PKEXEC_UID")) {
+        const quint32 pkexec_uid = qgetenv("PKEXEC_UID").toUInt();
+
+        home_path = getpwuid(pkexec_uid)->pw_dir;
+    }
+
+    QFileDialog dialog(this, QString(), home_path);
 
     dialog.setMimeTypeFilters(QStringList() << "application-x-deepinclone-dim");
     dialog.setNameFilters(QStringList() << tr("Deepin Image File") + "(*.dim)");

@@ -38,3 +38,4 @@ Makefile*
 CMakeLists.txt.user*
 
 *.qm
+com.deepin.pkexec.deepin-clone.policy

@@ -27,6 +27,8 @@
 #include <DTitlebar>
 #include <DThemeManager>
 
+#include <QDesktopServices>
+
 #include "mainwindow.h"
 
 #include <pwd.h>
@@ -110,8 +112,7 @@ int main(int argc, char *argv[])
         logger->registerAppender(rollingFileAppender);
 
         if (qEnvironmentVariableIsSet("PKEXEC_UID")) {
-            quint32 pkexec_uid = qgetenv("PKEXEC_UID").toUInt();
-            setuid(pkexec_uid);
+            const quint32 pkexec_uid = qgetenv("PKEXEC_UID").toUInt();
             const QDir user_home(getpwuid(pkexec_uid)->pw_dir);
 
             QFile pam_file(user_home.absoluteFilePath(".pam_environment"));
@@ -250,6 +251,7 @@ int main(int argc, char *argv[])
         }
 
         QObject::connect(a, &QCoreApplication::aboutToQuit, window, &MainWindow::deleteLater);
+        QDesktopServices::setUrlHandler("https", window, "openUrl");
     }
 #endif
 
