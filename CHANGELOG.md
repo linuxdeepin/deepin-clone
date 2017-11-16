@@ -1,4 +1,20 @@
 <a name=""></a>
+##  0.0.7 (2017-11-16)
+
+
+#### Bug Fixes
+
+*   can not open url ([28d68b3f](https://github.com/linuxdeepin/deepin-clone/commit/28d68b3f5817a4c9c49dab47487ad0e53d740f28))
+*   set the UtilityListItem layout margins to 0 ([56b8f582](https://github.com/linuxdeepin/deepin-clone/commit/56b8f5823f21ef58fbe9218050bc64d5f379d80d))
+*   UI for main window ([70d8587d](https://github.com/linuxdeepin/deepin-clone/commit/70d8587d44aeaa475cfc33a858876ac8267520e4))
+
+#### Features
+
+*   use user dbus and user home path ([b8e70e4d](https://github.com/linuxdeepin/deepin-clone/commit/b8e70e4d31430f533a512f0cce524201e038dd49))
+
+
+
+<a name=""></a>
 ##  0.0.6 (2017-11-08)
 
 
