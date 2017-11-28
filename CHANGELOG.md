@@ -1,4 +1,14 @@
 <a name=""></a>
+##  0.0.7.1 (2017-11-28)
+
+
+#### Bug Fixes
+
+*   not help document for dman ([15425655](https://github.com/linuxdeepin/deepin-clone/commit/1542565580864d34ca1cd3338c654037033da818))
+
+
+
+<a name=""></a>
 ##  0.0.7 (2017-11-16)
 
 
