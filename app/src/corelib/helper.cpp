@@ -747,15 +747,7 @@ int Helper::restorePartition(const QString &from, const DPartInfo &to)
 
 bool Helper::existLiveSystem()
 {
-    QFile file("/boot/grub/grub.cfg");
-
-    if (file.open(QIODevice::ReadOnly)) {
-        while (!file.atEnd())
-            if (file.readLine().contains("Deepin Recovery"))
-                return true;
-    }
-
-    return false;
+    return QFile::exists("/recovery");
 }
 
 bool Helper::restartToLiveSystem(const QStringList &arguments)
@@ -766,13 +758,13 @@ bool Helper::restartToLiveSystem(const QStringList &arguments)
         return false;
     }
 
-    if (!QDir::current().mkpath("/boot/deepin/.tmp")) {
+    if (!QDir::current().mkpath("/recovery/.tmp")) {
         dCDebug("mkpath failed");
 
         return false;
     }
 
-    QFile file("/boot/deepin/.tmp/deepin-clone.arguments");
+    QFile file("/recovery/.tmp/deepin-clone.arguments");
 
     if (!file.open(QIODevice::WriteOnly)) {
         dCDebug("Open file failed: \"%s\"", qPrintable(file.fileName()));
