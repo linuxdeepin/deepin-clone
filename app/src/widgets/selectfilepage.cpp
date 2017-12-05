@@ -39,6 +39,7 @@
 #include <QMimeDatabase>
 #include <QDebug>
 #include <QProcess>
+#include <QApplication>
 
 #include <pwd.h>
 #include <unistd.h>
@@ -197,32 +198,53 @@ extern QString findHonestChild();
 
 void SelectFileWidget::openFileDialog()
 {
-//    QString honest_child = findHonestChild();
+    static bool opened = false;
 
-//    do {
-//        if (honest_child.isEmpty()) {
-//            break;
-//        }
+    if (opened)
+        return;
 
-//        QProcess process;
-//        QStringList env_list = process.environment();
+    opened = true;
 
-//        env_list << honestChildEnvironment();
-//        env_list << QString("%1=%2").arg(DEEPIN_CLONE_OPEN_DIALOG).arg(m_mode == GetSaveName ? DEEPIN_CLONE_GET_FILE : "");
-//        env_list << QString("%1=%2").arg(DEEPIN_CLONE_PARENT_WINID).arg(window()->winId());
-//        env_list << QString("%1=%2").arg(DEEPIN_CLONE_TITLE).arg(m_button->text());
-//        env_list << QString("%1=%2").arg(DEEPIN_CLONE_FILE_NAME).arg(m_defaultFileName);
-//        env_list << QString("%1=%2").arg(DEEPIN_CLONE_NAME_FILTER).arg(tr("Deepin Image File"));
+    QString honest_child = findHonestChild();
 
-//        process.setEnvironment(env_list);
+    do {
+        if (honest_child.isEmpty()) {
+            break;
+        }
 
-//        if (Helper::processExec(&process, honest_child) != 0)
-//            break;
+        QProcess process;
+        QStringList env_list = process.environment();
 
-//        setFilePath(process.readAllStandardOutput());
+        env_list << honestChildEnvironment();
+        env_list << QString("%1=%2").arg(DEEPIN_CLONE_OPEN_DIALOG).arg(m_mode == GetSaveName ? DEEPIN_CLONE_GET_FILE : "");
+        env_list << QString("%1=%2").arg(DEEPIN_CLONE_PARENT_WINID).arg(window()->winId());
+        env_list << QString("%1=%2").arg(DEEPIN_CLONE_TITLE).arg(m_button->text());
+        env_list << QString("%1=%2").arg(DEEPIN_CLONE_FILE_NAME).arg(m_defaultFileName);
+        env_list << QString("%1=%2").arg(DEEPIN_CLONE_NAME_FILTER).arg(tr("Deepin Image File"));
+        env_list << QString("QT_QPA_PLATFORMTHEME=deepin");
 
-//        return;
-//    } while (false);
+        process.setEnvironment(env_list);
+        process.setProcessChannelMode(QProcess::ForwardedErrorChannel);
+
+        connect(qApp, &QApplication::applicationStateChanged,
+                &process, [&process] (Qt::ApplicationState state) {
+            if (state == Qt::ApplicationActive) {
+                process.write("a\n");
+            }
+        });
+
+        Helper::processExec(&process, honest_child, -1, QIODevice::ReadWrite);
+
+        if (process.error() == QProcess::FailedToStart)
+            break;
+
+        if (!Helper::lastProcessStandardOutput().isEmpty())
+            setFilePath(Helper::lastProcessStandardOutput());
+
+        opened = false;
+
+        return;
+    } while (false);
 
     QString home_path;
 
@@ -251,6 +273,8 @@ void SelectFileWidget::openFileDialog()
     if (dialog.exec() == QFileDialog::Accepted) {
         setFilePath(dialog.selectedFiles().first());
     }
+
+    opened = false;
 }
 
 static QString getFilePath(const QWidget *widget)

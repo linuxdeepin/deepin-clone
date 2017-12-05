@@ -43,7 +43,8 @@ class Helper : public QObject
 public:
     static Helper *instance();
 
-    static int processExec(QProcess *process, const QString &command, int timeout = -1);
+    static int processExec(QProcess *process, const QString &command,
+                           int timeout = -1, QIODevice::OpenMode mode = QIODevice::ReadOnly);
     static int processExec(const QString &command, int timeout = -1);
     static QByteArray lastProcessStandardOutput();
     static QByteArray lastProcessStandardError();

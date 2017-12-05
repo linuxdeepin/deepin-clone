@@ -23,8 +23,29 @@
 #include <QFileDialog>
 #include <QDesktopServices>
 #include <QDebug>
+#include <QThread>
 
 #include <unistd.h>
+#include <stdio.h>
+
+class Thread : public QThread
+{
+public:
+    explicit Thread(QObject *parent = 0) : QThread(parent) {}
+
+    void run()
+    {
+        while (true) {
+            char ch = getchar();
+
+            if (ch == 'a' && getchar() == '\n') {
+                qRegisterMetaType<Qt::ApplicationState>("Qt::ApplicationState");
+                QMetaObject::invokeMethod(qApp, "applicationStateChanged", Qt::QueuedConnection,
+                                          Q_ARG(Qt::ApplicationState, Qt::ApplicationActive));
+            }
+        }
+    }
+};
 
 int main(int argc, char *argv[])
 {
@@ -34,9 +55,7 @@ int main(int argc, char *argv[])
         setuid(uid);
     }
 
-    QApplication app(argc, argv);
-
-    Q_UNUSED(app)
+    QApplication *app = new QApplication(argc, argv);
 
     if (qEnvironmentVariableIsSet(DEEPIN_CLONE_OPEN_DIALOG)) {
         QFileDialog dialog(0, QString(), QDir::homePath());
@@ -46,6 +65,7 @@ int main(int argc, char *argv[])
         dialog.setNameFilters(QStringList() << QString::fromUtf8(qgetenv(DEEPIN_CLONE_NAME_FILTER)) + "(*.dim)");
         dialog.setDefaultSuffix("dim");
         dialog.setWindowTitle(qgetenv(DEEPIN_CLONE_TITLE));
+        dialog.setModal(true);
 
         if (qgetenv(DEEPIN_CLONE_OPEN_DIALOG) == DEEPIN_CLONE_GET_FILE) {
             dialog.setFileMode(QFileDialog::AnyFile);
@@ -58,9 +78,18 @@ int main(int argc, char *argv[])
 
         qputenv(DEEPIN_CLONE_FILE_NAME, "");
 
+        Thread *thread = new Thread(app);
+
+        thread->start();
+
         if (dialog.exec() == QFileDialog::Accepted) {
             printf("%s", dialog.selectedFiles().first().toUtf8().constData());
+            fflush(stdout);
         }
+
+        thread->terminate();
+        thread->wait();
+        thread->quit();
     } else if (qEnvironmentVariableIsSet(DEEPIN_CLONE_OPEN_URL)) {
         QDesktopServices::openUrl(QUrl(QString::fromUtf8(qgetenv(DEEPIN_CLONE_OPEN_URL))));
     }

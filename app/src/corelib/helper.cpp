@@ -48,7 +48,7 @@ Helper *Helper::instance()
     return _g_globalHelper;
 }
 
-int Helper::processExec(QProcess *process, const QString &command, int timeout)
+int Helper::processExec(QProcess *process, const QString &command, int timeout, QIODevice::OpenMode mode)
 {
     m_processStandardOutput.clear();
     m_processStandardError.clear();
@@ -75,7 +75,7 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout)
     if (Global::debugLevel > 1)
         dCDebug("Exec: \"%s\", timeout: %d", qPrintable(command), timeout);
 
-    process->start(command, QIODevice::ReadOnly);
+    process->start(command, mode);
     process->waitForStarted();
 
     if (process->error() != QProcess::UnknownError) {
