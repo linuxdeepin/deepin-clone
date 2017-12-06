@@ -27,24 +27,24 @@ HEADERS += \
 
 INCLUDEPATH += src
 
-target.path = /usr/sbin
+target.path = $$PREFIX/sbin
 
-mimetype_xml.path = /usr/share/mime/packages
+mimetype_xml.path = $$PREFIX/share/mime/packages
 mimetype_xml.files = $$PWD/mimetype/$${TARGET}.xml
 
-mimetype_dim_icon.path = /usr/share/icons/hicolor/scalable/mimetypes
+mimetype_dim_icon.path = $$PREFIX/share/icons/hicolor/scalable/mimetypes
 mimetype_dim_icon.files = $$PWD/mimetype/application-x-deepinclone-dim.svg
 
-policy.path = /usr/share/polkit-1/actions
+policy.path = $$PREFIX/share/polkit-1/actions
 policy.files = com.deepin.pkexec.deepin-clone.policy
 
 ionice.path = $${target.path}
 ionice.files = deepin-clone-ionice
 
-pkexec.path = /usr/bin
+pkexec.path = $$PREFIX/bin
 pkexec.files = deepin-clone-pkexec
 
-dman.path = /usr/share/dman/
+dman.path = $$PREFIX/share/dman/
 dman.files = $$PWD/dman/*
 
 INSTALLS += target mimetype_xml mimetype_dim_icon policy ionice pkexec dman
@@ -61,7 +61,7 @@ CONFIG(release, debug|release) {
     !system($$PWD/translate_generation.sh): error("Failed to generate translation")
 }
 
-translations.path = /usr/share/$${TARGET}/translations
+translations.path = $$PREFIX/share/$${TARGET}/translations
 translations.files = translations/*.qm
 
 INSTALLS += translations

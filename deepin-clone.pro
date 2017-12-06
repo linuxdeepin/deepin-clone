@@ -1,3 +1,4 @@
+PREFIX = /usr
 TEMPLATE = subdirs
 SUBDIRS += app/deepin-clone-app.pro
 

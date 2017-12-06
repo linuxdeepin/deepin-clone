@@ -35,10 +35,10 @@ HEADERS += \
 
 INCLUDEPATH += $$PWD
 
-icon.path = /usr/share/icons/hicolor/scalable/apps
+icon.path = $$PREFIX/share/icons/hicolor/scalable/apps
 icon.files = $$_PRO_FILE_PWD_/$${TARGET}.svg
 
-desktop.path = /usr/share/applications
+desktop.path = $$PREFIX/share/applications
 desktop.files = $$_PRO_FILE_PWD_/$${TARGET}.desktop
 
 INSTALLS += icon desktop
