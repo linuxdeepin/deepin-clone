@@ -352,7 +352,7 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
         <source>EFI partition not found</source>
-        <translation>EFI partition ikke fundet</translation>
+        <translation>EFI-partition ikke fundet</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>

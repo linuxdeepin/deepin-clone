@@ -129,7 +129,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="495"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>Alvertencia</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="496"/>
@@ -137,7 +137,7 @@
         <location filename="../src/widgets/mainwindow.cpp" line="654"/>
         <location filename="../src/widgets/mainwindow.cpp" line="778"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>Aceutar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="512"/>

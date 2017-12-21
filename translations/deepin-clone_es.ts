@@ -20,7 +20,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="217"/>
         <source>Disk only can be cloned to disk</source>
-        <translation>El disco sólo puede ser clonado en el disco</translation>
+        <translation>El disco sólo puede ser clonado a otro disco</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="238"/>
@@ -30,7 +30,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="252"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
-        <translation>Error al cambiar tamaño de %1, revise si el mencionado disco tiene espacio libre</translation>
+        <translation>Error al cambiar tamaño de %1, revise que el disco de destino tenga espacio libre</translation>
     </message>
 </context>
 <context>
@@ -94,12 +94,12 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="415"/>
         <source>Storage location can not be in the disk to backup, please reselect</source>
-        <translation>No es posible usar el disco como localización para el respaldo, por favor vuelva a seleccionar</translation>
+        <translation>La localización para almacenar el respaldo no puede estar en el mismo disco a respaldar, por favor vuelva a seleccionar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="417"/>
         <source>Storage location can not be in the partition to backup, please reselect</source>
-        <translation>No es posible usar la partición como localización para el respaldo, por favor vuelva a seleccionar</translation>
+        <translation>La localización para almacenar el respaldo no puede estar en la misma partición a respaldar, por favor vuelva a seleccionar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="436"/>
@@ -109,7 +109,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>Not enough total capacity in target partition, please select another one</source>
-        <translation>No hay suficiente capacidad total en la partición de destino, por favor seleccione otra opción</translation>
+        <translation>No hay suficiente capacidad total en la partición de destino, por favor seleccione otra</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
@@ -124,7 +124,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
-        <translation>Todos los datos en la ubicación de destino serán formateados durante la clonación y la restauración del disco (partición) sin la posibilidad de cancelar.</translation>
+        <translation>Todos los datos en la ubicación de destino serán formateados durante la clonación o restauración del disco o la partición sin la posibilidad de cancelar este proceso.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="495"/>
@@ -158,7 +158,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="542"/>
         <source>Restart to Continue</source>
-        <translation>Reiniciar para continuar</translation>
+        <translation>Reinicie para continuar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="253"/>
@@ -184,7 +184,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="605"/>
         <source>Performing Backup</source>
-        <translation>Realización de copia de seguridad</translation>
+        <translation>Realizando copia de seguridad</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="607"/>
@@ -329,7 +329,7 @@
     <message>
         <location filename="../src/main.cpp" line="148"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation>Deepin Clone es una herramienta para hacer y restaurar copias de seguridad en deepin. Capaz de clonar, copiar y restaurar disco o partición y otras funciones.</translation>
+        <translation>Deepin Clone es una herramienta para hacer y restaurar copias de seguridad en deepin. Capaz de clonar, copiar y restaurar un disco o partición y otras funciones.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="74"/>
@@ -415,7 +415,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to a image file</source>
-        <translation>Respalda los datos de disco en un archivo de imagen</translation>
+        <translation>Respalde los datos del disco a un archivo de imagen</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -425,7 +425,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
         <source>Restore image file to disk</source>
-        <translation>Restaura archivo de imagen a disco</translation>
+        <translation>Restaure archivo de imagen a disco</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
@@ -435,7 +435,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone source partition to target partition</source>
-        <translation>Clona la partición de origen a la partición de destino</translation>
+        <translation>Clone la partición de origen a la partición de destino</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
@@ -445,7 +445,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to a image file</source>
-        <translation>Respalda datos de particiones en un archivo de imagen</translation>
+        <translation>Respalde los datos de la partición en un archivo de imagen</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
@@ -455,7 +455,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
         <source>Restore image file to partition</source>
-        <translation>Restaura archivo de imagen a partición</translation>
+        <translation>Restaure archivo de imagen a partición</translation>
     </message>
 </context>
 <context>
@@ -483,17 +483,17 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="287"/>
         <source>Select a disk to backup</source>
-        <translation>Seleccionar disco a respaldar</translation>
+        <translation>Seleccione un disco a respaldar</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="295"/>
         <source>Select a partition to backup</source>
-        <translation>Seleccionar partición a respaldar</translation>
+        <translation>Seleccione una partición a respaldar</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="304"/>
         <source>Select storage location</source>
-        <translation>Seleccionar ubicación de almacenamiento</translation>
+        <translation>Seleccione ubicación de almacenamiento</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="330"/>
@@ -503,12 +503,12 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="333"/>
         <source>Select a disk to restore</source>
-        <translation>Seleccionar disco a restaurar</translation>
+        <translation>Seleccione un disco a restaurar</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="335"/>
         <source>Select a partition to restore</source>
-        <translation>Seleccionar partición a restaurar</translation>
+        <translation>Seleccione una partición a restaurar</translation>
     </message>
 </context>
 <context>
@@ -516,12 +516,12 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
         <source>Select storage location</source>
-        <translation>Seleccionar ubicación de almacenamiento</translation>
+        <translation>Seleccione la ubicación de almacenamiento</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
         <source>Select image file</source>
-        <translation>Seleccionar archivo de imagen</translation>
+        <translation>Seleccione el archivo de imagen</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="99"/>
@@ -536,12 +536,12 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="186"/>
         <source>Reselect image file</source>
-        <translation>Reseleccionar archivo de imagen</translation>
+        <translation>Reseleccione el archivo de imagen</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="189"/>
         <source>Reselect storage location</source>
-        <translation>Reseleccionar ubicación de almacenamiento</translation>
+        <translation>Reseleccione la ubicación de almacenamiento</translation>
     </message>
 </context>
 <context>
@@ -564,7 +564,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>
         <source>Repairing system boot, please wait......</source>
-        <translation>Reparando sistema de arranque, espere...</translation>
+        <translation>Reparando sistema de arranque, por favor espere...</translation>
     </message>
 </context>
 </TS>

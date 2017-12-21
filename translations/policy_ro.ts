@@ -1,15 +1,15 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="es" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ro" version="2.1">
 	<context>
 		<name>policy</name>
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!message" line="0"/>
 			<source>Password required to run Deepin Clone</source>
-			<translation>Contraseña requerida para correr Deepin Clone</translation>
+			<translation>Este necesară introducerea parolei pentru a rula Deepin Clone</translation>
 		</message>
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!description" line="0"/>
 			<source>Deepin Clone needs to do operations on block device, such as write and read, get info and etc.</source>
-			<translation>Deepin Clone necesita hacer bloques de operaciones sobre los dispositivos, como escribir y leer, obtener información,etc.</translation>
+			<translation>Deepin Clone necesită executarea unor operațiuni asupra dispozitivului tip bloc, cum ar fi scriere și citire, obținerea informațiilor etc.</translation>
 		</message>
 	</context>
 </TS>

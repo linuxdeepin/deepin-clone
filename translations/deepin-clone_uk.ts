@@ -4,18 +4,18 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="144"/>
         <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation type="unfinished"/>
+        <translation>Не вдалося записати дані до %1 , %2 байтові дані повинні бути записані, але насправді %3 написав, помилка: %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="191"/>
         <source>%1 not exist</source>
-        <translation type="unfinished"/>
+        <translation>%1 не існує</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="205"/>
         <location filename="../src/corelib/clonejob.cpp" line="232"/>
         <source>%1 invalid or not exist</source>
-        <translation type="unfinished"/>
+        <translation>%1 недійсний або не існує</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="217"/>
@@ -25,12 +25,12 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="238"/>
         <source>%1 total capacity is less than maximum readable data on %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 загальна ємність менша, ніж максимально доступна для читання інформація на %2</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="252"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
-        <translation type="unfinished"/>
+        <translation>Не вдалося змінити розмір %1, перевірте вільне місце на цільовому диску</translation>
     </message>
 </context>
 <context>
@@ -143,17 +143,17 @@
         <location filename="../src/widgets/mainwindow.cpp" line="512"/>
         <location filename="../src/widgets/mainwindow.cpp" line="593"/>
         <source>The selected storage location not found</source>
-        <translation type="unfinished"/>
+        <translation>Вибране місце зберігання не знайдено</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="727"/>
         <source>Failed to restart system</source>
-        <translation type="unfinished"/>
+        <translation>Не вдалося перезапустити систему</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="760"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Помилка перезапуску &quot;Deepin Recovery&quot;</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="542"/>
@@ -163,23 +163,23 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="253"/>
         <source>Restore boot</source>
-        <translation type="unfinished"/>
+        <translation>Відновити завантаження</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
         <location filename="../src/widgets/mainwindow.cpp" line="581"/>
         <source>%1 not exist</source>
-        <translation type="unfinished"/>
+        <translation>%1 не існує</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="545"/>
         <source>&quot;%1&quot; is used, please restart and enter &quot;Deepin Recovery&quot; to continue</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; використовується, перезавантажитеся і увійдіть в «Deepin Recovery», щоб продовжити</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="550"/>
         <source>&quot;%1&quot; is used, please install &quot;Deepin Recovery&quot; to retry</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; використовується, будь-ласка, встановіть &quot;Deepin Recovery&quot;, щоб повторити спробу</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="605"/>
@@ -250,7 +250,7 @@
         <location filename="../src/widgets/mainwindow.cpp" line="785"/>
         <location filename="../src/widgets/mainwindow.cpp" line="803"/>
         <source>Loading</source>
-        <translation type="unfinished"/>
+        <translation>Завантажується</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="843"/>
@@ -268,38 +268,38 @@
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="247"/>
         <source>process &quot;%1 %2&quot; crashed</source>
-        <translation type="unfinished"/>
+        <translation>процес &quot;%1 %2&quot; впав</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="249"/>
         <source>Failed to perform process &quot;%1 %2&quot;, error: %3</source>
-        <translation type="unfinished"/>
+        <translation>Не вдалося виконати процес &quot;%1 %2&quot;, помилка: %3</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="256"/>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="271"/>
         <source>&quot;%1&quot; is not a disk device</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; це не дисковий пристрій</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="298"/>
         <source>&quot;%1&quot; is busy</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; зайнятий</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="325"/>
         <source>Failed to start &quot;%1 %2&quot;, error: %3</source>
-        <translation type="unfinished"/>
+        <translation>Не вдалося запустити &quot;%1 %2&quot;, помилка: %3</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="336"/>
         <source>Failed to open process, error: %1</source>
-        <translation type="unfinished"/>
+        <translation>Не вдалося відкрити процес, помилка: %1</translation>
     </message>
     <message>
         <location filename="../src/corelib/dfilediskinfo.cpp" line="178"/>
         <source>Failed to open file(%1), error: %2</source>
-        <translation type="unfinished"/>
+        <translation>Не вдалося відкрити файл(%1), помилка: %2</translation>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="199"/>
@@ -334,12 +334,12 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="74"/>
         <source>Partition &quot;%1&quot; not found</source>
-        <translation type="unfinished"/>
+        <translation>Розділ &quot;%1&quot; не знайдено</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="76"/>
         <source>Disk &quot;%1&quot; not found</source>
-        <translation type="unfinished"/>
+        <translation>Диск &quot;%1&quot; не знайдено</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
@@ -352,27 +352,27 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
         <source>EFI partition not found</source>
-        <translation type="unfinished"/>
+        <translation>EFI розділ не знайдено</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
         <source>Unknown partition table format</source>
-        <translation type="unfinished"/>
+        <translation>Невідомий формат таблиці розділів</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
         <source>Boot for install system failed</source>
-        <translation type="unfinished"/>
+        <translation>Помилка завантаження для встановлення системи</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for update system failed</source>
-        <translation type="unfinished"/>
+        <translation>Помилка завантаження системи оновлення</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
         <source>Boot for repair system failed</source>
-        <translation type="unfinished"/>
+        <translation>Помилка завантаження системи відновлення</translation>
     </message>
 </context>
 <context>
@@ -564,7 +564,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>
         <source>Repairing system boot, please wait......</source>
-        <translation type="unfinished"/>
+        <translation>Ремонт системи завантаження, будь ласка, зачекайте......</translation>
     </message>
 </context>
 </TS>
