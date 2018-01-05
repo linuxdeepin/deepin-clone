@@ -98,8 +98,11 @@ bool BootDoctor::fix(const QString &partDevice)
                                  "mips"
                      #elif defined(HOST_ARCH_sw_64)
                                  "sw_64"
+                     #elif defined(HOST_ARCH_aarch64)
+                                 "aarch64"
                      #else
-                     #error Unknow machine
+                     #pragma message "Machine: " HOST_ARCH
+                                "unknow"
                      #endif
                                  ), file_boot_fix.fileName())) {
                 dCError("copy file failed, new name: %s", qPrintable(file_boot_fix.fileName()));
