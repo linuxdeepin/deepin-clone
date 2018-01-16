@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="144"/>
         <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation>ዳታ በ መጻፍ ላይ ወደ %1 አልተቻለም: %2 ባይት ዳታ መጻፍ ነበረበት: ነገር ግን ይህን ያህል %3 ተጽፏል: ስህተት: %4</translation>
+        <translation>ዳታ በ መጻፍ ወደ %1 አልተቻለም: %2 ባይት ዳታ መጻፍ ነበረበት: ነገር ግን ይህን ያህል %3 ተጽፏል: ስህተት: %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="191"/>

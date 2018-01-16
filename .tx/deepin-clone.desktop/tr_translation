@@ -1,0 +1,18 @@
+[Desktop Entry]
+Actions=new-window;
+Categories=Utility;
+Comment=Deepin Backup Restore Tool
+Exec=/usr/bin/deepin-clone-pkexec %u
+Icon=deepin-clone
+MimeType=application/x-deepinclone-dim;
+Name=Deepin Clone
+StartupNotify=true
+Terminal=false
+Type=Application
+Version=0.1
+
+
+# Translations
+Comment[tr]=Deepin Yedekleme Geri Yükleme Aracı
+Name[tr]=Deepin Klon
+Icon[tr]=deepin-klon

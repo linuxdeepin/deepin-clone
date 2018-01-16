@@ -30,7 +30,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="252"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
-        <translation type="unfinished"/>
+        <translation>تعذر تغيير حجم %1 ، الرجاء التأكد من المساحة الفارغة في القرص الهدف</translation>
     </message>
 </context>
 <context>
@@ -380,12 +380,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="75"/>
         <source>Select media</source>
-        <translation>تحديد الوسيط</translation>
+        <translation>تحديد وسيط تخزين</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="76"/>
         <source>Select operation for media</source>
-        <translation>تحديد العملية للوسائط</translation>
+        <translation>تحديد إجراء لوسيط التخزين</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="85"/>
