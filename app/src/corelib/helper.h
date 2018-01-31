@@ -154,7 +154,7 @@ static QString __d_asprintf__(const char *format, Args&&... args)
     Helper::instance()->warning(__m); \
     qCCritical(Helper::loggerCategory, qPrintable(__m));}
 
-namespace DThreadUtil {
+namespace ThreadUtil {
 template <typename ReturnType>
 class _TMP
 {

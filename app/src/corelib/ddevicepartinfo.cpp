@@ -90,7 +90,7 @@ void DDevicePartInfoPrivate::ensureSizeInfo()
     if (fsType == DPartInfo::Invalid || fsType == DPartInfo::UnknowFS) {
         usedSize = size;
         freeSize = 0;
-    } else if (!DThreadUtil::runInNewThread(&Helper::getPartitionSizeInfo, filePath, &usedSize, &freeSize, &blockSize)) {
+    } else if (!ThreadUtil::runInNewThread(&Helper::getPartitionSizeInfo, filePath, &usedSize, &freeSize, &blockSize)) {
         dCError("Get partition used sieze/free size info failed, device: %s", qPrintable(name));
     }
 

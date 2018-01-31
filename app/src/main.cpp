@@ -30,6 +30,7 @@
 #include <QDesktopServices>
 
 #include "mainwindow.h"
+#include "dvirtualimagefileio.h"
 
 #include <pwd.h>
 #include <unistd.h>
@@ -219,11 +220,11 @@ int main(int argc, char *argv[])
 
     if (Global::isTUIMode) {
         if (!parser.target().isEmpty()) {
-            CloneJob job;
+            CloneJob *job = new CloneJob;
 
-            QObject::connect(&job, &QThread::finished, a, &QCoreApplication::quit);
+            QObject::connect(job, &QThread::finished, a, &QCoreApplication::quit);
 
-            job.start(parser.source(), parser.target());
+            job->start(parser.source(), parser.target());
         }
     }
 #ifdef ENABLE_GUI

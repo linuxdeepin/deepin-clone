@@ -72,12 +72,12 @@ DVirtualImageFileIO::DVirtualImageFileIO(const QString &fileName)
 {
     DVirtualImageFileIOPrivate *dd = DVirtualImageFileIOPrivate::dMap.value(fileName);
 
-    if (!dd) {
-        dd = new DVirtualImageFileIOPrivate();
-        DVirtualImageFileIOPrivate::dMap[fileName] = dd;
+    if (!dd || dd->file.isOpen()) {
+        d = new DVirtualImageFileIOPrivate();
+        DVirtualImageFileIOPrivate::dMap[fileName] = d.data();
+    } else {
+        d = dd;
     }
-
-    d = dd;
 
     setFile(fileName);
 }
@@ -88,6 +88,11 @@ DVirtualImageFileIO::~DVirtualImageFileIO()
         DVirtualImageFileIOPrivate::dMap.remove(d->file.fileName());
 
     close();
+}
+
+QString DVirtualImageFileIO::fileName()
+{
+    return d->file.fileName();
 }
 
 template<typename T>

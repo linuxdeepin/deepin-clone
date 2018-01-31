@@ -60,7 +60,7 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout, 
     timer.setInterval(timeout);
 
     timer.connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
-    loop.connect(process, SIGNAL(finished(int)), &loop, SLOT(quit()));
+    loop.connect(process, static_cast<void(QProcess::*)(int)>(&QProcess::finished), &loop, &QEventLoop::exit);
 
     if (timeout > 0) {
         timer.start();

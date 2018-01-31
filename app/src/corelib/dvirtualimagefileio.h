@@ -33,6 +33,7 @@ public:
     explicit DVirtualImageFileIO(const QString &fileName);
     ~DVirtualImageFileIO();
 
+    QString fileName();
     bool setFile(const QString &fileName);
     bool setSize(qint64 size);
     bool isValid() const;
