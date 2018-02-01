@@ -56,6 +56,7 @@ DVirtualImageFileEngine::DVirtualImageFileEngine(DVirtualImageFileIO *info, cons
 DVirtualImageFileEngine::~DVirtualImageFileEngine()
 {
     close();
+    delete m_info;
 }
 
 bool DVirtualImageFileEngine::open(QIODevice::OpenMode openMode)
