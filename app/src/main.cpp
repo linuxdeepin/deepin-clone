@@ -120,7 +120,7 @@ int main(int argc, char *argv[])
 
             if (pam_file.open(QIODevice::ReadOnly)) {
                 while (!pam_file.atEnd()) {
-                    const QByteArray &line = pam_file.readLine();
+                    const QByteArray &line = pam_file.readLine().simplified();
 
                     if (line.startsWith("QT_SCALE_FACTOR")) {
                         const QByteArrayList &list = line.split('=');
