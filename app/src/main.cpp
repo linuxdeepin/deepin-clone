@@ -243,9 +243,12 @@ int main(int argc, char *argv[])
         window->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint);
         window->titlebar()->setIcon(window->windowIcon());
         window->titlebar()->setTitle(QString());
+#if DTK_VERSION > DTK_VERSION_CHECK(2, 0, 6, 0)
+        window->titlebar()->setBackgroundTransparent(true);
+#endif
         window->show();
 
-        qApp->setProductIcon(window->windowIcon().pixmap(128));
+        qApp->setProductIcon(window->windowIcon());
 
         if (!parser.source().isEmpty()) {
             window->startWithFile(parser.source(), parser.target());
