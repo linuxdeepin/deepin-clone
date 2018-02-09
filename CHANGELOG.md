@@ -1,4 +1,24 @@
 <a name=""></a>
+##  0.0.8 (2018-02-09)
+
+
+#### Features
+
+*   add compile test for dfm_plugin project ([4ffbe2be](https://github.com/linuxdeepin/deepin-clone/commit/4ffbe2be7ed26a5a7328b654c4c6130bf35a5959))
+*   get QT_SCALE_FACTOR from pkexec user ([69cf6a44](https://github.com/linuxdeepin/deepin-clone/commit/69cf6a44451bbdd1e131e8e0424591462916ec8f))
+*   add DDE File Manager plugin support for dim files ([6b907a4e](https://github.com/linuxdeepin/deepin-clone/commit/6b907a4e62ae7f504f2a0d3bea41943e5d8382f5))
+
+#### Bug Fixes
+
+*   crash at DVirtualImageFileIO ([772cdaa8](https://github.com/linuxdeepin/deepin-clone/commit/772cdaa8f16162cd4ba1303fd20d61363f0a12ba))
+*   failed build on aarch64 platform ([0541d197](https://github.com/linuxdeepin/deepin-clone/commit/0541d197e9b99328e9cb9a35c16891ee76597add))
+*   Adapt lintian ([08cb3e42](https://github.com/linuxdeepin/deepin-clone/commit/08cb3e42198c0e9f390868f3921c77ab668dafa6))
+*   chooser file dialog is open by root user ([2e6883b8](https://github.com/linuxdeepin/deepin-clone/commit/2e6883b8c5b038fdd2e4f40cd3b3d2a063cb90df))
+*   can not auto start deepin-clone on restart to live system ([76eb0dd2](https://github.com/linuxdeepin/deepin-clone/commit/76eb0dd29b574da782f6465cf81e83512741ae4e))
+
+
+
+<a name=""></a>
 ##  0.0.7.1 (2017-11-28)
 
 
