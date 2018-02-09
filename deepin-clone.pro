@@ -6,5 +6,11 @@ isEmpty(DISABLE_GUI) {
 }
 
 isEmpty(DISABLE_DFM_PLUGIN) {
-    SUBDIRS += dfm_plugin
+    load(configure)
+    qtCompileTest(dfm-plugin) {
+        SUBDIRS += dfm_plugin
+        message(Enable DDE File Manager Plugin)
+    } else {
+        warning(Disable DDE File Manager Plugin)
+    }
 }
