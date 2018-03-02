@@ -95,6 +95,10 @@ public:
     static bool isDeepinSystem(const DPartInfo &part);
     static bool resetPartUUID(const DPartInfo &part, QByteArray uuid = QByteArray());
 
+    static QString getDeviceForFile(const QString &file, QString *rootPath = 0);
+    static QString parseSerialUrl(const QString &urlString, QString *errorString = 0);
+    static QString toSerialUrl(const QString &file);
+
 signals:
     void newWarning(const QString &message);
     void newError(const QString &message);
@@ -110,17 +114,26 @@ private:
 template<typename... Args>
 static QString __d_asprintf__(const QString &string, Args&&... args)
 {
-    return QString::asprintf(qPrintable(string), std::forward<Args>(args)...);
+    return __d_asprintf__(qPrintable(string), std::forward<Args>(args)...);
 }
 template<typename... Args>
 static QString __d_asprintf__(const QByteArray &array, Args&&... args)
 {
-    return QString::asprintf(array.constData(), std::forward<Args>(args)...);
+    return __d_asprintf__(array.constData(), std::forward<Args>(args)...);
 }
 template<typename... Args>
-static QString __d_asprintf__(const char *format, Args&&... args)
+static
+typename QtPrivate::QEnableIf<int(sizeof...(Args)) >= 1, QString>::Type
+__d_asprintf__(const char *format, Args&&... args)
 {
     return QString::asprintf(format, std::forward<Args>(args)...);
+}
+template<typename... Args>
+static
+typename QtPrivate::QEnableIf<int(sizeof...(Args)) == 0, QString>::Type
+__d_asprintf__(const char *message, Args&&...)
+{
+    return QString::asprintf("%s", message);
 }
 
 #ifdef dCDebug

@@ -28,10 +28,6 @@
 
 #include <cstdio>
 
-class MainWindow;
-extern QString parseSerialUrl(const QString &url, MainWindow *window = 0);
-extern QString toSerialUrl(const QString &file);
-
 CommandLineParser::CommandLineParser()
     : o_info(QStringList() << "i" << "info")
     , o_dim_info("dim-info")
@@ -195,12 +191,12 @@ void CommandLineParser::parse()
 
         ::exit(EXIT_SUCCESS);
     } else if (parser.isSet(o_to_serial_url)) {
-        printf(toSerialUrl(parser.value(o_to_serial_url)).toUtf8().constData());
+        printf(Helper::toSerialUrl(parser.value(o_to_serial_url)).toUtf8().constData());
         printf("\n");
 
         ::exit(EXIT_SUCCESS);
     } else if (parser.isSet(o_from_serial_url)) {
-        printf(parseSerialUrl(parser.value(o_from_serial_url)).toUtf8().constData());
+        printf(Helper::parseSerialUrl(parser.value(o_from_serial_url)).toUtf8().constData());
         printf("\n");
 
         ::exit(EXIT_SUCCESS);

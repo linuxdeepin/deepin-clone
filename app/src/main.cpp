@@ -59,8 +59,6 @@ int Global::bufferSize = 1024 * 1024;
 int Global::compressionLevel = 0;
 int Global::debugLevel = 1;
 
-extern QString parseSerialUrl(const QString &url, MainWindow *window = 0);
-
 DCORE_USE_NAMESPACE
 
 inline static bool isTUIMode(int argc, char *argv[])
@@ -263,7 +261,7 @@ int main(int argc, char *argv[])
     QString log_backup_file = parser.logBackupFile();
 
     if (log_backup_file.startsWith("serial://")) {
-        log_backup_file = parseSerialUrl(log_backup_file);
+        log_backup_file = Helper::parseSerialUrl(log_backup_file);
     }
 
     if (log_backup_file.isEmpty()) {
