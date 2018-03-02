@@ -260,6 +260,9 @@ QString Helper::getPartcloneExecuter(const DPartInfo &info)
     case DPartInfo::VFAT:
         executor = "vfat";
         break;
+    case DPartInfo::XFS:
+        executor = "xfs";
+        break;
     default:
         break;
     }
