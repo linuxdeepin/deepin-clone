@@ -44,7 +44,10 @@ ionice.files = deepin-clone-ionice
 pkexec.path = /usr/bin
 pkexec.files = deepin-clone-pkexec
 
-INSTALLS += target mimetype_xml mimetype_dim_icon policy ionice pkexec
+dman.path = /usr/share/dman/
+dman.files = $$PWD/dman/*
+
+INSTALLS += target mimetype_xml mimetype_dim_icon policy ionice pkexec dman
 
 TRANSLATIONS += $$PWD/translations/$${TARGET}.ts \
                 $$PWD/translations/$${TARGET}_zh_CN.ts
