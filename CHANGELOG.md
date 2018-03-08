@@ -1,4 +1,18 @@
 <a name=""></a>
+##  0.0.8.1 (2018-03-08)
+
+
+#### Features
+
+*   support xfs ([7a0a92b5](https://github.com/linuxdeepin/deepin-clone/commit/7a0a92b56b09bf920e002294b8c49d7828ff8a6a))
+
+#### Bug Fixes
+
+*   build failed when enable "DISABLE_GUI" on qmake ([f5f64920](https://github.com/linuxdeepin/deepin-clone/commit/f5f64920a33b0834289c2523fb6c74ee719049ee))
+
+
+
+<a name=""></a>
 ##  0.0.8 (2018-02-09)
 
 
