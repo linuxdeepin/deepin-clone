@@ -112,16 +112,6 @@ private:
 };
 
 template<typename... Args>
-static QString __d_asprintf__(const QString &string, Args&&... args)
-{
-    return __d_asprintf__(qPrintable(string), std::forward<Args>(args)...);
-}
-template<typename... Args>
-static QString __d_asprintf__(const QByteArray &array, Args&&... args)
-{
-    return __d_asprintf__(array.constData(), std::forward<Args>(args)...);
-}
-template<typename... Args>
 static
 typename QtPrivate::QEnableIf<int(sizeof...(Args)) >= 1, QString>::Type
 __d_asprintf__(const char *format, Args&&... args)
@@ -134,6 +124,16 @@ typename QtPrivate::QEnableIf<int(sizeof...(Args)) == 0, QString>::Type
 __d_asprintf__(const char *message, Args&&...)
 {
     return QString::asprintf("%s", message);
+}
+template<typename... Args>
+static QString __d_asprintf__(const QString &string, Args&&... args)
+{
+    return __d_asprintf__(string.toUtf8().constData(), std::forward<Args>(args)...);
+}
+template<typename... Args>
+static QString __d_asprintf__(const QByteArray &array, Args&&... args)
+{
+    return __d_asprintf__(array.constData(), std::forward<Args>(args)...);
 }
 
 #ifdef dCDebug
