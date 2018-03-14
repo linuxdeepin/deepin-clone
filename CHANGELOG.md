@@ -1,4 +1,14 @@
 <a name=""></a>
+##  (2018-03-14)
+
+
+#### Bug Fixes
+
+*   crash in __d_asprintf__ ([07a883c6](0.0.8.2/commit/07a883c6cbaac547d552250ba905275f71844cfe))
+
+
+
+<a name=""></a>
 ##  0.0.8.1 (2018-03-08)
 
 
