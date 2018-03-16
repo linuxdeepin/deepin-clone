@@ -1,3 +1,14 @@
+<a name="0.0.8.3"></a>
+##  (2018-03-16)
+
+
+#### Bug Fixes
+
+*   translation of simplified Chinese ([125bcb02](0.0.8.3/commit/125bcb02dad7387684c2bc2e50a2c383d90e6f56))
+*   source file is wrong ([b057409e](0.0.8.3/commit/b057409e10f337c1c1e38b8b1b5dce4a62242785))
+
+
+
 <a name=""></a>
 ##  (2018-03-14)
 
