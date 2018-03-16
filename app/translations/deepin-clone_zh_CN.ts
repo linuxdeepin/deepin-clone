@@ -69,13 +69,13 @@
         <location filename="../src/widgets/mainwindow.cpp" line="356"/>
         <location filename="../src/widgets/mainwindow.cpp" line="363"/>
         <source>Target disk will be permanently overwritten, please confirm to continue</source>
-        <translation>克隆磁盘会删除目标磁盘的所有数据，请确认后再开始克隆</translation>
+        <translation>克隆或还原磁盘会删除目标磁盘的所有数据，请确认后再开始</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="358"/>
         <location filename="../src/widgets/mainwindow.cpp" line="365"/>
         <source>Target partition will be permanently overwritten, please confirm to continue</source>
-        <translation>克隆分区会删除目标分区的所有数据，请确认后再开始克隆</translation>
+        <translation>克隆或还原分区会删除目标分区的所有数据，请确认后再开始</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="360"/>
