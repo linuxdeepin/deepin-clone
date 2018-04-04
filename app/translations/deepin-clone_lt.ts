@@ -15,7 +15,7 @@
         <location filename="../src/corelib/clonejob.cpp" line="205"/>
         <location filename="../src/corelib/clonejob.cpp" line="232"/>
         <source>%1 invalid or not exist</source>
-        <translation>%1 netinkamas arba neegzistuoja</translation>
+        <translation>%1 neteisingas arba nėra</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="217"/>
@@ -30,7 +30,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="252"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
-        <translation type="unfinished"/>
+        <translation>Nepavyko pakeisti %1 dydžio, patikrinkite ar yra laisvos vietos paskirties diske</translation>
     </message>
 </context>
 <context>
@@ -44,7 +44,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="349"/>
         <source>Select Operation</source>
-        <translation>Pasirinkti operaciją</translation>
+        <translation>Pasirinkite operaciją</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="350"/>
@@ -209,17 +209,17 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="633"/>
         <source>Restore Failed</source>
-        <translation type="unfinished"/>
+        <translation>Atkūrimas nepavyko</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="638"/>
         <source>Retry</source>
-        <translation type="unfinished"/>
+        <translation>Bandyti dar kartą</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="641"/>
         <source>Task done</source>
-        <translation type="unfinished"/>
+        <translation>Užduotis atlikta</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="644"/>
@@ -289,17 +289,17 @@
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="325"/>
         <source>Failed to start &quot;%1 %2&quot;, error: %3</source>
-        <translation type="unfinished"/>
+        <translation>Nepavyko paleisti &quot;%1 %2&quot;, klaida: %3</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="336"/>
         <source>Failed to open process, error: %1</source>
-        <translation type="unfinished"/>
+        <translation>Nepavyko atverti proceso, klaida: %1</translation>
     </message>
     <message>
         <location filename="../src/corelib/dfilediskinfo.cpp" line="178"/>
         <source>Failed to open file(%1), error: %2</source>
-        <translation type="unfinished"/>
+        <translation>Nepavyko atverti failo (%1), klaida: %2</translation>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="199"/>
@@ -380,12 +380,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="75"/>
         <source>Select media</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite laikmeną</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="76"/>
         <source>Select operation for media</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite laikmenai skirtą operaciją</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="85"/>
@@ -410,22 +410,22 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Disk to Image</source>
-        <translation type="unfinished"/>
+        <translation>Diskas į atvaizdį</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to a image file</source>
-        <translation type="unfinished"/>
+        <translation>Daryti atsarginę disko duomenų kopiją į atvaizdžio failą</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
         <source>Image to Disk</source>
-        <translation type="unfinished"/>
+        <translation>Atvaizdis į diską</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
         <source>Restore image file to disk</source>
-        <translation type="unfinished"/>
+        <translation>Atkurti atvaizdžio failą į diską</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
@@ -440,7 +440,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Partition to Image</source>
-        <translation type="unfinished"/>
+        <translation>Skaidinys į atvaizdį</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
@@ -450,7 +450,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
         <source>Image to Partition</source>
-        <translation type="unfinished"/>
+        <translation>Atvaizdis į skaidinį</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>

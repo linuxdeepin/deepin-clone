@@ -9,7 +9,7 @@
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!description" line="0"/>
 			<source>Deepin Clone needs to do operations on block device, such as write and read, get info and etc.</source>
-			<translation>Deepin Clone necessita di effettuare operazioni sul dispositivo, come leggere e scrivere dati, ottenere informazioni ecc.</translation>
+			<translation>Deepin Clone necessita di effettuare operazioni sul dispositivo, come leggere e scrivere dati, recuperare diverse informazioni, ecc.</translation>
 		</message>
 	</context>
 </TS>

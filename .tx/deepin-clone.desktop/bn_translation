@@ -13,6 +13,6 @@ Version=0.1
 
 
 # Translations
-Comment[it]=Strumento di backup e ripristino per Deepin
-Name[it]=Deepin Clone
-Icon[it]=deepin-clone
+Comment[bn]=ডিপিন ব্যাকআপ রিস্টোর টুল
+Name[bn]=ডিপিন ক্লোন
+Icon[bn]=ডিপিন-ক্লোন

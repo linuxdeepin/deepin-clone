@@ -39,17 +39,17 @@
         <location filename="../src/widgets/mainwindow.cpp" line="257"/>
         <location filename="../src/widgets/mainwindow.cpp" line="611"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Encaboxar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="349"/>
         <source>Select Operation</source>
-        <translation type="unfinished"/>
+        <translation>Esbillar operación</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="350"/>
         <source>Next</source>
-        <translation type="unfinished"/>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="374"/>
@@ -79,12 +79,12 @@
         <location filename="../src/widgets/mainwindow.cpp" line="383"/>
         <location filename="../src/widgets/mainwindow.cpp" line="831"/>
         <source>Restore</source>
-        <translation type="unfinished"/>
+        <translation>Restaurar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="400"/>
         <source>Please move image file to other location outside the disk to avoid data loss</source>
-        <translation type="unfinished"/>
+        <translation>Móvi&apos;l ficheru de la imaxe a otru allugamientu fuera del discu pa evitar una perda de datos, por favor</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="402"/>
@@ -129,7 +129,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="495"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>Alvertencia</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="496"/>
@@ -137,7 +137,7 @@
         <location filename="../src/widgets/mainwindow.cpp" line="654"/>
         <location filename="../src/widgets/mainwindow.cpp" line="778"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>Aceutar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="512"/>
@@ -169,7 +169,7 @@
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
         <location filename="../src/widgets/mainwindow.cpp" line="581"/>
         <source>%1 not exist</source>
-        <translation type="unfinished"/>
+        <translation>%1 nun esiste</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="545"/>
@@ -250,17 +250,17 @@
         <location filename="../src/widgets/mainwindow.cpp" line="785"/>
         <location filename="../src/widgets/mainwindow.cpp" line="803"/>
         <source>Loading</source>
-        <translation type="unfinished"/>
+        <translation>Cargando</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="843"/>
         <source>Disk</source>
-        <translation type="unfinished"/>
+        <translation>Discu</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="845"/>
         <source>Partition</source>
-        <translation type="unfinished"/>
+        <translation>Partición</translation>
     </message>
 </context>
 <context>
@@ -324,7 +324,7 @@
     <message>
         <location filename="../src/main.cpp" line="147"/>
         <source>Deepin Clone</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Clone</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="148"/>
@@ -334,12 +334,12 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="74"/>
         <source>Partition &quot;%1&quot; not found</source>
-        <translation type="unfinished"/>
+        <translation>Nun s&apos;alcontró la partición «%1»</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="76"/>
         <source>Disk &quot;%1&quot; not found</source>
-        <translation type="unfinished"/>
+        <translation>Nun s&apos;alcontró&apos;l discu «%1»</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
@@ -347,12 +347,12 @@
         <location filename="../src/fixboot/bootdoctor.cpp" line="158"/>
         <location filename="../src/widgets/mainwindow.cpp" line="101"/>
         <source>Failed to mount partition &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Fallu al montar la particón «%1»</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
         <source>EFI partition not found</source>
-        <translation type="unfinished"/>
+        <translation>Nun s&apos;alcontró la partición EFI</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
@@ -390,12 +390,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="85"/>
         <source>Disk</source>
-        <translation type="unfinished"/>
+        <translation>Discu</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="94"/>
         <source>Partition</source>
-        <translation type="unfinished"/>
+        <translation>Partición</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
@@ -410,7 +410,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Disk to Image</source>
-        <translation type="unfinished"/>
+        <translation>Discu a imaxe</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
@@ -420,7 +420,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
         <source>Image to Disk</source>
-        <translation type="unfinished"/>
+        <translation>Imaxe a discu</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -440,7 +440,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Partition to Image</source>
-        <translation type="unfinished"/>
+        <translation>Partición a imaxe</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
@@ -450,7 +450,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
         <source>Image to Partition</source>
-        <translation type="unfinished"/>
+        <translation>Imaxe a partición</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
@@ -549,22 +549,22 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="44"/>
         <source>Task is ongoing, please wait......</source>
-        <translation type="unfinished"/>
+        <translation>Xera en cursu, espera...</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="61"/>
         <source>Progress: %1/%2</source>
-        <translation type="unfinished"/>
+        <translation>Progresu: %1/%2</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
         <source>Remaining time: %1</source>
-        <translation type="unfinished"/>
+        <translation>Tiempu restante: %1</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>
         <source>Repairing system boot, please wait......</source>
-        <translation type="unfinished"/>
+        <translation>Iguando arranque del sistema, espera...</translation>
     </message>
 </context>
 </TS>

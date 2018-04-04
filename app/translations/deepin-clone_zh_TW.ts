@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="144"/>
         <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation type="unfinished"/>
+        <translation>將資料寫入 %1 時失敗，應寫入 %2 位元組資料，但實際寫入 %3 位元組，錯誤：%4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="191"/>
@@ -25,12 +25,12 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="238"/>
         <source>%1 total capacity is less than maximum readable data on %2</source>
-        <translation type="unfinished"/>
+        <translation>%1 總空間少於 %2 上最大可讀到的資料大小</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="252"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
-        <translation type="unfinished"/>
+        <translation>變更 %1 容量大小失敗，請檢查目的磁碟機的剩餘空間</translation>
     </message>
 </context>
 <context>
@@ -84,12 +84,12 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="400"/>
         <source>Please move image file to other location outside the disk to avoid data loss</source>
-        <translation type="unfinished"/>
+        <translation>請將映像檔移到其他磁碟機上的位置以免資料流失</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="402"/>
         <source>Please move image file to other location outside the partition to avoid data loss</source>
-        <translation type="unfinished"/>
+        <translation>請將映像檔移到其他分割區上的位置以免資料流失</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="415"/>
@@ -114,7 +114,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>Not enough total capacity, please select another disk</source>
-        <translation type="unfinished"/>
+        <translation>空間不足，請選擇其他磁碟機</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
@@ -250,7 +250,7 @@
         <location filename="../src/widgets/mainwindow.cpp" line="785"/>
         <location filename="../src/widgets/mainwindow.cpp" line="803"/>
         <source>Loading</source>
-        <translation type="unfinished"/>
+        <translation>載入中</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="843"/>
@@ -352,7 +352,7 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
         <source>EFI partition not found</source>
-        <translation type="unfinished"/>
+        <translation>找不到 EFI 分割區</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
@@ -372,7 +372,7 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
         <source>Boot for repair system failed</source>
-        <translation type="unfinished"/>
+        <translation>修復程式啟動失敗</translation>
     </message>
 </context>
 <context>
@@ -531,7 +531,7 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="120"/>
         <source>Deepin Image File</source>
-        <translation>Deepin 時光機檔案 </translation>
+        <translation>Deepin 時光機備份檔案</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="186"/>
@@ -554,7 +554,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="61"/>
         <source>Progress: %1/%2</source>
-        <translation>目前進度：%1／%2</translation>
+        <translation>目前進度：%1 / %2</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
@@ -564,7 +564,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>
         <source>Repairing system boot, please wait......</source>
-        <translation type="unfinished"/>
+        <translation>正在修復啟動程式，請稍候</translation>
     </message>
 </context>
 </TS>

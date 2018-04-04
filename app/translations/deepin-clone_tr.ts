@@ -329,7 +329,7 @@
     <message>
         <location filename="../src/main.cpp" line="148"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation>Deepin Klon, deepin yedekleme ve geri yükleme aracıdır. Diski, bölme, diğer işlevlerini kopyalama, yedekleme ve geri yüklemeyi destekler.</translation>
+        <translation>Deepin Klon, Deepin yedekleme ve geri yükleme aracıdır. Diski, bölme, diğer işlevlerini kopyalama, yedekleme ve geri yüklemeyi destekler.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="74"/>

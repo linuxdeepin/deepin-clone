@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="144"/>
         <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation type="unfinished"/>
+        <translation>Записване на данни към %1 неуспешно, %2 бита данни трябва да бъдат записани, но всъщност %3 са записани, грешка: %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="191"/>
@@ -30,7 +30,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="252"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
-        <translation type="unfinished"/>
+        <translation>Науспех при промяна %1 размер, моля проверете свободното място на целевия диск</translation>
     </message>
 </context>
 <context>
@@ -84,47 +84,47 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="400"/>
         <source>Please move image file to other location outside the disk to avoid data loss</source>
-        <translation type="unfinished"/>
+        <translation>Моля преместете файла на изображението на друго място извън диска за да избегнете загуба на данни</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="402"/>
         <source>Please move image file to other location outside the partition to avoid data loss</source>
-        <translation type="unfinished"/>
+        <translation>Моля преместете файла на изобржението на друго място извън този дял за да избегнете загуба на данни</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="415"/>
         <source>Storage location can not be in the disk to backup, please reselect</source>
-        <translation type="unfinished"/>
+        <translation>Мястото за съхранение не може да бъде в диска за резервно копие, моля изберете отново</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="417"/>
         <source>Storage location can not be in the partition to backup, please reselect</source>
-        <translation type="unfinished"/>
+        <translation>Мястото за съхранение не може да бъде в дяла за резевно копие, моля изберете отново</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="436"/>
         <source>Not enough total capacity in target disk, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Няма достатъчно капацитет в целевия диск, моля изберете друг</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>Not enough total capacity in target partition, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Няма достатъчно капацитет в целевия дял, моля избете друг</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>Not enough total capacity, please select another disk</source>
-        <translation type="unfinished"/>
+        <translation>Няма достатъчно капацитет, моля изберете друг диск</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
-        <translation type="unfinished"/>
+        <translation>Пристъпване към клониране?</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
-        <translation type="unfinished"/>
+        <translation>Всички данни в целевия дял ще бъдат форматирани по време на клониране или възтановяване на диска (дяла) без опция за отказ.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="495"/>
@@ -143,48 +143,48 @@
         <location filename="../src/widgets/mainwindow.cpp" line="512"/>
         <location filename="../src/widgets/mainwindow.cpp" line="593"/>
         <source>The selected storage location not found</source>
-        <translation type="unfinished"/>
+        <translation>Избраната локация не е намерена</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="727"/>
         <source>Failed to restart system</source>
-        <translation type="unfinished"/>
+        <translation>Провал при рестартиране на система</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="760"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Провал при рестартиране на &quot;Deepin Recovery&quot;</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="542"/>
         <source>Restart to Continue</source>
-        <translation type="unfinished"/>
+        <translation>Рестарт за Продължаване</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="253"/>
         <source>Restore boot</source>
-        <translation type="unfinished"/>
+        <translation>Възтанови бут</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
         <location filename="../src/widgets/mainwindow.cpp" line="581"/>
         <source>%1 not exist</source>
-        <translation type="unfinished"/>
+        <translation>%1 не съществува</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="545"/>
         <source>&quot;%1&quot; is used, please restart and enter &quot;Deepin Recovery&quot; to continue</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; е използван, моля рестартирайте и влезте в &quot;Deepin Recovery&quot; за да продължите</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="550"/>
         <source>&quot;%1&quot; is used, please install &quot;Deepin Recovery&quot; to retry</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; е използван, моля инсталирайте &quot;Deepin Recovery&quot; за повторен опит</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="605"/>
         <source>Performing Backup</source>
-        <translation type="unfinished"/>
+        <translation>Създаване на Копие</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="607"/>
@@ -250,7 +250,7 @@
         <location filename="../src/widgets/mainwindow.cpp" line="785"/>
         <location filename="../src/widgets/mainwindow.cpp" line="803"/>
         <source>Loading</source>
-        <translation type="unfinished"/>
+        <translation>Зареждане</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="843"/>
@@ -268,38 +268,38 @@
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="247"/>
         <source>process &quot;%1 %2&quot; crashed</source>
-        <translation type="unfinished"/>
+        <translation>процес %1 %2&quot; крашна</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="249"/>
         <source>Failed to perform process &quot;%1 %2&quot;, error: %3</source>
-        <translation type="unfinished"/>
+        <translation>Провал при извършване на процес &quot;%1 %2&quot;, грешка: %3</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="256"/>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="271"/>
         <source>&quot;%1&quot; is not a disk device</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; не е дисково устройство</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="298"/>
         <source>&quot;%1&quot; is busy</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; е заето</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="325"/>
         <source>Failed to start &quot;%1 %2&quot;, error: %3</source>
-        <translation type="unfinished"/>
+        <translation>Провал при стартиране &quot;%1 %2&quot;, грешка: %3</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="336"/>
         <source>Failed to open process, error: %1</source>
-        <translation type="unfinished"/>
+        <translation>Провал при отваряне на процес, грешка: %1</translation>
     </message>
     <message>
         <location filename="../src/corelib/dfilediskinfo.cpp" line="178"/>
         <source>Failed to open file(%1), error: %2</source>
-        <translation type="unfinished"/>
+        <translation>Провал при отваряна на файл(%1), грешка: %2</translation>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="199"/>
@@ -329,17 +329,17 @@
     <message>
         <location filename="../src/main.cpp" line="148"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Close е инструмент за създаване на резервни копия и възтановяване в deepin. Поддържа клониране, създаване на резервни копия и възтановяване на диск или дял и други функции.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="74"/>
         <source>Partition &quot;%1&quot; not found</source>
-        <translation type="unfinished"/>
+        <translation>Дял &quot;%1&quot; не е намерен</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="76"/>
         <source>Disk &quot;%1&quot; not found</source>
-        <translation type="unfinished"/>
+        <translation>Диск &quot;%1&quot; не е намерен</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
@@ -347,32 +347,32 @@
         <location filename="../src/fixboot/bootdoctor.cpp" line="158"/>
         <location filename="../src/widgets/mainwindow.cpp" line="101"/>
         <source>Failed to mount partition &quot;%1&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Провал при монтиране на дял &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
         <source>EFI partition not found</source>
-        <translation type="unfinished"/>
+        <translation>EFI дял не е намерен</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
         <source>Unknown partition table format</source>
-        <translation type="unfinished"/>
+        <translation>Непознат формат дялова таблица</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
         <source>Boot for install system failed</source>
-        <translation type="unfinished"/>
+        <translation>Бут за инсталирана система се провали</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for update system failed</source>
-        <translation type="unfinished"/>
+        <translation>Бут за обновяване на система се провали</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
         <source>Boot for repair system failed</source>
-        <translation type="unfinished"/>
+        <translation>Бут за система за възтановяване се провали</translation>
     </message>
 </context>
 <context>
@@ -380,12 +380,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="75"/>
         <source>Select media</source>
-        <translation type="unfinished"/>
+        <translation>Изберете медиа</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="76"/>
         <source>Select operation for media</source>
-        <translation type="unfinished"/>
+        <translation>Изберете операция за медиа</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="85"/>
@@ -405,7 +405,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone source disk to target disk</source>
-        <translation type="unfinished"/>
+        <translation>Клонирай диск към целеви диск</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
@@ -415,7 +415,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to a image file</source>
-        <translation type="unfinished"/>
+        <translation>Резервно копие от дискови данни към изображение</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -425,7 +425,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
         <source>Restore image file to disk</source>
-        <translation type="unfinished"/>
+        <translation>Възтанови изображение към диск</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
@@ -435,7 +435,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone source partition to target partition</source>
-        <translation type="unfinished"/>
+        <translation>Клонирай дял към целеви дял</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
@@ -445,7 +445,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to a image file</source>
-        <translation type="unfinished"/>
+        <translation>Резервно копие от дялови данни към изображение</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
@@ -564,7 +564,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>
         <source>Repairing system boot, please wait......</source>
-        <translation type="unfinished"/>
+        <translation>Поправяне на системен бут, моля изчакайте......</translation>
     </message>
 </context>
 </TS>

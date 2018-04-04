@@ -30,7 +30,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="252"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
-        <translation type="unfinished"/>
+        <translation>Falha ao alterar o tamanho de %1, verifique o espaço livre no disco de destino</translation>
     </message>
 </context>
 <context>

@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="144"/>
         <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation>Falha ao escrever dados em %1, devia ter sido escrito %2 byte de dados, mas na realidade  %3 forma escritos, erro: %4</translation>
+        <translation>Falha ao escrever dados em %1, devia ter sido escrito %2 byte de dados, mas na realidade  %3 foram escritos, erro: %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="191"/>
@@ -30,7 +30,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="252"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
-        <translation type="unfinished"/>
+        <translation>Falha na alteração da dimensão de %1, por favor verifique o espaço livre no disco de destino</translation>
     </message>
 </context>
 <context>
@@ -44,7 +44,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="349"/>
         <source>Select Operation</source>
-        <translation>Seleccione operação</translation>
+        <translation>Selecione operação</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="350"/>
@@ -94,27 +94,27 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="415"/>
         <source>Storage location can not be in the disk to backup, please reselect</source>
-        <translation>O local de armazenamento não pode existir no disco que vai ser copiado, por favor seleccione de novo</translation>
+        <translation>O local de armazenamento não pode ser no disco que vai ser colonado, por favor selecione de novo</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="417"/>
         <source>Storage location can not be in the partition to backup, please reselect</source>
-        <translation>O local de armazenamento não pode existir na partição que vai ser copiada, por favor seleccione de novo</translation>
+        <translation>O local de armazenamento não pode ser na partição que vai ser colonada, por favor selecione de novo</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="436"/>
         <source>Not enough total capacity in target disk, please select another one</source>
-        <translation>Não existe capacidade disponível no disco de destino, por favor seleccione um diferente</translation>
+        <translation>Não existe capacidade disponível no disco de destino, por favor selecione um diferente</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>Not enough total capacity in target partition, please select another one</source>
-        <translation>Não existe capacidade disponível na partição de destino, por favor seleccione uma diferente</translation>
+        <translation>Não existe capacidade disponível na partição de destino, por favor selecione uma diferente</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>Not enough total capacity, please select another disk</source>
-        <translation>Não existe capacidade disponível, por favor seleccione um disco diferente</translation>
+        <translation>Não existe capacidade disponível, por favor selecione um disco diferente</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
@@ -153,7 +153,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="760"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
-        <translation>Falha a reinicializar &quot;Deepin Recovery&quot;</translation>
+        <translation>Falha a reinicializar o &quot;Deepin Recovery&quot;</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="542"/>
@@ -163,7 +163,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="253"/>
         <source>Restore boot</source>
-        <translation type="unfinished"/>
+        <translation>Restaurar arranque</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -174,7 +174,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="545"/>
         <source>&quot;%1&quot; is used, please restart and enter &quot;Deepin Recovery&quot; to continue</source>
-        <translation>&quot;%1&quot; está a ser usado, por favor reinicie e escreve &quot;Deepin Recovery&quot; para continuar</translation>
+        <translation>&quot;%1&quot; está a ser usado, por favor reinicie e escreva &quot;Deepin Recovery&quot; para continuar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="550"/>
@@ -250,7 +250,7 @@
         <location filename="../src/widgets/mainwindow.cpp" line="785"/>
         <location filename="../src/widgets/mainwindow.cpp" line="803"/>
         <source>Loading</source>
-        <translation type="unfinished"/>
+        <translation>A carregar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="843"/>
@@ -352,27 +352,27 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
         <source>EFI partition not found</source>
-        <translation type="unfinished"/>
+        <translation>Não encontrámos partição EFI</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
         <source>Unknown partition table format</source>
-        <translation type="unfinished"/>
+        <translation>Tabela de partição de formato desconhecido</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
         <source>Boot for install system failed</source>
-        <translation type="unfinished"/>
+        <translation>Falha no arranque para instalação do sistema</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for update system failed</source>
-        <translation type="unfinished"/>
+        <translation>Falha no arranque para atualização de sistema</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
         <source>Boot for repair system failed</source>
-        <translation type="unfinished"/>
+        <translation>Falha no arranque para reparação do sistema</translation>
     </message>
 </context>
 <context>
@@ -380,12 +380,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="75"/>
         <source>Select media</source>
-        <translation>Seleccione o meio</translation>
+        <translation>Selecione a media</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="76"/>
         <source>Select operation for media</source>
-        <translation>Seleccione a operação para o meio</translation>
+        <translation>Selecione a operação para a media</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="85"/>
@@ -405,7 +405,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone source disk to target disk</source>
-        <translation>Clonar disco de origem para o destino</translation>
+        <translation>Clonar um disco de origem para um disco de destino</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
@@ -463,52 +463,52 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="243"/>
         <source>Select the source disk</source>
-        <translation>Seleccione o disco de origem</translation>
+        <translation>Selecione o disco de origem</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="244"/>
         <source>Select the target disk</source>
-        <translation>Seleccione o disco de destino</translation>
+        <translation>Selecione o disco de destino</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="258"/>
         <source>Select the source partition</source>
-        <translation>Seleccione a partição de origem</translation>
+        <translation>Selecione a partição de origem</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="259"/>
         <source>Select the target partition</source>
-        <translation>Seleccione a partição de destino</translation>
+        <translation>Selecione a partição de destino</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="287"/>
         <source>Select a disk to backup</source>
-        <translation>Seleccione um disco a copiar</translation>
+        <translation>Selecione o disco a copiar</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="295"/>
         <source>Select a partition to backup</source>
-        <translation>Seleccione uma partição a copiar</translation>
+        <translation>Selecione a partição a copiar</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="304"/>
         <source>Select storage location</source>
-        <translation>Seleccione local de armazenamento</translation>
+        <translation>Selecione o local de armazenamento</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="330"/>
         <source>Select a backup image file</source>
-        <translation>Seleccione um ficheiro de imagem de cópia de segurança</translation>
+        <translation>Selecione o ficheiro de imagem de cópia de segurança</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="333"/>
         <source>Select a disk to restore</source>
-        <translation>Seleccione um disco a restaurar</translation>
+        <translation>Selecione o disco a restaurar</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="335"/>
         <source>Select a partition to restore</source>
-        <translation>Seleccione uma partição a restaurar</translation>
+        <translation>Selecione a partição a restaurar</translation>
     </message>
 </context>
 <context>
@@ -516,12 +516,12 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
         <source>Select storage location</source>
-        <translation>Seleccione local de armazenamento</translation>
+        <translation>Selecione o local de armazenamento</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
         <source>Select image file</source>
-        <translation>Seleccione ficheiro imagem</translation>
+        <translation>Selecione o ficheiro imagem</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="99"/>
@@ -536,12 +536,12 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="186"/>
         <source>Reselect image file</source>
-        <translation>Re-seleccione ficheiro de imagem</translation>
+        <translation>Re-selecione o ficheiro de imagem</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="189"/>
         <source>Reselect storage location</source>
-        <translation>Re-seleccione local de armazenamento</translation>
+        <translation>Re-selecione o local de armazenamento</translation>
     </message>
 </context>
 <context>
@@ -564,7 +564,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>
         <source>Repairing system boot, please wait......</source>
-        <translation type="unfinished"/>
+        <translation>A reparar o sistema, por favor aguarde...</translation>
     </message>
 </context>
 </TS>

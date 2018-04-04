@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="144"/>
         <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation type="unfinished"/>
+        <translation>Zapisywanie danych do %1 z błędem, %2 bajtów danych powinno zostać zapisanych, ale aktualnie zapisano %3, błąd: %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="191"/>
@@ -25,12 +25,12 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="238"/>
         <source>%1 total capacity is less than maximum readable data on %2</source>
-        <translation type="unfinished"/>
+        <translation>Całkowita pojemność %1 jest mniejsza niż maksymalna wielkość odczytywanych danych na %2</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="252"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
-        <translation type="unfinished"/>
+        <translation>Wystąpił błąd zmiany rozmiaru %1, prosimy sprawdzić ilość wolnego miejsca na dysku docelowym</translation>
     </message>
 </context>
 <context>
@@ -67,13 +67,13 @@
         <location filename="../src/widgets/mainwindow.cpp" line="379"/>
         <location filename="../src/widgets/mainwindow.cpp" line="386"/>
         <source>Target disk will be permanently overwritten, please confirm to continue</source>
-        <translation type="unfinished"/>
+        <translation>Dysk docelowy zostanie nieodwracalnie nadpisany, przed kontynuacją prosimy potwierdzić</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="381"/>
         <location filename="../src/widgets/mainwindow.cpp" line="388"/>
         <source>Target partition will be permanently overwritten, please confirm to continue</source>
-        <translation type="unfinished"/>
+        <translation>Partycja docelowa zostanie nieodwracalnie nadpisana, przed kontynuacją prosimy potwierdzić</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="383"/>
@@ -84,52 +84,52 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="400"/>
         <source>Please move image file to other location outside the disk to avoid data loss</source>
-        <translation type="unfinished"/>
+        <translation>Prosimy przenieść plik obrazu do innego położenia poza dyskiem, aby uniknąć utraty danych</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="402"/>
         <source>Please move image file to other location outside the partition to avoid data loss</source>
-        <translation type="unfinished"/>
+        <translation>Prosimy przenieść plik obrazu do innego położenia poza partycją, aby uniknąć utraty danych</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="415"/>
         <source>Storage location can not be in the disk to backup, please reselect</source>
-        <translation type="unfinished"/>
+        <translation>Położenie przechowywania nie może znajdować się na dysku do utworzenia kopii zapasowej, prosimy wybrać inne</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="417"/>
         <source>Storage location can not be in the partition to backup, please reselect</source>
-        <translation type="unfinished"/>
+        <translation>Położenie przechowywania nie może znajdować się na partycji do utworzenia kopii zapasowej, prosimy wybrać inne</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="436"/>
         <source>Not enough total capacity in target disk, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Brak wystarczającej pojemności na docelowym dysku, prosimy wskazać inny</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>Not enough total capacity in target partition, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Brak wystarczającej pojemności na docelowej partycji, prosimy wskazać inną</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>Not enough total capacity, please select another disk</source>
-        <translation type="unfinished"/>
+        <translation>Za mało całkowitej pojemności, prosimy wybrać inny dysk</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
-        <translation type="unfinished"/>
+        <translation>Rozpocząć klonowanie?</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
-        <translation type="unfinished"/>
+        <translation>Wszystkie dane w lokalizacji docelowej zostaną sformatowane podczas klonowania lub przywracania dysku (partycji) bez możliwości anulowania operacji.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="495"/>
         <source>Warning</source>
-        <translation type="unfinished"/>
+        <translation>Ostrzeżenie</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="496"/>
@@ -137,23 +137,23 @@
         <location filename="../src/widgets/mainwindow.cpp" line="654"/>
         <location filename="../src/widgets/mainwindow.cpp" line="778"/>
         <source>OK</source>
-        <translation type="unfinished"/>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="512"/>
         <location filename="../src/widgets/mainwindow.cpp" line="593"/>
         <source>The selected storage location not found</source>
-        <translation type="unfinished"/>
+        <translation>Wybrana lokalizacja przechowywania nie została odnaleziona</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="727"/>
         <source>Failed to restart system</source>
-        <translation type="unfinished"/>
+        <translation>Błąd ponownego uruchomienia systemu</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="760"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Błąd ponownego uruchomienia &quot;Przywracania Deepin&quot;</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="542"/>
@@ -163,7 +163,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="253"/>
         <source>Restore boot</source>
-        <translation type="unfinished"/>
+        <translation>Przywróć rozruch</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -174,12 +174,12 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="545"/>
         <source>&quot;%1&quot; is used, please restart and enter &quot;Deepin Recovery&quot; to continue</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; jest używany, prosimy ponownie uruchomić komputer i wejść do &quot;Przywracania Deepin&quot;, aby kontynuować.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="550"/>
         <source>&quot;%1&quot; is used, please install &quot;Deepin Recovery&quot; to retry</source>
-        <translation type="unfinished"/>
+        <translation>Używany jest &quot;%1&quot;, prosimy zainstalować &quot;Przywracanie Deepin&quot;, aby ponowić</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="605"/>
@@ -250,17 +250,17 @@
         <location filename="../src/widgets/mainwindow.cpp" line="785"/>
         <location filename="../src/widgets/mainwindow.cpp" line="803"/>
         <source>Loading</source>
-        <translation type="unfinished"/>
+        <translation>Wczytywanie</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="843"/>
         <source>Disk</source>
-        <translation type="unfinished"/>
+        <translation>Dysk</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="845"/>
         <source>Partition</source>
-        <translation type="unfinished"/>
+        <translation>Partycja</translation>
     </message>
 </context>
 <context>
@@ -268,18 +268,18 @@
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="247"/>
         <source>process &quot;%1 %2&quot; crashed</source>
-        <translation type="unfinished"/>
+        <translation>proces &quot;%1 %2&quot; uległ awarii</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="249"/>
         <source>Failed to perform process &quot;%1 %2&quot;, error: %3</source>
-        <translation type="unfinished"/>
+        <translation>Błąd przeprowadzenia procesu &quot;%1 %2&quot;, błąd: %3</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="256"/>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="271"/>
         <source>&quot;%1&quot; is not a disk device</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; nie jest urządzeniem dyskowym</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="298"/>
@@ -289,17 +289,17 @@
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="325"/>
         <source>Failed to start &quot;%1 %2&quot;, error: %3</source>
-        <translation type="unfinished"/>
+        <translation>Nie udało się uruchomić &quot;%1 %2&quot;, błąd: %3</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="336"/>
         <source>Failed to open process, error: %1</source>
-        <translation type="unfinished"/>
+        <translation>Błąd otwarcia procesu, błąd: %1</translation>
     </message>
     <message>
         <location filename="../src/corelib/dfilediskinfo.cpp" line="178"/>
         <source>Failed to open file(%1), error: %2</source>
-        <translation type="unfinished"/>
+        <translation>Błąd otwarcia pliku (%1), błąd: %2</translation>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="199"/>
@@ -329,7 +329,7 @@
     <message>
         <location filename="../src/main.cpp" line="148"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation type="unfinished"/>
+        <translation>Klonowanie Deepin jest narzędziem do tworzenia kopii zapasowych i do przywracania w Deepin. Obsługuje klonowanie, kopie zapasowe, przywracanie dysku lub partycji oraz inne funkcje.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="74"/>
@@ -352,27 +352,27 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
         <source>EFI partition not found</source>
-        <translation type="unfinished"/>
+        <translation>Nie odnaleziono partycji EFI</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
         <source>Unknown partition table format</source>
-        <translation type="unfinished"/>
+        <translation>Nieznany format tabeli partycji</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
         <source>Boot for install system failed</source>
-        <translation type="unfinished"/>
+        <translation>Błąd rozruchu do zainstalowania systemu</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for update system failed</source>
-        <translation type="unfinished"/>
+        <translation>Błąd rozruchu do aktualizacji systemu</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
         <source>Boot for repair system failed</source>
-        <translation type="unfinished"/>
+        <translation>Błąd rozruchu do naprawy systemu</translation>
     </message>
 </context>
 <context>
@@ -380,12 +380,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="75"/>
         <source>Select media</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz nośnik</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="76"/>
         <source>Select operation for media</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz działanie dla nośnika</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="85"/>
@@ -405,27 +405,27 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone source disk to target disk</source>
-        <translation type="unfinished"/>
+        <translation>Sklonuj dysk źródłowy na dysk docelowy</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Disk to Image</source>
-        <translation type="unfinished"/>
+        <translation>Dysk do obrazu</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to a image file</source>
-        <translation type="unfinished"/>
+        <translation>Wykonaj kopię zapasową danych dysku do pliku obrazu</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
         <source>Image to Disk</source>
-        <translation type="unfinished"/>
+        <translation>Obraz na dysk</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
         <source>Restore image file to disk</source>
-        <translation type="unfinished"/>
+        <translation>Przywróć plik obrazu na dysk</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
@@ -435,7 +435,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone source partition to target partition</source>
-        <translation type="unfinished"/>
+        <translation>Sklonuj partycję źródłową na partycję docelową</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
@@ -445,7 +445,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to a image file</source>
-        <translation type="unfinished"/>
+        <translation>Utwórz kopię zapasową danych partycji do pliku obrazu</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
@@ -483,32 +483,32 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="287"/>
         <source>Select a disk to backup</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz dysk do kopii zapasowej</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="295"/>
         <source>Select a partition to backup</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz partycję do kopii zapasowej</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="304"/>
         <source>Select storage location</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz lokalizację przechowywania</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="330"/>
         <source>Select a backup image file</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz plik obrazu z kopią zapasową</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="333"/>
         <source>Select a disk to restore</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz dysk do przywrócenia</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="335"/>
         <source>Select a partition to restore</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz partycję do przywrócenia</translation>
     </message>
 </context>
 <context>
@@ -516,7 +516,7 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
         <source>Select storage location</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz lokalizację przechowywania</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
@@ -526,22 +526,22 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="99"/>
         <source>Drag and drop backup image file here</source>
-        <translation type="unfinished"/>
+        <translation>Przeciągnij i upuść tutaj plik obrazu kopii zapasowej</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="120"/>
         <source>Deepin Image File</source>
-        <translation type="unfinished"/>
+        <translation>Plik obrazu Deepin</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="186"/>
         <source>Reselect image file</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz ponownie plik obrazu</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="189"/>
         <source>Reselect storage location</source>
-        <translation type="unfinished"/>
+        <translation>Wybierz ponownie lokalizację przechowywania</translation>
     </message>
 </context>
 <context>
@@ -549,22 +549,22 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="44"/>
         <source>Task is ongoing, please wait......</source>
-        <translation type="unfinished"/>
+        <translation>Wykonane jest zadanie, prosimy czekać...</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="61"/>
         <source>Progress: %1/%2</source>
-        <translation type="unfinished"/>
+        <translation>Postęp: %1/%2</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
         <source>Remaining time: %1</source>
-        <translation type="unfinished"/>
+        <translation>Pozostały czas: %1</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>
         <source>Repairing system boot, please wait......</source>
-        <translation type="unfinished"/>
+        <translation>Naprawianie rozruchu systemu, prosimy czekać...</translation>
     </message>
 </context>
 </TS>
