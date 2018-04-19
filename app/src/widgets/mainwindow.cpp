@@ -180,6 +180,30 @@ QString findHonestChild()
     return QStandardPaths::findExecutable("deepin-clone-honest");
 }
 
+bool MainWindow::showFileItem(const QString &file)
+{
+    QString honest_child = findHonestChild();
+
+    if (honest_child.isEmpty())
+        return false;
+
+    QProcess process;
+    QStringList env_list = process.environment();
+
+    env_list << honestChildEnvironment();
+    env_list << QString("%1=%2").arg(DEEPIN_CLONE_SHOW_FILE).arg(file);
+
+    process.setProcessChannelMode(QProcess::ForwardedChannels);
+    process.setEnvironment(env_list);
+
+    process.start(honest_child);
+
+    if (!process.waitForFinished())
+        return false;
+
+    return process.exitCode() == 0;
+}
+
 bool MainWindow::openUrl(const QUrl &url)
 {
     QString honest_child = findHonestChild();
@@ -698,9 +722,7 @@ void MainWindow::onButtonClicked()
         return setStatus(Working);
     }
     case ShowBackupFile: {
-        dCDebug("Show \"%s\" on file manager", qPrintable(m_targetFile));
-
-        DDesktopServices::showFileItem(m_targetFile);
+        dCDebug("Show \"%s\" on file manager. finished: %s", qPrintable(m_targetFile), showFileItem(m_targetFile) ? "true" : "false");
         return;
     }
     case Quit: {
