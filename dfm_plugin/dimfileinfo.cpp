@@ -32,7 +32,7 @@
 DIMFileInfo::DIMFileInfo(const QString &path)
     : DFileInfo("dim://" + path)
 {
-    Q_D(DFileInfo);
+    DFileInfoPrivate *d = reinterpret_cast<DFileInfoPrivate*>(qGetPtrHelper(d_ptr));
 
     d->setUrl(DUrl(d->fileInfo.absoluteFilePath()), true);
 }
