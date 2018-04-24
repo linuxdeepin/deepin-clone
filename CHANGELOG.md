@@ -1,3 +1,14 @@
+<a name="0.0.8.4"></a>
+## 0.0.8.4 (2018-04-24)
+
+
+#### Bug Fixes
+
+*   failed on build dfm plugin ([4f217e7f](https://github.com/linuxdeepin/deepin-clone/commit/4f217e7f5d1ae151165707c125cc94ce9e8fdbeb))
+*   can not show backup file in File Manager ([d670fa60](https://github.com/linuxdeepin/deepin-clone/commit/d670fa600cbfd699db7bd59f745ae148911d8027))
+
+
+
 <a name="0.0.8.3"></a>
 ##  (2018-03-16)
 
