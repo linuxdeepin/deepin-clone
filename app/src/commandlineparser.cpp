@@ -168,7 +168,7 @@ void CommandLineParser::parse()
             ::exit(EXIT_FAILURE);
         }
 
-        printf(info.toJson().constData());
+        printf("%s\n", info.toJson().constData());
         ::exit(EXIT_SUCCESS);
     } else if (parser.isSet(o_dim_info)) {
         if (parser.positionalArguments().isEmpty()) {
@@ -191,18 +191,16 @@ void CommandLineParser::parse()
 
         ::exit(EXIT_SUCCESS);
     } else if (parser.isSet(o_to_serial_url)) {
-        printf(Helper::toSerialUrl(parser.value(o_to_serial_url)).toUtf8().constData());
-        printf("\n");
+        printf("%s\n", Helper::toSerialUrl(parser.value(o_to_serial_url)).toUtf8().constData());
 
         ::exit(EXIT_SUCCESS);
     } else if (parser.isSet(o_from_serial_url)) {
-        printf(Helper::parseSerialUrl(parser.value(o_from_serial_url)).toUtf8().constData());
-        printf("\n");
+        printf("%s\n", Helper::parseSerialUrl(parser.value(o_from_serial_url)).toUtf8().constData());
 
         ::exit(EXIT_SUCCESS);
     } else if (parser.isSet(o_fix_boot)) {
         if (BootDoctor::fix(parser.value(o_fix_boot))) {
-            printf("Finished!");
+            printf("Finished!\n");
             ::exit(EXIT_SUCCESS);
         } else {
             fputs(qPrintable(BootDoctor::errorString()), stderr);
