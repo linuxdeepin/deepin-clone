@@ -1,3 +1,13 @@
+<a name="0.0.8.5"></a>
+## 0.0.8.5 (2018-06-07)
+
+
+#### Bug Fixes
+
+*   failed on build if the cxx flags contains "-Werror=format-security" ([b9d0c31e](https://github.com/linuxdeepin/deepin-clone/commit/b9d0c31ee185ceda9c2b55c5b4a09277c235145b))
+
+
+
 <a name="0.0.8.4"></a>
 ## 0.0.8.4 (2018-04-24)
 
