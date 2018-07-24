@@ -329,7 +329,7 @@ bool Helper::getPartitionSizeInfo(const QString &partDevice, qint64 *used, qint6
         qint64 used_block = -1;
         qint64 free_block = -1;
 
-        while (process.waitForReadyRead(-1)) {
+        while (process.waitForReadyRead(5000)) {
             const QByteArray &data = process.readAll();
 
             for (QByteArray line : data.split('\n')) {
