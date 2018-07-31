@@ -1,3 +1,13 @@
+<a name="0.0.9"></a>
+## 0.0.9 (2018-07-31)
+
+
+#### Features
+
+*   add "magic" for mimetype xml file ([1eae4fe1](https://github.com/linuxdeepin/deepin-clone/commit/1eae4fe1be1ae54e2ba8ffe5e50f6000944de7a8))
+
+
+
 <a name="0.0.8.5"></a>
 ### 0.0.8.5 (2018-06-07)
 
