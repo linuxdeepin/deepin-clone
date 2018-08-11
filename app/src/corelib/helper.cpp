@@ -63,6 +63,14 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout, 
     timer.connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
     loop.connect(process, static_cast<void(QProcess::*)(int)>(&QProcess::finished), &loop, &QEventLoop::exit);
 
+    // 防止子进程输出信息将管道塞满导致进程阻塞
+    process->connect(process, &QProcess::readyReadStandardError, process, [process] {
+        m_processStandardError.append(process->readAllStandardError());
+    });
+    process->connect(process, &QProcess::readyReadStandardOutput, process, [process] {
+        m_processStandardOutput.append(process->readAllStandardOutput());
+    });
+
     if (timeout > 0) {
         timer.start();
     } else {
@@ -100,8 +108,8 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout, 
         }
     }
 
-    m_processStandardOutput = process->readAllStandardOutput();
-    m_processStandardError = process->readAllStandardError();
+    m_processStandardOutput.append(process->readAllStandardOutput());
+    m_processStandardError.append(process->readAllStandardError());
 
     if (Global::debugLevel > 1) {
         dCDebug("Done: \"%s\", exit code: %d", qPrintable(command), process->exitCode());
