@@ -4,12 +4,12 @@
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!message" line="0"/>
 			<source>Password required to run Deepin Clone</source>
-			<translation>Deepin Klon&apos;u çalıştırmak için gerekli şifre</translation>
+			<translation>Deepin Kopyalayıcı uygulamasını çalıştırmak için parola gerekli</translation>
 		</message>
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!description" line="0"/>
 			<source>Deepin Clone needs to do operations on block device, such as write and read, get info and etc.</source>
-			<translation>Deepin Klon, blok aygıtı üzerinde yazma ve okuma, bilgi alma ve benzeri işlemleri yapmak zorundadır.</translation>
+			<translation>Deepin Kopyalayıcı uygulamasının, blok aygıtı üzerinde yazma ve okuma, bilgi alma ve benzeri işlemleri yapması gereklidir.</translation>
 		</message>
 	</context>
 </TS>

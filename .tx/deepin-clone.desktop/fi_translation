@@ -13,6 +13,5 @@ Version=0.1
 
 
 # Translations
-Comment[pt]=Ferramenta de Cópia de Segurança e Restauro do Deepin
-Name[pt]=Deepin Clone
-Icon[pt]=deepin-clone
+Name[fi]=Deepin Kloonaus
+Icon[fi]=deepin-clone

@@ -4,12 +4,12 @@
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!message" line="0"/>
 			<source>Password required to run Deepin Clone</source>
-			<translation>Wachtwoord vereist om Deepin Kloon uit te voeren</translation>
+			<translation>Wachtwoord vereist om Deepin Klonen uit te voeren</translation>
 		</message>
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!description" line="0"/>
 			<source>Deepin Clone needs to do operations on block device, such as write and read, get info and etc.</source>
-			<translation>Deepin Kloon moet operaties uitvoeren op block-apparaten, zoals schrijven en lezen, informatie krijgen en enz.</translation>
+			<translation>Deepin Klonen moet handelingen uitvoeren op block-apparaten, zoals schrijven en lezen, informatie opvragen, enz.</translation>
 		</message>
 	</context>
 </TS>

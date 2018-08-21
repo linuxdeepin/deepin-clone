@@ -67,13 +67,13 @@
         <location filename="../src/widgets/mainwindow.cpp" line="379"/>
         <location filename="../src/widgets/mainwindow.cpp" line="386"/>
         <source>Target disk will be permanently overwritten, please confirm to continue</source>
-        <translation type="unfinished"/>
+        <translation>Va sobrescribise dafechu&apos;l discu de destín, confirma y sigui</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="381"/>
         <location filename="../src/widgets/mainwindow.cpp" line="388"/>
         <source>Target partition will be permanently overwritten, please confirm to continue</source>
-        <translation type="unfinished"/>
+        <translation>Va sobrescribise dafechu la partición de destín, confirma y sigui</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="383"/>
@@ -89,7 +89,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="402"/>
         <source>Please move image file to other location outside the partition to avoid data loss</source>
-        <translation type="unfinished"/>
+        <translation>Movi&apos;l ficheru de la imaxe a otru allugamientu fuera de la partición pa evitar una perda de datos</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="415"/>
@@ -357,7 +357,7 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
         <source>Unknown partition table format</source>
-        <translation type="unfinished"/>
+        <translation>Desconozse&apos;l formatu de la tabla de particiones</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
@@ -564,7 +564,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>
         <source>Repairing system boot, please wait......</source>
-        <translation>Iguando arranque del sistema, espera...</translation>
+        <translation>Iguando l&apos;arranque del sistema, espera...</translation>
     </message>
 </context>
 </TS>

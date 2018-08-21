@@ -20,7 +20,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="217"/>
         <source>Disk only can be cloned to disk</source>
-        <translation type="unfinished"/>
+        <translation>Diskas gali būti nukopijuotas tik į diską</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="238"/>
@@ -55,7 +55,7 @@
         <location filename="../src/widgets/mainwindow.cpp" line="374"/>
         <location filename="../src/widgets/mainwindow.cpp" line="827"/>
         <source>Backup</source>
-        <translation type="unfinished"/>
+        <translation>Daryti atsarginę kopiją</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="376"/>
@@ -67,13 +67,13 @@
         <location filename="../src/widgets/mainwindow.cpp" line="379"/>
         <location filename="../src/widgets/mainwindow.cpp" line="386"/>
         <source>Target disk will be permanently overwritten, please confirm to continue</source>
-        <translation type="unfinished"/>
+        <translation>Paskirties diskas bus perrašytas visiems laikams, norėdami tęsti, patvirtinkite</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="381"/>
         <location filename="../src/widgets/mainwindow.cpp" line="388"/>
         <source>Target partition will be permanently overwritten, please confirm to continue</source>
-        <translation type="unfinished"/>
+        <translation>Paskirties skaidinys bus perrašytas visiems laikams, norėdami tęsti, patvirtinkite</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="383"/>
@@ -84,47 +84,47 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="400"/>
         <source>Please move image file to other location outside the disk to avoid data loss</source>
-        <translation type="unfinished"/>
+        <translation>Norėdami išvengti duomenų praradimo, perkelkite atvaizdžio failą į kitą, už disko ribų, esančią vietą</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="402"/>
         <source>Please move image file to other location outside the partition to avoid data loss</source>
-        <translation type="unfinished"/>
+        <translation>Norėdami išvengti duomenų praradimo, perkelkite atvaizdžio failą į kitą, už skaidinio ribų, esančią vietą</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="415"/>
         <source>Storage location can not be in the disk to backup, please reselect</source>
-        <translation type="unfinished"/>
+        <translation>Saugyklos vieta negali būti diske, kurio atsarginę kopiją ketinate daryti, prašome pasirinkti iš naujo</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="417"/>
         <source>Storage location can not be in the partition to backup, please reselect</source>
-        <translation type="unfinished"/>
+        <translation>Saugyklos vieta negali būti skaidinyje, kurio atsarginę kopiją ketinate daryti, prašome pasirinkti iš naujo</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="436"/>
         <source>Not enough total capacity in target disk, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Paskirties diske neužtenka bendros talpos, prašome pasirinkti kitą diską</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>Not enough total capacity in target partition, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Paskirties skaidinyje neužtenka bendros talpos, prašome pasirinkti kitą skaidinį</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>Not enough total capacity, please select another disk</source>
-        <translation type="unfinished"/>
+        <translation>Neužtenka bendros talpos, prašome pasirinkti kitą diską</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
-        <translation type="unfinished"/>
+        <translation>Tęsti kopijavimą?</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
-        <translation type="unfinished"/>
+        <translation>Visi paskirties vietoje esantys duomenys disko (skaidinio) kopijavimo ar atkūrimo metu bus formatuoti be galimybės atsisakyti šio veiksmo.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="495"/>
@@ -143,7 +143,7 @@
         <location filename="../src/widgets/mainwindow.cpp" line="512"/>
         <location filename="../src/widgets/mainwindow.cpp" line="593"/>
         <source>The selected storage location not found</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkta saugykla nerasta</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="727"/>
@@ -153,17 +153,17 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="760"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Nepavyko iš naujo paleisti &quot;Deepin atkūrimo&quot;</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="542"/>
         <source>Restart to Continue</source>
-        <translation type="unfinished"/>
+        <translation>Norėdami tęsti, paleiskite iš naujo</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="253"/>
         <source>Restore boot</source>
-        <translation type="unfinished"/>
+        <translation>Atkurti paleidimą</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -174,37 +174,37 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="545"/>
         <source>&quot;%1&quot; is used, please restart and enter &quot;Deepin Recovery&quot; to continue</source>
-        <translation type="unfinished"/>
+        <translation>Yra naudojama &quot;%1&quot;, norėdami tęsti, paleiskite iš naujo ir paleiskite &quot;Deepin atkūrimas&quot;</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="550"/>
         <source>&quot;%1&quot; is used, please install &quot;Deepin Recovery&quot; to retry</source>
-        <translation type="unfinished"/>
+        <translation>Yra naudojama &quot;%1&quot;, norėdami bandyti dar kartą, įdiekite &quot;Deepin atkūrimas&quot;</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="605"/>
         <source>Performing Backup</source>
-        <translation type="unfinished"/>
+        <translation>Daroma atsarginė kopija</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="607"/>
         <source>Cloning</source>
-        <translation type="unfinished"/>
+        <translation>Kopijuojama</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="609"/>
         <source>Restoring</source>
-        <translation type="unfinished"/>
+        <translation>Atkuriama</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="625"/>
         <source>Backup Failed</source>
-        <translation type="unfinished"/>
+        <translation>Atsarginė kopija nepavyko</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="631"/>
         <source>Clone Failed</source>
-        <translation type="unfinished"/>
+        <translation>Kopijavimas nepavyko</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="633"/>
@@ -224,22 +224,22 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="644"/>
         <source>Backup Succeeded</source>
-        <translation type="unfinished"/>
+        <translation>Atsarginė kopija pavyko</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="645"/>
         <source>View Backup File</source>
-        <translation type="unfinished"/>
+        <translation>Rodyti atsarginės kopijos failą</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="653"/>
         <source>Clone Succeeded</source>
-        <translation type="unfinished"/>
+        <translation>Kopijavimas pavyko</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="657"/>
         <source>Restore Succeeded</source>
-        <translation type="unfinished"/>
+        <translation>Atkūrimas pavyko</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="658"/>
@@ -324,12 +324,12 @@
     <message>
         <location filename="../src/main.cpp" line="147"/>
         <source>Deepin Clone</source>
-        <translation type="unfinished"/>
+        <translation>Deepin kopija</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="148"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin kopija yra įrankis skirtas atsarginės kopijos darymui ir atkūrimui deepin sistemoje. Jis palaiko disko ar skaidinio kopijavimą, atsarginės kopijos darymą ir atkūrimą bei kitas funkcijas.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="74"/>
@@ -362,17 +362,17 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
         <source>Boot for install system failed</source>
-        <translation type="unfinished"/>
+        <translation>Įdiegtos sistemos paleidimas nepavyko</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for update system failed</source>
-        <translation type="unfinished"/>
+        <translation>Atnaujintos sistemos paleidimas nepavyko</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
         <source>Boot for repair system failed</source>
-        <translation type="unfinished"/>
+        <translation>Taisytos sistemos paleidimas nepavyko</translation>
     </message>
 </context>
 <context>
@@ -400,12 +400,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone Disk</source>
-        <translation type="unfinished"/>
+        <translation>Kopijuoti diską</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone source disk to target disk</source>
-        <translation type="unfinished"/>
+        <translation>Kopijuoti šaltinio diską į paskirties diską</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
@@ -430,12 +430,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone Partition</source>
-        <translation type="unfinished"/>
+        <translation>Kopijuoti skaidinį</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone source partition to target partition</source>
-        <translation type="unfinished"/>
+        <translation>Kopijuoti šaltinio skaidinį į paskirties skaidinį</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
@@ -445,7 +445,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to a image file</source>
-        <translation type="unfinished"/>
+        <translation>Daryti atsarginę skaidinio duomenų kopiją į atvaizdžio failą</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
@@ -455,7 +455,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
         <source>Restore image file to partition</source>
-        <translation type="unfinished"/>
+        <translation>Atkurti atvaizdžio failą į skaidinį</translation>
     </message>
 </context>
 <context>
@@ -463,52 +463,52 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="243"/>
         <source>Select the source disk</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite šaltinio diską</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="244"/>
         <source>Select the target disk</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite paskirties diską</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="258"/>
         <source>Select the source partition</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite šaltinio skaidinį</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="259"/>
         <source>Select the target partition</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite paskirties skaidinį</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="287"/>
         <source>Select a disk to backup</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite diską, kurio atsarginę kopiją darysite</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="295"/>
         <source>Select a partition to backup</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite skaidinį, kurio atsarginę kopiją darysite</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="304"/>
         <source>Select storage location</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite saugyklos vietą</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="330"/>
         <source>Select a backup image file</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite atsarginės kopijos atvaizdžio failą</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="333"/>
         <source>Select a disk to restore</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite diską, kurį atkurti</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="335"/>
         <source>Select a partition to restore</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite skaidinį, kurį atkurti</translation>
     </message>
 </context>
 <context>
@@ -516,32 +516,32 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
         <source>Select storage location</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkite saugyklos vietą</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
         <source>Select image file</source>
-        <translation type="unfinished"/>
+        <translation>Pasirinkti atvaizdžio failą</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="99"/>
         <source>Drag and drop backup image file here</source>
-        <translation type="unfinished"/>
+        <translation>Vilkite čia atsarginės kopijos atvaizdžio failą</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="120"/>
         <source>Deepin Image File</source>
-        <translation type="unfinished"/>
+        <translation>Deepin atvaizdžio failas</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="186"/>
         <source>Reselect image file</source>
-        <translation type="unfinished"/>
+        <translation>Iš naujo pasirinkti atvaizdžio failą</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="189"/>
         <source>Reselect storage location</source>
-        <translation type="unfinished"/>
+        <translation>Iš naujo pasirinkite saugyklos vietą</translation>
     </message>
 </context>
 <context>
@@ -549,7 +549,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="44"/>
         <source>Task is ongoing, please wait......</source>
-        <translation type="unfinished"/>
+        <translation>Užduotis vykdoma, prašome palaukti......</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="61"/>
@@ -564,7 +564,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>
         <source>Repairing system boot, please wait......</source>
-        <translation type="unfinished"/>
+        <translation>Taisomas sistemos paleidimas, prašome palaukti......</translation>
     </message>
 </context>
 </TS>

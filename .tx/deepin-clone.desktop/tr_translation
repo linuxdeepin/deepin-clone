@@ -13,6 +13,6 @@ Version=0.1
 
 
 # Translations
-Comment[tr]=Deepin Yedekleme Geri Yükleme Aracı
-Name[tr]=Deepin Klon
-Icon[tr]=deepin-klon
+Comment[tr]=Deepin Yedekleme ve Geri Yükleme Aracı
+Name[tr]=Deepin Kopyalayıcı
+Icon[tr]=deepin-kopyalayici

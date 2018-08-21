@@ -184,7 +184,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="605"/>
         <source>Performing Backup</source>
-        <translation type="unfinished"/>
+        <translation>Membuat salinan cadangan</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="607"/>
@@ -329,7 +329,7 @@
     <message>
         <location filename="../src/main.cpp" line="148"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Clone adalah sebuah alat untuk menyimpan salinan dan mengembalikan salinan di Deepin. Alat ini mendukung penggandaan, penyimpanan salinan, pengembalian salinan di disk atau partisi dan fungsi-fungsi yang lainnya</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="74"/>
