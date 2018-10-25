@@ -1,3 +1,13 @@
+<a name="0.1.0"></a>
+## 0.1.0 (2018-10-25)
+
+
+#### Bug Fixes
+
+*   the Helper::processExec is blocked if the child process standard error/output hit the limit ([defcefcd](https://github.com/linuxdeepin/deepin-clone/commit/defcefcdeae4673401edea5efa7a07832201f097))
+
+
+
 <a name="0.0.9"></a>
 ## 0.0.9 (2018-07-31)
 
