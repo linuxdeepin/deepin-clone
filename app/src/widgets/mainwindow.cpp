@@ -34,7 +34,6 @@
 
 #include <DDesktopServices>
 #include <ddialog.h>
-#include <anchors.h>
 #include <DWindowManagerHelper>
 #include <DTitlebar>
 
