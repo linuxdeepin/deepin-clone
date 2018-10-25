@@ -1,3 +1,13 @@
+<a name="0.1.1"></a>
+## 0.1.1 (2018-10-25)
+
+
+#### Bug Fixes
+
+*   faild on build ([bff840a0](https://github.com/linuxdeepin/deepin-clone/commit/bff840a05ded014ae5ea9ccc170d458799cd89bd))
+
+
+
 <a name="0.1.0"></a>
 ## 0.1.0 (2018-10-25)
 
