@@ -339,7 +339,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="76"/>
         <source>Disk &quot;%1&quot; not found</source>
-        <translation>Disco&quot;%1&quot; no encontrado</translation>
+        <translation>Disco &quot;%1&quot; no encontrado</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>

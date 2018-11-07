@@ -1,36 +1,36 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="fa" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="gl_ES" version="2.1">
 <context>
     <name>CloneJob</name>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="144"/>
         <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation>نوشتن داده ها در %1 شکست خورده است، باید %2 داده بایتی نوشته شود،  اما در واقع %3 نوشته شده، خطا : %4</translation>
+        <translation>Produciuse un erro escribindo os datos en %1, teríanse que escribir %2 bytes pero só se escribiron %3, erro: %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="191"/>
         <source>%1 not exist</source>
-        <translation>%1 وجود ندارد</translation>
+        <translation>%1 non existe</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="205"/>
         <location filename="../src/corelib/clonejob.cpp" line="232"/>
         <source>%1 invalid or not exist</source>
-        <translation>%1 نامعتبر است یا وجود ندارد</translation>
+        <translation>%1 non válido ou non existe</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="217"/>
         <source>Disk only can be cloned to disk</source>
-        <translation>دیسک تنها می تواند به دیسک کپی شود</translation>
+        <translation>O disco só pode ser clonado a disco</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="238"/>
         <source>%1 total capacity is less than maximum readable data on %2</source>
-        <translation>ظرفیت کل %1 کمتر از حداکثر اطلاعات قابل خواندن در %2 است</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="252"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
-        <translation>در تغییر اندازه %1 ناتوانید، لطفا فضای آزاد روی دیسک هدف را بررسی کنید</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -39,97 +39,97 @@
         <location filename="../src/widgets/mainwindow.cpp" line="257"/>
         <location filename="../src/widgets/mainwindow.cpp" line="611"/>
         <source>Cancel</source>
-        <translation>لغو</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="349"/>
         <source>Select Operation</source>
-        <translation>عملیات را انتخاب کنید</translation>
+        <translation>Seleccionar operación</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="350"/>
         <source>Next</source>
-        <translation>بعدی</translation>
+        <translation>Seguinte</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="374"/>
         <location filename="../src/widgets/mainwindow.cpp" line="827"/>
         <source>Backup</source>
-        <translation>پشتیبان گیری</translation>
+        <translation>Copiar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="376"/>
         <location filename="../src/widgets/mainwindow.cpp" line="829"/>
         <source>Clone</source>
-        <translation>شبیه سازی</translation>
+        <translation>Clonar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="379"/>
         <location filename="../src/widgets/mainwindow.cpp" line="386"/>
         <source>Target disk will be permanently overwritten, please confirm to continue</source>
-        <translation>دیسک هدف دائمی بازنویسی خواهد شد، لطفا تایید کنید تا ادامه یابد</translation>
+        <translation>O disco de destino sobrescribirase permanentemente, por favor confirma para continuar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="381"/>
         <location filename="../src/widgets/mainwindow.cpp" line="388"/>
         <source>Target partition will be permanently overwritten, please confirm to continue</source>
-        <translation>پارتیشن هدف دائمی بازنویسی خواهد شد، لطفا برای ادامه تایید کنید</translation>
+        <translation>A partición de destino sobrescribirase permanentemente, por favor confirma para continuar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="383"/>
         <location filename="../src/widgets/mainwindow.cpp" line="831"/>
         <source>Restore</source>
-        <translation>بازیابی</translation>
+        <translation>Restaurar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="400"/>
         <source>Please move image file to other location outside the disk to avoid data loss</source>
-        <translation>برای جلوگیری از از دست رفتن اطلاعات، فایل فشرده را به محل دیگر خارج از دیسک منتقل کنید</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="402"/>
         <source>Please move image file to other location outside the partition to avoid data loss</source>
-        <translation>برای جلوگیری از از دست رفتن اطلاعات، فایل فشرده را به مکان دیگر خارج از پارتیشن انتقال دهید</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="415"/>
         <source>Storage location can not be in the disk to backup, please reselect</source>
-        <translation>محل ذخیره سازی در دیسک برای پشتیبان گیری نمی تواند باشد، لطفا مجددا انتخاب کنید</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="417"/>
         <source>Storage location can not be in the partition to backup, please reselect</source>
-        <translation>مکان ذخیره‌سازی نمی‌تواند در پارتیشنی باشد که از آن پشتیبان می‌گیرید، لطفا مجددا انتخاب کنید.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="436"/>
         <source>Not enough total capacity in target disk, please select another one</source>
-        <translation>در دیسک انتخاب شده، ظرفیت، به اندازه کافی، وجود ندارد. لطفا دیسک دیگری را انتخاب کنید.</translation>
+        <translation>Sen espazo abondo no disco de destino, por favor selecciona outro</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>Not enough total capacity in target partition, please select another one</source>
-        <translation>در پارتیشن انتخاب شده، ظرفیت، به اندازه کافی، وجود ندارد. لطفا دیسک دیگری را انتخاب کنید.</translation>
+        <translation>Sen espazo abondo na partición de destino, por favor selecciona outra</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>Not enough total capacity, please select another disk</source>
-        <translation>ظرفیت، به اندازه کافی، وجود ندارد. لطفا دیسک دیگری را انتخاب کنید.</translation>
+        <translation>Sen capacidade abondo, por favor selecciona outro disco</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
-        <translation>شبیه سازی را ادامه می‌دهید؟</translation>
+        <translation>Continuar coa clonación?</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
-        <translation>تمام اطلاعات، در پارتیشن انتخاب شده، در طی شبیه سازی یا بازیابی اطلاعات دیسک (پارتیشن)، حذف خواهند شد و گزینه ای برای انصراف وجود نخواهد داشت.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="495"/>
         <source>Warning</source>
-        <translation>هشدار</translation>
+        <translation>Atención</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="496"/>
@@ -137,130 +137,130 @@
         <location filename="../src/widgets/mainwindow.cpp" line="654"/>
         <location filename="../src/widgets/mainwindow.cpp" line="778"/>
         <source>OK</source>
-        <translation>خب</translation>
+        <translation>Aceptar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="512"/>
         <location filename="../src/widgets/mainwindow.cpp" line="593"/>
         <source>The selected storage location not found</source>
-        <translation>مکان ذخیره سازی انتخاب شده، یافت نشد!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="727"/>
         <source>Failed to restart system</source>
-        <translation>ری‌استارت کردن سیستم، شکست خورد!</translation>
+        <translation>Produciuse un erro ao restaurar o sistema</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="760"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
-        <translation>ری‌استارت کردن «بازیابی کننده‌ی دیپین» شکست خورد.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="542"/>
         <source>Restart to Continue</source>
-        <translation>برای ادامه، ری‌استارت کنید.</translation>
+        <translation>Restaurar para continuar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="253"/>
         <source>Restore boot</source>
-        <translation>بازگردانی بوت</translation>
+        <translation>Restaurar arranque</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
         <location filename="../src/widgets/mainwindow.cpp" line="581"/>
         <source>%1 not exist</source>
-        <translation>%1 موجود نیست.</translation>
+        <translation>%1 non existe</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="545"/>
         <source>&quot;%1&quot; is used, please restart and enter &quot;Deepin Recovery&quot; to continue</source>
-        <translation>&quot;%1&quot; در حال استفاده است، لطفا ری‌استارت کنید و وارد «بازیابی کننده‌ی دیپین» شوید تا ادامه دهید!</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="550"/>
         <source>&quot;%1&quot; is used, please install &quot;Deepin Recovery&quot; to retry</source>
-        <translation>&quot;%1&quot; در حال استفاده است، لطفا «بازیابی کننده‌ی دیپین» را نصب کنید و مجددا امتحان کنید.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="605"/>
         <source>Performing Backup</source>
-        <translation>در حال پشتیبان گیری</translation>
+        <translation>Realizando copia</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="607"/>
         <source>Cloning</source>
-        <translation>در حال شبیه سازی</translation>
+        <translation>Clonando</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="609"/>
         <source>Restoring</source>
-        <translation>در حال بازیابی</translation>
+        <translation>Restaurando</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="625"/>
         <source>Backup Failed</source>
-        <translation>پشتیبان گیری شکست خورد</translation>
+        <translation>Produciuse un erro ao copiar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="631"/>
         <source>Clone Failed</source>
-        <translation>شبیه سازی شکت خورد.</translation>
+        <translation>Produciuse un erro ao clonar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="633"/>
         <source>Restore Failed</source>
-        <translation>بازیابی شکست خورد.</translation>
+        <translation>Produciuse un erro ao restaurar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="638"/>
         <source>Retry</source>
-        <translation>امتحان مجدد</translation>
+        <translation>Tentar de novo</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="641"/>
         <source>Task done</source>
-        <translation>کار، انجام شد.</translation>
+        <translation>Tarefa realizada</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="644"/>
         <source>Backup Succeeded</source>
-        <translation>پشتیبان گیری موفقیت‌آمیز بود.</translation>
+        <translation>Copia realizada con éxito</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="645"/>
         <source>View Backup File</source>
-        <translation>نشان دادن فایل پشتیبان</translation>
+        <translation>Ver ficheiro de copia</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="653"/>
         <source>Clone Succeeded</source>
-        <translation>شبیه سازی موفقیت‌آمیز بود.</translation>
+        <translation>Clonación realizada con éxito</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="657"/>
         <source>Restore Succeeded</source>
-        <translation>بازیابی، موفقیت‌آمیز بود.</translation>
+        <translation>Restauración realizada con éxito</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="658"/>
         <source>Restart</source>
-        <translation>شروع مجدد</translation>
+        <translation>Restaurar</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="785"/>
         <location filename="../src/widgets/mainwindow.cpp" line="803"/>
         <source>Loading</source>
-        <translation>در حال بارگذاری</translation>
+        <translation>Cargando</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="843"/>
         <source>Disk</source>
-        <translation>دیسک</translation>
+        <translation>Disco</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="845"/>
         <source>Partition</source>
-        <translation>پارتیشن</translation>
+        <translation>Partición</translation>
     </message>
 </context>
 <context>
@@ -268,78 +268,78 @@
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="247"/>
         <source>process &quot;%1 %2&quot; crashed</source>
-        <translation>فرایند &quot;%1 %2&quot; شکست خورد.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="249"/>
         <source>Failed to perform process &quot;%1 %2&quot;, error: %3</source>
-        <translation>در انجام دادن فرایند &quot;%1 %2&quot;، شکست خورد، خطا: %3</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="256"/>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="271"/>
         <source>&quot;%1&quot; is not a disk device</source>
-        <translation>&quot;%1&quot; یک دستگاه دیسک، نیست.</translation>
+        <translation>&quot;%1&quot; non é un dispositivo de disco</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="298"/>
         <source>&quot;%1&quot; is busy</source>
-        <translation>&quot;%1&quot; مشغول است.</translation>
+        <translation>&quot;%1&quot; está ocupado</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="325"/>
         <source>Failed to start &quot;%1 %2&quot;, error: %3</source>
-        <translation>شروع کردن &quot;%1 %2&quot; شکست خورد، خطا: %3</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="336"/>
         <source>Failed to open process, error: %1</source>
-        <translation>باز کردن فرایند شکست خورد، خطا: %1</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/dfilediskinfo.cpp" line="178"/>
         <source>Failed to open file(%1), error: %2</source>
-        <translation>باز کردن فایل (%1) شکست خورد، خطا: %2</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="199"/>
         <source>%1 d %2 h %3 m</source>
-        <translation>%1 روز %2 ساعت %3 دقیقه</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="202"/>
         <source>%1 h %2 m</source>
-        <translation>%1 ساعت %2 دقیقه</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="205"/>
         <source>%1 m</source>
-        <translation>%1 دقیقه</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="207"/>
         <source>%1 s</source>
-        <translation>%1 ثانیه</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/main.cpp" line="147"/>
         <source>Deepin Clone</source>
-        <translation>شبیه ساز دیپین</translation>
+        <translation>Deepin Clone</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="148"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation>شبیه ساز دیپین، ابزاریست برای پشتیبان گیری و بازیابی در دیپین. این برنامه از شبیه سازی، پشتیبان گیری و بازیابی اطلاعات از دیسک یا پارتیشن و اعمالی دیگر، پشتیبانی می‌کند.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="74"/>
         <source>Partition &quot;%1&quot; not found</source>
-        <translation>پارتیشن &quot;%1&quot; یافت نشد.</translation>
+        <translation>Partición &quot;%1&quot; non atopada</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="76"/>
         <source>Disk &quot;%1&quot; not found</source>
-        <translation>دیسک &quot;%1&quot; یافت نشد.</translation>
+        <translation>Disco &quot;%1&quot; non atopada</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
@@ -347,32 +347,32 @@
         <location filename="../src/fixboot/bootdoctor.cpp" line="158"/>
         <location filename="../src/widgets/mainwindow.cpp" line="101"/>
         <source>Failed to mount partition &quot;%1&quot;</source>
-        <translation>قادر به مانت کردن پارتیشن &quot;%1&quot; نیست.</translation>
+        <translation>Fallo ao montar a partición &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
         <source>EFI partition not found</source>
-        <translation>پارتیشن EFI یافت نشد.</translation>
+        <translation>Partición EFI non atopada</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
         <source>Unknown partition table format</source>
-        <translation>فرمت جدول پارتیشن، ناشناخته است.</translation>
+        <translation>Formato da táboa de particións descoñecido</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
         <source>Boot for install system failed</source>
-        <translation>بوت کردن برای نصب سیستم، شکست خورد.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for update system failed</source>
-        <translation>بوت کردن برای بروزرسانی سیستم، شکست خورد.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
         <source>Boot for repair system failed</source>
-        <translation>بوت کردن برای تعمیر سیستم، شکست خورد.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -380,82 +380,82 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="75"/>
         <source>Select media</source>
-        <translation>رسانه را انتخاب کنید.</translation>
+        <translation>Seleccionar medio</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="76"/>
         <source>Select operation for media</source>
-        <translation>عملی را که قرار است روی رسانه انجام شود، انتخاب کنید.</translation>
+        <translation>Seleccionar operación para o medio</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="85"/>
         <source>Disk</source>
-        <translation>دیسک</translation>
+        <translation>Disco</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="94"/>
         <source>Partition</source>
-        <translation>پارتیشن</translation>
+        <translation>Partición</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone Disk</source>
-        <translation>شبیه سازی دیسک</translation>
+        <translation>Clonar disco</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone source disk to target disk</source>
-        <translation>شبیه سازی دیسک مبدا به دیسک مقصد</translation>
+        <translation>Clonar o disco orixe no disco destino</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Disk to Image</source>
-        <translation>دیسک به ایمیج فایل</translation>
+        <translation>Disco a imaxe</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to a image file</source>
-        <translation>پشتیبان گیری از اطلاعات دیسک در یک ایمیج فایل</translation>
+        <translation>Copiar datos do disco a un ficheiro de imaxe</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
         <source>Image to Disk</source>
-        <translation>ایمیج فایل به دیسک</translation>
+        <translation>Imaxe a disco</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
         <source>Restore image file to disk</source>
-        <translation>بازیابی ایمیج فایل در دیسک</translation>
+        <translation>Restaurar o ficheiro de imaxe no disco</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone Partition</source>
-        <translation>شبیه سازی پارتیشن</translation>
+        <translation>Clonar partición</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone source partition to target partition</source>
-        <translation>شبیه سازی پارتیشن مبدا به پارتیشن مقصد</translation>
+        <translation>Clonar a partición orixe na partición de destino</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Partition to Image</source>
-        <translation>پارتیشن به ایمیج فایل</translation>
+        <translation>Partición a imaxe</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to a image file</source>
-        <translation>پشتیبان گیری از اطلاعات در ایمیج فایل</translation>
+        <translation>Copiar datos da partición a un ficheiro de imaxe</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
         <source>Image to Partition</source>
-        <translation>ایمیج فایل به پارتیشن</translation>
+        <translation>Imaxe a partición</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
         <source>Restore image file to partition</source>
-        <translation>بازیابی اطلاعات ایمیج فایل به پارتیشن</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -463,52 +463,52 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="243"/>
         <source>Select the source disk</source>
-        <translation>دیسک مبدا را انتخاب کنید.</translation>
+        <translation>Seleccionar o disco orixe</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="244"/>
         <source>Select the target disk</source>
-        <translation>دیسک مقصد را انتخاب کنید.</translation>
+        <translation>Seleccionar o disco destino</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="258"/>
         <source>Select the source partition</source>
-        <translation>پارتیشن مبدا را انتخاب کنید.</translation>
+        <translation>Seleccionar a partición orixe</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="259"/>
         <source>Select the target partition</source>
-        <translation>پارتیشن مقصد را انتخاب کنید.</translation>
+        <translation>Seleccionar a partición destino</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="287"/>
         <source>Select a disk to backup</source>
-        <translation>دیسکی را برای پشتیبان گیری انتخاب کنید.</translation>
+        <translation>Seleccionar un disco a copiar</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="295"/>
         <source>Select a partition to backup</source>
-        <translation>پارتیشنی را برای پشتیبان گیری انتخاب کنید.</translation>
+        <translation>Seleccionar unha partición a copiar</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="304"/>
         <source>Select storage location</source>
-        <translation>فضای ذخیره سازی را انتخاب کنید.</translation>
+        <translation>Seleccionar a localización do almacenamento</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="330"/>
         <source>Select a backup image file</source>
-        <translation>یک فایل ایمیج مخصوص به پشتیبان گیری،‌انتخاب کنید.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="333"/>
         <source>Select a disk to restore</source>
-        <translation>یک دیسک برای بازیابی اطلاعات انتخاب کنید.</translation>
+        <translation>Seleccionar un disco a restaurar</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="335"/>
         <source>Select a partition to restore</source>
-        <translation>یک پارتیشن برای بازیابی اطلاعات انتخاب کنید.</translation>
+        <translation>Seleccionar unha partición a restaurar</translation>
     </message>
 </context>
 <context>
@@ -516,32 +516,32 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
         <source>Select storage location</source>
-        <translation>فضای ذخیره سازی را انتخاب کنید.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
         <source>Select image file</source>
-        <translation>ایمیج فایل را انتخاب کنید.</translation>
+        <translation>Seleccionar un ficheiro de imaxe</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="99"/>
         <source>Drag and drop backup image file here</source>
-        <translation>با موس، ایمیج مخصوص پشتیبان گیری را انتخاب کنید و در اینجا رها سازید.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="120"/>
         <source>Deepin Image File</source>
-        <translation>ایمیج فایل دیپین</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="186"/>
         <source>Reselect image file</source>
-        <translation>ایمیج فایل را مجددا انتخاب کنید.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="189"/>
         <source>Reselect storage location</source>
-        <translation>فضای ذخیره سازی را مجددا انتخاب کنید.</translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -549,22 +549,22 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="44"/>
         <source>Task is ongoing, please wait......</source>
-        <translation>انجام وظیفه در دست اقدام است، لطفا صبر نمایید......</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="61"/>
         <source>Progress: %1/%2</source>
-        <translation>میزان تکامل: %1/%2</translation>
+        <translation>Progreso: %1/%2</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
         <source>Remaining time: %1</source>
-        <translation>زمان باقیمانده: %1</translation>
+        <translation>Tempo restante: %1</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>
         <source>Repairing system boot, please wait......</source>
-        <translation>در حال تعمیر بوت سیستم، لطفا صبر کنید......</translation>
+        <translation>Reparando o arranque do sistema, por favor agarda...</translation>
     </message>
 </context>
 </TS>

@@ -13,6 +13,6 @@ Version=0.1
 
 
 # Translations
-Comment[bn]=ডিপিন ব্যাকআপ রিস্টোর টুল
-Icon[bn]=ডিপিন-ক্লোন
-Name[bn]=ডিপিন ক্লোন
+Comment[gl_ES]=Ferramenta de copia e restauración do Deepin
+Icon[gl_ES]=deepin-clone
+Name[gl_ES]=Deepin Clone
