@@ -11,9 +11,10 @@ source_lang = en
 type = QT
 
 [deepin-clone.desktop]
-source_file = app/deepin-clone.desktop
+file_filter = app/translations/desktop/desktop_<lang>.ts
+source_file = app/translations/desktop/desktop.ts
 source_lang = en
-type = DESKTOP
+type = QT
 
 [deepin-clone.policy]
 file_filter = app/translations/policy_<lang>.ts
