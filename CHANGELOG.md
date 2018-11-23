@@ -1,3 +1,17 @@
+<a name="0.1.2"></a>
+### 0.1.2 (2018-11-23)
+
+
+#### Bug Fixes
+
+*   not upload ts file ([cd981ea9](https://github.com/linuxdeepin/deepin-clone/commit/cd981ea9b7f15461fdeadd666aa91de82f0f57ea))
+
+#### Features
+
+*   add generic name for desktop file ([90871391](https://github.com/linuxdeepin/deepin-clone/commit/9087139142075573ca6e11d402f5a9a7ed7010cb))
+
+
+
 <a name="0.1.1"></a>
 ## 0.1.1 (2018-10-25)
 
