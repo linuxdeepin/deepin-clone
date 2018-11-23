@@ -10,7 +10,7 @@ source_file = app/translations/deepin-clone.ts
 source_lang = en
 type = QT
 
-[deepin-clone.desktop]
+[deepin-clone.deepin-clone-desktop]
 file_filter = app/translations/desktop/desktop_<lang>.ts
 source_file = app/translations/desktop/desktop.ts
 source_lang = en
