@@ -2,33 +2,33 @@
 <context>
     <name>CloneJob</name>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="144"/>
+        <location filename="../src/corelib/clonejob.cpp" line="146"/>
         <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
         <translation>%1 üzerine veri yazılamadı, %2 bayt veri yazılması gerekirken %3 bayt yazıldı, hata: %4</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="191"/>
+        <location filename="../src/corelib/clonejob.cpp" line="193"/>
         <source>%1 not exist</source>
         <translation>%1 bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="205"/>
-        <location filename="../src/corelib/clonejob.cpp" line="232"/>
+        <location filename="../src/corelib/clonejob.cpp" line="207"/>
+        <location filename="../src/corelib/clonejob.cpp" line="235"/>
         <source>%1 invalid or not exist</source>
         <translation>%1 geçersiz ya da bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="217"/>
+        <location filename="../src/corelib/clonejob.cpp" line="219"/>
         <source>Disk only can be cloned to disk</source>
         <translation>Bir disk yalnız başka bir diske kopyalanabilir</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="238"/>
+        <location filename="../src/corelib/clonejob.cpp" line="241"/>
         <source>%1 total capacity is less than maximum readable data on %2</source>
         <translation>%1 toplam kapasitesi, %2 üzerinden okunabilecek en fazla veri miktarından daha küçük</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="252"/>
+        <location filename="../src/corelib/clonejob.cpp" line="255"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
         <translation>%1 boyutu değiştirilemedi, lütfen hedef diskte boş alan olup olmadığını denetleyin.</translation>
     </message>
@@ -36,229 +36,229 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="257"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="611"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="220"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="592"/>
         <source>Cancel</source>
         <translation>İptal</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="349"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="326"/>
         <source>Select Operation</source>
         <translation>İşlemi Seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="350"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="327"/>
         <source>Next</source>
         <translation>Sonraki</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="374"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="827"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="351"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="816"/>
         <source>Backup</source>
         <translation>Yedekle</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="376"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="829"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="353"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="818"/>
         <source>Clone</source>
         <translation>Kopyala</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="379"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="386"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="356"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="363"/>
         <source>Target disk will be permanently overwritten, please confirm to continue</source>
         <translation>Hedef diskin üzerine kalıcı olarak yazılacak lütfen devam etmek için onaylayın</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="381"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="388"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="358"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="365"/>
         <source>Target partition will be permanently overwritten, please confirm to continue</source>
         <translation>Hedef bölümün üzerine kalıcı olarak yazılacak, lütfen devam etmek için onaylayın</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="383"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="831"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="360"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="820"/>
         <source>Restore</source>
         <translation>Geri Yükle</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="400"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="377"/>
         <source>Please move image file to other location outside the disk to avoid data loss</source>
         <translation>Lütfen veri kaybını önlemek için kalıp dosyasını diskin dışında başka bir konuma taşıyın</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="402"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="379"/>
         <source>Please move image file to other location outside the partition to avoid data loss</source>
         <translation>Lütfen, veri kaybını önlemek için kalıp dosyasını bölüm dışında başka bir yere taşıyın</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="415"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="392"/>
         <source>Storage location can not be in the disk to backup, please reselect</source>
         <translation>Depolama konumu yedeklenecek disk üzerinde olamaz, lütfen yeniden seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="417"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="394"/>
         <source>Storage location can not be in the partition to backup, please reselect</source>
         <translation>Depolama konumu yedeklenecek bölüm üzerinde olamaz, lütfen yeniden seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="413"/>
         <source>Not enough total capacity in target disk, please select another one</source>
         <translation>Hedef diskin toplam kapasitesi yetersiz, lütfen başka bir disk seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="415"/>
         <source>Not enough total capacity in target partition, please select another one</source>
         <translation>Hedef bölümün toplam kapasitesi yetersiz, lütfen başka bir disk seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="440"/>
         <source>Not enough total capacity, please select another disk</source>
         <translation>Toplam kapasite yetersiz, lütfen başka bir disk seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="492"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="469"/>
         <source>Proceed to clone?</source>
         <translation>Kopyalama başlatılsın mı?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="493"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="470"/>
         <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
         <translation>Disk (bölüm) kopyalama ya da geri yükleme sırasında hedef konum biçimlendirilir ve tüm veriler silinir. Bu işlem başlatıldıktan sonra iptal edilemez.</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="495"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="472"/>
         <source>Warning</source>
         <translation>Uyarı</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="496"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="547"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="654"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="778"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="473"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="524"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="642"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="767"/>
         <source>OK</source>
         <translation>Tamam</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="512"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="593"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="489"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="570"/>
         <source>The selected storage location not found</source>
         <translation>Seçilmiş depolama konumu bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="727"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="715"/>
         <source>Failed to restart system</source>
         <translation>Sistem yeniden başlatılamadı</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="760"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="749"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
         <translation>&quot;Deepin Kurtarma&quot; yeniden başlatamadı</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="542"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="519"/>
         <source>Restart to Continue</source>
         <translation>Devam Etmek İçin Yeniden Başlatın</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="253"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="216"/>
         <source>Restore boot</source>
         <translation>Ön yüklemeyi geri yükle</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="526"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="581"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="503"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="558"/>
         <source>%1 not exist</source>
         <translation>%1 bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="545"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="522"/>
         <source>&quot;%1&quot; is used, please restart and enter &quot;Deepin Recovery&quot; to continue</source>
         <translation>&quot;%1&quot; kullanıldı, lütfen yeniden başlatın ve devam etmek için &quot;Deepin Kurtarma&quot; uygulamasını yükleyin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="550"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="527"/>
         <source>&quot;%1&quot; is used, please install &quot;Deepin Recovery&quot; to retry</source>
         <translation>&quot;%1&quot; kullanıldı, lütfen yeniden denemek için &quot;Deepin Kurtarma&quot; uygulamasını yükleyin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="605"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="586"/>
         <source>Performing Backup</source>
         <translation>Yedekleniyor</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="607"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="588"/>
         <source>Cloning</source>
         <translation>Kopyalanıyor</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="609"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="590"/>
         <source>Restoring</source>
         <translation>Geri Yükleniyor</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="625"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="606"/>
         <source>Backup Failed</source>
         <translation>Yedeklenemedi</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="631"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="612"/>
         <source>Clone Failed</source>
         <translation>Kopyalanamadı</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="633"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="614"/>
         <source>Restore Failed</source>
         <translation>Geri Yüklenemedi</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="638"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="619"/>
         <source>Retry</source>
         <translation>Yeniden Dene</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="641"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="629"/>
         <source>Task done</source>
         <translation>Görev tamamlandı</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="644"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="632"/>
         <source>Backup Succeeded</source>
         <translation>Yedekleme Tamamlandı</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="645"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="633"/>
         <source>View Backup File</source>
         <translation>Yedekleme Dosyasını Görüntüle</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="653"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="641"/>
         <source>Clone Succeeded</source>
         <translation>Kopyalama Tamamlandı</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="657"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="645"/>
         <source>Restore Succeeded</source>
         <translation>Geri Yükleme Tamamlandı</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="658"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="646"/>
         <source>Restart</source>
         <translation>Yeniden Başlat</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="785"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="803"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="774"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="792"/>
         <source>Loading</source>
         <translation>Yükleniyor</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="843"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="832"/>
         <source>Disk</source>
         <translation>Disk</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="845"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="834"/>
         <source>Partition</source>
         <translation>Bölüm</translation>
     </message>
@@ -302,75 +302,75 @@
         <translation>Dosya (%1) açılamadı, hata: %2</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="199"/>
+        <location filename="../src/corelib/helper.cpp" line="200"/>
         <source>%1 d %2 h %3 m</source>
         <translation>%1 g %2 s %3 d</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="202"/>
+        <location filename="../src/corelib/helper.cpp" line="203"/>
         <source>%1 h %2 m</source>
         <translation>%1 s %2 d</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="205"/>
+        <location filename="../src/corelib/helper.cpp" line="206"/>
         <source>%1 m</source>
         <translation>%1 d</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="207"/>
+        <location filename="../src/corelib/helper.cpp" line="208"/>
         <source>%1 s</source>
         <translation>%1 sn</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="147"/>
+        <location filename="../src/main.cpp" line="152"/>
         <source>Deepin Clone</source>
         <translation>Deepin Kopyalayıcı</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="148"/>
+        <location filename="../src/main.cpp" line="153"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
         <translation>Deepin Kopyalayıcı, Deepin içinde bulunan bir yedekleme ve geri yükleme aracıdır. Disk ya da bölümleri kopyalama, yedekleme ve geri yükleme gibi işlemler yapılmasını sağlar.</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="74"/>
+        <location filename="../src/corelib/helper.cpp" line="882"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>&quot;%1&quot; bölümü bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="76"/>
+        <location filename="../src/corelib/helper.cpp" line="884"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>&quot;%1&quot; diski bulunamadı</translation>
     </message>
     <message>
+        <location filename="../src/corelib/helper.cpp" line="909"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="158"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="101"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
         <source>Failed to mount partition &quot;%1&quot;</source>
         <translation>&quot;%1&quot; bölümü bağlanamadı</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="173"/>
         <source>EFI partition not found</source>
         <translation>EFI bölümü bulunamadı</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
         <source>Unknown partition table format</source>
         <translation>Bölümleme tablosu biçimi bilinmiyor</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for install system failed</source>
         <translation>Sistem kurulum için başlatılamadı</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="202"/>
         <source>Boot for update system failed</source>
         <translation>Sistem güncelleme için başlatılamadı</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="266"/>
         <source>Boot for repair system failed</source>
         <translation>Sistem onarım için başlatılamadı</translation>
     </message>
@@ -461,52 +461,52 @@
 <context>
     <name>SelectFilePage</name>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="243"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="322"/>
         <source>Select the source disk</source>
         <translation>Kaynak diski seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="244"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="323"/>
         <source>Select the target disk</source>
         <translation>Hedef diski seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="258"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="337"/>
         <source>Select the source partition</source>
         <translation>Kaynak bölümü seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="259"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="338"/>
         <source>Select the target partition</source>
         <translation>Hedef bölümü seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="287"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="366"/>
         <source>Select a disk to backup</source>
         <translation>Yedeklenecek diski seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="295"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="374"/>
         <source>Select a partition to backup</source>
         <translation>Yedeklenecek bir bölüm seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="304"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="383"/>
         <source>Select storage location</source>
         <translation>Depolama konumunu seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="330"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="409"/>
         <source>Select a backup image file</source>
         <translation>Bir yedek kalıbı dosyası seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="333"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="412"/>
         <source>Select a disk to restore</source>
         <translation>Geri yüklenecek diski seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="335"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="414"/>
         <source>Select a partition to restore</source>
         <translation>Geri yüklenecek bir bölüm seçin</translation>
     </message>
@@ -514,32 +514,33 @@
 <context>
     <name>SelectFileWidget</name>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select storage location</source>
         <translation>Depolama konumunu seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select image file</source>
         <translation>Kalıp dosyası seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="99"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
         <source>Drag and drop backup image file here</source>
         <translation>Yedek kalıp dosyasını sürükleyip buraya bırakın</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="120"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
         <translation>Deepin Kalıp Dosyası</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="186"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
         <translation>Kalıp dosyasını yeniden seçin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="189"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
         <source>Reselect storage location</source>
         <translation>Depolama konumunu yeniden seçin</translation>
     </message>

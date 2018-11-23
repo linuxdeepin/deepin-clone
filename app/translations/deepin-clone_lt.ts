@@ -2,33 +2,33 @@
 <context>
     <name>CloneJob</name>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="144"/>
+        <location filename="../src/corelib/clonejob.cpp" line="146"/>
         <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
         <translation>Duomenų įrašymas į %1 nepavyko, turėjo būti įrašyta %2 baitų duomenų, tačiau iš tiesų, buvo įrašyta %3, klaida: %4</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="191"/>
+        <location filename="../src/corelib/clonejob.cpp" line="193"/>
         <source>%1 not exist</source>
         <translation>%1 nėra</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="205"/>
-        <location filename="../src/corelib/clonejob.cpp" line="232"/>
+        <location filename="../src/corelib/clonejob.cpp" line="207"/>
+        <location filename="../src/corelib/clonejob.cpp" line="235"/>
         <source>%1 invalid or not exist</source>
         <translation>%1 neteisingas arba nėra</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="217"/>
+        <location filename="../src/corelib/clonejob.cpp" line="219"/>
         <source>Disk only can be cloned to disk</source>
         <translation>Diskas gali būti nukopijuotas tik į diską</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="238"/>
+        <location filename="../src/corelib/clonejob.cpp" line="241"/>
         <source>%1 total capacity is less than maximum readable data on %2</source>
         <translation>%1 talpa yra mažesnė už didžiausius perskaitomus %2 duomenis</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="252"/>
+        <location filename="../src/corelib/clonejob.cpp" line="255"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
         <translation>Nepavyko pakeisti %1 dydžio, patikrinkite ar yra laisvos vietos paskirties diske</translation>
     </message>
@@ -36,229 +36,229 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="257"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="611"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="220"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="592"/>
         <source>Cancel</source>
         <translation>Atsisakyti</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="349"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="326"/>
         <source>Select Operation</source>
         <translation>Pasirinkite operaciją</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="350"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="327"/>
         <source>Next</source>
         <translation>Kitas</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="374"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="827"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="351"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="816"/>
         <source>Backup</source>
         <translation>Daryti atsarginę kopiją</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="376"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="829"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="353"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="818"/>
         <source>Clone</source>
         <translation>Kopijuoti</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="379"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="386"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="356"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="363"/>
         <source>Target disk will be permanently overwritten, please confirm to continue</source>
         <translation>Paskirties diskas bus perrašytas visiems laikams, norėdami tęsti, patvirtinkite</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="381"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="388"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="358"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="365"/>
         <source>Target partition will be permanently overwritten, please confirm to continue</source>
         <translation>Paskirties skaidinys bus perrašytas visiems laikams, norėdami tęsti, patvirtinkite</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="383"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="831"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="360"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="820"/>
         <source>Restore</source>
         <translation>Atkurti</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="400"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="377"/>
         <source>Please move image file to other location outside the disk to avoid data loss</source>
         <translation>Norėdami išvengti duomenų praradimo, perkelkite atvaizdžio failą į kitą, už disko ribų, esančią vietą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="402"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="379"/>
         <source>Please move image file to other location outside the partition to avoid data loss</source>
         <translation>Norėdami išvengti duomenų praradimo, perkelkite atvaizdžio failą į kitą, už skaidinio ribų, esančią vietą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="415"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="392"/>
         <source>Storage location can not be in the disk to backup, please reselect</source>
         <translation>Saugyklos vieta negali būti diske, kurio atsarginę kopiją ketinate daryti, prašome pasirinkti iš naujo</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="417"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="394"/>
         <source>Storage location can not be in the partition to backup, please reselect</source>
         <translation>Saugyklos vieta negali būti skaidinyje, kurio atsarginę kopiją ketinate daryti, prašome pasirinkti iš naujo</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="413"/>
         <source>Not enough total capacity in target disk, please select another one</source>
         <translation>Paskirties diske neužtenka bendros talpos, prašome pasirinkti kitą diską</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="415"/>
         <source>Not enough total capacity in target partition, please select another one</source>
         <translation>Paskirties skaidinyje neužtenka bendros talpos, prašome pasirinkti kitą skaidinį</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="440"/>
         <source>Not enough total capacity, please select another disk</source>
         <translation>Neužtenka bendros talpos, prašome pasirinkti kitą diską</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="492"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="469"/>
         <source>Proceed to clone?</source>
         <translation>Tęsti kopijavimą?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="493"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="470"/>
         <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
         <translation>Visi paskirties vietoje esantys duomenys disko (skaidinio) kopijavimo ar atkūrimo metu bus formatuoti be galimybės atsisakyti šio veiksmo.</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="495"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="472"/>
         <source>Warning</source>
         <translation>Įspėjimas</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="496"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="547"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="654"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="778"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="473"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="524"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="642"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="767"/>
         <source>OK</source>
         <translation>Gerai</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="512"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="593"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="489"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="570"/>
         <source>The selected storage location not found</source>
         <translation>Pasirinkta saugykla nerasta</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="727"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="715"/>
         <source>Failed to restart system</source>
         <translation>Nepavyko paleisti sistemos iš naujo</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="760"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="749"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
         <translation>Nepavyko iš naujo paleisti &quot;Deepin atkūrimo&quot;</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="542"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="519"/>
         <source>Restart to Continue</source>
         <translation>Norėdami tęsti, paleiskite iš naujo</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="253"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="216"/>
         <source>Restore boot</source>
         <translation>Atkurti paleidimą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="526"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="581"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="503"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="558"/>
         <source>%1 not exist</source>
         <translation>%1 nėra</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="545"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="522"/>
         <source>&quot;%1&quot; is used, please restart and enter &quot;Deepin Recovery&quot; to continue</source>
         <translation>Yra naudojama &quot;%1&quot;, norėdami tęsti, paleiskite iš naujo ir paleiskite &quot;Deepin atkūrimas&quot;</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="550"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="527"/>
         <source>&quot;%1&quot; is used, please install &quot;Deepin Recovery&quot; to retry</source>
         <translation>Yra naudojama &quot;%1&quot;, norėdami bandyti dar kartą, įdiekite &quot;Deepin atkūrimas&quot;</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="605"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="586"/>
         <source>Performing Backup</source>
         <translation>Daroma atsarginė kopija</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="607"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="588"/>
         <source>Cloning</source>
         <translation>Kopijuojama</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="609"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="590"/>
         <source>Restoring</source>
         <translation>Atkuriama</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="625"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="606"/>
         <source>Backup Failed</source>
         <translation>Atsarginė kopija nepavyko</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="631"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="612"/>
         <source>Clone Failed</source>
         <translation>Kopijavimas nepavyko</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="633"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="614"/>
         <source>Restore Failed</source>
         <translation>Atkūrimas nepavyko</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="638"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="619"/>
         <source>Retry</source>
         <translation>Bandyti dar kartą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="641"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="629"/>
         <source>Task done</source>
         <translation>Užduotis atlikta</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="644"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="632"/>
         <source>Backup Succeeded</source>
         <translation>Atsarginė kopija pavyko</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="645"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="633"/>
         <source>View Backup File</source>
         <translation>Rodyti atsarginės kopijos failą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="653"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="641"/>
         <source>Clone Succeeded</source>
         <translation>Kopijavimas pavyko</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="657"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="645"/>
         <source>Restore Succeeded</source>
         <translation>Atkūrimas pavyko</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="658"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="646"/>
         <source>Restart</source>
         <translation>Paleisti iš naujo</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="785"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="803"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="774"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="792"/>
         <source>Loading</source>
         <translation>Įkeliama</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="843"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="832"/>
         <source>Disk</source>
         <translation>Diskas</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="845"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="834"/>
         <source>Partition</source>
         <translation>Skaidinys</translation>
     </message>
@@ -302,75 +302,75 @@
         <translation>Nepavyko atverti failo (%1), klaida: %2</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="199"/>
+        <location filename="../src/corelib/helper.cpp" line="200"/>
         <source>%1 d %2 h %3 m</source>
         <translation>%1 d. %2 val. %3 min.</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="202"/>
+        <location filename="../src/corelib/helper.cpp" line="203"/>
         <source>%1 h %2 m</source>
         <translation>%1 val. %2 min.</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="205"/>
+        <location filename="../src/corelib/helper.cpp" line="206"/>
         <source>%1 m</source>
         <translation>%1 min.</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="207"/>
+        <location filename="../src/corelib/helper.cpp" line="208"/>
         <source>%1 s</source>
         <translation>%1 sek.</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="147"/>
+        <location filename="../src/main.cpp" line="152"/>
         <source>Deepin Clone</source>
         <translation>Deepin kopija</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="148"/>
+        <location filename="../src/main.cpp" line="153"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
         <translation>Deepin kopija yra įrankis skirtas atsarginės kopijos darymui ir atkūrimui deepin sistemoje. Jis palaiko disko ar skaidinio kopijavimą, atsarginės kopijos darymą ir atkūrimą bei kitas funkcijas.</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="74"/>
+        <location filename="../src/corelib/helper.cpp" line="882"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Skaidinys &quot;%1&quot; nerastas</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="76"/>
+        <location filename="../src/corelib/helper.cpp" line="884"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Diskas &quot;%1&quot; nerastas</translation>
     </message>
     <message>
+        <location filename="../src/corelib/helper.cpp" line="909"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="158"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="101"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
         <source>Failed to mount partition &quot;%1&quot;</source>
         <translation>Nepavyko prijungti skaidinio &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="173"/>
         <source>EFI partition not found</source>
         <translation>EFI skaidinys nerastas</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
         <source>Unknown partition table format</source>
         <translation>Nežinomas skaidinių lentelės formatas</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for install system failed</source>
         <translation>Įdiegtos sistemos paleidimas nepavyko</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="202"/>
         <source>Boot for update system failed</source>
         <translation>Atnaujintos sistemos paleidimas nepavyko</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="266"/>
         <source>Boot for repair system failed</source>
         <translation>Taisytos sistemos paleidimas nepavyko</translation>
     </message>
@@ -461,52 +461,52 @@
 <context>
     <name>SelectFilePage</name>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="243"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="322"/>
         <source>Select the source disk</source>
         <translation>Pasirinkite šaltinio diską</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="244"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="323"/>
         <source>Select the target disk</source>
         <translation>Pasirinkite paskirties diską</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="258"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="337"/>
         <source>Select the source partition</source>
         <translation>Pasirinkite šaltinio skaidinį</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="259"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="338"/>
         <source>Select the target partition</source>
         <translation>Pasirinkite paskirties skaidinį</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="287"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="366"/>
         <source>Select a disk to backup</source>
         <translation>Pasirinkite diską, kurio atsarginę kopiją darysite</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="295"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="374"/>
         <source>Select a partition to backup</source>
         <translation>Pasirinkite skaidinį, kurio atsarginę kopiją darysite</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="304"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="383"/>
         <source>Select storage location</source>
         <translation>Pasirinkite saugyklos vietą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="330"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="409"/>
         <source>Select a backup image file</source>
         <translation>Pasirinkite atsarginės kopijos atvaizdžio failą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="333"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="412"/>
         <source>Select a disk to restore</source>
         <translation>Pasirinkite diską, kurį atkurti</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="335"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="414"/>
         <source>Select a partition to restore</source>
         <translation>Pasirinkite skaidinį, kurį atkurti</translation>
     </message>
@@ -514,32 +514,33 @@
 <context>
     <name>SelectFileWidget</name>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select storage location</source>
         <translation>Pasirinkite saugyklos vietą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select image file</source>
         <translation>Pasirinkti atvaizdžio failą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="99"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
         <source>Drag and drop backup image file here</source>
         <translation>Vilkite čia atsarginės kopijos atvaizdžio failą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="120"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
         <translation>Deepin atvaizdžio failas</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="186"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
         <translation>Iš naujo pasirinkti atvaizdžio failą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="189"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
         <source>Reselect storage location</source>
         <translation>Iš naujo pasirinkite saugyklos vietą</translation>
     </message>

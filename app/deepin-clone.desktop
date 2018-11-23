@@ -3,13 +3,28 @@ Actions=new-window;
 Categories=Utility;
 Comment=Deepin Backup Restore Tool
 Exec=/usr/bin/deepin-clone-pkexec %u
+GenericName=Clone
 Icon=deepin-clone
 MimeType=application/x-deepinclone-dim;
 Name=Deepin Clone
-GenericName=Clone
-Name[zh_CN]=深度备份还原工具
 StartupNotify=true
 Terminal=false
 Type=Application
 Version=0.1
 X-Deepin-Vendor=deepin
+
+# Translations:
+# Do not manually modify!
+Comment[ca]=Eina de restauració de còpies de seguretat del Deepin
+Comment[de]=Deepin Backup Wiederherstellung Tool
+Comment[tr]=Deepin Yedekleme Geri Yükleme Aracı
+Comment[zh_CN]=深度备份还原工具
+GenericName[ca]=Clona
+GenericName[de]=Klonen
+GenericName[tr]=Kopyala
+GenericName[zh_CN]=备份还原工具
+Name[ca]=Clon del Deepin
+Name[de]=Deepin Klon
+Name[tr]=Deepin Klon
+Name[zh_CN]=深度备份还原工具
+
