@@ -490,7 +490,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         EndPage *page = new EndPage(EndPage::Warning);
 
         page->setTitle(tr("Proceed to clone?"));
-        page->setMessage(tr("All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation."));
+        page->setMessage(tr("All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process."));
         setContent(page);
         m_title->setTitle(tr("Warning"));
         m_bottomButton->setText(tr("OK"));
