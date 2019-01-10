@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
 #endif
 
     a->setApplicationName("deepin-clone");
-    a->setApplicationVersion("1.0.0");
+    a->setApplicationVersion(DApplication::buildVersion("1.0.0.1"));
     a->setOrganizationName("deepin");
 
     CommandLineParser parser;
