@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="zh_CN">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
 <context>
     <name>CloneJob</name>
     <message>
@@ -124,10 +122,6 @@
         <translation>您确定要继续吗？</translation>
     </message>
     <message>
-        <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
-        <translation type="vanished">克隆或还原磁盘（分区）会格式化目标位置的所有数据，且过程中不可取消。</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="495"/>
         <source>Warning</source>
         <translation>警告</translation>
@@ -169,7 +163,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process.</source>
-        <translation type="unfinished"></translation>
+        <translation>克隆或还原磁盘（分区）会格式化目标位置的所有数据，且过程中不可取消。</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -285,7 +279,7 @@
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="256"/>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="271"/>
         <source>&quot;%1&quot; is not a disk device</source>
-        <translation>“%1” 不是一个 磁盘设备</translation>
+        <translation>“%1” 不是一个磁盘设备</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="298"/>
@@ -421,16 +415,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to an image file</source>
-        <translation type="unfinished"></translation>
+        <translation>备份磁盘数据到一个镜像文件</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to an image file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Backup disk data to a image file</source>
-        <translation type="vanished">备份磁盘数据到一个镜像文件</translation>
+        <translation>备份分区数据到一个镜像文件</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -456,10 +446,6 @@
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Partition to Image</source>
         <translation>备份分区到镜像</translation>
-    </message>
-    <message>
-        <source>Backup partition data to a image file</source>
-        <translation type="vanished">备份分区数据到一个镜像文件</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>

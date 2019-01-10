@@ -15,12 +15,12 @@
         <location filename="../src/corelib/clonejob.cpp" line="207"/>
         <location filename="../src/corelib/clonejob.cpp" line="235"/>
         <source>%1 invalid or not exist</source>
-        <translation type="unfinished"/>
+        <translation>%1 nun ye válidu o nun esiste</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="219"/>
         <source>Disk only can be cloned to disk</source>
-        <translation type="unfinished"/>
+        <translation>El discu namái pue clonase a otru discu</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="241"/>
@@ -36,229 +36,229 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="220"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="592"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="243"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="615"/>
         <source>Cancel</source>
         <translation>Encaboxar</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="326"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="349"/>
         <source>Select Operation</source>
-        <translation>Esbillar operación</translation>
+        <translation>Esbilla d&apos;una operación</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="327"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="350"/>
         <source>Next</source>
         <translation>Siguiente</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="351"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="816"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="374"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="837"/>
         <source>Backup</source>
-        <translation type="unfinished"/>
+        <translation>Facer copia de seguranza</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="353"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="818"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="376"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="839"/>
         <source>Clone</source>
-        <translation type="unfinished"/>
+        <translation>Clonar</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="356"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="363"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="379"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="386"/>
         <source>Target disk will be permanently overwritten, please confirm to continue</source>
-        <translation>Va sobrescribise dafechu&apos;l discu de destín, confirma y sigui</translation>
+        <translation>El discu de destín va sobrescribise dafechu, confirma y sigui</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="358"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="365"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="381"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="388"/>
         <source>Target partition will be permanently overwritten, please confirm to continue</source>
-        <translation>Va sobrescribise dafechu la partición de destín, confirma y sigui</translation>
+        <translation>La partición de destín pa sobrescribise dafechu, confirma y sigui</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="360"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="820"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="383"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="841"/>
         <source>Restore</source>
         <translation>Restaurar</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="377"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="400"/>
         <source>Please move image file to other location outside the disk to avoid data loss</source>
-        <translation>Móvi&apos;l ficheru de la imaxe a otru allugamientu fuera del discu pa evitar una perda de datos, por favor</translation>
+        <translation>Móvi&apos;l ficheru de la imaxe a otru allugamientu fuera del discu pa evitar una perda de datos</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="379"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="402"/>
         <source>Please move image file to other location outside the partition to avoid data loss</source>
         <translation>Movi&apos;l ficheru de la imaxe a otru allugamientu fuera de la partición pa evitar una perda de datos</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="392"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="415"/>
         <source>Storage location can not be in the disk to backup, please reselect</source>
-        <translation type="unfinished"/>
+        <translation>L&apos;allugamientu del almacenamientu nun pue tar nel discu al que se-y va facer la copia de seguranza, esbilla otru</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="394"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="417"/>
         <source>Storage location can not be in the partition to backup, please reselect</source>
-        <translation type="unfinished"/>
+        <translation>L&apos;allugamientu del almacenamientu nun pue tar na partición a la que se-y va facer la copia de seguranza, esbilla otra</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="413"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
         <source>Not enough total capacity in target disk, please select another one</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="415"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>Not enough total capacity in target partition, please select another one</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="440"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>Not enough total capacity, please select another disk</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="469"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
-        <translation type="unfinished"/>
+        <translation>¿Siguir cola clonación?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="470"/>
-        <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="472"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="495"/>
         <source>Warning</source>
         <translation>Alvertencia</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="473"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="524"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="642"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="767"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="496"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="547"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="665"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="788"/>
         <source>OK</source>
         <translation>Aceutar</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="489"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="570"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="512"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="593"/>
         <source>The selected storage location not found</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="715"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="736"/>
         <source>Failed to restart system</source>
-        <translation type="unfinished"/>
+        <translation>Fallu al reaniciar el sistema</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="749"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="770"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Fallu al reaniciar Deepin Recovery</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="519"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="542"/>
         <source>Restart to Continue</source>
-        <translation type="unfinished"/>
+        <translation>Reaniciar pa siguir</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="216"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="239"/>
         <source>Restore boot</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="503"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="558"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="493"/>
+        <source>All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="526"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="581"/>
         <source>%1 not exist</source>
         <translation>%1 nun esiste</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="522"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="545"/>
         <source>&quot;%1&quot; is used, please restart and enter &quot;Deepin Recovery&quot; to continue</source>
-        <translation type="unfinished"/>
+        <translation>«%1» ta n&apos;usu, reanicia y arranca en Deepin Recovery pa siguir</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="527"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="550"/>
         <source>&quot;%1&quot; is used, please install &quot;Deepin Recovery&quot; to retry</source>
-        <translation type="unfinished"/>
+        <translation>«%1» ta n&apos;usu, instala Deepin Recovery pa retentalo</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="586"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="609"/>
         <source>Performing Backup</source>
-        <translation type="unfinished"/>
+        <translation>Fechura de la copia de seguranza</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="588"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="611"/>
         <source>Cloning</source>
-        <translation type="unfinished"/>
+        <translation>Clonación</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="590"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="613"/>
         <source>Restoring</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="606"/>
-        <source>Backup Failed</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="612"/>
-        <source>Clone Failed</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="614"/>
-        <source>Restore Failed</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="619"/>
-        <source>Retry</source>
-        <translation type="unfinished"/>
+        <translation>Restauración</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="629"/>
+        <source>Backup Failed</source>
+        <translation>Falló la copia de seguranza</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="635"/>
+        <source>Clone Failed</source>
+        <translation>Falló la clonación</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="637"/>
+        <source>Restore Failed</source>
+        <translation>Falló la restauración</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="642"/>
+        <source>Retry</source>
+        <translation>Retentar</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
         <source>Task done</source>
-        <translation type="unfinished"/>
+        <translation>Fízose la xera</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="632"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
-        <translation type="unfinished"/>
+        <translation>La copia de seguranza tuvo ésitu</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="633"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="656"/>
         <source>View Backup File</source>
-        <translation type="unfinished"/>
+        <translation>Ver el ficheru de la copia de seguranza</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="641"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
         <source>Clone Succeeded</source>
-        <translation type="unfinished"/>
+        <translation>La clonación tuvo ésitu</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="645"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
         <source>Restore Succeeded</source>
-        <translation type="unfinished"/>
+        <translation>La restauración tuvo ésitu</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="646"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="669"/>
         <source>Restart</source>
-        <translation type="unfinished"/>
+        <translation>Reaniciar</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="774"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="792"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="795"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="813"/>
         <source>Loading</source>
         <translation>Cargando</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="832"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="853"/>
         <source>Disk</source>
         <translation>Discu</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="834"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="855"/>
         <source>Partition</source>
         <translation>Partición</translation>
     </message>
@@ -268,58 +268,58 @@
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="247"/>
         <source>process &quot;%1 %2&quot; crashed</source>
-        <translation type="unfinished"/>
+        <translation>el procesu «%1 %2» cascó</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="249"/>
         <source>Failed to perform process &quot;%1 %2&quot;, error: %3</source>
-        <translation type="unfinished"/>
+        <translation>Fallu al facer el procesu «%1 %2», fallu: %3</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="256"/>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="271"/>
         <source>&quot;%1&quot; is not a disk device</source>
-        <translation type="unfinished"/>
+        <translation>«%1» nun ye un discu</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="298"/>
         <source>&quot;%1&quot; is busy</source>
-        <translation type="unfinished"/>
+        <translation>«%1» ta ocupáu</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="325"/>
         <source>Failed to start &quot;%1 %2&quot;, error: %3</source>
-        <translation type="unfinished"/>
+        <translation>Fallu al aniciar «%1 %2», fallu: %3</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="336"/>
         <source>Failed to open process, error: %1</source>
-        <translation type="unfinished"/>
+        <translation>Fallu al abrir el procesu, fallu %1</translation>
     </message>
     <message>
         <location filename="../src/corelib/dfilediskinfo.cpp" line="178"/>
         <source>Failed to open file(%1), error: %2</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/corelib/helper.cpp" line="200"/>
-        <source>%1 d %2 h %3 m</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/corelib/helper.cpp" line="203"/>
-        <source>%1 h %2 m</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/corelib/helper.cpp" line="206"/>
-        <source>%1 m</source>
-        <translation type="unfinished"/>
+        <translation>Fallu al abrir el ficheru (%1), fallu: %2</translation>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="208"/>
+        <source>%1 d %2 h %3 m</source>
+        <translation>%1 d %2 h %3 m</translation>
+    </message>
+    <message>
+        <location filename="../src/corelib/helper.cpp" line="211"/>
+        <source>%1 h %2 m</source>
+        <translation>%1 h %2 m</translation>
+    </message>
+    <message>
+        <location filename="../src/corelib/helper.cpp" line="214"/>
+        <source>%1 m</source>
+        <translation>%1 m</translation>
+    </message>
+    <message>
+        <location filename="../src/corelib/helper.cpp" line="216"/>
         <source>%1 s</source>
-        <translation type="unfinished"/>
+        <translation>%1 s</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="152"/>
@@ -332,17 +332,17 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="882"/>
+        <location filename="../src/corelib/helper.cpp" line="890"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Nun s&apos;alcontró la partición «%1»</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="884"/>
+        <location filename="../src/corelib/helper.cpp" line="892"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Nun s&apos;alcontró&apos;l discu «%1»</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="909"/>
+        <location filename="../src/corelib/helper.cpp" line="917"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
@@ -380,12 +380,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="75"/>
         <source>Select media</source>
-        <translation type="unfinished"/>
+        <translation>Esbilla&apos;l mediu</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="76"/>
         <source>Select operation for media</source>
-        <translation type="unfinished"/>
+        <translation>Esbilla la operación pal mediu</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="85"/>
@@ -400,12 +400,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone Disk</source>
-        <translation type="unfinished"/>
+        <translation>Clonación del discu </translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone source disk to target disk</source>
-        <translation type="unfinished"/>
+        <translation>Clona&apos;l discu d&apos;orixe nel de destín</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
@@ -414,7 +414,12 @@
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
-        <source>Backup disk data to a image file</source>
+        <source>Backup disk data to an image file</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
+        <source>Backup partition data to an image file</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -425,27 +430,22 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
         <source>Restore image file to disk</source>
-        <translation type="unfinished"/>
+        <translation>Restaura&apos;l ficheru de la imaxe nel discu</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone Partition</source>
-        <translation type="unfinished"/>
+        <translation>Clonación de la partición</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone source partition to target partition</source>
-        <translation type="unfinished"/>
+        <translation>Clona la partición d&apos;orixe na de destín</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Partition to Image</source>
         <translation>Partición a imaxe</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
-        <source>Backup partition data to a image file</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
@@ -455,7 +455,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
         <source>Restore image file to partition</source>
-        <translation type="unfinished"/>
+        <translation>Restaura&apos;l ficheru de la imaxe na partición</translation>
     </message>
 </context>
 <context>
@@ -473,27 +473,27 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="337"/>
         <source>Select the source partition</source>
-        <translation type="unfinished"/>
+        <translation>Esbilla la partición d&apos;orixe</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="338"/>
         <source>Select the target partition</source>
-        <translation type="unfinished"/>
+        <translation>Esbilla la partición de destín</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="366"/>
         <source>Select a disk to backup</source>
-        <translation type="unfinished"/>
+        <translation>Esbilla&apos;l discu al que-y facer la copia de seguranza</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="374"/>
         <source>Select a partition to backup</source>
-        <translation type="unfinished"/>
+        <translation>Esbilla la partición a la que-y facer la copia de seguranza</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="383"/>
         <source>Select storage location</source>
-        <translation type="unfinished"/>
+        <translation>Esbilla l&apos;allugamientu del almacenamientu</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="409"/>
@@ -503,12 +503,12 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="412"/>
         <source>Select a disk to restore</source>
-        <translation type="unfinished"/>
+        <translation>Esbilla&apos;l discu a restaurar</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="414"/>
         <source>Select a partition to restore</source>
-        <translation type="unfinished"/>
+        <translation>Esbilla la partición a restaurar</translation>
     </message>
 </context>
 <context>
@@ -516,7 +516,7 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select storage location</source>
-        <translation type="unfinished"/>
+        <translation>Esbilla l&apos;allugamientu del almacenamientu</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
@@ -526,23 +526,23 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
         <source>Drag and drop backup image file here</source>
-        <translation type="unfinished"/>
+        <translation>Arrastra y suelta equí&apos;l ficheru de la imaxe de la copia de seguranza</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
         <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
-        <translation type="unfinished"/>
+        <translation>Ficheru d&apos;imaxe de Deepin</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
-        <translation type="unfinished"/>
+        <translation>Esbillar otru ficheru d&apos;imaxe</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
         <source>Reselect storage location</source>
-        <translation type="unfinished"/>
+        <translation>Esbillar otru llugar d&apos;almacenamientu</translation>
     </message>
 </context>
 <context>
@@ -550,7 +550,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="44"/>
         <source>Task is ongoing, please wait......</source>
-        <translation>Xera en cursu, espera...</translation>
+        <translation>La xera ta en cursu, espera...</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="61"/>
