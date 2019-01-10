@@ -1,3 +1,13 @@
+<a name="1.1.0"></a>
+## 1.1.0 (2019-01-10)
+
+
+#### Bug Fixes
+
+*   "a image" to "an image" ([b9aae895](https://github.com/linuxdeepin/deepin-clone/commit/b9aae89576319419a73257f3f1bbfb02201519a3))
+
+
+
 <a name="0.1.2"></a>
 ### 0.1.2 (2018-11-23)
 
