@@ -273,6 +273,8 @@ QString Helper::getPartcloneExecuter(const DPartInfo &info)
         executor = "xfs";
         break;
     default:
+        if (!QStandardPaths::findExecutable("partclone." + info.fileSystemTypeName().toLower()).isEmpty())
+            executor = info.fileSystemTypeName().toLower();
         break;
     }
 
@@ -675,60 +677,18 @@ bool Helper::deviceHaveKinship(const QString &device1, const QString &device2)
 
 int Helper::clonePartition(const DPartInfo &part, const QString &to, bool override)
 {
-    QString executor;
-
-    switch (part.fileSystemType()) {
-    case DPartInfo::Invalid:
-        break;
-    case DPartInfo::Btrfs:
-        executor = "btrfs";
-        break;
-    case DPartInfo::EXT2:
-    case DPartInfo::EXT3:
-    case DPartInfo::EXT4:
-        executor = "extfs";
-        break;
-    case DPartInfo::F2FS:
-        executor = "f2fs";
-        break;
-    case DPartInfo::FAT12:
-    case DPartInfo::FAT16:
-    case DPartInfo::FAT32:
-        executor = "fat";
-        break;
-    case DPartInfo::HFS_Plus:
-        executor = "hfsplus";
-        break;
-    case DPartInfo::Minix:
-        executor = "minix";
-        break;
-    case DPartInfo::Nilfs2:
-        executor = "nilfs2";
-        break;
-    case DPartInfo::NTFS:
-        executor = "ntfs";
-        break;
-    case DPartInfo::Reiser4:
-        executor = "reiser4";
-        break;
-    case DPartInfo::VFAT:
-        executor = "vfat";
-        break;
-    default:
-        return -1;
-    }
-
+    QString executor = getPartcloneExecuter(part);
     QString command;
 
-    if (executor.isEmpty()) {
+    if (executor.isEmpty() || executor == "partclone.imager") {
         if (part.guidType() == DPartInfo::InvalidGUID)
             return -1;
 
         command = QStringLiteral("dd if=%1 of=%2 status=none conv=fsync").arg(part.filePath()).arg(to);
     } else if (isBlockSpecialFile(to)) {
-        command = QStringLiteral("/usr/sbin/partclone.%1 -b -c -s %2 -%3 %4").arg(executor).arg(part.filePath()).arg(override ? "O" : "o").arg(to);
+        command = QStringLiteral("/usr/sbin/%1 -b -c -s %2 -%3 %4").arg(executor).arg(part.filePath()).arg(override ? "O" : "o").arg(to);
     } else {
-        command = QStringLiteral("/usr/sbin/partclone.%1 -c -s %2 -%3 %4").arg(executor).arg(part.filePath()).arg(override ? "O" : "o").arg(to);
+        command = QStringLiteral("/usr/sbin/%1 -c -s %2 -%3 %4").arg(executor).arg(part.filePath()).arg(override ? "O" : "o").arg(to);
     }
 
     int code = processExec(command);
