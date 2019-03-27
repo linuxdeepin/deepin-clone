@@ -1,3 +1,17 @@
+<a name="1.1.1"></a>
+## 1.1.1 (2019-03-27)
+
+
+#### Bug Fixes
+
+*   can not open dim file by application desktop ([d849cd49](https://github.com/linuxdeepin/deepin-clone/commit/d849cd49cd5d365e41ee08ee3798318f7b9d97c0))
+
+#### Features
+
+*   support other file systems, if the executable file corresponding to partclone exists ([12a29530](https://github.com/linuxdeepin/deepin-clone/commit/12a29530fa293b47e5d58aff95a42b00db13aedc))
+
+
+
 <a name="1.1.0"></a>
 ## 1.1.0 (2019-01-10)
 
