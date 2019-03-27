@@ -34,7 +34,6 @@
 
 #include <DDesktopServices>
 #include <ddialog.h>
-#include <anchors.h>
 #include <DWindowManagerHelper>
 #include <DTitlebar>
 
@@ -63,115 +62,18 @@ MainWindow::~MainWindow()
 
 QString parseSerialUrl(const QString &urlString, MainWindow *window = 0)
 {
-    if (urlString.isEmpty())
-        return QString();
+    QString errorString;
+    QString result = Helper::parseSerialUrl(urlString, &errorString);
 
-    const QUrl url(urlString);
-    const QString serial_number = urlString.split("//").at(1).split(":").first();
-    const int part_index = url.port();
-    const QString &path = url.path();
-    const QString &device = Helper::findDiskBySerialIndexNumber(serial_number, part_index);
-    const QString &device_url = part_index > 0 ? QString("serial://%1:%2").arg(serial_number).arg(part_index) : "serial://" + serial_number;
+    if (!errorString.isEmpty())
+        window->showErrorMessage(errorString);
 
-    if (device.isEmpty()) {
-        if (window) {
-            if (part_index > 0)
-                window->showErrorMessage(QObject::tr("Partition \"%1\" not found").arg(device_url));
-            else
-                window->showErrorMessage(QObject::tr("Disk \"%1\" not found").arg(device_url));
-        }
-
-        return device;
-    }
-
-    if (path.isEmpty())
-        return device;
-
-    const QString &mp = Helper::mountPoint(device);
-
-    QDir mount_point(mp);
-
-    if (mp.isEmpty()) {
-        QString mount_name;
-
-        if (part_index >= 0)
-            mount_name = QString("%1-%2").arg(serial_number).arg(part_index);
-        else
-            mount_name = serial_number;
-
-        const QString &_mount_point = Helper::temporaryMountDevice(device, mount_name);
-
-        if (_mount_point.isEmpty()) {
-            if (window)
-                window->showErrorMessage(QObject::tr("Failed to mount partition \"%1\"").arg(device_url));
-
-            return QString();
-        }
-
-        mount_point.setPath(_mount_point);
-    }
-
-    if (mount_point.absolutePath() == "/")
-        return path;
-
-    return mount_point.absolutePath() + path;
-}
-
-static QString getDeviceForFile(const QString &file, QString *rootPath = 0)
-{
-    if (file.isEmpty())
-        return QString();
-
-    if (Helper::isBlockSpecialFile(file))
-        return file;
-
-    QFileInfo info(file);
-
-    while (!info.exists() && info.absoluteFilePath() != "/")
-        info.setFile(info.absolutePath());
-
-    QStorageInfo storage_info(info.absoluteFilePath());
-
-    if (rootPath)
-        *rootPath = storage_info.rootPath();
-
-    return QString::fromUtf8(storage_info.device());
+    return result;
 }
 
 QString toSerialUrl(const QString &file)
 {
-    if (file.isEmpty())
-        return QString();
-
-    if (Helper::isBlockSpecialFile(file)) {
-        DDiskInfo info;
-
-        if (Helper::isDiskDevice(file))
-            info = DDiskInfo::getInfo(file);
-        else
-            info = DDiskInfo::getInfo(Helper::parentDevice(file));
-
-        if (!info)
-            return QString();
-
-        if (info.serial().isEmpty())
-            return QString();
-
-        int index = DDevicePartInfo(file).indexNumber();
-
-        if (index == 0)
-            return "serial://" + info.serial();
-
-        return QString("serial://%1:%2").arg(info.serial()).arg(index);
-    }
-
-    QString root_path;
-    QString url = toSerialUrl(getDeviceForFile(file, &root_path));
-
-    if (root_path == "/")
-        return url + QFileInfo(file).absoluteFilePath();
-
-    return url + QFileInfo(file).absoluteFilePath().mid(root_path.length());
+    return Helper::toSerialUrl(file);
 }
 
 void MainWindow::startWithFile(const QString &source, const QString &target)
@@ -275,6 +177,30 @@ QString findHonestChild()
         return honest_child;
 
     return QStandardPaths::findExecutable("deepin-clone-honest");
+}
+
+bool MainWindow::showFileItem(const QString &file)
+{
+    QString honest_child = findHonestChild();
+
+    if (honest_child.isEmpty())
+        return false;
+
+    QProcess process;
+    QStringList env_list = process.environment();
+
+    env_list << honestChildEnvironment();
+    env_list << QString("%1=%2").arg(DEEPIN_CLONE_SHOW_FILE).arg(file);
+
+    process.setProcessChannelMode(QProcess::ForwardedChannels);
+    process.setEnvironment(env_list);
+
+    process.start(honest_child);
+
+    if (!process.waitForFinished())
+        return false;
+
+    return process.exitCode() == 0;
 }
 
 bool MainWindow::openUrl(const QUrl &url)
@@ -467,7 +393,7 @@ void MainWindow::setStatus(MainWindow::Status status)
             const QString &target = new_page->target();
 
             if (!Helper::isBlockSpecialFile(source)) {
-                const QString &source_device = getDeviceForFile(source);
+                const QString &source_device = Helper::getDeviceForFile(source);
 
                 if (source_device == target || Helper::parentDevice(source_device) == target) {
                     if (m_operateObject == SelectActionPage::Disk)
@@ -482,7 +408,7 @@ void MainWindow::setStatus(MainWindow::Status status)
             }
 
             if (!Helper::isBlockSpecialFile(target)) {
-                const QString target_device = getDeviceForFile(target);
+                const QString target_device = Helper::getDeviceForFile(target);
 
                 if (target_device == source || Helper::parentDevice(target_device) == source) {
                     if (m_operateObject == SelectActionPage::Disk)
@@ -564,7 +490,7 @@ void MainWindow::setStatus(MainWindow::Status status)
         EndPage *page = new EndPage(EndPage::Warning);
 
         page->setTitle(tr("Proceed to clone?"));
-        page->setMessage(tr("All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation."));
+        page->setMessage(tr("All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process."));
         setContent(page);
         m_title->setTitle(tr("Warning"));
         m_bottomButton->setText(tr("OK"));
@@ -795,9 +721,7 @@ void MainWindow::onButtonClicked()
         return setStatus(Working);
     }
     case ShowBackupFile: {
-        dCDebug("Show \"%s\" on file manager", qPrintable(m_targetFile));
-
-        DDesktopServices::showFileItem(m_targetFile);
+        dCDebug("Show \"%s\" on file manager. finished: %s", qPrintable(m_targetFile), showFileItem(m_targetFile) ? "true" : "false");
         return;
     }
     case Quit: {

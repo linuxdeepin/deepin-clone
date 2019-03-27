@@ -24,7 +24,9 @@
 #include "ddevicediskinfo.h"
 #include "dfilediskinfo.h"
 #include "helper.h"
+#ifdef ENABLE_BOOTDOCTOR
 #include "bootdoctor.h"
+#endif
 
 #include <QDir>
 #include <QElapsedTimer>
@@ -222,8 +224,9 @@ void CloneJob::run()
     } else if (Global::isOverride) {
         QFile file(m_to);
 
-        if (file.open(QIODevice::WriteOnly))
-            file.close();
+        if (!file.resize(0)) {
+            dCWarning("Failed do override file: %s", qPrintable(m_to));
+        }
     }
 
     DDiskInfo to_info = DDiskInfo::getInfo(m_to);
@@ -367,6 +370,7 @@ void CloneJob::run()
     if (!m_abort) {
         dCDebug("clone finished!");
 
+#ifdef ENABLE_BOOTDOCTOR
         if (Global::fixBoot
                 && to_info.type() == DDiskInfo::Part
                 && to_info.ptType() != DDiskInfo::Unknow
@@ -381,6 +385,7 @@ void CloneJob::run()
                 dCError("Failed fix boot");
             }
         }
+#endif
 
         emit progressChanged(1.0);
     }

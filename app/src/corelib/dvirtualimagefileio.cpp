@@ -33,6 +33,14 @@
 class DVirtualImageFileIOPrivate : public QSharedData
 {
 public:
+    ~DVirtualImageFileIOPrivate() {
+        for (const QString &file : dMap.keys()) {
+            if (dMap.value(file) == this) {
+                dMap.remove(file);
+            }
+        }
+    }
+
     bool isValid = false;
 
     QFile file;
@@ -61,33 +69,36 @@ public:
     QStringList fileNameList() const;
     QVarLengthArray<FileInfo> fileList() const;
 
-    static QMap<QString, DVirtualImageFileIOPrivate*> dMap;
+    static thread_local QMap<QString, DVirtualImageFileIOPrivate*> dMap;
+    static QReadWriteLock dMapLock;
     static QMap<QByteArray, QByteArray> md5Cache;
 };
 
-QMap<QString, DVirtualImageFileIOPrivate*> DVirtualImageFileIOPrivate::dMap;
+thread_local QMap<QString, DVirtualImageFileIOPrivate*> DVirtualImageFileIOPrivate::dMap;
 QMap<QByteArray, QByteArray> DVirtualImageFileIOPrivate::md5Cache;
 
 DVirtualImageFileIO::DVirtualImageFileIO(const QString &fileName)
 {
     DVirtualImageFileIOPrivate *dd = DVirtualImageFileIOPrivate::dMap.value(fileName);
 
-    if (!dd) {
-        dd = new DVirtualImageFileIOPrivate();
-        DVirtualImageFileIOPrivate::dMap[fileName] = dd;
+    if (!dd || dd->file.isOpen()) {
+        d = new DVirtualImageFileIOPrivate();
+        DVirtualImageFileIOPrivate::dMap[fileName] = d.data();
+    } else {
+        d = dd;
     }
-
-    d = dd;
 
     setFile(fileName);
 }
 
 DVirtualImageFileIO::~DVirtualImageFileIO()
 {
-    if (d->ref == 1)
-        DVirtualImageFileIOPrivate::dMap.remove(d->file.fileName());
-
     close();
+}
+
+QString DVirtualImageFileIO::fileName()
+{
+    return d->file.fileName();
 }
 
 template<typename T>

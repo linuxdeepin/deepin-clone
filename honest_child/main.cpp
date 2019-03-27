@@ -25,6 +25,8 @@
 #include <QDebug>
 #include <QThread>
 
+#include <DDesktopServices>
+
 #include <unistd.h>
 #include <stdio.h>
 
@@ -55,9 +57,8 @@ int main(int argc, char *argv[])
         setuid(uid);
     }
 
-    QApplication *app = new QApplication(argc, argv);
-
     if (qEnvironmentVariableIsSet(DEEPIN_CLONE_OPEN_DIALOG)) {
+        QApplication *app = new QApplication(argc, argv);
         QFileDialog dialog(0, QString(), QDir::homePath());
 
         dialog.setWindowFlags(dialog.windowFlags() | Qt::WindowStaysOnTopHint);
@@ -91,7 +92,13 @@ int main(int argc, char *argv[])
         thread->wait();
         thread->quit();
     } else if (qEnvironmentVariableIsSet(DEEPIN_CLONE_OPEN_URL)) {
+        QGuiApplication *app = new QGuiApplication(argc, argv);
+        Q_UNUSED(app)
         QDesktopServices::openUrl(QUrl(QString::fromUtf8(qgetenv(DEEPIN_CLONE_OPEN_URL))));
+    } else if (qEnvironmentVariableIsSet(DEEPIN_CLONE_SHOW_FILE)) {
+        DTK_WIDGET_NAMESPACE::DDesktopServices::showFileItem(QString::fromUtf8(qgetenv(DEEPIN_CLONE_SHOW_FILE)));
+    } else {
+        return -1;
     }
 
     return 0;

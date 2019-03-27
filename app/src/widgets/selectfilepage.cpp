@@ -526,7 +526,7 @@ void SelectFilePage::setTarget(const QString &target)
 {
     if (UtilityList *list = qobject_cast<UtilityList*>(rightContent())) {
         selectItemForFile(target, list);
-    } if (SelectFileWidget *widget = qobject_cast<SelectFileWidget*>(leftContent())) {
+    } if (SelectFileWidget *widget = qobject_cast<SelectFileWidget*>(rightContent())) {
         widget->setFilePath(target);
     }
 }

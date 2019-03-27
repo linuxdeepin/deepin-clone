@@ -4,7 +4,7 @@
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!message" line="0"/>
 			<source>Password required to run Deepin Clone</source>
-			<translation>Zum Ausführen von Deepin Clone wird ein Password benötigt</translation>
+			<translation>Zum Ausführen von Deepin Clone wird ein Passwort benötigt</translation>
 		</message>
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!description" line="0"/>

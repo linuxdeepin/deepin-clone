@@ -32,6 +32,23 @@ public:
     QAbstractFileEngine *create(const QString &fileName) const Q_DECL_OVERRIDE;
 };
 
+class DVirtualImageFileIterator : public QAbstractFileEngineIterator
+{
+public:
+    DVirtualImageFileIterator(QDir::Filters filters, const QStringList &nameFilters);
+
+    QString next() override;
+    bool hasNext() const override;
+
+    QString currentFileName() const override;
+
+private:
+    int index = 0;
+    QStringList list;
+
+    friend class DVirtualImageFileEngine;
+};
+
 class DVirtualImageFileEngine : public QAbstractFileEngine
 {
 public:
@@ -54,6 +71,10 @@ public:
 
     void setFileName(const QString &file) Q_DECL_OVERRIDE;
 
+    typedef DVirtualImageFileIterator Iterator;
+    Iterator *beginEntryList(QDir::Filters filters, const QStringList &filterNames) override;
+    Iterator *endEntryList() override;
+
     qint64 read(char *data, qint64 maxlen) Q_DECL_OVERRIDE;
     qint64 write(const char *data, qint64 len) Q_DECL_OVERRIDE;
 
@@ -63,6 +84,7 @@ public:
 private:
     DVirtualImageFileIO *m_info;
     QString m_name;
+    QStringList m_fileList;
 };
 
 #endif // DVIRTUALIMAGEFILEENGINE_H

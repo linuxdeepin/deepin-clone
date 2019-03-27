@@ -30,6 +30,7 @@
 #include <QDesktopServices>
 
 #include "mainwindow.h"
+#include "dvirtualimagefileio.h"
 
 #include <pwd.h>
 #include <unistd.h>
@@ -57,8 +58,6 @@ bool Global::isTUIMode = true;
 int Global::bufferSize = 1024 * 1024;
 int Global::compressionLevel = 0;
 int Global::debugLevel = 1;
-
-extern QString parseSerialUrl(const QString &url, MainWindow *window = 0);
 
 DCORE_USE_NAMESPACE
 
@@ -119,7 +118,7 @@ int main(int argc, char *argv[])
 
             if (pam_file.open(QIODevice::ReadOnly)) {
                 while (!pam_file.atEnd()) {
-                    const QByteArray &line = pam_file.readLine();
+                    const QByteArray &line = pam_file.readLine().simplified();
 
                     if (line.startsWith("QT_SCALE_FACTOR")) {
                         const QByteArrayList &list = line.split('=');
@@ -160,7 +159,7 @@ int main(int argc, char *argv[])
 #endif
 
     a->setApplicationName("deepin-clone");
-    a->setApplicationVersion("1.0.0");
+    a->setApplicationVersion(DApplication::buildVersion("1.0.0.1"));
     a->setOrganizationName("deepin");
 
     CommandLineParser parser;
@@ -219,11 +218,11 @@ int main(int argc, char *argv[])
 
     if (Global::isTUIMode) {
         if (!parser.target().isEmpty()) {
-            CloneJob job;
+            CloneJob *job = new CloneJob;
 
-            QObject::connect(&job, &QThread::finished, a, &QCoreApplication::quit);
+            QObject::connect(job, &QThread::finished, a, &QCoreApplication::quit);
 
-            job.start(parser.source(), parser.target());
+            job->start(parser.source(), parser.target());
         }
     }
 #ifdef ENABLE_GUI
@@ -242,9 +241,12 @@ int main(int argc, char *argv[])
         window->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint);
         window->titlebar()->setIcon(window->windowIcon());
         window->titlebar()->setTitle(QString());
+#if DTK_VERSION > DTK_VERSION_CHECK(2, 0, 6, 0)
+        window->titlebar()->setBackgroundTransparent(true);
+#endif
         window->show();
 
-        qApp->setProductIcon(window->windowIcon().pixmap(128));
+        qApp->setProductIcon(window->windowIcon());
 
         if (!parser.source().isEmpty()) {
             window->startWithFile(parser.source(), parser.target());
@@ -259,7 +261,7 @@ int main(int argc, char *argv[])
     QString log_backup_file = parser.logBackupFile();
 
     if (log_backup_file.startsWith("serial://")) {
-        log_backup_file = parseSerialUrl(log_backup_file);
+        log_backup_file = Helper::parseSerialUrl(log_backup_file);
     }
 
     if (log_backup_file.isEmpty()) {

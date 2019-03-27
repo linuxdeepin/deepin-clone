@@ -2,33 +2,33 @@
 <context>
     <name>CloneJob</name>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="144"/>
+        <location filename="../src/corelib/clonejob.cpp" line="146"/>
         <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
         <translation>写数据到 &quot;%1&quot; 失败，应写入%2字节数据，实际写入%3字节，错误信息：%4</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="191"/>
+        <location filename="../src/corelib/clonejob.cpp" line="193"/>
         <source>%1 not exist</source>
         <translation>%1不存在</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="205"/>
-        <location filename="../src/corelib/clonejob.cpp" line="232"/>
+        <location filename="../src/corelib/clonejob.cpp" line="207"/>
+        <location filename="../src/corelib/clonejob.cpp" line="235"/>
         <source>%1 invalid or not exist</source>
         <translation>%1是一个不存在或者无效的文件</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="217"/>
+        <location filename="../src/corelib/clonejob.cpp" line="219"/>
         <source>Disk only can be cloned to disk</source>
         <translation>磁盘介质只能克隆到磁盘介质</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="238"/>
+        <location filename="../src/corelib/clonejob.cpp" line="241"/>
         <source>%1 total capacity is less than maximum readable data on %2</source>
         <translation>&quot;%1&quot; 的总容量比 &quot;%2&quot; 的最大可读数据小</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="252"/>
+        <location filename="../src/corelib/clonejob.cpp" line="255"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
         <translation>改变文件 &quot;%1&quot; 的大小失败，请检查目标磁盘可用空间</translation>
     </message>
@@ -36,8 +36,8 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="257"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="611"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="243"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="615"/>
         <source>Cancel</source>
         <translation>取消</translation>
     </message>
@@ -53,13 +53,13 @@
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="374"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="827"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="837"/>
         <source>Backup</source>
         <translation>开始备份</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="376"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="829"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="839"/>
         <source>Clone</source>
         <translation>开始克隆</translation>
     </message>
@@ -77,7 +77,7 @@
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="383"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="831"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="841"/>
         <source>Restore</source>
         <translation>开始还原</translation>
     </message>
@@ -122,11 +122,6 @@
         <translation>您确定要继续吗？</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="493"/>
-        <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
-        <translation>克隆或还原磁盘（分区）会格式化目标位置的所有数据，且过程中不可取消。</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="495"/>
         <source>Warning</source>
         <translation>警告</translation>
@@ -134,8 +129,8 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="496"/>
         <location filename="../src/widgets/mainwindow.cpp" line="547"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="654"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="778"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="665"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="788"/>
         <source>OK</source>
         <translation>确定</translation>
     </message>
@@ -146,12 +141,12 @@
         <translation>未找到所选择的储存位置</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="727"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="736"/>
         <source>Failed to restart system</source>
         <translation>重启系统失败</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="760"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="770"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
         <translation>重启到“恢复模式”失败</translation>
     </message>
@@ -161,9 +156,14 @@
         <translation>重启并继续</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="253"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="239"/>
         <source>Restore boot</source>
         <translation>恢复引导</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="493"/>
+        <source>All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process.</source>
+        <translation>克隆或还原磁盘（分区）会格式化目标位置的所有数据，且过程中不可取消。</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -182,83 +182,83 @@
         <translation>“%1”正在被使用，请安装“维护模式”后重试</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="605"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="609"/>
         <source>Performing Backup</source>
         <translation>正在备份</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="607"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="611"/>
         <source>Cloning</source>
         <translation>正在克隆</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="609"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="613"/>
         <source>Restoring</source>
         <translation>正在还原</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="625"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="629"/>
         <source>Backup Failed</source>
         <translation>备份失败</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="631"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="635"/>
         <source>Clone Failed</source>
         <translation>克隆失败</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="633"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="637"/>
         <source>Restore Failed</source>
         <translation>还原失败</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="638"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="642"/>
         <source>Retry</source>
         <translation>重新开始</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="641"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
         <source>Task done</source>
         <translation>任务完成</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="644"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
         <translation>备份成功</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="645"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="656"/>
         <source>View Backup File</source>
         <translation>查看备份文件</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="653"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
         <source>Clone Succeeded</source>
         <translation>克隆成功</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="657"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
         <source>Restore Succeeded</source>
         <translation>还原成功</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="658"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="669"/>
         <source>Restart</source>
         <translation>重新启动</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="785"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="803"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="795"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="813"/>
         <source>Loading</source>
         <translation>正在加载</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="843"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="853"/>
         <source>Disk</source>
         <translation>磁盘</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="845"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="855"/>
         <source>Partition</source>
         <translation>分区</translation>
     </message>
@@ -279,7 +279,7 @@
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="256"/>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="271"/>
         <source>&quot;%1&quot; is not a disk device</source>
-        <translation>“%1” 不是一个 磁盘设备</translation>
+        <translation>“%1” 不是一个磁盘设备</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="298"/>
@@ -302,75 +302,75 @@
         <translation>打开文件&quot;%1&quot;失败，错误信息：%2</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="199"/>
+        <location filename="../src/corelib/helper.cpp" line="208"/>
         <source>%1 d %2 h %3 m</source>
         <translation>%1天%2小时%3分钟</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="202"/>
+        <location filename="../src/corelib/helper.cpp" line="211"/>
         <source>%1 h %2 m</source>
         <translation>%1小时%2分钟</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="205"/>
+        <location filename="../src/corelib/helper.cpp" line="214"/>
         <source>%1 m</source>
         <translation>%1分钟</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="207"/>
+        <location filename="../src/corelib/helper.cpp" line="216"/>
         <source>%1 s</source>
         <translation>%1秒</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="147"/>
+        <location filename="../src/main.cpp" line="152"/>
         <source>Deepin Clone</source>
         <translation>深度备份还原工具</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="148"/>
+        <location filename="../src/main.cpp" line="153"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
         <translation>备份还原工具是深度操作系统中的备份还原小工具，包括磁盘克隆、磁盘备份、磁盘还原、分区克隆、分区备份、分区还原等功能。</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="74"/>
+        <location filename="../src/corelib/helper.cpp" line="890"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>无法找到分区&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="76"/>
+        <location filename="../src/corelib/helper.cpp" line="892"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>无法找到磁盘&quot;%1&quot;</translation>
     </message>
     <message>
+        <location filename="../src/corelib/helper.cpp" line="917"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="158"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="101"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
         <source>Failed to mount partition &quot;%1&quot;</source>
         <translation>分区%1挂载失败</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="173"/>
         <source>EFI partition not found</source>
         <translation>未找到EFI分区</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
         <source>Unknown partition table format</source>
         <translation>未知的分区表格式</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for install system failed</source>
         <translation>安装系统引导失败</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="202"/>
         <source>Boot for update system failed</source>
         <translation>更新系统引导失败</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="266"/>
         <source>Boot for repair system failed</source>
         <translation>修复系统引导失败</translation>
     </message>
@@ -414,8 +414,13 @@
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
-        <source>Backup disk data to a image file</source>
+        <source>Backup disk data to an image file</source>
         <translation>备份磁盘数据到一个镜像文件</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
+        <source>Backup partition data to an image file</source>
+        <translation>备份分区数据到一个镜像文件</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -443,11 +448,6 @@
         <translation>备份分区到镜像</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
-        <source>Backup partition data to a image file</source>
-        <translation>备份分区数据到一个镜像文件</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
         <source>Image to Partition</source>
         <translation>从镜像恢复到分区</translation>
@@ -461,52 +461,52 @@
 <context>
     <name>SelectFilePage</name>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="243"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="322"/>
         <source>Select the source disk</source>
         <translation>请选择您要克隆的原始磁盘</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="244"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="323"/>
         <source>Select the target disk</source>
         <translation>请选择被克隆的目标磁盘</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="258"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="337"/>
         <source>Select the source partition</source>
         <translation>请选择您要克隆的原始分区</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="259"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="338"/>
         <source>Select the target partition</source>
         <translation>请选择被克隆的目标分区</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="287"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="366"/>
         <source>Select a disk to backup</source>
         <translation>请确认您要备份的磁盘</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="295"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="374"/>
         <source>Select a partition to backup</source>
         <translation>请确认您要备份的分区</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="304"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="383"/>
         <source>Select storage location</source>
         <translation>请选择存储位置</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="330"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="409"/>
         <source>Select a backup image file</source>
         <translation>请选择备份的镜像文件</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="333"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="412"/>
         <source>Select a disk to restore</source>
         <translation>请选择需要恢复的磁盘</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="335"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="414"/>
         <source>Select a partition to restore</source>
         <translation>请选择需要恢复的分区</translation>
     </message>
@@ -514,32 +514,33 @@
 <context>
     <name>SelectFileWidget</name>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select storage location</source>
         <translation>请选择存储位置</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select image file</source>
         <translation>选择镜像文件</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="99"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
         <source>Drag and drop backup image file here</source>
         <translation>拖拽备份的镜像文件到此</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="120"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
         <translation>深度系统镜像文件</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="186"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
         <translation>重新选择镜像文件</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="189"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
         <source>Reselect storage location</source>
         <translation>重新选择储存位置</translation>
     </message>

@@ -71,6 +71,8 @@ public:
 
     void startWithFile(const QString &source, const QString &target);
 
+    static bool showFileItem(const QString &file);
+
 private slots:
     bool openUrl(const QUrl &url);
 

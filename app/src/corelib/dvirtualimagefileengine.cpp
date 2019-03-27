@@ -31,7 +31,9 @@ QAbstractFileEngine *DVirtualImageFileEngineHandler::create(const QString &fileN
 
     QFileInfo file_info(fileName.mid(6));
 
-    DVirtualImageFileIO *info = new DVirtualImageFileIO(file_info.absolutePath());
+    DVirtualImageFileIO *info = new DVirtualImageFileIO(file_info.suffix() == "dim"
+                                                        ? file_info.absoluteFilePath()
+                                                        : file_info.absolutePath());
 
     if (!info->isValid()) {
         delete info;
@@ -39,7 +41,7 @@ QAbstractFileEngine *DVirtualImageFileEngineHandler::create(const QString &fileN
         return 0;
     }
 
-    return new DVirtualImageFileEngine(info, file_info.fileName());
+    return new DVirtualImageFileEngine(info, (fileName.endsWith("/") || file_info.suffix() == "dim") ? "/" : file_info.fileName());
 }
 
 static DVirtualImageFileEngineHandler _global_dim_helper;
@@ -54,6 +56,7 @@ DVirtualImageFileEngine::DVirtualImageFileEngine(DVirtualImageFileIO *info, cons
 DVirtualImageFileEngine::~DVirtualImageFileEngine()
 {
     close();
+    delete m_info;
 }
 
 bool DVirtualImageFileEngine::open(QIODevice::OpenMode openMode)
@@ -101,17 +104,25 @@ QAbstractFileEngine::FileFlags DVirtualImageFileEngine::fileFlags(QAbstractFileE
     FileFlags flags = 0;
 
     if (type & TypesMask) {
-        flags |= FileType;
+        if (m_name == "/")
+            flags |= DirectoryType;
+        else
+            flags |= FileType;
     }
 
-    if ((type & FlagsMask) && m_info->existes(m_name)) {
-        flags |= ExistsFlag;
+    if ((type & FlagsMask)) {
+        if (m_name == "/") {
+            if (m_info->isValid())
+                flags |= ExistsFlag;
+        } else if (m_info->existes(m_name)) {
+            flags |= ExistsFlag;
+        }
     }
 
-    if ((type & PermsMask) && m_info->existes(m_name)) {
+    if ((type & PermsMask) && (m_name == "/" ? m_info->isValid() : m_info->existes(m_name))) {
         flags |= (FileFlags)(int)m_info->permissions();
 
-        if (!m_info->isWritable(m_name)) {
+        if (m_name == "/" || !m_info->isWritable(m_name)) {
             flags &= ~(WriteGroupPerm | WriteOtherPerm | WriteOwnerPerm | WriteUserPerm);
         }
     }
@@ -123,12 +134,67 @@ QString DVirtualImageFileEngine::fileName(QAbstractFileEngine::FileName file) co
 {
     Q_UNUSED(file)
 
-    return m_name;
+    QFileInfo info(m_info->fileName() + QDir::separator() + (m_name == "/" ? QString() : m_name));
+
+    switch (file) {
+    case AbsoluteName:
+    case CanonicalName:
+    case DefaultName:
+        return "dim://" + info.absoluteFilePath();
+    case AbsolutePathName:
+        return "dim://" + (m_name == "/" ? info.absoluteFilePath() : info.absolutePath());
+    case BaseName:
+        return m_name;
+    case BundleName:
+        return info.absoluteFilePath();
+    default:
+        break;
+    }
+
+    return QString();
 }
 
 void DVirtualImageFileEngine::setFileName(const QString &file)
 {
     m_info->rename(m_name, file);
+}
+
+DVirtualImageFileEngine::Iterator *DVirtualImageFileEngine::beginEntryList(QDir::Filters filters, const QStringList &filterNames)
+{
+    if (m_name != "/" || !filters.testFlag(QDir::Files))
+        return 0;
+
+    m_fileList.clear();
+
+    auto filter = [&] (const QString &name) {
+        for (const QString &rule : filterNames) {
+            QRegExp rg(rule, Qt::CaseSensitive, QRegExp::Wildcard);
+
+            if (rg.exactMatch(name))
+                return true;
+        }
+
+        return false;
+    };
+
+    for (const QString &file : m_info->fileList()) {
+        if (filterNames.isEmpty() || filter(file))
+            m_fileList.append(file);
+    }
+
+    if (m_fileList.isEmpty())
+        return 0;
+
+    DVirtualImageFileIterator *iterator = new DVirtualImageFileIterator(filters, filterNames);
+
+    iterator->list = m_fileList;
+
+    return iterator;
+}
+
+DVirtualImageFileEngine::Iterator *DVirtualImageFileEngine::endEntryList()
+{
+    return 0;
 }
 
 qint64 DVirtualImageFileEngine::read(char *data, qint64 maxlen)
@@ -158,4 +224,25 @@ bool DVirtualImageFileEngine::extension(QAbstractFileEngine::Extension extension
 bool DVirtualImageFileEngine::supportsExtension(QAbstractFileEngine::Extension extension) const
 {
     return extension == AtEndExtension;
+}
+
+DVirtualImageFileIterator::DVirtualImageFileIterator(QDir::Filters filters, const QStringList &nameFilters)
+    : QAbstractFileEngineIterator(filters, nameFilters)
+{
+
+}
+
+QString DVirtualImageFileIterator::next()
+{
+    return list.at(++index);
+}
+
+bool DVirtualImageFileIterator::hasNext() const
+{
+    return index < list.count() - 1;
+}
+
+QString DVirtualImageFileIterator::currentFileName() const
+{
+    return list.at(index);
 }

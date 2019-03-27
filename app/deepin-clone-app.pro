@@ -44,10 +44,7 @@ ionice.files = deepin-clone-ionice
 pkexec.path = $$PREFIX/bin
 pkexec.files = deepin-clone-pkexec
 
-dman.path = $$PREFIX/share/dman/
-dman.files = $$PWD/dman/*
-
-INSTALLS += target mimetype_xml mimetype_dim_icon policy ionice pkexec dman
+INSTALLS += target mimetype_xml mimetype_dim_icon policy ionice pkexec
 
 TRANSLATIONS += $$PWD/translations/$${TARGET}.ts \
                 $$PWD/translations/$${TARGET}_zh_CN.ts
@@ -59,6 +56,7 @@ TRANSLATIONS += $$PWD/translations/$${TARGET}.ts \
 
 CONFIG(release, debug|release) {
     !system($$PWD/translate_generation.sh): error("Failed to generate translation")
+    !system($$PWD/translate_ts2desktop.sh): error("Failed to generate desktop translation")
 }
 
 translations.path = $$PREFIX/share/$${TARGET}/translations

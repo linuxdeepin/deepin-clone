@@ -2,14 +2,15 @@ Source: deepin-clone
 Section: devel
 Priority: optional
 Maintainer: Deepin Packages Builder <packages@deepin.com>
-Build-Depends: debhelper (>=9), qt5-default, qtbase5-dev,
+Build-Depends: debhelper (>=9), qtbase5-dev,
  qtbase5-private-dev, deepin-gettext-tools,
- libdtkwidget-dev, pkg-config, qttools5-dev-tools
+ libdtkwidget-dev, pkg-config, qttools5-dev-tools,
+    libdde-file-manager-dev
 Standards-Version: 3.9.8
 
 Package: deepin-clone
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, partclone,
-  e2fsprogs, jfsutils, ntfs-3g, xfsprogs
-Description: Deepin Backup Restore Tool
+  jfsutils, ntfs-3g, xfsprogs
+Description: Backup Restore Tool
  Deepin Backup Restore Tool.

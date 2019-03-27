@@ -23,6 +23,7 @@
 #include "dpartinfo.h"
 #include "dglobal.h"
 #include "ddevicepartinfo.h"
+#include "ddiskinfo.h"
 
 #include <QProcess>
 #include <QEventLoop>
@@ -60,7 +61,15 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout, 
     timer.setInterval(timeout);
 
     timer.connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
-    loop.connect(process, SIGNAL(finished(int)), &loop, SLOT(quit()));
+    loop.connect(process, static_cast<void(QProcess::*)(int)>(&QProcess::finished), &loop, &QEventLoop::exit);
+
+    // 防止子进程输出信息将管道塞满导致进程阻塞
+    process->connect(process, &QProcess::readyReadStandardError, process, [process] {
+        m_processStandardError.append(process->readAllStandardError());
+    });
+    process->connect(process, &QProcess::readyReadStandardOutput, process, [process] {
+        m_processStandardOutput.append(process->readAllStandardOutput());
+    });
 
     if (timeout > 0) {
         timer.start();
@@ -99,8 +108,8 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout, 
         }
     }
 
-    m_processStandardOutput = process->readAllStandardOutput();
-    m_processStandardError = process->readAllStandardError();
+    m_processStandardOutput.append(process->readAllStandardOutput());
+    m_processStandardError.append(process->readAllStandardError());
 
     if (Global::debugLevel > 1) {
         dCDebug("Done: \"%s\", exit code: %d", qPrintable(command), process->exitCode());
@@ -260,7 +269,12 @@ QString Helper::getPartcloneExecuter(const DPartInfo &info)
     case DPartInfo::VFAT:
         executor = "vfat";
         break;
+    case DPartInfo::XFS:
+        executor = "xfs";
+        break;
     default:
+        if (!QStandardPaths::findExecutable("partclone." + info.fileSystemTypeName().toLower()).isEmpty())
+            executor = info.fileSystemTypeName().toLower();
         break;
     }
 
@@ -325,7 +339,7 @@ bool Helper::getPartitionSizeInfo(const QString &partDevice, qint64 *used, qint6
         qint64 used_block = -1;
         qint64 free_block = -1;
 
-        while (process.waitForReadyRead(-1)) {
+        while (process.waitForReadyRead(5000)) {
             const QByteArray &data = process.readAll();
 
             for (QByteArray line : data.split('\n')) {
@@ -663,60 +677,18 @@ bool Helper::deviceHaveKinship(const QString &device1, const QString &device2)
 
 int Helper::clonePartition(const DPartInfo &part, const QString &to, bool override)
 {
-    QString executor;
-
-    switch (part.fileSystemType()) {
-    case DPartInfo::Invalid:
-        break;
-    case DPartInfo::Btrfs:
-        executor = "btrfs";
-        break;
-    case DPartInfo::EXT2:
-    case DPartInfo::EXT3:
-    case DPartInfo::EXT4:
-        executor = "extfs";
-        break;
-    case DPartInfo::F2FS:
-        executor = "f2fs";
-        break;
-    case DPartInfo::FAT12:
-    case DPartInfo::FAT16:
-    case DPartInfo::FAT32:
-        executor = "fat";
-        break;
-    case DPartInfo::HFS_Plus:
-        executor = "hfsplus";
-        break;
-    case DPartInfo::Minix:
-        executor = "minix";
-        break;
-    case DPartInfo::Nilfs2:
-        executor = "nilfs2";
-        break;
-    case DPartInfo::NTFS:
-        executor = "ntfs";
-        break;
-    case DPartInfo::Reiser4:
-        executor = "reiser4";
-        break;
-    case DPartInfo::VFAT:
-        executor = "vfat";
-        break;
-    default:
-        return -1;
-    }
-
+    QString executor = getPartcloneExecuter(part);
     QString command;
 
-    if (executor.isEmpty()) {
+    if (executor.isEmpty() || executor == "partclone.imager") {
         if (part.guidType() == DPartInfo::InvalidGUID)
             return -1;
 
         command = QStringLiteral("dd if=%1 of=%2 status=none conv=fsync").arg(part.filePath()).arg(to);
     } else if (isBlockSpecialFile(to)) {
-        command = QStringLiteral("/usr/sbin/partclone.%1 -b -c -s %2 -%3 %4").arg(executor).arg(part.filePath()).arg(override ? "O" : "o").arg(to);
+        command = QStringLiteral("/usr/sbin/%1 -b -c -s %2 -%3 %4").arg(executor).arg(part.filePath()).arg(override ? "O" : "o").arg(to);
     } else {
-        command = QStringLiteral("/usr/sbin/partclone.%1 -c -s %2 -%3 %4").arg(executor).arg(part.filePath()).arg(override ? "O" : "o").arg(to);
+        command = QStringLiteral("/usr/sbin/%1 -c -s %2 -%3 %4").arg(executor).arg(part.filePath()).arg(override ? "O" : "o").arg(to);
     }
 
     int code = processExec(command);
@@ -858,4 +830,117 @@ bool Helper::resetPartUUID(const DPartInfo &part, QByteArray uuid)
     }
 
     return ok;
+}
+
+QString Helper::parseSerialUrl(const QString &urlString, QString *errorString)
+{
+    if (urlString.isEmpty())
+        return QString();
+
+    const QUrl url(urlString);
+    const QString serial_number = urlString.split("//").at(1).split(":").first();
+    const int part_index = url.port();
+    const QString &path = url.path();
+    const QString &device = Helper::findDiskBySerialIndexNumber(serial_number, part_index);
+    const QString &device_url = part_index > 0 ? QString("serial://%1:%2").arg(serial_number).arg(part_index) : "serial://" + serial_number;
+
+    if (device.isEmpty()) {
+        if (errorString) {
+            if (part_index > 0)
+                *errorString = QObject::tr("Partition \"%1\" not found").arg(device_url);
+            else
+                *errorString = QObject::tr("Disk \"%1\" not found").arg(device_url);
+        }
+
+        return device;
+    }
+
+    if (path.isEmpty())
+        return device;
+
+    const QString &mp = Helper::mountPoint(device);
+
+    QDir mount_point(mp);
+
+    if (mp.isEmpty()) {
+        QString mount_name;
+
+        if (part_index >= 0)
+            mount_name = QString("%1-%2").arg(serial_number).arg(part_index);
+        else
+            mount_name = serial_number;
+
+        const QString &_mount_point = Helper::temporaryMountDevice(device, mount_name);
+
+        if (_mount_point.isEmpty()) {
+            if (errorString)
+                *errorString = QObject::tr("Failed to mount partition \"%1\"").arg(device_url);
+
+            return QString();
+        }
+
+        mount_point.setPath(_mount_point);
+    }
+
+    if (mount_point.absolutePath() == "/")
+        return path;
+
+    return mount_point.absolutePath() + path;
+}
+
+QString Helper::getDeviceForFile(const QString &file, QString *rootPath)
+{
+    if (file.isEmpty())
+        return QString();
+
+    if (Helper::isBlockSpecialFile(file))
+        return file;
+
+    QFileInfo info(file);
+
+    while (!info.exists() && info.absoluteFilePath() != "/")
+        info.setFile(info.absolutePath());
+
+    QStorageInfo storage_info(info.absoluteFilePath());
+
+    if (rootPath)
+        *rootPath = storage_info.rootPath();
+
+    return QString::fromUtf8(storage_info.device());
+}
+
+QString Helper::toSerialUrl(const QString &file)
+{
+    if (file.isEmpty())
+        return QString();
+
+    if (Helper::isBlockSpecialFile(file)) {
+        DDiskInfo info;
+
+        if (Helper::isDiskDevice(file))
+            info = DDiskInfo::getInfo(file);
+        else
+            info = DDiskInfo::getInfo(Helper::parentDevice(file));
+
+        if (!info)
+            return QString();
+
+        if (info.serial().isEmpty())
+            return QString();
+
+        int index = DDevicePartInfo(file).indexNumber();
+
+        if (index == 0)
+            return "serial://" + info.serial();
+
+        return QString("serial://%1:%2").arg(info.serial()).arg(index);
+    }
+
+    QString root_path;
+    QString url = toSerialUrl(getDeviceForFile(file, &root_path));
+
+    if (root_path == "/")
+        return url + QFileInfo(file).absoluteFilePath();
+
+    return url + QFileInfo(file).absoluteFilePath().mid(root_path.length());
 }

@@ -1,5 +1,5 @@
-deepin-clone (0.0.1) unstable; urgency=medium
+deepin-clone (0.0.1-1) unstable; urgency=medium
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Initial release
 
  -- Deepin Packages Builder <packages@deepin.com>  Tue, 22 Aug 2017 09:30:02 +0800

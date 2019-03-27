@@ -2,49 +2,49 @@
 <context>
     <name>CloneJob</name>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="144"/>
+        <location filename="../src/corelib/clonejob.cpp" line="146"/>
         <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation type="unfinished"/>
+        <translation>Kan geen gegevens schrijven naar %1. %2 byte-gegevens moeten worden geschreven, maar er is %3 geschreven. Fout: %4</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="191"/>
+        <location filename="../src/corelib/clonejob.cpp" line="193"/>
         <source>%1 not exist</source>
         <translation>%1 bestaat niet</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="205"/>
-        <location filename="../src/corelib/clonejob.cpp" line="232"/>
+        <location filename="../src/corelib/clonejob.cpp" line="207"/>
+        <location filename="../src/corelib/clonejob.cpp" line="235"/>
         <source>%1 invalid or not exist</source>
-        <translation>%1 ongeldig of bestaat niet</translation>
+        <translation>%1 is ongeldig of bestaat niet</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="217"/>
+        <location filename="../src/corelib/clonejob.cpp" line="219"/>
         <source>Disk only can be cloned to disk</source>
         <translation>Een schijf kan alleen naar een andere schijf worden gekloond</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="238"/>
+        <location filename="../src/corelib/clonejob.cpp" line="241"/>
         <source>%1 total capacity is less than maximum readable data on %2</source>
-        <translation type="unfinished"/>
+        <translation>De totale capaciteit van %1 is lager dan de maximale leesbare gegevens op %2</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="252"/>
+        <location filename="../src/corelib/clonejob.cpp" line="255"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
-        <translation type="unfinished"/>
+        <translation>Kan grootte van %1 niet wijzigen. Controleer de vrije ruimte op de doelschijf.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="257"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="611"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="243"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="615"/>
         <source>Cancel</source>
         <translation>Annuleren</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="349"/>
         <source>Select Operation</source>
-        <translation>Selecteer operatie</translation>
+        <translation>Selecteer handeling</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="350"/>
@@ -53,78 +53,73 @@
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="374"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="827"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="837"/>
         <source>Backup</source>
-        <translation>Reservekopie maken</translation>
+        <translation>Back-uppen</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="376"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="829"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="839"/>
         <source>Clone</source>
-        <translation>Kloon</translation>
+        <translation>Klonen</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="379"/>
         <location filename="../src/widgets/mainwindow.cpp" line="386"/>
         <source>Target disk will be permanently overwritten, please confirm to continue</source>
-        <translation type="unfinished"/>
+        <translation>Doelschijf wordt permanent overschreven; bevestig om door te gaan</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="381"/>
         <location filename="../src/widgets/mainwindow.cpp" line="388"/>
         <source>Target partition will be permanently overwritten, please confirm to continue</source>
-        <translation type="unfinished"/>
+        <translation>Doelpartitie wordt permanent overschreven; bevestig om door te gaan</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="383"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="831"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="841"/>
         <source>Restore</source>
         <translation>Herstellen</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="400"/>
         <source>Please move image file to other location outside the disk to avoid data loss</source>
-        <translation type="unfinished"/>
+        <translation>Verplaats het beeldbestand naar een locatie buiten de schijf om gegevensverlies te voorkomen</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="402"/>
         <source>Please move image file to other location outside the partition to avoid data loss</source>
-        <translation type="unfinished"/>
+        <translation>Verplaats het beeldbestand naar een locatie buiten de partitie om gegevensverlies te voorkomen</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="415"/>
         <source>Storage location can not be in the disk to backup, please reselect</source>
-        <translation type="unfinished"/>
+        <translation>Opslaglocatie mag niet op de te back-uppen schijf zijn. Selecteer de schijf opnieuw.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="417"/>
         <source>Storage location can not be in the partition to backup, please reselect</source>
-        <translation type="unfinished"/>
+        <translation>Opslaglocatie mag niet op de te back-uppen partitie zijn. Selecteer de partitie opnieuw.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="436"/>
         <source>Not enough total capacity in target disk, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Onvoldoende totale capaciteit op de doelschijf; selecteer een andere</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>Not enough total capacity in target partition, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Onvoldoende totale capaciteit in doelpartitie; selecteer een andere</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>Not enough total capacity, please select another disk</source>
-        <translation type="unfinished"/>
+        <translation>Onvoldoende totale capaciteit; selecteer een andere schijf</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
         <translation>Doorgaan met klonen?</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="493"/>
-        <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="495"/>
@@ -134,36 +129,41 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="496"/>
         <location filename="../src/widgets/mainwindow.cpp" line="547"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="654"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="778"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="665"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="788"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation>Oké</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="512"/>
         <location filename="../src/widgets/mainwindow.cpp" line="593"/>
         <source>The selected storage location not found</source>
-        <translation>De geselecteerde opslaglocatie kon niet gevonden worden</translation>
+        <translation>Geselecteerde opslaglocatie kan niet gevonden worden</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="727"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="736"/>
         <source>Failed to restart system</source>
-        <translation>Het opnieuw opstarten van het systeem is mislukt</translation>
+        <translation>Het herstarten van het systeem is mislukt</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="760"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="770"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
-        <translation type="unfinished"/>
+        <translation>Kan &quot;Deepin Herstellen&quot; niet herstarten</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="542"/>
         <source>Restart to Continue</source>
-        <translation>Herstarten om verder te gaan</translation>
+        <translation>Herstart om door te gaan</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="253"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="239"/>
         <source>Restore boot</source>
-        <translation type="unfinished"/>
+        <translation>Opstarten herstellen</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="493"/>
+        <source>All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process.</source>
+        <translation>Alle gegevens op de doellocatie worden tijdens het klonen geformatteerd of tijdens het herstellen van de schijf (partitie) zonder de functie te annuleren.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -174,91 +174,91 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="545"/>
         <source>&quot;%1&quot; is used, please restart and enter &quot;Deepin Recovery&quot; to continue</source>
-        <translation type="unfinished"/>
+        <translation>&quot;%1&quot; wordt gebruikt. Start opnieuw op en voer &quot;Deepin Herstellen&quot; in om door te gaan.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="550"/>
         <source>&quot;%1&quot; is used, please install &quot;Deepin Recovery&quot; to retry</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="605"/>
-        <source>Performing Backup</source>
-        <translation>Bezig met maken van een reservekopie</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="607"/>
-        <source>Cloning</source>
-        <translation>Klonen</translation>
+        <translation>&quot;%1&quot; wordt gebruikt. Installeer &quot;Deepin Herstellen&quot; om het opnieuw te proberen.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="609"/>
+        <source>Performing Backup</source>
+        <translation>Bezig met uitvoeren van back-up...</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="611"/>
+        <source>Cloning</source>
+        <translation>Bezig met klonen...</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="613"/>
         <source>Restoring</source>
-        <translation>Herstellen</translation>
+        <translation>Bezig met herstellen...</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="625"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="629"/>
         <source>Backup Failed</source>
-        <translation>Reservekopie maken mislukt</translation>
+        <translation>Back-up mislukt</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="631"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="635"/>
         <source>Clone Failed</source>
         <translation>Klonen mislukt</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="633"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="637"/>
         <source>Restore Failed</source>
         <translation>Herstellen mislukt</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="638"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="642"/>
         <source>Retry</source>
         <translation>Opnieuw</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="641"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
         <source>Task done</source>
         <translation>Opdracht voltooid</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="644"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
-        <translation>Reservekopie maken geslaagd</translation>
+        <translation>Back-up voltooid</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="645"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="656"/>
         <source>View Backup File</source>
-        <translation>Bekijk reservekopie</translation>
+        <translation>Back-upbestand bekijken</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="653"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
         <source>Clone Succeeded</source>
         <translation>Klonen voltooid</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="657"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
         <source>Restore Succeeded</source>
         <translation>Herstellen voltooid</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="658"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="669"/>
         <source>Restart</source>
         <translation>Herstarten</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="785"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="803"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="795"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="813"/>
         <source>Loading</source>
-        <translation type="unfinished"/>
+        <translation>Bezig met laden...</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="843"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="853"/>
         <source>Disk</source>
         <translation>Schijf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="845"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="855"/>
         <source>Partition</source>
         <translation>Partitie</translation>
     </message>
@@ -268,12 +268,12 @@
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="247"/>
         <source>process &quot;%1 %2&quot; crashed</source>
-        <translation type="unfinished"/>
+        <translation>proces &quot;%1 %2&quot; is gecrasht</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="249"/>
         <source>Failed to perform process &quot;%1 %2&quot;, error: %3</source>
-        <translation type="unfinished"/>
+        <translation>Kan proces &quot;%1 %2&quot; niet uitvoeren. Fout: %3</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="256"/>
@@ -289,90 +289,90 @@
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="325"/>
         <source>Failed to start &quot;%1 %2&quot;, error: %3</source>
-        <translation>Het starten van &quot;%1 %2&quot; is mislukt, foutmelding: %3</translation>
+        <translation>Het starten van &quot;%1 %2&quot; is mislukt. Fout: %3</translation>
     </message>
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="336"/>
         <source>Failed to open process, error: %1</source>
-        <translation>Kon het proces niet openen, foutmelding: %1</translation>
+        <translation>Kan het proces niet openen. Fout: %1</translation>
     </message>
     <message>
         <location filename="../src/corelib/dfilediskinfo.cpp" line="178"/>
         <source>Failed to open file(%1), error: %2</source>
-        <translation>Bestand(%1) openen mislukt, foutmelding: %2</translation>
+        <translation>Bestand(%1) openen mislukt. Fout: %2</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="199"/>
+        <location filename="../src/corelib/helper.cpp" line="208"/>
         <source>%1 d %2 h %3 m</source>
         <translation>%1 d %2 u %3 m</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="202"/>
+        <location filename="../src/corelib/helper.cpp" line="211"/>
         <source>%1 h %2 m</source>
         <translation>%1 u %2 m</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="205"/>
+        <location filename="../src/corelib/helper.cpp" line="214"/>
         <source>%1 m</source>
         <translation>%1 m</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="207"/>
+        <location filename="../src/corelib/helper.cpp" line="216"/>
         <source>%1 s</source>
         <translation>%1 s</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="147"/>
+        <location filename="../src/main.cpp" line="152"/>
         <source>Deepin Clone</source>
-        <translation>Deepin Kloon</translation>
+        <translation>Deepin Klonen</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="148"/>
+        <location filename="../src/main.cpp" line="153"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Klonen is een hulpmiddel voor het maken en herstellen van back-ups, met ondersteuning voor klonen, back-uppen en herstellen van schijven, partities en andere functies.</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="74"/>
+        <location filename="../src/corelib/helper.cpp" line="890"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Partitie &quot;%1&quot; niet gevonden</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="76"/>
+        <location filename="../src/corelib/helper.cpp" line="892"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Schijf &quot;%1&quot; niet gevonden</translation>
     </message>
     <message>
+        <location filename="../src/corelib/helper.cpp" line="917"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="158"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="101"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
         <source>Failed to mount partition &quot;%1&quot;</source>
         <translation>Het koppelen van partitie &quot;%1&quot; is mislukt</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="173"/>
         <source>EFI partition not found</source>
-        <translation type="unfinished"/>
+        <translation>EFI-partitie niet gevonden</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
         <source>Unknown partition table format</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
-        <source>Boot for install system failed</source>
-        <translation type="unfinished"/>
+        <translation>Onbekende indeling van de partitietabel</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
-        <source>Boot for update system failed</source>
-        <translation type="unfinished"/>
+        <source>Boot for install system failed</source>
+        <translation>Opstarten voor systeeminstallatie mislukt</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="202"/>
+        <source>Boot for update system failed</source>
+        <translation>Opstarten systeemopwaardering mislukt</translation>
+    </message>
+    <message>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="266"/>
         <source>Boot for repair system failed</source>
-        <translation type="unfinished"/>
+        <translation>Opstarten voor systeemreparatie mislukt</translation>
     </message>
 </context>
 <context>
@@ -385,7 +385,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="76"/>
         <source>Select operation for media</source>
-        <translation>Selecteer de operatie voor het medium</translation>
+        <translation>Selecteer de handeling voor het medium</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="85"/>
@@ -405,22 +405,27 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone source disk to target disk</source>
-        <translation>Kloon bronschijf naar doelschijf</translation>
+        <translation>Bronschijf klonen naar doelschijf</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Disk to Image</source>
-        <translation>Schijf naar beeldbestand</translation>
+        <translation>Schijf-naar-beeldbestand</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
-        <source>Backup disk data to a image file</source>
+        <source>Backup disk data to an image file</source>
         <translation>Back-up schijfgegevens naar een beeldbestand</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
+        <source>Backup partition data to an image file</source>
+        <translation>Back-up partitiegegevens naar een beeldbestand</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
         <source>Image to Disk</source>
-        <translation>Beeldbestand naar schijf</translation>
+        <translation>Beeldbestand-naar-schijf</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -435,22 +440,17 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone source partition to target partition</source>
-        <translation type="unfinished"/>
+        <translation>Bronpartitie klonen naar doelpartitie</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Partition to Image</source>
-        <translation>Partitie naar beeldbestand</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
-        <source>Backup partition data to a image file</source>
-        <translation type="unfinished"/>
+        <translation>Partitie-naar-beeldbestand</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
         <source>Image to Partition</source>
-        <translation>Beeldbestand naar partitie</translation>
+        <translation>Beeldbestand-naar-partitie</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
@@ -461,85 +461,86 @@
 <context>
     <name>SelectFilePage</name>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="243"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="322"/>
         <source>Select the source disk</source>
         <translation>Selecteer de bronschijf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="244"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="323"/>
         <source>Select the target disk</source>
         <translation>Selecteer de doelschijf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="258"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="337"/>
         <source>Select the source partition</source>
         <translation>Selecteer de bronpartitie</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="259"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="338"/>
         <source>Select the target partition</source>
         <translation>Selecteer de doelpartitie</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="287"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="366"/>
         <source>Select a disk to backup</source>
-        <translation>Selecteer een schijf waarvan u een reservekopie wilt maken</translation>
+        <translation>Selecteer de te back-uppen schijf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="295"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="374"/>
         <source>Select a partition to backup</source>
-        <translation>Selecteer een partitie waarvan u een reservekopie wilt maken</translation>
+        <translation>Selecteer de te back-uppen partitie</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="304"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="383"/>
         <source>Select storage location</source>
         <translation>Selecteer de opslaglocatie</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="330"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="409"/>
         <source>Select a backup image file</source>
-        <translation>Selecteer een beeldbestand van een reservekopie</translation>
+        <translation>Selecteer een back-upbeeldbestand</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="333"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="412"/>
         <source>Select a disk to restore</source>
-        <translation>Selecteer een schijf om te herstellen</translation>
+        <translation>Selecteer een te herstellen schijf</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="335"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="414"/>
         <source>Select a partition to restore</source>
-        <translation>Selecteer een partitie om te herstellen</translation>
+        <translation>Selecteer een te herstellen partitie</translation>
     </message>
 </context>
 <context>
     <name>SelectFileWidget</name>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select storage location</source>
         <translation>Selecteer de opslaglocatie</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select image file</source>
         <translation>Selecteer beeldbestand</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="99"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
         <source>Drag and drop backup image file here</source>
-        <translation type="unfinished"/>
+        <translation>Versleep het back-upbeelbestand hierheen</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="120"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
-        <translation>Deepin Beeldbestand</translation>
+        <translation>Deepin-beeldbestand</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="186"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
         <translation>Beeldbestand opnieuw selecteren</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="189"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
         <source>Reselect storage location</source>
         <translation>Opslaglocatie opnieuw selecteren</translation>
     </message>
@@ -549,12 +550,12 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="44"/>
         <source>Task is ongoing, please wait......</source>
-        <translation>Opdracht wordt uitgevoerd, even geduld aub......</translation>
+        <translation>Opdracht wordt uitgevoerd, even geduld...</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="61"/>
         <source>Progress: %1/%2</source>
-        <translation>Vooruitgang: %1/%2</translation>
+        <translation>Voortgang: %1/%2</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
@@ -564,7 +565,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>
         <source>Repairing system boot, please wait......</source>
-        <translation type="unfinished"/>
+        <translation>Bezig met repareren van systeemopstart, even geduld...</translation>
     </message>
 </context>
 </TS>

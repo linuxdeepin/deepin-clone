@@ -2,33 +2,33 @@
 <context>
     <name>CloneJob</name>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="144"/>
+        <location filename="../src/corelib/clonejob.cpp" line="146"/>
         <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
         <translation>Scrittura dei dati su %1 fallita, %2 byte dovrebbero esser scritti, ma attualmente ne sono stati scritti %3 , con errore: %4</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="191"/>
+        <location filename="../src/corelib/clonejob.cpp" line="193"/>
         <source>%1 not exist</source>
         <translation>%1 non esiste</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="205"/>
-        <location filename="../src/corelib/clonejob.cpp" line="232"/>
+        <location filename="../src/corelib/clonejob.cpp" line="207"/>
+        <location filename="../src/corelib/clonejob.cpp" line="235"/>
         <source>%1 invalid or not exist</source>
         <translation>%1 invalido o inesistente</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="217"/>
+        <location filename="../src/corelib/clonejob.cpp" line="219"/>
         <source>Disk only can be cloned to disk</source>
         <translation>Il disco può esser clonato su un altro supporto</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="238"/>
+        <location filename="../src/corelib/clonejob.cpp" line="241"/>
         <source>%1 total capacity is less than maximum readable data on %2</source>
         <translation>La capacità totale %1 è minore del massimo dei dati leggibili su %2</translation>
     </message>
     <message>
-        <location filename="../src/corelib/clonejob.cpp" line="252"/>
+        <location filename="../src/corelib/clonejob.cpp" line="255"/>
         <source>Failed to change %1 size, please check the free space on target disk</source>
         <translation>Modifica della dimensione di %1 fallita, controlla lo spazio disponibile del disco di destinazione</translation>
     </message>
@@ -36,8 +36,8 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="257"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="611"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="243"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="615"/>
         <source>Cancel</source>
         <translation>Annulla</translation>
     </message>
@@ -53,13 +53,13 @@
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="374"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="827"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="837"/>
         <source>Backup</source>
         <translation>Backup</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="376"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="829"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="839"/>
         <source>Clone</source>
         <translation>Clona</translation>
     </message>
@@ -77,7 +77,7 @@
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="383"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="831"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="841"/>
         <source>Restore</source>
         <translation>Ripristina</translation>
     </message>
@@ -122,11 +122,6 @@
         <translation>Procedere con la clonazione?</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="493"/>
-        <source>All data in target loacation will be formated during cloning or restoring disk (partition) without cancelable operation.</source>
-        <translation>Tutti i dati presenti nella locazione di destinazione saranno eliminati durante il processo di clonazione o ripristino senza la possibilità di interrompere il processo.</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="495"/>
         <source>Warning</source>
         <translation>Attenzione</translation>
@@ -134,8 +129,8 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="496"/>
         <location filename="../src/widgets/mainwindow.cpp" line="547"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="654"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="778"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="665"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="788"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -146,12 +141,12 @@
         <translation>Percorso di destinazione non trovato</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="727"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="736"/>
         <source>Failed to restart system</source>
         <translation>RIavvio del sistema fallito</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="760"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="770"/>
         <source>Failed to restart &quot;Deepin Recovery&quot;</source>
         <translation>Riavvio di &quot;Deepin Recovery&quot; fallito</translation>
     </message>
@@ -161,9 +156,14 @@
         <translation>Riavvia per continuare</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="253"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="239"/>
         <source>Restore boot</source>
         <translation>Ripristino del Boot</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="493"/>
+        <source>All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process.</source>
+        <translation>Tutti i dati nel disco di destinazione (partizione) saranno formattati in fase di clonazione e ripristino, ed il processo non potrà essere interrotto.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -182,83 +182,83 @@
         <translation>&quot;%1&quot; è utilizzato, installa &quot;Deepin Recovery&quot; per riprovare</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="605"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="609"/>
         <source>Performing Backup</source>
         <translation>Beckup in corso</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="607"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="611"/>
         <source>Cloning</source>
         <translation>Clonazione in corso</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="609"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="613"/>
         <source>Restoring</source>
         <translation>Ripristino in corso</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="625"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="629"/>
         <source>Backup Failed</source>
         <translation>Backup fallito</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="631"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="635"/>
         <source>Clone Failed</source>
         <translation>Clonazione fallita</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="633"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="637"/>
         <source>Restore Failed</source>
         <translation>Ripristino fallito</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="638"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="642"/>
         <source>Retry</source>
         <translation>Riprova</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="641"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
         <source>Task done</source>
         <translation>Operazione effettuata</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="644"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
         <translation>Backup concluso</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="645"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="656"/>
         <source>View Backup File</source>
         <translation>Visualizza file di Backup</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="653"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
         <source>Clone Succeeded</source>
         <translation>Clonazione conclusa</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="657"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
         <source>Restore Succeeded</source>
         <translation>Ripristino concluso</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="658"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="669"/>
         <source>Restart</source>
         <translation>Riavvia</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="785"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="803"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="795"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="813"/>
         <source>Loading</source>
         <translation>Caricamento</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="843"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="853"/>
         <source>Disk</source>
         <translation>Disco</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="845"/>
+        <location filename="../src/widgets/mainwindow.cpp" line="855"/>
         <source>Partition</source>
         <translation>Partizione</translation>
     </message>
@@ -302,75 +302,75 @@
         <translation>Apertura file (%1) fallita, errore: %2</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="199"/>
+        <location filename="../src/corelib/helper.cpp" line="208"/>
         <source>%1 d %2 h %3 m</source>
         <translation>%1 d %2 h %3 m</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="202"/>
+        <location filename="../src/corelib/helper.cpp" line="211"/>
         <source>%1 h %2 m</source>
         <translation>%1 h %2 m</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="205"/>
+        <location filename="../src/corelib/helper.cpp" line="214"/>
         <source>%1 m</source>
         <translation>%1 m</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="207"/>
+        <location filename="../src/corelib/helper.cpp" line="216"/>
         <source>%1 s</source>
         <translation>%1 s</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="147"/>
+        <location filename="../src/main.cpp" line="152"/>
         <source>Deepin Clone</source>
         <translation>Deepin Clone</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="148"/>
+        <location filename="../src/main.cpp" line="153"/>
         <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
         <translation>Deepin Clone è un software di backup e ripristino per Deepin. Supporta la clonazione, il backup ed il ripristino del disco o della singola partizione, oltre che ulteriori funzionalità. Localizzazione italiana a cura di Massimo Antonio Carofano.</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="74"/>
+        <location filename="../src/corelib/helper.cpp" line="890"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Partizione &quot;%1&quot; non trovata</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="76"/>
+        <location filename="../src/corelib/helper.cpp" line="892"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Disco &quot;%1&quot; non trovato</translation>
     </message>
     <message>
+        <location filename="../src/corelib/helper.cpp" line="917"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="158"/>
-        <location filename="../src/widgets/mainwindow.cpp" line="101"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
         <source>Failed to mount partition &quot;%1&quot;</source>
         <translation>Montaggio della partizione &quot;%1&quot; fallito</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="170"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="173"/>
         <source>EFI partition not found</source>
         <translation>Partizione EFI non trovata</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="174"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
         <source>Unknown partition table format</source>
         <translation>Formato tabella partizioni sconosciuto</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="196"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for install system failed</source>
         <translation>Boot per installazione del Sistema fallito</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="202"/>
         <source>Boot for update system failed</source>
         <translation>Boot per aggiornamento del Sistema fallito</translation>
     </message>
     <message>
-        <location filename="../src/fixboot/bootdoctor.cpp" line="263"/>
+        <location filename="../src/fixboot/bootdoctor.cpp" line="266"/>
         <source>Boot for repair system failed</source>
         <translation>Boot per la riparazione del Sistema fallito</translation>
     </message>
@@ -414,8 +414,13 @@
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
-        <source>Backup disk data to a image file</source>
+        <source>Backup disk data to an image file</source>
         <translation>Backup dei dati del disco su un file immagine</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
+        <source>Backup partition data to an image file</source>
+        <translation>Backup dei dati della partizione su un file immagine</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -443,11 +448,6 @@
         <translation>Crea immagine della Partizione</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
-        <source>Backup partition data to a image file</source>
-        <translation>Backup della partizione su un file immagine</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
         <source>Image to Partition</source>
         <translation>Ripristino di una Partizione</translation>
@@ -461,52 +461,52 @@
 <context>
     <name>SelectFilePage</name>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="243"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="322"/>
         <source>Select the source disk</source>
         <translation>Seleziona il disco da ripristinare</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="244"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="323"/>
         <source>Select the target disk</source>
         <translation>Seleziona il disco di destinazione</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="258"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="337"/>
         <source>Select the source partition</source>
         <translation>Seleziona la partizione da ripristinare</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="259"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="338"/>
         <source>Select the target partition</source>
         <translation>Seleziona la partizione di destinazione</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="287"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="366"/>
         <source>Select a disk to backup</source>
         <translation>Seleziona il disco di cui fare il backup</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="295"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="374"/>
         <source>Select a partition to backup</source>
         <translation>Seleziona una partizione di cui fare il backup</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="304"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="383"/>
         <source>Select storage location</source>
         <translation>Seleziona la locazione</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="330"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="409"/>
         <source>Select a backup image file</source>
         <translation>Seleziona un file immagine di backup</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="333"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="412"/>
         <source>Select a disk to restore</source>
         <translation>Seleziona un disco per ripristinarlo</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="335"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="414"/>
         <source>Select a partition to restore</source>
         <translation>Seleziona una partizione per ripristinarla</translation>
     </message>
@@ -514,32 +514,33 @@
 <context>
     <name>SelectFileWidget</name>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select storage location</source>
         <translation>Seleziona la locazione</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="93"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select image file</source>
         <translation>Seleziona file immagine</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="99"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
         <source>Drag and drop backup image file here</source>
         <translation>Trascina qui i file immagine</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="120"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
         <translation>File Immagine di Deepin</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="186"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
         <translation>Riseleziona file immagine</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="189"/>
+        <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
         <source>Reselect storage location</source>
         <translation>Riseleziona la locazione</translation>
     </message>

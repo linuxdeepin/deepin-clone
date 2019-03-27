@@ -119,7 +119,7 @@ void SelectActionPage::setMode(SelectActionPage::Mode mode)
                                tr("Clone Disk"), tr("Clone source disk to target disk"),
                                QSize(120, 49));
         m_rightContent->addItem(QIcon(":/icons/clone_disk_to_image.svg"),
-                               tr("Disk to Image"), tr("Backup disk data to a image file"),
+                               tr("Disk to Image"), tr("Backup disk data to an image file"),
                                QSize(120, 49));
         m_rightContent->addItem(QIcon(":/icons/restore_image_to_disk.svg"),
                                tr("Image to Disk"), tr("Restore image file to disk"),
@@ -131,7 +131,7 @@ void SelectActionPage::setMode(SelectActionPage::Mode mode)
                                tr("Clone Partition"), tr("Clone source partition to target partition"),
                                QSize(120, 49));
         m_rightContent->addItem(QIcon(":/icons/clone_partition_to_image.svg"),
-                               tr("Partition to Image"), tr("Backup partition data to a image file"),
+                               tr("Partition to Image"), tr("Backup partition data to an image file"),
                                QSize(120, 49));
         m_rightContent->addItem(QIcon(":/icons/restore_image_to_partition.svg"),
                                tr("Image to Partition"), tr("Restore image file to partition"),

@@ -11,3 +11,5 @@ RESOURCES += \
     $$PWD/repos.qrc
 
 INCLUDEPATH += $$PWD
+
+DEFINES += ENABLE_BOOTDOCTOR
