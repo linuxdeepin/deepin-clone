@@ -2,7 +2,7 @@
 Actions=new-window;
 Categories=Utility;
 Comment=Deepin Backup Restore Tool
-Exec=/usr/bin/deepin-clone-pkexec %u
+Exec=/usr/bin/deepin-clone-pkexec %f
 GenericName=Clone
 Icon=deepin-clone
 MimeType=application/x-deepinclone-dim;
