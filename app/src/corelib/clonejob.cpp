@@ -143,7 +143,7 @@ static bool diskInfoPipe(DDiskInfo &from, DDiskInfo &to, DDiskInfo::DataScope sc
 
         if (write_size < read_size) {
             if (error)
-                *error = QCoreApplication::translate("CloneJob", "Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4").arg(to.filePath()).arg(read_size).arg(write_size).arg(to.errorString());
+                *error = QCoreApplication::translate("CloneJob", "Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4").arg(to.filePath()).arg(read_size).arg(write_size).arg(to.errorString());
 
             goto exit;
         }

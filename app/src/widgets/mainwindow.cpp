@@ -433,9 +433,9 @@ void MainWindow::setStatus(MainWindow::Status status)
                             dCError("Not enough total capacity in target device, source size: %lld, target size: %lld", disk_info.totalSize(), target_disk_info.totalSize());
 
                             if (m_operateObject == SelectActionPage::Disk)
-                                m_subTitle->setText(tr("Not enough total capacity in target disk, please select another one"));
+                                m_subTitle->setText(tr("No enough total capacity in target disk, please select another one"));
                             else
-                                m_subTitle->setText(tr("Not enough total capacity in target partition, please select another one"));
+                                m_subTitle->setText(tr("No enough total capacity in target partition, please select another one"));
 
                             m_bottomButton->setEnabled(false);
 
@@ -460,7 +460,7 @@ void MainWindow::setStatus(MainWindow::Status status)
                         if (storage_info.bytesAvailable() < disk_info.totalReadableDataSize()) {
                             dCError("Not enough total capacity, source size: %lld, target available size: %lld", disk_info.totalSize(), storage_info.bytesAvailable());
 
-                            m_subTitle->setText(tr("Not enough total capacity, please select another disk"));
+                            m_subTitle->setText(tr("No enough total capacity, please select another disk"));
                             m_bottomButton->setEnabled(false);
 
                             return;
@@ -649,7 +649,7 @@ void MainWindow::setStatus(MainWindow::Status status)
                 dCDebug("\n\"%s\"\n", qPrintable(Helper::lastProcessStandardOutput()));
             }
         } else {
-            page->setTitle(tr("Task done"));
+            page->setTitle(tr("Task completed"));
 
             if (m_currentMode == SelectActionPage::Backup) {
                 m_title->setTitle(tr("Backup Succeeded"));
@@ -661,11 +661,11 @@ void MainWindow::setStatus(MainWindow::Status status)
                     dCDebug("Set the file permissions failed");
                 }
             } else if (m_currentMode == SelectActionPage::Clone) {
-                m_title->setTitle(tr("Clone Succeeded"));
+                m_title->setTitle(tr("Clone Successful"));
                 m_bottomButton->setText(tr("OK"));
                 m_buttonAction = Quit;
             } else {
-                m_title->setTitle(tr("Restore Succeeded"));
+                m_title->setTitle(tr("Restore Succeessful"));
                 m_bottomButton->setText(tr("Restart"));
                 m_buttonAction = RestartSystem;
             }

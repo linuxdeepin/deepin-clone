@@ -150,8 +150,8 @@ int main(int argc, char *argv[])
         }
 
         app->setApplicationDisplayName(QObject::tr("Deepin Clone"));
-        app->setApplicationDescription(QObject::tr("Deepin Clone is a tool to backup and restore in deepin. "
-                                                   "It supports to clone, backup and restore disk or partition and other functions."));
+        app->setApplicationDescription(QObject::tr("Deepin Clone is a backup and restore tool in deepin. "
+                                                   "It supports disk or partition clone, backup and restore, and other functions."));
         app->setApplicationAcknowledgementPage("https://www.deepin.org/acknowledgments/deepin-clone/");
         app->setTheme("light");
         a = app;

@@ -5,7 +5,7 @@
 <policyconfig>
 
   <action id="com.deepin.pkexec.deepin-clone">
-    <message>Password required to run Deepin Clone</message>
+    <message>Authentication is required to run Deepin Clone</message>
     <description>Deepin Clone needs to do operations on block device, such as write and read, get info and etc.</description>
     <icon_name>deepin-clone</icon_name>
     <defaults>

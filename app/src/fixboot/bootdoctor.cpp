@@ -174,7 +174,7 @@ bool BootDoctor::fix(const QString &partDevice)
                         ok = false;
                     }
                 } else if (info.ptType() == DDeviceDiskInfo::Unknow) {
-                    m_lastErrorString = QObject::tr("Unknown partition table format");
+                    m_lastErrorString = QObject::tr("Unknown partition style");
                     ok = false;
                 }
             }

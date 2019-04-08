@@ -104,7 +104,7 @@ SelectFileWidget::SelectFileWidget(Mode mode, QWidget *parent)
     layout->addWidget(m_label, 0, Qt::AlignHCenter);
 
     if (mode == GetFile) {
-        m_dragDropLabel = new QLabel(tr("Drag and drop backup image file here"), this);
+        m_dragDropLabel = new QLabel(tr("Drag and drop the backup image file here"), this);
         m_dragDropLabel->setObjectName("DragDropLabel");
 
         QWidget *split_line = new QWidget(this);

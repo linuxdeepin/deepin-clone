@@ -59,7 +59,7 @@ WorkingPage::WorkingPage(const QString &from, const QString &to, QWidget *parent
     connect(m_job, &CloneJob::progressChanged, this, [this, total_readable_data_size] (qreal progress) {
         m_progress->setValue(progress * 100);
         m_writtenSizeLabel->setText(tr("Progress: %1/%2").arg(Helper::sizeDisplay(total_readable_data_size * progress)).arg(Helper::sizeDisplay(total_readable_data_size)));
-        m_timeRemainingLabel->setText(tr("Remaining time: %1").arg(Helper::secondsToString(m_job->estimateTime())));
+        m_timeRemainingLabel->setText(tr("Time remaining: %1").arg(Helper::secondsToString(m_job->estimateTime())));
     });
     connect(m_job, &CloneJob::finished, this, &WorkingPage::finished);
     connect(m_job, &CloneJob::statusChanged, this, [this, tip_label] (CloneJob::Status s) {
