@@ -3,8 +3,8 @@
 		<name>policy</name>
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!message" line="0"/>
-			<source>Password required to run Deepin Clone</source>
-			<translation>Tunnistautuminen vaaditaan Deepinin Kloonaajan käyttämiseen</translation>
+			<source>Authentication is required to run Deepin Clone</source>
+			<translation>Todennusta tarvitaan Deepin-kloonin suorittamiseen</translation>
 		</message>
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!description" line="0"/>

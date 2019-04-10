@@ -3,8 +3,8 @@
 		<name>policy</name>
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!message" line="0"/>
-			<source>Password required to run Deepin Clone</source>
-			<translation>Лозинка је неопходна за покретање Дипин Клонирања</translation>
+			<source>Authentication is required to run Deepin Clone</source>
+			<translation type="unfinished"/>
 		</message>
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!description" line="0"/>
