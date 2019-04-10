@@ -1,3 +1,13 @@
+<a name="1.1.2"></a>
+## 1.1.2 (2019-04-10)
+
+
+#### Others
+
+*   auto pull translation files from transifex ([e79b2140](https://github.com/linuxdeepin/deepin-clone/commit/e79b21404c1017bdee77b88bf32ce0bf3360102f))
+
+
+
 <a name="1.1.1"></a>
 ## 1.1.1 (2019-03-27)
 
