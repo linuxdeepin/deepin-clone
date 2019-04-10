@@ -3,8 +3,8 @@
     <name>CloneJob</name>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="146"/>
-        <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation>Schreiben von Daten auf &quot;%1&quot; ist fehlgeschlagen, %2 Byte an Daten sollten geschrieben werden, es wurden tatsächlich aber nur %3 geschrieben, Fehler: %4</translation>
+        <source>Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="193"/>
@@ -102,21 +102,6 @@
         <translation>Der Ablageort kann sich nicht auf der zu sichernden Partition befinden, bitte treffen Sie eine andere Auswahl</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
-        <source>Not enough total capacity in target disk, please select another one</source>
-        <translation>Nicht genügend Gesamtspeicherkapazität auf dem Ziellaufwerk, bitte wählen Sie ein anderes Laufwerk</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
-        <source>Not enough total capacity in target partition, please select another one</source>
-        <translation>Nicht genügend Gesamtspeicherkapazität auf der Zielpartition, bitte wählen Sie eine andere Partition</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
-        <source>Not enough total capacity, please select another disk</source>
-        <translation>Nicht genügend Gesamtspeicherkapazität, bitte wählen Sie einen anderen Datenträger</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
         <translation>Weiterfahren zum Klonen?</translation>
@@ -141,6 +126,21 @@
         <translation>Der gewählte Ablageort wurde nicht gefunden</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
+        <source>Task completed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
+        <source>Clone Successful</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
+        <source>Restore Succeessful</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
         <source>Failed to restart system</source>
         <translation>Beim Neustart des Systems trat ein Fehler auf</translation>
@@ -161,9 +161,24 @@
         <translation>Systemstarter wiederherstellen</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
+        <source>No enough total capacity in target disk, please select another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
+        <source>No enough total capacity in target partition, please select another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
+        <source>No enough total capacity, please select another disk</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process.</source>
-        <translation type="unfinished"/>
+        <translation>Alle Daten der Zielpartition werden beim Klonen oder Wiederherstellen formatiert, was während des Prozesses nicht abgebrochen werden kann.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -217,11 +232,6 @@
         <translation>Wiederholen</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
-        <source>Task done</source>
-        <translation>Aufgabe erledigt</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
         <translation>Sicherung erfolgreich abgeschlossen</translation>
@@ -230,16 +240,6 @@
         <location filename="../src/widgets/mainwindow.cpp" line="656"/>
         <source>View Backup File</source>
         <translation>Sicherungsdatei ansehen</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
-        <source>Clone Succeeded</source>
-        <translation>Klonen erfolgreich</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
-        <source>Restore Succeeded</source>
-        <translation>Wiederherstellung erfolgreich abgeschlossen</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="669"/>
@@ -328,21 +328,21 @@
     </message>
     <message>
         <location filename="../src/main.cpp" line="153"/>
-        <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation>Deepin Clone ist ein Werkzeug zum Sichern und Wiederherstellen von Daten. Es unterstützt das Klonen, die Datensicherung und Wiederherstellung von Laufwerken sowie Partitionen und bietet darüber hinaus weitere Funktionen.</translation>
+        <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="890"/>
+        <location filename="../src/corelib/helper.cpp" line="850"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Partition &quot;%1&quot; nicht gefunden</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="892"/>
+        <location filename="../src/corelib/helper.cpp" line="852"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Laufwerk &quot;%1&quot; nicht gefunen</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="917"/>
+        <location filename="../src/corelib/helper.cpp" line="877"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
@@ -356,8 +356,8 @@
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
-        <source>Unknown partition table format</source>
-        <translation>Unbekanntes Format der Partitionstabelle</translation>
+        <source>Unknown partition style</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
@@ -415,12 +415,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>Laufwerksdaten in Image-Datei sichern</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>Partitions-Daten in Image-Datei sichern</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -524,11 +524,6 @@
         <translation>Image-Datei wählen</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
-        <source>Drag and drop backup image file here</source>
-        <translation>Sicherungs-Image hier per Drag &amp; Drop einfügen</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
         <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
@@ -538,6 +533,11 @@
         <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
         <translation>Neue Image-Datei wählen</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
+        <source>Drag and drop the backup image file here</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
@@ -559,8 +559,8 @@
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
-        <source>Remaining time: %1</source>
-        <translation>Verbleibende Zeit: %1</translation>
+        <source>Time remaining: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>

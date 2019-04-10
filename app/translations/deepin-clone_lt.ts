@@ -3,8 +3,8 @@
     <name>CloneJob</name>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="146"/>
-        <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation>Duomenų įrašymas į %1 nepavyko, turėjo būti įrašyta %2 baitų duomenų, tačiau iš tiesų, buvo įrašyta %3, klaida: %4</translation>
+        <source>Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4</source>
+        <translation>Duomenų rašymas į %1 patyrė nesėkmę, buvo tikimasi įrašyti: %2 — o įrašyta tik %3, klaida: %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="193"/>
@@ -102,21 +102,6 @@
         <translation>Saugyklos vieta negali būti skaidinyje, kurio atsarginę kopiją ketinate daryti, prašome pasirinkti iš naujo</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
-        <source>Not enough total capacity in target disk, please select another one</source>
-        <translation>Paskirties diske neužtenka bendros talpos, prašome pasirinkti kitą diską</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
-        <source>Not enough total capacity in target partition, please select another one</source>
-        <translation>Paskirties skaidinyje neužtenka bendros talpos, prašome pasirinkti kitą skaidinį</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
-        <source>Not enough total capacity, please select another disk</source>
-        <translation>Neužtenka bendros talpos, prašome pasirinkti kitą diską</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
         <translation>Tęsti kopijavimą?</translation>
@@ -141,6 +126,21 @@
         <translation>Pasirinkta saugykla nerasta</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
+        <source>Task completed</source>
+        <translation>Užduotis baigta</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
+        <source>Clone Successful</source>
+        <translation>Kopijavimas sėkmingas</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
+        <source>Restore Succeessful</source>
+        <translation>Atkūrimas sėkmingas</translation>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
         <source>Failed to restart system</source>
         <translation>Nepavyko paleisti sistemos iš naujo</translation>
@@ -159,6 +159,21 @@
         <location filename="../src/widgets/mainwindow.cpp" line="239"/>
         <source>Restore boot</source>
         <translation>Atkurti paleidimą</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
+        <source>No enough total capacity in target disk, please select another one</source>
+        <translation>Paskirties diske neužtenka bendros talpos, prašome pasirinkti kitą diską</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
+        <source>No enough total capacity in target partition, please select another one</source>
+        <translation>Paskirties skaidinyje neužtenka bendros talpos, prašome pasirinkti kitą skaidinį</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
+        <source>No enough total capacity, please select another disk</source>
+        <translation>Neužtenka bendros talpos, prašome pasirinkti kitą diską</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
@@ -217,11 +232,6 @@
         <translation>Bandyti dar kartą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
-        <source>Task done</source>
-        <translation>Užduotis atlikta</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
         <translation>Atsarginė kopija pavyko</translation>
@@ -230,16 +240,6 @@
         <location filename="../src/widgets/mainwindow.cpp" line="656"/>
         <source>View Backup File</source>
         <translation>Rodyti atsarginės kopijos failą</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
-        <source>Clone Succeeded</source>
-        <translation>Kopijavimas pavyko</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
-        <source>Restore Succeeded</source>
-        <translation>Atkūrimas pavyko</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="669"/>
@@ -328,21 +328,21 @@
     </message>
     <message>
         <location filename="../src/main.cpp" line="153"/>
-        <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation>Deepin kopija yra įrankis skirtas atsarginės kopijos darymui ir atkūrimui deepin sistemoje. Jis palaiko disko ar skaidinio kopijavimą, atsarginės kopijos darymą ir atkūrimą bei kitas funkcijas.</translation>
+        <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
+        <translation>Deepin kopija yra atsarginės kopijos darymo ir atkūrimo įrankis deepin sistemoje. Jis palaiko disko ar skaidinio kopijavimą, atsarginės kopijos darymą ir atkūrimą bei kitas funkcijas.</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="890"/>
+        <location filename="../src/corelib/helper.cpp" line="850"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Skaidinys &quot;%1&quot; nerastas</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="892"/>
+        <location filename="../src/corelib/helper.cpp" line="852"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Diskas &quot;%1&quot; nerastas</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="917"/>
+        <location filename="../src/corelib/helper.cpp" line="877"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
@@ -356,8 +356,8 @@
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
-        <source>Unknown partition table format</source>
-        <translation>Nežinomas skaidinių lentelės formatas</translation>
+        <source>Unknown partition style</source>
+        <translation>Nežinomas skaidinio stilius</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
@@ -524,11 +524,6 @@
         <translation>Pasirinkti atvaizdžio failą</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
-        <source>Drag and drop backup image file here</source>
-        <translation>Vilkite čia atsarginės kopijos atvaizdžio failą</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
         <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
@@ -538,6 +533,11 @@
         <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
         <translation>Iš naujo pasirinkti atvaizdžio failą</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
+        <source>Drag and drop the backup image file here</source>
+        <translation>Vilkite atsarginės kopijos atvaizdžio failą čia</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
@@ -559,8 +559,8 @@
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
-        <source>Remaining time: %1</source>
-        <translation>Likęs laikas: %1</translation>
+        <source>Time remaining: %1</source>
+        <translation>Liko laiko: %1</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>

@@ -3,8 +3,8 @@
     <name>CloneJob</name>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="146"/>
-        <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation>L&apos;écriture des données sur %1 a échoué, %2 octets de données devraient être écrits, mais actuellement %3 ont été écrites, erreur : %4</translation>
+        <source>Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4</source>
+        <translation>L&apos;écriture des données sur %1 a échoué, taille attendue : %2 - seulement %3 écris, erreur : %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="193"/>
@@ -102,21 +102,6 @@
         <translation>La destination du stockage ne peut pas être la partition à sauver, merci de refaire votre sélection</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
-        <source>Not enough total capacity in target disk, please select another one</source>
-        <translation>Espace de stockage insuffisant sur le disque de destination, merci d&apos;en sélectionner un autre</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
-        <source>Not enough total capacity in target partition, please select another one</source>
-        <translation>Espace de stockage insuffisant sur la partition de destination, merci d&apos;en sélectionner une autre</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
-        <source>Not enough total capacity, please select another disk</source>
-        <translation>Espace de stockage insuffisant, merci de sélectionner un autre disque</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
         <translation>Lancer le clonage ?</translation>
@@ -141,6 +126,21 @@
         <translation>L&apos;emplacement du stockage n&apos;a pas été trouvé</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
+        <source>Task completed</source>
+        <translation>Opération terminée</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
+        <source>Clone Successful</source>
+        <translation>Clonage terminé</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
+        <source>Restore Succeessful</source>
+        <translation>Restauration réussie</translation>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
         <source>Failed to restart system</source>
         <translation>Échec du redémarrage du système</translation>
@@ -161,9 +161,24 @@
         <translation>Restaurer le chargeur de démarrage</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
+        <source>No enough total capacity in target disk, please select another one</source>
+        <translation>Espace de stockage insuffisant sur le disque de destination, merci d&apos;en sélectionner un autre</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
+        <source>No enough total capacity in target partition, please select another one</source>
+        <translation>Espace de stockage insuffisant sur la partition de destination, merci d&apos;en sélectionner une autre</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
+        <source>No enough total capacity, please select another disk</source>
+        <translation>Espace de stockage insuffisant, merci de sélectionner un autre disque</translation>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process.</source>
-        <translation type="unfinished"/>
+        <translation>Toutes les données du disque cible (partition) seront formatées lors du clonage ou de la restauration, cette action ne peut pas être annulée au cours du processus.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -217,11 +232,6 @@
         <translation>Ré-essayer</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
-        <source>Task done</source>
-        <translation>Opération terminée</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
         <translation>Sauvegarde terminée</translation>
@@ -230,16 +240,6 @@
         <location filename="../src/widgets/mainwindow.cpp" line="656"/>
         <source>View Backup File</source>
         <translation>Voir le fichier de sauvegarde</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
-        <source>Clone Succeeded</source>
-        <translation>Clonage terminée</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
-        <source>Restore Succeeded</source>
-        <translation>Restauration terminée</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="669"/>
@@ -328,21 +328,21 @@
     </message>
     <message>
         <location filename="../src/main.cpp" line="153"/>
-        <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation>Deepin Clone est un outil de sauvegarde et de restauration dans deepin. Il permet de cloner, sauver et restaurer un disque ou une partition ainsi que d&apos;autres fonctions.</translation>
+        <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
+        <translation>Deepin Clone est un outil de sauvegarde et de restauration dans Deepin. Il prend en charge le clonage de disque ou de partition, la sauvegarde et la restauration ainsi que d&apos;autres fonctions.</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="890"/>
+        <location filename="../src/corelib/helper.cpp" line="850"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Partition « %1 » introuvable</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="892"/>
+        <location filename="../src/corelib/helper.cpp" line="852"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Disque « %1 » introuvable</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="917"/>
+        <location filename="../src/corelib/helper.cpp" line="877"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
@@ -356,7 +356,7 @@
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
-        <source>Unknown partition table format</source>
+        <source>Unknown partition style</source>
         <translation>Format de table de partition inconnu</translation>
     </message>
     <message>
@@ -415,12 +415,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>Sauvegarder les données du disque dans un fichier image</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>Sauvegarder les données de partition dans un fichier image</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -524,11 +524,6 @@
         <translation>Sélectionnez le fichier image</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
-        <source>Drag and drop backup image file here</source>
-        <translation>Glissez-déposez le fichier image de sauvegarde ici</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
         <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
@@ -538,6 +533,11 @@
         <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
         <translation>Re-sélectionnez le fichier image</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
+        <source>Drag and drop the backup image file here</source>
+        <translation>Glissez-déposez le fichier image de sauvegarde ici</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
@@ -559,7 +559,7 @@
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
-        <source>Remaining time: %1</source>
+        <source>Time remaining: %1</source>
         <translation>Temps restant : %1</translation>
     </message>
     <message>

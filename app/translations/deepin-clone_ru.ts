@@ -3,8 +3,8 @@
     <name>CloneJob</name>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="146"/>
-        <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation>Запись данных в %1 не удалась, %2 байта данных должны быть записаны, но на самом деле записано %3, ошибка: %4</translation>
+        <source>Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4</source>
+        <translation>Ошибка записи данных в %1, ожидаемый размер записи: %2 - только %3 записано, с ошибками: %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="193"/>
@@ -102,21 +102,6 @@
         <translation>Место хранения не может быть на диске для резервного копирования, пожалуйста повторите</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
-        <source>Not enough total capacity in target disk, please select another one</source>
-        <translation>Недостаточно места на целевом диске, выберите другой</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
-        <source>Not enough total capacity in target partition, please select another one</source>
-        <translation>Недостаточно места на целевом диске, выберите другой</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
-        <source>Not enough total capacity, please select another disk</source>
-        <translation>Недостаточно места на целевом диске, выберите другой диск</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
         <translation>Начать клонирование?</translation>
@@ -141,6 +126,21 @@
         <translation>Выбранное место хранения не найдено</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
+        <source>Task completed</source>
+        <translation>Задача завершена</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
+        <source>Clone Successful</source>
+        <translation>Клонирование Успешно Завершено</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
+        <source>Restore Succeessful</source>
+        <translation>Восстановление Успешно Завершено</translation>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
         <source>Failed to restart system</source>
         <translation>Ошибка перезапуска системы</translation>
@@ -159,6 +159,21 @@
         <location filename="../src/widgets/mainwindow.cpp" line="239"/>
         <source>Restore boot</source>
         <translation>Восстановить загрузку</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
+        <source>No enough total capacity in target disk, please select another one</source>
+        <translation>Недостаточно места на целевом диске, выберите другой</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
+        <source>No enough total capacity in target partition, please select another one</source>
+        <translation>Недостаточно места на целевом диске, выберите другой</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
+        <source>No enough total capacity, please select another disk</source>
+        <translation>Недостаточно места на целевом диске, выберите другой диск</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
@@ -217,11 +232,6 @@
         <translation>Повтор</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
-        <source>Task done</source>
-        <translation>Задача выполнена</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
         <translation>Резервное копирование Успешно Завершено</translation>
@@ -230,16 +240,6 @@
         <location filename="../src/widgets/mainwindow.cpp" line="656"/>
         <source>View Backup File</source>
         <translation>Просмотр Резервного Файла</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
-        <source>Clone Succeeded</source>
-        <translation>Клонирование Успешно Завершено</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
-        <source>Restore Succeeded</source>
-        <translation>Восстановление Успешно Завершено</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="669"/>
@@ -328,21 +328,21 @@
     </message>
     <message>
         <location filename="../src/main.cpp" line="153"/>
-        <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation>Клонирование Deepin - это инструмент для резервного копирования и восстановления в deepin. Он поддерживает клонирование, резервное копирование и восстановление диска или раздела и другие функции.</translation>
+        <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
+        <translation>Клонирование Deepin - это инструмент резервного копирования и восстановления в Deepin. Он поддерживает клонирование дисков или разделов, резервное копирование и восстановление и другие функции.</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="890"/>
+        <location filename="../src/corelib/helper.cpp" line="850"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Раздел &quot;%1&quot; не найден</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="892"/>
+        <location filename="../src/corelib/helper.cpp" line="852"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Диск &quot;%1&quot; не найден</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="917"/>
+        <location filename="../src/corelib/helper.cpp" line="877"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
@@ -356,8 +356,8 @@
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
-        <source>Unknown partition table format</source>
-        <translation>Неизвестный формат таблицы раздела</translation>
+        <source>Unknown partition style</source>
+        <translation>Неизвестный тип раздела</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
@@ -524,11 +524,6 @@
         <translation>Выберите файл образа</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
-        <source>Drag and drop backup image file here</source>
-        <translation>Перетащите файл образа резервной копии сюда.</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
         <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
@@ -538,6 +533,11 @@
         <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
         <translation>Повторите выбор файла образа</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
+        <source>Drag and drop the backup image file here</source>
+        <translation>Перетащите файл резервной копии сюда</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
@@ -559,7 +559,7 @@
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
-        <source>Remaining time: %1</source>
+        <source>Time remaining: %1</source>
         <translation>Осталось времени: %1</translation>
     </message>
     <message>

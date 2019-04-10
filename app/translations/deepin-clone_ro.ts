@@ -3,8 +3,8 @@
     <name>CloneJob</name>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="146"/>
-        <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation>Scrierea datelor pe %1 a eșuat, %2 octeți de date ar fi trebuit scriși, dar %3 au fost scriși; eroare: %4</translation>
+        <source>Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="193"/>
@@ -102,21 +102,6 @@
         <translation>Nu se poate salva fișierul pe partiția ce urmează să fie clonată, alegeți o altă locație</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
-        <source>Not enough total capacity in target disk, please select another one</source>
-        <translation>Spațiu insuficient pe disk-ul selectat, alegeți un alt disk</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
-        <source>Not enough total capacity in target partition, please select another one</source>
-        <translation>Spațiu insuficient pe partiția selectată, alegeți o altă partiție</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
-        <source>Not enough total capacity, please select another disk</source>
-        <translation>Capacitate totală insuficientă, alegeți alt disk</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
         <translation>Începeți clonarea?</translation>
@@ -141,6 +126,21 @@
         <translation>Locația selectată pentru stocare nu a fost găsită</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
+        <source>Task completed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
+        <source>Clone Successful</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
+        <source>Restore Succeessful</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
         <source>Failed to restart system</source>
         <translation>S-a eșuat restartarea sistemului</translation>
@@ -159,6 +159,21 @@
         <location filename="../src/widgets/mainwindow.cpp" line="239"/>
         <source>Restore boot</source>
         <translation>Restaurați sectorul de boot</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
+        <source>No enough total capacity in target disk, please select another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
+        <source>No enough total capacity in target partition, please select another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
+        <source>No enough total capacity, please select another disk</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
@@ -217,11 +232,6 @@
         <translation>Reîncercați</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
-        <source>Task done</source>
-        <translation>Proces efectuat</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
         <translation>Copia de rezervă a fost creată</translation>
@@ -230,16 +240,6 @@
         <location filename="../src/widgets/mainwindow.cpp" line="656"/>
         <source>View Backup File</source>
         <translation>Vizualizați copie de rezervă</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
-        <source>Clone Succeeded</source>
-        <translation>Clonarea s-a efectuat cu succes</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
-        <source>Restore Succeeded</source>
-        <translation>Restaurarea s-a efectuat cu succes</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="669"/>
@@ -328,21 +328,21 @@
     </message>
     <message>
         <location filename="../src/main.cpp" line="153"/>
-        <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation>Deepin Clone este o unealtă pentru crearea și restaurarea copiilor de rezervă. Poate clona, crea copii de rezervă și restaura disk-uri sau partiții.</translation>
+        <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="890"/>
+        <location filename="../src/corelib/helper.cpp" line="850"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Partiția &quot;%1&quot; nu a fost găsită</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="892"/>
+        <location filename="../src/corelib/helper.cpp" line="852"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Disk-ul &quot;%1&quot; nu poate fi găsit</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="917"/>
+        <location filename="../src/corelib/helper.cpp" line="877"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
@@ -356,8 +356,8 @@
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
-        <source>Unknown partition table format</source>
-        <translation>Format necunoscut al tabelului de partiții</translation>
+        <source>Unknown partition style</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
@@ -524,11 +524,6 @@
         <translation>Alegeți imaginea</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
-        <source>Drag and drop backup image file here</source>
-        <translation>Trageți și plasați o imagine ce conține copia de rezervă aici</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
         <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
@@ -538,6 +533,11 @@
         <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
         <translation>Reselectați imaginea</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
+        <source>Drag and drop the backup image file here</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
@@ -559,8 +559,8 @@
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
-        <source>Remaining time: %1</source>
-        <translation>Timp rămas: %1</translation>
+        <source>Time remaining: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>

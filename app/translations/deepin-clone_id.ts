@@ -3,8 +3,8 @@
     <name>CloneJob</name>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="146"/>
-        <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation>Menulis data ke %1 gagal, %2 byte data harus ditulis, tapi sebenarnya %3 aja, kesalahan: %4</translation>
+        <source>Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="193"/>
@@ -102,21 +102,6 @@
         <translation>Lokasi penyimpanan tidak bisa berada dalam partisi yang di backup, silahkan pilih kembali</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
-        <source>Not enough total capacity in target disk, please select another one</source>
-        <translation>Total kapasitas dalam diska target tidak mencukupi, silahkan pilih yang lain</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
-        <source>Not enough total capacity in target partition, please select another one</source>
-        <translation>Total kapasitas dalam partisi target tidak mencukupi, silahkan pilih yang lain</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
-        <source>Not enough total capacity, please select another disk</source>
-        <translation>Total kapasitas tidak mencukupi, silahkan pilih diska lain</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
         <translation>Lanjutkan ke kloning?</translation>
@@ -141,6 +126,21 @@
         <translation>Lokasi penyimpanan yang dipilih tidak ditemukan</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
+        <source>Task completed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
+        <source>Clone Successful</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
+        <source>Restore Succeessful</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
         <source>Failed to restart system</source>
         <translation>Gagal untuk memulai ulang sistem</translation>
@@ -161,9 +161,24 @@
         <translation>Mengembalikan boot</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
+        <source>No enough total capacity in target disk, please select another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
+        <source>No enough total capacity in target partition, please select another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
+        <source>No enough total capacity, please select another disk</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process.</source>
-        <translation type="unfinished"/>
+        <translation>Semua data dalam diska target (partisi) akan diformat selama kloning atau memulihkan, yang tidak dapat dibatalkan selama proses.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -217,11 +232,6 @@
         <translation>Coba lagi</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
-        <source>Task done</source>
-        <translation>Pekerjaan selesai</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
         <translation>Sukses backup</translation>
@@ -230,16 +240,6 @@
         <location filename="../src/widgets/mainwindow.cpp" line="656"/>
         <source>View Backup File</source>
         <translation>Lihat berkas backup</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
-        <source>Clone Succeeded</source>
-        <translation>Sukses kloning</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
-        <source>Restore Succeeded</source>
-        <translation>Sukses mengembalikan</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="669"/>
@@ -328,21 +328,21 @@
     </message>
     <message>
         <location filename="../src/main.cpp" line="153"/>
-        <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation>Deepin Clone adalah sebuah alat untuk menyimpan salinan dan mengembalikan salinan di Deepin. Alat ini mendukung penggandaan, penyimpanan salinan, pengembalian salinan di disk atau partisi dan fungsi-fungsi yang lainnya</translation>
+        <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="890"/>
+        <location filename="../src/corelib/helper.cpp" line="850"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Partisi &quot;%1&quot; tidak ditemukan</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="892"/>
+        <location filename="../src/corelib/helper.cpp" line="852"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Disk &quot;%1&quot; tidak ditemukan</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="917"/>
+        <location filename="../src/corelib/helper.cpp" line="877"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
@@ -356,8 +356,8 @@
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
-        <source>Unknown partition table format</source>
-        <translation>Format tabel partisi tidak diketahui</translation>
+        <source>Unknown partition style</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
@@ -415,12 +415,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>Cadangkan data diska ke berkas citra</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>Cadangkan data partisi ke berkas citra</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -524,11 +524,6 @@
         <translation>Pilih berkas image</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
-        <source>Drag and drop backup image file here</source>
-        <translation>Seret dan lepaskan berkas image backup disini</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
         <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
@@ -538,6 +533,11 @@
         <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
         <translation>Pilih ulang berkas image</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
+        <source>Drag and drop the backup image file here</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
@@ -559,8 +559,8 @@
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
-        <source>Remaining time: %1</source>
-        <translation>Sisa waktu: %1</translation>
+        <source>Time remaining: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>

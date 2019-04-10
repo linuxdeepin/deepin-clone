@@ -3,8 +3,8 @@
     <name>CloneJob</name>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="146"/>
-        <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation>Tietojen kirjoittaminen kohteeseen %1 epäonnistui: vain %2 tavua tietoja kirjoitettiin, kun olisi pitänyt kirjoittaa %3 tavua, virhe: %4</translation>
+        <source>Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4</source>
+        <translation>Tietojen kirjoittaminen %1 epäonnistui, arvioitu kirjoitusmäärä: %2 — vain %3 kirjoitettu, virhe: %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="193"/>
@@ -44,7 +44,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="349"/>
         <source>Select Operation</source>
-        <translation>Valitse Toiminto</translation>
+        <translation>Valitse toiminto</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="350"/>
@@ -102,21 +102,6 @@
         <translation>Tietojen sijainti ei voi olla varmuuskopioitavalla osiolla, ole hyvä ja valitse uudelleen</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
-        <source>Not enough total capacity in target disk, please select another one</source>
-        <translation>Kohdelevyllä ei ole tarpeeksi kokonaistilaa, ole hyvä ja valitse toinen levy</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
-        <source>Not enough total capacity in target partition, please select another one</source>
-        <translation>Kohdeosiossa ei ole tarpeeksi kokonaistilaa, ole hyvä ja valitse toinen osio</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
-        <source>Not enough total capacity, please select another disk</source>
-        <translation>Ei tarpeeksi kokonaistilaa, ole hyvä ja valitse toinen levy</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
         <translation>Aloitetaanko kloonaaminen?</translation>
@@ -141,6 +126,21 @@
         <translation>Valittua tietojen sijaintia ei löydetty</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
+        <source>Task completed</source>
+        <translation>Tehtävä valmis</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
+        <source>Clone Successful</source>
+        <translation>Kloonaus onnistui</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
+        <source>Restore Succeessful</source>
+        <translation>Palautus onnistui</translation>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
         <source>Failed to restart system</source>
         <translation>Järjestelmän uudelleenkäynnistäminen epäonnistui</translation>
@@ -161,9 +161,24 @@
         <translation>Palauta käynnistys</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
+        <source>No enough total capacity in target disk, please select another one</source>
+        <translation>Ei riittävästi kokonaiskapasiteettia kohdelevyllä, valitse toinen</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
+        <source>No enough total capacity in target partition, please select another one</source>
+        <translation>Kohdeosion kokonaiskapasiteetti ei riitä, valitse toinen</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
+        <source>No enough total capacity, please select another disk</source>
+        <translation>Ei riittävästi kokonaiskapasiteettia, valitse toinen levy</translation>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process.</source>
-        <translation type="unfinished"/>
+        <translation>Kaikki kohdelevyn (osion) tiedot alustetaan kloonauksen tai palautuksen aikana. Et voi peruuttaa prosessia.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -199,17 +214,17 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="629"/>
         <source>Backup Failed</source>
-        <translation>Varmuuskopionti Epäonnistui</translation>
+        <translation>Varmuuskopionti epäonnistui</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="635"/>
         <source>Clone Failed</source>
-        <translation>Kloonaus Epäonnistui</translation>
+        <translation>Kloonaus epäonnistui</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="637"/>
         <source>Restore Failed</source>
-        <translation>Palautus Epäonnistui</translation>
+        <translation>Palautus epäonnistui</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="642"/>
@@ -217,14 +232,9 @@
         <translation>Yritä uudelleen</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
-        <source>Task done</source>
-        <translation>Tehtävä suoritettu</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
-        <translation>Varmuuskopiointi Onnistui</translation>
+        <translation>Varmuuskopiointi onnistui</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="656"/>
@@ -232,19 +242,9 @@
         <translation>Näytä Varmuuskopiotiedosto</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
-        <source>Clone Succeeded</source>
-        <translation>Kloonaus Onnistui</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
-        <source>Restore Succeeded</source>
-        <translation>Palautus Onnistui</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="669"/>
         <source>Restart</source>
-        <translation>Käynnistä Uudelleen</translation>
+        <translation>Boottaa</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="795"/>
@@ -328,21 +328,21 @@
     </message>
     <message>
         <location filename="../src/main.cpp" line="153"/>
-        <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation>Deepinin Kloonaaja on varmuuskopio- ja palautustyökalu. Se tukee levyjen ja osioiden kloonauksen, varmuuskopioinnin ja palautuksen lisäksi sun muita toiminnallisuuksia.</translation>
+        <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
+        <translation>Deepin Clone on varmuuskopiointi- ja palautustyökalu. Se tukee levyn tai osion kloonausta, varmuuskopiointia ja palautusta sekä muita toimintoja.</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="890"/>
+        <location filename="../src/corelib/helper.cpp" line="850"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Osiota &quot;%1&quot; ei löydetty</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="892"/>
+        <location filename="../src/corelib/helper.cpp" line="852"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Levyä &quot;%1&quot; ei löydetty</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="917"/>
+        <location filename="../src/corelib/helper.cpp" line="877"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
@@ -356,8 +356,8 @@
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
-        <source>Unknown partition table format</source>
-        <translation>Tuntematon osiotaulukko</translation>
+        <source>Unknown partition style</source>
+        <translation>Tuntematon osion tyyppi</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
@@ -400,7 +400,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone Disk</source>
-        <translation>Kloonaa Levy</translation>
+        <translation>Kloonaa levy</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
@@ -415,12 +415,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>Varmuuskopioi kiintolevyn tiedot yhdeksi paketiksi</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>Varmuuskopioi osion tiedot yhdeksi paketiksi</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -435,7 +435,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone Partition</source>
-        <translation>Kloonaa Osio</translation>
+        <translation>Kloonaa osio</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
@@ -445,17 +445,17 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Partition to Image</source>
-        <translation>Osiosta Kuvatiedostolle</translation>
+        <translation>Osio levykuvaksi</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
         <source>Image to Partition</source>
-        <translation>Kuvatiedostosta Osiolle</translation>
+        <translation>Levykuva osiolle</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="137"/>
         <source>Restore image file to partition</source>
-        <translation>Palauta kuvatiedosto osioon</translation>
+        <translation>Palauta levykuva osioon</translation>
     </message>
 </context>
 <context>
@@ -498,7 +498,7 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="409"/>
         <source>Select a backup image file</source>
-        <translation>Valitse varmuuskopion kuvatiedosto</translation>
+        <translation>Valitse varmistettu levykuva</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="412"/>
@@ -524,11 +524,6 @@
         <translation>Valitse kuvatiedosto</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
-        <source>Drag and drop backup image file here</source>
-        <translation>Raahaa ja pudota varmuuskopion kuvatiedosto tähän</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
         <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
@@ -538,6 +533,11 @@
         <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
         <translation>Valitse kuvatiedosto uudelleen</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
+        <source>Drag and drop the backup image file here</source>
+        <translation>Vedä ja pudota varmuuskopiotiedosto tähän</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
@@ -559,8 +559,8 @@
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
-        <source>Remaining time: %1</source>
-        <translation>Jäljellä oleva aika: %1</translation>
+        <source>Time remaining: %1</source>
+        <translation>Aikaa jäljellä: %1</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>

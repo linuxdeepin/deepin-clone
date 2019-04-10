@@ -3,8 +3,8 @@
     <name>CloneJob</name>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="146"/>
-        <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation> %1 hiba az adatok írása közben, %2 az összes adat, jelenlegi kiírt %3, összes hiba: %4</translation>
+        <source>Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="193"/>
@@ -102,21 +102,6 @@
         <translation>A tárolási hely nem lehet a mentett partíción, válaszon másik tárhelyet.</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
-        <source>Not enough total capacity in target disk, please select another one</source>
-        <translation>Nincs elegendő szabad tárhely a céllemezen, kérjük, válasszon másikat</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
-        <source>Not enough total capacity in target partition, please select another one</source>
-        <translation>Nincs elegendő hely a cél partíción, kérem válasszon másikat.</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
-        <source>Not enough total capacity, please select another disk</source>
-        <translation>Nincs elegendő a tárhely, kérjük, válasszon másik lemezt</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
         <translation>Klónozás folytatása?</translation>
@@ -141,6 +126,21 @@
         <translation>A kiválasztott tárolási hely nem található</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
+        <source>Task completed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
+        <source>Clone Successful</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
+        <source>Restore Succeessful</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
         <source>Failed to restart system</source>
         <translation>A rendszer újraindítása sikertelen</translation>
@@ -161,9 +161,24 @@
         <translation>Boot visszaállítása</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
+        <source>No enough total capacity in target disk, please select another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
+        <source>No enough total capacity in target partition, please select another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
+        <source>No enough total capacity, please select another disk</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process.</source>
-        <translation type="unfinished"/>
+        <translation>A cél lemez (partíció) összes adata formázva lesz a klónozás vagy helyreállítás során. Ezt  nem lehet megszakítani a művelet alatt.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -174,12 +189,12 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="545"/>
         <source>&quot;%1&quot; is used, please restart and enter &quot;Deepin Recovery&quot; to continue</source>
-        <translation>%1 használatban, kérem indítsa újra a számítógépet és lépjen be a &quot;Deepin Recovery&quot;-be a folytatáshoz</translation>
+        <translation>%1 használatban, kérlek indítsd újra a számítógépet és lépj be a &quot;Deepin Recovery&quot;-be a folytatáshoz</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="550"/>
         <source>&quot;%1&quot; is used, please install &quot;Deepin Recovery&quot; to retry</source>
-        <translation>&quot;%1&quot; használatban van, kérem telepítse a &quot;Deepin Recovery&quot;-t az újrapróbáláshoz</translation>
+        <translation>&quot;%1&quot; használatban van, kérlek telepítsd a &quot;Deepin Recovery&quot;-t az újrapróbáláshoz</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="609"/>
@@ -199,17 +214,17 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="629"/>
         <source>Backup Failed</source>
-        <translation>Mentés készítése meghiúsult</translation>
+        <translation>A mentés készítése meghiúsult</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="635"/>
         <source>Clone Failed</source>
-        <translation>Klónozás meghiúsult</translation>
+        <translation>A klónozás meghiúsult</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="637"/>
         <source>Restore Failed</source>
-        <translation>Visszaállítás meghiúsult</translation>
+        <translation>A visszaállítás meghiúsult</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="642"/>
@@ -217,29 +232,14 @@
         <translation>Újra</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
-        <source>Task done</source>
-        <translation>Feladat befejeződött</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
-        <translation>Mentés sikeres</translation>
+        <translation>A mentés sikerült</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="656"/>
         <source>View Backup File</source>
         <translation>Mentés fájljának megtekintése</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
-        <source>Clone Succeeded</source>
-        <translation>Klónozás sikeres</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
-        <source>Restore Succeeded</source>
-        <translation>Visszaállítás sikeres</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="669"/>
@@ -294,12 +294,12 @@
     <message>
         <location filename="../src/corelib/ddevicediskinfo.cpp" line="336"/>
         <source>Failed to open process, error: %1</source>
-        <translation>Folyamat megnyitása sikertelen, hiba: %1</translation>
+        <translation>A folyamat elindítása sikertelen, hiba: %1</translation>
     </message>
     <message>
         <location filename="../src/corelib/dfilediskinfo.cpp" line="178"/>
         <source>Failed to open file(%1), error: %2</source>
-        <translation>Fájl megnyitása sikertelen (%1), hiba: %2</translation>
+        <translation>A fájl megnyitása sikertelen (%1), hiba: %2</translation>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="208"/>
@@ -328,21 +328,21 @@
     </message>
     <message>
         <location filename="../src/main.cpp" line="153"/>
-        <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation>A Deepin Clone biztonsági mentés készítésére és visszaállításra használatos eszköz. Egyebek között támogatja lemezek és/vagy partíciók klónozását, mentését és visszaállítását.</translation>
+        <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="890"/>
+        <location filename="../src/corelib/helper.cpp" line="850"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Partíció &quot;%1&quot; nem található</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="892"/>
+        <location filename="../src/corelib/helper.cpp" line="852"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Lemez &quot;%1&quot; nem található</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="917"/>
+        <location filename="../src/corelib/helper.cpp" line="877"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
@@ -356,23 +356,23 @@
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
-        <source>Unknown partition table format</source>
-        <translation>Ismeretlen partíciós tábla formátum</translation>
+        <source>Unknown partition style</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
         <source>Boot for install system failed</source>
-        <translation>Telepítő rendszer betöltése sikertelen</translation>
+        <translation>A telepítő rendszer betöltése sikertelen</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="202"/>
         <source>Boot for update system failed</source>
-        <translation>Frissítő rendszer betöltése sikertelen</translation>
+        <translation>A frissítő rendszer betöltése sikertelen</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="266"/>
         <source>Boot for repair system failed</source>
-        <translation>Javító rendszer betöltése sikertelen</translation>
+        <translation>A javító rendszer betöltése sikertelen</translation>
     </message>
 </context>
 <context>
@@ -385,7 +385,7 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="76"/>
         <source>Select operation for media</source>
-        <translation>Válassza ki a végrehajtandó műveletet</translation>
+        <translation>Válassza ki a művelethez a meghajtót</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="85"/>
@@ -410,17 +410,17 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Disk to Image</source>
-        <translation>Lemez képfájlba</translation>
+        <translation>Lemezt képfájlba</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>Lemez mentése képfájlba</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>Partíció mentése képfájlba</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -463,37 +463,37 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="322"/>
         <source>Select the source disk</source>
-        <translation>Válassza ki a forráslemezt</translation>
+        <translation>Kérlek válaszd ki a forráslemezt</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="323"/>
         <source>Select the target disk</source>
-        <translation>Válassza ki a céllemezt</translation>
+        <translation>Kérlek válaszd ki a céllemezt</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="337"/>
         <source>Select the source partition</source>
-        <translation>Válassza ki a forráspartíciót</translation>
+        <translation>Kérlek válaszd ki a forráspartíciót</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="338"/>
         <source>Select the target partition</source>
-        <translation>Válassza ki a célpartíciót</translation>
+        <translation>Kérlek válasszd ki a célpartíciót</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="366"/>
         <source>Select a disk to backup</source>
-        <translation>Válassza ki a mentendő lemezt</translation>
+        <translation>Kérlek válaszd ki a mentendő lemezt</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="374"/>
         <source>Select a partition to backup</source>
-        <translation>Válassza ki a mentendő partíciót</translation>
+        <translation>Kérlek válaszd ki a mentendő partíciót</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="383"/>
         <source>Select storage location</source>
-        <translation>Válassza ki a tárhelyet</translation>
+        <translation>Kérlek válaszd ki a tárhelyet</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="409"/>
@@ -524,11 +524,6 @@
         <translation>Válassza ki a képfájlt.</translation>
     </message>
     <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
-        <source>Drag and drop backup image file here</source>
-        <translation>Húzza ide a biztonsági mentés fájlját</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
         <location filename="../src/widgets/selectfilepage.cpp" line="260"/>
         <source>Deepin Image File</source>
@@ -537,12 +532,17 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
-        <translation>Válassza ki újra a képfájlt</translation>
+        <translation>Válaszd ki újra a képfájlt</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
+        <source>Drag and drop the backup image file here</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
         <source>Reselect storage location</source>
-        <translation>Válassza ki újra a tárhelyet</translation>
+        <translation>Válaszd ki újra a tárhelyet</translation>
     </message>
 </context>
 <context>
@@ -550,7 +550,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="44"/>
         <source>Task is ongoing, please wait......</source>
-        <translation>Feladat végrehajtása folyamatban, kérem várjon...</translation>
+        <translation>A feladat végrehajtása folyamatban, kérlek várj...</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="61"/>
@@ -559,8 +559,8 @@
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
-        <source>Remaining time: %1</source>
-        <translation>Hátralevő idő: %1</translation>
+        <source>Time remaining: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>

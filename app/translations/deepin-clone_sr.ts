@@ -3,8 +3,8 @@
     <name>CloneJob</name>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="146"/>
-        <source>Writing data to %1 failed, %2 byte data should be written, but actually %3 wrote, error: %4</source>
-        <translation>Уписивање података на %1 није успело, %2 бајта података је уписано, а требало је%3 уписати, грешка: %4</translation>
+        <source>Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="193"/>
@@ -44,7 +44,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="349"/>
         <source>Select Operation</source>
-        <translation>Одабери операцију</translation>
+        <translation>Изабери операцију</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="350"/>
@@ -94,27 +94,12 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="415"/>
         <source>Storage location can not be in the disk to backup, please reselect</source>
-        <translation>Складиште не може бити на диску за који се прави резерва, поново одаберите</translation>
+        <translation>Складиште не може бити на диску за који се прави резерва, поново изаберите</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="417"/>
         <source>Storage location can not be in the partition to backup, please reselect</source>
-        <translation>Складиште не може бити на партицији за коју се прави резерва, поново одаберите</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
-        <source>Not enough total capacity in target disk, please select another one</source>
-        <translation>Недовољно укупног капацитета у одредишном диску, молимо одаберите други</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
-        <source>Not enough total capacity in target partition, please select another one</source>
-        <translation>Недовољно укупног капацитета у одредишној партицији, молимо одаберите другу</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
-        <source>Not enough total capacity, please select another disk</source>
-        <translation>Недовољно укупног капацитета, молимо одаберите други диск</translation>
+        <translation>Складиште не може бити на партицији за коју се прави резерва, поново изаберите</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
@@ -138,7 +123,22 @@
         <location filename="../src/widgets/mainwindow.cpp" line="512"/>
         <location filename="../src/widgets/mainwindow.cpp" line="593"/>
         <source>The selected storage location not found</source>
-        <translation>Одабрана локација складишта није пронађена</translation>
+        <translation>Изабрана локација складишта није пронађена</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
+        <source>Task completed</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
+        <source>Clone Successful</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
+        <source>Restore Succeessful</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
@@ -161,9 +161,24 @@
         <translation>Опорави покретач</translation>
     </message>
     <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="436"/>
+        <source>No enough total capacity in target disk, please select another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="438"/>
+        <source>No enough total capacity in target partition, please select another one</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../src/widgets/mainwindow.cpp" line="463"/>
+        <source>No enough total capacity, please select another disk</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process.</source>
-        <translation type="unfinished"/>
+        <translation>Сви подаци на одрадишном диску (партицији) ће бити форматирани током клонирања или повраћаја без могућности опозива.</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -217,11 +232,6 @@
         <translation>Покушај поново</translation>
     </message>
     <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="652"/>
-        <source>Task done</source>
-        <translation>Задатак обављен</translation>
-    </message>
-    <message>
         <location filename="../src/widgets/mainwindow.cpp" line="655"/>
         <source>Backup Succeeded</source>
         <translation>Прављење резерве је успело</translation>
@@ -230,16 +240,6 @@
         <location filename="../src/widgets/mainwindow.cpp" line="656"/>
         <source>View Backup File</source>
         <translation>Прикажи датотеку резерве</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="664"/>
-        <source>Clone Succeeded</source>
-        <translation>Клонирање је успело</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/mainwindow.cpp" line="668"/>
-        <source>Restore Succeeded</source>
-        <translation>Повраћај је успео</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="669"/>
@@ -328,21 +328,21 @@
     </message>
     <message>
         <location filename="../src/main.cpp" line="153"/>
-        <source>Deepin Clone is a tool to backup and restore in deepin. It supports to clone, backup and restore disk or partition and other functions.</source>
-        <translation>Дипин Клонирање је алат за праљење резерви и повраћај података у Дипину. Подржава клонирање, прављење резерви и повраћај дискова или партиција и друге сличне функције.</translation>
+        <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="890"/>
+        <location filename="../src/corelib/helper.cpp" line="850"/>
         <source>Partition &quot;%1&quot; not found</source>
         <translation>Партиција &quot;%1&quot; није пронађена</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="892"/>
+        <location filename="../src/corelib/helper.cpp" line="852"/>
         <source>Disk &quot;%1&quot; not found</source>
         <translation>Диск &quot;%1&quot; није пронађен</translation>
     </message>
     <message>
-        <location filename="../src/corelib/helper.cpp" line="917"/>
+        <location filename="../src/corelib/helper.cpp" line="877"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="53"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="86"/>
         <location filename="../src/fixboot/bootdoctor.cpp" line="161"/>
@@ -356,8 +356,8 @@
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
-        <source>Unknown partition table format</source>
-        <translation>Непознат формат партиционе табеле</translation>
+        <source>Unknown partition style</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
@@ -380,12 +380,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="75"/>
         <source>Select media</source>
-        <translation>Одабери медиј</translation>
+        <translation>Изабери медиј</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="76"/>
         <source>Select operation for media</source>
-        <translation>Одабери операцију за медиј</translation>
+        <translation>Изабери операцију за медиј</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="85"/>
@@ -415,12 +415,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>Направи резерву података диска у датотеци одраза</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>Направи резерву података партиције у датотеци одраза</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -463,52 +463,52 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="322"/>
         <source>Select the source disk</source>
-        <translation>Одабери изворни диск</translation>
+        <translation>Изабери изворни диск</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="323"/>
         <source>Select the target disk</source>
-        <translation>Одабери одредишни диск</translation>
+        <translation>Изабери одредишни диск</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="337"/>
         <source>Select the source partition</source>
-        <translation>Одабери изворну партицију</translation>
+        <translation>Изабери изворну партицију</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="338"/>
         <source>Select the target partition</source>
-        <translation>Одабери оредишну партицију</translation>
+        <translation>Изабери оредишну партицију</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="366"/>
         <source>Select a disk to backup</source>
-        <translation>Одабери диск за прављење резерве</translation>
+        <translation>Изабери диск за прављење резерве</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="374"/>
         <source>Select a partition to backup</source>
-        <translation>Одабери партицију за прављење резерве</translation>
+        <translation>Изабери партицију за прављење резерве</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="383"/>
         <source>Select storage location</source>
-        <translation>Одабери локацију складишта</translation>
+        <translation>Изабери локацију складишта</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="409"/>
         <source>Select a backup image file</source>
-        <translation>Одабери датотеку одраза резерве</translation>
+        <translation>Изабери датотеку одраза резерве</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="412"/>
         <source>Select a disk to restore</source>
-        <translation>Одабери диск за повраћај</translation>
+        <translation>Изабери диск за повраћај</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="414"/>
         <source>Select a partition to restore</source>
-        <translation>Одабери партицију за поовраћај</translation>
+        <translation>Изабери партицију за поовраћај</translation>
     </message>
 </context>
 <context>
@@ -516,17 +516,12 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select storage location</source>
-        <translation>Одабери локацију складишта</translation>
+        <translation>Изабери локацију складишта</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="101"/>
         <source>Select image file</source>
-        <translation>Одабери датотеку одраза</translation>
-    </message>
-    <message>
-        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
-        <source>Drag and drop backup image file here</source>
-        <translation>Превуци и убаци датотеку одраза овде</translation>
+        <translation>Изабери датотеку одраза</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="223"/>
@@ -537,12 +532,17 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="181"/>
         <source>Reselect image file</source>
-        <translation>Поново одабери датотеку одраза</translation>
+        <translation>Поново изабери датотеку одраза</translation>
+    </message>
+    <message>
+        <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
+        <source>Drag and drop the backup image file here</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
         <source>Reselect storage location</source>
-        <translation>Поново одабери локацију складишта</translation>
+        <translation>Поново изабери локацију складишта</translation>
     </message>
 </context>
 <context>
@@ -559,8 +559,8 @@
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
-        <source>Remaining time: %1</source>
-        <translation>Преостало време: %1</translation>
+        <source>Time remaining: %1</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>

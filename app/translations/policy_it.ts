@@ -3,7 +3,7 @@
 		<name>policy</name>
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!message" line="0"/>
-			<source>Password required to run Deepin Clone</source>
+			<source>Authentication is required to run Deepin Clone</source>
 			<translation>Per eseguire Deepin Clone occorre inserire la password da Amministratore</translation>
 		</message>
 		<message>
