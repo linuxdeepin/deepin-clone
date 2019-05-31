@@ -55,8 +55,7 @@ bool BootDoctor::fix(const QString &partDevice)
     }
 
     {
-        const QStringList &tmp_paths = QStandardPaths::standardLocations(QStandardPaths::TempLocation);
-        const QString tmp_dir = (tmp_paths.isEmpty() ? "/tmp" : tmp_paths.first()) + "/.deepin-clone";
+        const QString tmp_dir = "/var/cache/deepin-clone";
 
         if (!QDir::current().mkpath(tmp_dir)) {
             dCError("mkpath \"%s\" failed", qPrintable(tmp_dir));
