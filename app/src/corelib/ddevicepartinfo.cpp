@@ -124,7 +124,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
         sizeEnd = size - 1;
         index = 0;
     } else {
-        int code = Helper::processExec(QStringLiteral("partx %1 -b -P -o START,END,SECTORS,SIZE,TYPE,NR,UUID").arg(name));
+        int code = Helper::processExec("partx", {name, "-b", "-P", "-o", "START,END,SECTORS,SIZE,TYPE,NR,UUID"});
 
         if (code == 0) {
             const QByteArray &data = Helper::lastProcessStandardOutput();
@@ -185,7 +185,7 @@ DDevicePartInfo::DDevicePartInfo()
 DDevicePartInfo::DDevicePartInfo(const QString &name)
     : DPartInfo(new DDevicePartInfoPrivate(this))
 {
-    const QJsonArray &block_devices = Helper::getBlockDevices(name);
+    const QJsonArray &block_devices = Helper::getBlockDevices({name});
 
     if (!block_devices.isEmpty()) {
         const QJsonObject &obj = block_devices.first().toObject();

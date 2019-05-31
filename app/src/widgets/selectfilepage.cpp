@@ -233,7 +233,7 @@ void SelectFileWidget::openFileDialog()
             }
         });
 
-        Helper::processExec(&process, honest_child, -1, QIODevice::ReadWrite);
+        Helper::processExec(&process, honest_child, {}, -1, QIODevice::ReadWrite);
 
         if (process.error() == QProcess::FailedToStart)
             break;

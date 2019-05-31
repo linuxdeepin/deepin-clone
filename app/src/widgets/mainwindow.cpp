@@ -644,7 +644,7 @@ void MainWindow::setStatus(MainWindow::Status status)
 
             dCWarning("!!!!job failed!!!!\n");
 
-            if (Helper::processExec("lsblk -O -J") == 0) {
+            if (Helper::processExec("lsblk", {"-O", "-J"}) == 0) {
                 dCInfo("All disk/partition device info\n");
                 dCDebug("\n\"%s\"\n", qPrintable(Helper::lastProcessStandardOutput()));
             }
@@ -730,7 +730,7 @@ void MainWindow::onButtonClicked()
     case RestartSystem: {
         dCDebug("Try restart system");
 
-        if (Helper::processExec("reboot") != 0) {
+        if (Helper::processExec("reboot", {}) != 0) {
             dCError("Failed to restart system");
 
             showErrorMessage(tr("Failed to restart system"));

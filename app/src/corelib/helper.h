@@ -43,9 +43,9 @@ class Helper : public QObject
 public:
     static Helper *instance();
 
-    static int processExec(QProcess *process, const QString &command,
+    static int processExec(QProcess *process, const QString &program, QStringList args,
                            int timeout = -1, QIODevice::OpenMode mode = QIODevice::ReadOnly);
-    static int processExec(const QString &command, int timeout = -1);
+    static int processExec(const QString &command, const QStringList &args, int timeout = -1);
     static QByteArray lastProcessStandardOutput();
     static QByteArray lastProcessStandardError();
 
@@ -60,11 +60,11 @@ public:
     static QString secondsToString(qint64 seconds);
 
     static bool refreshSystemPartList(const QString &device = QString());
-    static QString getPartcloneExecuter(const DPartInfo &info);
+    static QString getPartcloneExecuter(const DPartInfo &info, QStringList &args);
     static bool getPartitionSizeInfo(const QString &partDevice, qint64 *used, qint64 *free, int *blockSize);
 
-    static QByteArray callLsblk(const QString &extraArg = QString());
-    static QJsonArray getBlockDevices(const QString &commandExtraArg = QString());
+    static QByteArray callLsblk(const QStringList &extraArg = QStringList());
+    static QJsonArray getBlockDevices(const QStringList &commandExtraArg = QStringList());
 
     static QString mountPoint(const QString &device);
     static bool isMounted(const QString &device);
@@ -98,8 +98,6 @@ public:
     static QString getDeviceForFile(const QString &file, QString *rootPath = 0);
     static QString parseSerialUrl(const QString &urlString, QString *errorString = 0);
     static QString toSerialUrl(const QString &file);
-
-    static bool clearSymlink(const QString &path);
 
 signals:
     void newWarning(const QString &message);

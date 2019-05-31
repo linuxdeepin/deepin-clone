@@ -37,7 +37,7 @@
 
 static QString getPTName(const QString &device)
 {
-    Helper::processExec(QStringLiteral("/sbin/blkid -p -s PTTYPE -d -i %1").arg(device));
+    Helper::processExec("/sbin/blkid", {"-p", "-s", "PTTYPE", "-d", "-i", device});
 
     const QByteArray &data = Helper::lastProcessStandardOutput();
 
@@ -182,7 +182,7 @@ void DDeviceDiskInfoPrivate::refresh()
 {
     children.clear();
 
-    const QJsonArray &block_devices = Helper::getBlockDevices(name);
+    const QJsonArray &block_devices = Helper::getBlockDevices({name});
 
     if (!block_devices.isEmpty())
         init(block_devices.first().toObject());
@@ -259,9 +259,9 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         }
 
         if (currentMode == DDiskInfo::Read) {
-            process->start(QStringLiteral("dd if=%1 bs=512 count=2048 status=none").arg(filePath()), QIODevice::ReadOnly);
+            process->start("dd", {QString("if=%1").arg(filePath()), "bs=512", "count=2048", "status=none"}, QIODevice::ReadOnly);
         } else {
-            process->start(QStringLiteral("dd of=%1 bs=512 status=none conv=fsync").arg(filePath()));
+            process->start("dd", {QString("of=%1").arg(filePath()), "bs=512", "status=none", "conv=fsync"});
         }
 
         break;
@@ -274,9 +274,9 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         }
 
         if (currentMode == DDiskInfo::Read)
-            process->start(QStringLiteral("sfdisk -d %1").arg(filePath()), QIODevice::ReadOnly);
+            process->start("sfdisk", {"-d", filePath()}, QIODevice::ReadOnly);
         else
-            process->start(QStringLiteral("sfdisk %1 --no-reread").arg(filePath()));
+            process->start("sfdisk", {filePath(), "--no-reread"});
 
         break;
     }
@@ -302,10 +302,11 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
         }
 
         if (currentMode == DDiskInfo::Read) {
-            const QString &executer = Helper::getPartcloneExecuter(part);
-            process->start(QStringLiteral("%1 -s %2 -o - -c -z %3 -L /var/log/partclone.log").arg(executer).arg(part.filePath()).arg(Global::bufferSize), QIODevice::ReadOnly);
+            QStringList args = {"-s", part.filePath(), "-o", "-", "-c", "-z", QString::number(Global::bufferSize), "-L", "/var/log/partclone.log"};
+            const QString &executer = Helper::getPartcloneExecuter(part, args);
+            process->start(executer, args, QIODevice::ReadOnly);
         } else {
-            process->start(QStringLiteral("partclone.restore -s - -o %2 -z %3 -L /var/log/partclone.log").arg(part.filePath()).arg(Global::bufferSize));
+            process->start("partclone.restore", {"-s", "-", "-o", part.filePath(), "-z", QString::number(Global::bufferSize), "-L", "/var/log/partclone.log"});
         }
 
         break;
@@ -520,7 +521,7 @@ DDeviceDiskInfo::DDeviceDiskInfo()
 
 DDeviceDiskInfo::DDeviceDiskInfo(const QString &filePath)
 {
-    const QJsonArray &block_devices = Helper::getBlockDevices(filePath);
+    const QJsonArray &block_devices = Helper::getBlockDevices({filePath});
 
     if (!block_devices.isEmpty()) {
         const QJsonObject &obj = block_devices.first().toObject();
@@ -529,7 +530,7 @@ DDeviceDiskInfo::DDeviceDiskInfo(const QString &filePath)
         d_func()->init(obj);
 
         if (d->type == Part) {
-            const QJsonArray &parent = Helper::getBlockDevices(obj.value("pkname").toString());
+            const QJsonArray &parent = Helper::getBlockDevices({obj.value("pkname").toString()});
 
             if (!parent.isEmpty()) {
                 const QJsonObject &parent_obj = parent.first().toObject();
