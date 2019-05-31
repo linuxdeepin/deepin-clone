@@ -36,7 +36,8 @@
 #include <QRegularExpression>
 #include <QUuid>
 
-#define COMMAND_LSBLK QStringLiteral("/bin/lsblk -J -b -p -o NAME,KNAME,PKNAME,FSTYPE,MOUNTPOINT,LABEL,UUID,SIZE,TYPE,PARTTYPE,PARTLABEL,PARTUUID,MODEL,PHY-SEC,RO,RM,TRAN,SERIAL %1")
+#define COMMAND_LSBLK QStringLiteral("/bin/lsblk")
+#define COMMAND_LSBLK_ARGS {"-J", "-b", "-p", "-o", "NAME,KNAME,PKNAME,FSTYPE,MOUNTPOINT,LABEL,UUID,SIZE,TYPE,PARTTYPE,PARTLABEL,PARTUUID,MODEL,PHY-SEC,RO,RM,TRAN,SERIAL"}
 
 QByteArray Helper::m_processStandardError;
 QByteArray Helper::m_processStandardOutput;
@@ -49,8 +50,12 @@ Helper *Helper::instance()
     return _g_globalHelper;
 }
 
-int Helper::processExec(QProcess *process, const QString &command, int timeout, QIODevice::OpenMode mode)
+int Helper::processExec(QProcess *process, const QString &program, QStringList args, int timeout, QIODevice::OpenMode mode)
 {
+    // 移除无效的参数
+    args.removeAll(QString());
+    args.removeAll("");
+
     m_processStandardOutput.clear();
     m_processStandardError.clear();
 
@@ -81,10 +86,12 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout, 
         });
     }
 
+    QString command = QString("%1 %2").arg(program).arg(args.join(" "));
+
     if (Global::debugLevel > 1)
         dCDebug("Exec: \"%s\", timeout: %d", qPrintable(command), timeout);
 
-    process->start(command, mode);
+    process->start(program, args, mode);
     process->waitForStarted();
 
     if (process->error() != QProcess::UnknownError) {
@@ -124,11 +131,11 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout, 
     return process->exitCode();
 }
 
-int Helper::processExec(const QString &command, int timeout)
+int Helper::processExec(const QString &command, const QStringList &args, int timeout)
 {
     QProcess process;
 
-    return processExec(&process, command, timeout);
+    return processExec(&process, command, args, timeout, QIODevice::ReadOnly);
 }
 
 QByteArray Helper::lastProcessStandardOutput()
@@ -220,7 +227,7 @@ QString Helper::secondsToString(qint64 seconds)
 
 bool Helper::refreshSystemPartList(const QString &device)
 {
-    int code = device.isEmpty() ? processExec("partprobe") : processExec(QString("partprobe %1").arg(device));
+    int code = device.isEmpty() ? processExec("partprobe", {}) : processExec("partprobe", {device});
 
     if (code != 0)
         return false;
@@ -230,7 +237,7 @@ bool Helper::refreshSystemPartList(const QString &device)
     return true;
 }
 
-QString Helper::getPartcloneExecuter(const DPartInfo &info)
+QString Helper::getPartcloneExecuter(const DPartInfo &info, QStringList &args)
 {
     QString executor;
 
@@ -263,7 +270,8 @@ QString Helper::getPartcloneExecuter(const DPartInfo &info)
         executor = "nilfs2";
         break;
     case DPartInfo::NTFS:
-        executor = "ntfs -I";
+        executor = "ntfs";
+        args.append("-I");
         break;
     case DPartInfo::Reiser4:
         executor = "reiser4";
@@ -333,7 +341,9 @@ bool Helper::getPartitionSizeInfo(const QString &partDevice, qint64 *used, qint6
 
         return true;
     } else {
-        process.start(QString("%1 -s %2 -c -q -C -L /var/log/partclone.log").arg(getPartcloneExecuter(DDevicePartInfo(partDevice))).arg(partDevice));
+        QStringList args = {"-s", partDevice, "-c", "-q", "-C", "-L", "/var/log/partclone.log"};
+        const QString &executer = getPartcloneExecuter(DDevicePartInfo(partDevice), args);
+        process.start(executer, args);
         process.setStandardOutputFile("/dev/null");
         process.setReadChannel(QProcess::StandardError);
         process.waitForStarted();
@@ -409,14 +419,19 @@ bool Helper::getPartitionSizeInfo(const QString &partDevice, qint64 *used, qint6
     return false;
 }
 
-QByteArray Helper::callLsblk(const QString &extraArg)
+QByteArray Helper::callLsblk(const QStringList &extraArg)
 {
-    processExec(COMMAND_LSBLK.arg(extraArg));
+    QStringList args(COMMAND_LSBLK_ARGS);
+
+    if (!extraArg.isEmpty())
+        args.append(extraArg);
+
+    processExec(COMMAND_LSBLK, args);
 
     return lastProcessStandardOutput();
 }
 
-QJsonArray Helper::getBlockDevices(const QString &commandExtraArg)
+QJsonArray Helper::getBlockDevices(const QStringList &commandExtraArg)
 {
     const QByteArray &array = Helper::callLsblk(commandExtraArg);
 
@@ -433,7 +448,7 @@ QJsonArray Helper::getBlockDevices(const QString &commandExtraArg)
 
 QString Helper::mountPoint(const QString &device)
 {
-    const QJsonArray &array = getBlockDevices(device);
+    const QJsonArray &array = getBlockDevices({device});
 
     if (array.isEmpty())
         return QString();
@@ -443,7 +458,7 @@ QString Helper::mountPoint(const QString &device)
 
 bool Helper::isMounted(const QString &device)
 {
-    const QJsonArray &array = getBlockDevices("-l " + device);
+    const QJsonArray &array = getBlockDevices({"-l", device});
 
     for (const QJsonValue &part : array) {
         const QJsonObject &obj = part.toObject();
@@ -457,13 +472,13 @@ bool Helper::isMounted(const QString &device)
 
 bool Helper::umountDevice(const QString &device)
 {
-    const QJsonArray &array = getBlockDevices("-l " + device);
+    const QJsonArray &array = getBlockDevices({"-l", device});
 
     for (const QJsonValue &device : array) {
         const QJsonObject &obj = device.toObject();
 
         if (!obj.value("mountpoint").isNull()) {
-            if (processExec(QString("umount -d %1").arg(obj.value("name").toString())) != 0)
+            if (processExec("umount", {"-d", obj.value("name").toString()}) != 0)
                 return false;
         }
     }
@@ -473,13 +488,13 @@ bool Helper::umountDevice(const QString &device)
 
 bool Helper::tryUmountDevice(const QString &device)
 {
-    const QJsonArray &array = getBlockDevices("-l " + device);
+    const QJsonArray &array = getBlockDevices({"-l" + device});
 
     for (const QJsonValue &device : array) {
         const QJsonObject &obj = device.toObject();
 
         if (!obj.value("mountpoint").isNull()) {
-            if (processExec(QString("umount -d %1 --fake").arg(obj.value("name").toString())) != 0)
+            if (processExec("umount", {"-d", obj.value("name").toString(), "--fake"}) != 0)
                 return false;
         }
     }
@@ -490,9 +505,9 @@ bool Helper::tryUmountDevice(const QString &device)
 bool Helper::mountDevice(const QString &device, const QString &path, bool readonly)
 {
     if (readonly)
-        return processExec(QString("mount -r %1 %2").arg(device, path)) == 0;
+        return processExec("mount", {"-r", device, path}) == 0;
 
-    return processExec(QString("mount %1 %2").arg(device, path)) == 0;
+    return processExec("mount", {device, path}) == 0;
 }
 
 QString Helper::temporaryMountDevice(const QString &device, const QString &name, bool readonly)
@@ -552,12 +567,12 @@ QString Helper::findDiskBySerialIndexNumber(const QString &serialNumber, int par
 
 int Helper::partitionIndexNumber(const QString &partDevice)
 {
-    const QJsonArray &array = getBlockDevices(partDevice);
+    const QJsonArray &array = getBlockDevices({partDevice});
 
     if (array.isEmpty())
         return -1;
 
-    const QJsonArray &p_array = getBlockDevices(array.first().toObject().value("pkname").toString() + " -x NAME");
+    const QJsonArray &p_array = getBlockDevices({array.first().toObject().value("pkname").toString(), "-x", "NAME"});
 
     if (p_array.isEmpty())
         return -1;
@@ -576,7 +591,7 @@ int Helper::partitionIndexNumber(const QString &partDevice)
 
 QByteArray Helper::getPartitionTable(const QString &devicePath)
 {
-    processExec(QStringLiteral("/sbin/sfdisk -d %1").arg(devicePath));
+    processExec("/sbin/sfdisk", {"-d", devicePath});
 
     return lastProcessStandardOutput();
 }
@@ -587,11 +602,11 @@ bool Helper::setPartitionTable(const QString &devicePath, const QString &ptFile)
 
     process.setStandardInputFile(ptFile);
 
-    if (processExec(&process, QStringLiteral("/sbin/sfdisk %1").arg(devicePath)) != 0)
+    if (processExec(&process, "/sbin/sfdisk", {devicePath}) != 0)
         return false;
 
-    int code = processExec(QStringLiteral("/sbin/partprobe %1").arg(devicePath));
-    processExec("sleep 1");
+    int code = processExec("/sbin/partprobe", {devicePath});
+    processExec("sleep", {"1"});
 
     return code == 0;
 }
@@ -621,19 +636,28 @@ bool Helper::isBlockSpecialFile(const QString &fileName)
     if (fileName.startsWith("/dev/"))
         return true;
 
-    processExec(QStringLiteral("env LANG=C stat -c %F %1").arg(fileName));
+    if (fileName.isEmpty())
+        return false;
+
+    QProcess process;
+    QStringList env_list = QProcess::systemEnvironment();
+
+    env_list.append("LANG=C");
+
+    process.setEnvironment(env_list);
+    processExec(&process, "stat", {"-c", "%F", fileName});
 
     return lastProcessStandardOutput() == "block special file\n";
 }
 
 bool Helper::isPartcloneFile(const QString &fileName)
 {
-    return processExec(QStringLiteral("partclone.info %1").arg(fileName)) == 0;
+    return processExec("partclone.info", {fileName}) == 0;
 }
 
 bool Helper::isDiskDevice(const QString &devicePath)
 {
-    const QJsonArray &blocks = getBlockDevices(devicePath);
+    const QJsonArray &blocks = getBlockDevices({devicePath});
 
     if (blocks.isEmpty())
         return false;
@@ -646,7 +670,7 @@ bool Helper::isDiskDevice(const QString &devicePath)
 
 bool Helper::isPartitionDevice(const QString &devicePath)
 {
-    const QJsonArray &blocks = getBlockDevices(devicePath);
+    const QJsonArray &blocks = getBlockDevices({devicePath});
 
     if (blocks.isEmpty())
         return false;
@@ -659,7 +683,10 @@ bool Helper::isPartitionDevice(const QString &devicePath)
 
 QString Helper::parentDevice(const QString &device)
 {
-    const QJsonArray &blocks = getBlockDevices(device);
+    if (device.isEmpty())
+        return QString();
+
+    const QJsonArray &blocks = getBlockDevices({device});
 
     if (blocks.isEmpty())
         return device;
@@ -679,21 +706,25 @@ bool Helper::deviceHaveKinship(const QString &device1, const QString &device2)
 
 int Helper::clonePartition(const DPartInfo &part, const QString &to, bool override)
 {
-    QString executor = getPartcloneExecuter(part);
+    QStringList args;
+    QString executor = getPartcloneExecuter(part, args);
     QString command;
 
     if (executor.isEmpty() || executor == "partclone.imager") {
         if (part.guidType() == DPartInfo::InvalidGUID)
             return -1;
 
-        command = QStringLiteral("dd if=%1 of=%2 status=none conv=fsync").arg(part.filePath()).arg(to);
+        command = "dd";
+        args = QStringList({"if=" + part.filePath(), "of=" + to, "status=none", "conv=fsync"});
     } else if (isBlockSpecialFile(to)) {
-        command = QStringLiteral("/usr/sbin/%1 -b -c -s %2 -%3 %4").arg(executor).arg(part.filePath()).arg(override ? "O" : "o").arg(to);
+        command = "/usr/sbin/" + executor;
+        args.append({"-b", "-c", "-s", part.filePath(), override ? "-O" : "-o", to});
     } else {
-        command = QStringLiteral("/usr/sbin/%1 -c -s %2 -%3 %4").arg(executor).arg(part.filePath()).arg(override ? "O" : "o").arg(to);
+        command = "/usr/sbin/" + executor;
+        args.append({"-c", "-s", part.filePath(), override ? "-O" : "-o", to});
     }
 
-    int code = processExec(command);
+    int code = processExec(command, args);
 
     if (code != 0)
         qDebug() << command << QString::fromUtf8(lastProcessStandardOutput());
@@ -704,14 +735,17 @@ int Helper::clonePartition(const DPartInfo &part, const QString &to, bool overri
 int Helper::restorePartition(const QString &from, const DPartInfo &to)
 {
     QString command;
+    QStringList args;
 
     if (isPartcloneFile(from)) {
-        command = QStringLiteral("/usr/sbin/partclone.restore -s %1 -o %2").arg(from).arg(to.filePath());
+        command = "/usr/sbin/partclone.restore";
+        args = QStringList({"-s", from, "-o", to.filePath()});
     } else {
-        command = QStringLiteral("dd if=%1 of=%2 status=none conv=fsync").arg(from).arg(to.filePath());
+        command = "dd";
+        args = QStringList({"if=" + from, "of=" + to.filePath(), "status=none", "conv=fsync"});
     }
 
-    int code = processExec(command);
+    int code = processExec(command, args);
 
     if (code != 0)
         qDebug() << command << QString::fromUtf8(lastProcessStandardOutput());
@@ -749,7 +783,7 @@ bool Helper::restartToLiveSystem(const QStringList &arguments)
     file.write(arguments.join('\n').toUtf8());
     file.close();
 
-    if (processExec("grub-reboot \"Deepin Recovery\"") != 0) {
+    if (processExec("grub-reboot", {"Deepin Recovery"}) != 0) {
         dCDebug("Exec grub-reboot \"Deepin Recovery\" failed");
 
         file.remove();
@@ -757,7 +791,7 @@ bool Helper::restartToLiveSystem(const QStringList &arguments)
         return false;
     }
 
-    if (processExec("reboot") != 0)
+    if (processExec("reboot", {}) != 0)
         file.remove();
 
     return true;
@@ -788,6 +822,7 @@ bool Helper::isDeepinSystem(const DPartInfo &part)
 bool Helper::resetPartUUID(const DPartInfo &part, QByteArray uuid)
 {
     QString command;
+    QStringList args;
 
     if (uuid.isEmpty()) {
         uuid = QUuid::createUuid().toByteArray().mid(1, 36);
@@ -797,16 +832,20 @@ bool Helper::resetPartUUID(const DPartInfo &part, QByteArray uuid)
     case DPartInfo::EXT2:
     case DPartInfo::EXT3:
     case DPartInfo::EXT4:
-        command = QString("tune2fs -U %1 %2").arg(QString::fromLatin1(uuid)).arg(part.filePath());
+        command = "tune2fs";
+        args = QStringList({"-U", QString::fromLatin1(uuid), part.filePath()});
         break;
     case DPartInfo::JFS:
-        command = QString("jfs_tune -U %1 %2").arg(QString::fromLatin1(uuid)).arg(part.filePath());
+        command = "jfs_tune";
+        args = QStringList({"-U", QString::fromLatin1(uuid), part.filePath()});
         break;
     case DPartInfo::NTFS:
-        command = QString("ntfslabel --new-half-serial %1").arg(part.filePath());
+        command = "ntfslabel";
+        args = QStringList({"--new-half-serial", part.filePath()});
         break;
     case DPartInfo::XFS:
-        command = QString("xfs_admin -U %1 %2").arg(QString::fromLatin1(uuid)).arg(part.filePath());
+        command = "xfs_admin";
+        args = QStringList({"-U", QString::fromLatin1(uuid), part.filePath()});
         break;
     default:
         dCDebug("Not support the file system type: %s", qPrintable(part.fileSystemTypeName()));
@@ -821,9 +860,9 @@ bool Helper::resetPartUUID(const DPartInfo &part, QByteArray uuid)
     }
 
     // check the partition
-    processExec("fsck -f -y " + part.filePath());
+    processExec("fsck", {"-f", "-y", part.filePath()});
 
-    bool ok = processExec(command) == 0;
+    bool ok = processExec(command, {}) == 0;
 
     if (!ok) {
         dCError("Failed reset part uuid");

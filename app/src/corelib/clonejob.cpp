@@ -344,12 +344,12 @@ void CloneJob::run()
             return;
         }
 
-        Helper::processExec(QString("fsck -f -y %1").arg(info.indexNumber()));
+        Helper::processExec("fsck", {"-f", "-y", QString::number(info.indexNumber())});
 
         if (info.fileSystemType() == DPartInfo::EXT4
                 || info.fileSystemType() == DPartInfo::EXT3
                 || info.fileSystemType() == DPartInfo::EXT2) {
-            Helper::processExec(QString("resize2fs -p -f %1").arg(info.indexNumber()));
+            Helper::processExec("resize2fs", {"-p", "-f", QString::number(info.indexNumber())});
         }
     }
 

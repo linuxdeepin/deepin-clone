@@ -32,7 +32,7 @@ bool BootDoctor::fix(const QString &partDevice)
     DDevicePartInfo part_info(partDevice);
     const QString part_old_uuid = part_info.uuid();
 
-    if (Helper::processExec("lsblk -s -d -n -o UUID") == 0) {
+    if (Helper::processExec("lsblk", {"-s", "-d", "-n", "-o", "UUID"}) == 0) {
         if (Helper::lastProcessStandardOutput().contains(part_old_uuid.toLatin1())) {
             // reset uuid
             if (Helper::resetPartUUID(part_info)) {
@@ -113,22 +113,22 @@ bool BootDoctor::fix(const QString &partDevice)
                 break;
             }
 
-            if (Helper::processExec(QString("mount --bind -v --bind /dev %1/dev").arg(mount_root)) != 0) {
+            if (Helper::processExec("mount", {"--bind", "-v", "--bind", "/dev", mount_root + "/dev"}) != 0) {
                 dCError("Failed to bind /dev");
                 break;
             }
 
-            if (Helper::processExec(QString("mount --bind -v --bind /dev/pts %1/dev/pts").arg(mount_root)) != 0) {
+            if (Helper::processExec("mount", {"--bind", "-v", "--bind", "/dev/pts", mount_root + "/dev/pts"}) != 0) {
                 dCError("Failed to bind /dev/pts");
                 break;
             }
 
-            if (Helper::processExec(QString("mount --bind -v --bind /proc %1/proc").arg(mount_root)) != 0) {
+            if (Helper::processExec("mount", {"--bind", "-v", "--bind", "/proc", mount_root + "/proc"}) != 0) {
                 dCError("Failed to bind /proc");
                 break;
             }
 
-            if (Helper::processExec(QString("mount --bind -v --bind /sys %1/sys").arg(mount_root)) != 0) {
+            if (Helper::processExec("mount", {"--bind", "-v", "--bind", "/sys", mount_root + "/sys"}) != 0) {
                 dCError("Failed to bind /sys");
                 break;
             }
@@ -155,7 +155,7 @@ bool BootDoctor::fix(const QString &partDevice)
 
                             QDir::current().mkpath(efi_path);
 
-                            if (Helper::processExec(QString("mount %1 %2").arg(part.filePath()).arg(efi_path)) != 0) {
+                            if (Helper::processExec("mount", {part.filePath(), efi_path}) != 0) {
                                 dCError("Failed to mount EFI partition");
                                 m_lastErrorString = QObject::tr("Failed to mount partition \"%1\"").arg(part.filePath());
                                 ok = false;
@@ -207,14 +207,14 @@ bool BootDoctor::fix(const QString &partDevice)
         }
 
         // clear
-        Helper::processExec("umount " + repo_mount_point);
+        Helper::processExec("umount", {repo_mount_point});
         QDir(mount_root).rmdir("deepin-clone");
         file_boot_fix.remove();
-        Helper::processExec("umount " + mount_root + "/dev/pts");
-        Helper::processExec("umount " + mount_root + "/dev");
-        Helper::processExec("umount " + mount_root + "/proc");
-        Helper::processExec("umount " + mount_root + "/sys");
-        Helper::processExec("umount " + mount_root + "/boot/efi");
+        Helper::processExec("umount", {mount_root + "/dev/pts"});
+        Helper::processExec("umount", {mount_root + "/dev"});
+        Helper::processExec("umount", {mount_root + "/proc"});
+        Helper::processExec("umount", {mount_root + "/sys"});
+        Helper::processExec("umount", {mount_root + "/boot/efi"});
 
         if (ok && process.exitCode() == 0) {
             if (part_old_uuid != part_info.uuid()) {
