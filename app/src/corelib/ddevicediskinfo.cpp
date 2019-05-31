@@ -303,9 +303,9 @@ bool DDeviceDiskInfoPrivate::openDataStream(int index)
 
         if (currentMode == DDiskInfo::Read) {
             const QString &executer = Helper::getPartcloneExecuter(part);
-            process->start(QStringLiteral("%1 -s %2 -o - -c -z %3 -L /tmp/partclone.log").arg(executer).arg(part.filePath()).arg(Global::bufferSize), QIODevice::ReadOnly);
+            process->start(QStringLiteral("%1 -s %2 -o - -c -z %3 -L /var/log/partclone.log").arg(executer).arg(part.filePath()).arg(Global::bufferSize), QIODevice::ReadOnly);
         } else {
-            process->start(QStringLiteral("partclone.restore -s - -o %2 -z %3 -L /tmp/partclone.log").arg(part.filePath()).arg(Global::bufferSize));
+            process->start(QStringLiteral("partclone.restore -s - -o %2 -z %3 -L /var/log/partclone.log").arg(part.filePath()).arg(Global::bufferSize));
         }
 
         break;

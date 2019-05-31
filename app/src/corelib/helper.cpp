@@ -100,6 +100,8 @@ int Helper::processExec(QProcess *process, const QString &command, int timeout, 
     if (process->state() != QProcess::NotRunning) {
         dCDebug("The \"%s\" timeout, timeout: %d", qPrintable(command), timeout);
 
+        // QT Bug，某种情况下(未知) QProcess::state 返回的状态有误，导致进程已退出却未能正确获取到其当前状态
+        // 因此,额外通过系统文件判断进程是否还存在
         if (QFile::exists(QString("/proc/%1").arg(process->pid()))) {
             process->terminate();
             process->waitForFinished();
@@ -331,7 +333,7 @@ bool Helper::getPartitionSizeInfo(const QString &partDevice, qint64 *used, qint6
 
         return true;
     } else {
-        process.start(QString("%1 -s %2 -c -q -C -L /tmp/partclone.log").arg(getPartcloneExecuter(DDevicePartInfo(partDevice))).arg(partDevice));
+        process.start(QString("%1 -s %2 -c -q -C -L /var/log/partclone.log").arg(getPartcloneExecuter(DDevicePartInfo(partDevice))).arg(partDevice));
         process.setStandardOutputFile("/dev/null");
         process.setReadChannel(QProcess::StandardError);
         process.waitForStarted();
@@ -501,9 +503,9 @@ QString Helper::temporaryMountDevice(const QString &device, const QString &name,
         return mount_point;
 
     mount_point = "%1/.%2/mount/%3";
-    const QStringList &tmp_paths = QStandardPaths::standardLocations(QStandardPaths::TempLocation);
+    const QStringList &tmp_paths = QStandardPaths::standardLocations(QStandardPaths::RuntimeLocation);
 
-    mount_point = mount_point.arg(tmp_paths.isEmpty() ? "/tmp" : tmp_paths.first()).arg(qApp->applicationName()).arg(name);
+    mount_point = mount_point.arg(tmp_paths.isEmpty() ? "/run/user/0" : tmp_paths.first()).arg(qApp->applicationName()).arg(name);
 
     if (!QDir::current().mkpath(mount_point)) {
         dCError("mkpath \"%s\" failed", qPrintable(mount_point));
