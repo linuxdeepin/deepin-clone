@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="146"/>
         <source>Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4</source>
-        <translation type="unfinished"/>
+        <translation>Zapisywanie danych do %1 nie powiodło się, oczekiwany rozmiar zapisu: %2 - tylko zapisany %3, błąd: %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="193"/>
@@ -128,17 +128,17 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="652"/>
         <source>Task completed</source>
-        <translation type="unfinished"/>
+        <translation>Zadanie ukończone</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="664"/>
         <source>Clone Successful</source>
-        <translation type="unfinished"/>
+        <translation>Klon udany</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="668"/>
         <source>Restore Succeessful</source>
-        <translation type="unfinished"/>
+        <translation>Przywracanie Udane</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
@@ -163,17 +163,17 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="436"/>
         <source>No enough total capacity in target disk, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Brak wystarczającej całkowitej pojemności na dysku docelowym, wybierz inny</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>No enough total capacity in target partition, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Brak wystarczającej całkowitej pojemności w partycji docelowej, wybierz inną</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>No enough total capacity, please select another disk</source>
-        <translation type="unfinished"/>
+        <translation>Brak wystarczającej całkowitej pojemności, wybierz inny dysk</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
@@ -329,7 +329,7 @@
     <message>
         <location filename="../src/main.cpp" line="153"/>
         <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
-        <translation type="unfinished"/>
+        <translation>Deepin Clone to narzędzie do tworzenia kopii zapasowych i przywracania danych. Obsługuje klonowanie dysku lub partycji, tworzenie kopii zapasowych i przywracanie oraz inne funkcje.</translation>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="850"/>
@@ -357,7 +357,7 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
         <source>Unknown partition style</source>
-        <translation type="unfinished"/>
+        <translation>Nieznany styl partycji</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
@@ -537,7 +537,7 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
         <source>Drag and drop the backup image file here</source>
-        <translation type="unfinished"/>
+        <translation>Przeciągnij i upuść plik obrazu kopii zapasowej tutaj</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
@@ -560,7 +560,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
         <source>Time remaining: %1</source>
-        <translation type="unfinished"/>
+        <translation>Pozostały czas: %1</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>

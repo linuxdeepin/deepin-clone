@@ -4,7 +4,7 @@
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!message" line="0"/>
 			<source>Authentication is required to run Deepin Clone</source>
-			<translation type="unfinished"/>
+			<translation>Cal autenticació per executar el Clon del Deepin.</translation>
 		</message>
 		<message>
 			<location filename="com.deepin.pkexec.deepin-clone!description" line="0"/>

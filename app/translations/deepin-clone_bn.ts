@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="146"/>
         <source>Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4</source>
-        <translation type="unfinished"/>
+        <translation>%1 এ ডাটা লেখা বার্থ হয়েছে, %2 সাইজের লেখার কথা ছিল, কিন্তু মাত্র %3 লিখেছে। ত্রুটি: %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="193"/>
@@ -128,17 +128,17 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="652"/>
         <source>Task completed</source>
-        <translation type="unfinished"/>
+        <translation>কাজ শেষ হয়েছে</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="664"/>
         <source>Clone Successful</source>
-        <translation type="unfinished"/>
+        <translation>ক্লোন করা সফল হয়েছে</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="668"/>
         <source>Restore Succeessful</source>
-        <translation type="unfinished"/>
+        <translation>পুনরায় ফিরিয়ে নিতে সফল হয়েছে</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
@@ -163,22 +163,22 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="436"/>
         <source>No enough total capacity in target disk, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>টার্গেট ডিস্কে যথেষ্ট পরিমান ধারণ ক্ষমতা নেই, দয়াকরে আরেকটি নির্বাচন করুন</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>No enough total capacity in target partition, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>টার্গেট পার্টিশনে যথেষ্ট পরিমান ধারণ ক্ষমতা নেই, দয়াকরে আরেকটি নির্বাচন করুন</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>No enough total capacity, please select another disk</source>
-        <translation type="unfinished"/>
+        <translation>মোট ধারণ ক্ষমতা যথেষ্ট  নয়, দয়াকরে আরেকটি নির্বাচন করুন</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
         <source>All data in the target disk (partition) will be formatted during cloning or restoring, which cannot be cancelled during the process.</source>
-        <translation type="unfinished"/>
+        <translation>ক্লোন করার সময় অথবা ডিস্ক(পার্টিশন) পুনরুদ্ধার করার সময় টার্গেট জায়গার সকল ডাটা ফরম্যাট হয়ে যাবে।    প্রসেসটি চলাকালে বাতিল করা যাবে না। </translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="526"/>
@@ -329,7 +329,7 @@
     <message>
         <location filename="../src/main.cpp" line="153"/>
         <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
-        <translation type="unfinished"/>
+        <translation>ডিপিন ক্লোন হচ্ছে ডিপিনে ব্যাকআপ ও রিস্টোর করার টুল।  এটা ডিস্ক এবং পার্টিশন ক্লোন করা, ব্যাকআপ করা অথবা  রিস্টোর করা এবং আরো অনেক ফাংশন সাপোর্ট করে। </translation>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="850"/>
@@ -357,7 +357,7 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
         <source>Unknown partition style</source>
-        <translation type="unfinished"/>
+        <translation>পার্টিশনের ধরন অপরিচিত</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
@@ -415,12 +415,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
         <source>Backup disk data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>ডিস্কের ডাটা একটি ইমেজ ফাইলে ব্যাকআপ করুন</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>
         <source>Backup partition data to an image file</source>
-        <translation type="unfinished"/>
+        <translation>পার্টিশনের ডাটা একটি ইমেজ ফাইলে ব্যাকআপ করুন</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="125"/>
@@ -537,7 +537,7 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
         <source>Drag and drop the backup image file here</source>
-        <translation type="unfinished"/>
+        <translation>ব্যাকআপ ইমেজ ফাইল টেনে এনে এখানে ছেড়ে দিন</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
@@ -560,7 +560,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
         <source>Time remaining: %1</source>
-        <translation type="unfinished"/>
+        <translation>সময় বাকী আছে: %1</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>

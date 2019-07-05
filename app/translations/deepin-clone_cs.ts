@@ -4,7 +4,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="146"/>
         <source>Writing data to %1 failed, expected write size: %2 — only %3 written, error: %4</source>
-        <translation type="unfinished"/>
+        <translation>Zápis dat na %1 se nezdařil, mělo by být zapsáno: %2 — zapsáno jen %3, chyba: %4</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="193"/>
@@ -128,17 +128,17 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="652"/>
         <source>Task completed</source>
-        <translation type="unfinished"/>
+        <translation>Úkol dokončen</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="664"/>
         <source>Clone Successful</source>
-        <translation type="unfinished"/>
+        <translation>Klonování se podařilo</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="668"/>
         <source>Restore Succeessful</source>
-        <translation type="unfinished"/>
+        <translation>Obnovení se podařilo</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
@@ -163,17 +163,17 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="436"/>
         <source>No enough total capacity in target disk, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Na cílovém disku není dost celkové kapacity. Vyberte, prosím, jiný disk</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>No enough total capacity in target partition, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Na cílovém diskovém oddílu není dost celkové kapacity. Vyberte, prosím, jiný disk</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>No enough total capacity, please select another disk</source>
-        <translation type="unfinished"/>
+        <translation>Není dost celkové kapacity. Vyberte, prosím, jiný disk</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
@@ -329,7 +329,7 @@
     <message>
         <location filename="../src/main.cpp" line="153"/>
         <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
-        <translation type="unfinished"/>
+        <translation>Klonování je nástroj na zálohování a obnovování v Deepinu. Podporuje klonování, zálohování a obnovování disku nebo diskového oddílu a další funkce.</translation>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="850"/>
@@ -357,7 +357,7 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
         <source>Unknown partition style</source>
-        <translation type="unfinished"/>
+        <translation>Neznámý styl diskového oddílu</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
@@ -537,7 +537,7 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
         <source>Drag and drop the backup image file here</source>
-        <translation type="unfinished"/>
+        <translation>Táhněte a upusťte soubor s obrazem se zálohou zde</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
@@ -560,7 +560,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
         <source>Time remaining: %1</source>
-        <translation type="unfinished"/>
+        <translation>Zbývající čas: %1</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>

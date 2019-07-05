@@ -20,7 +20,7 @@
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="219"/>
         <source>Disk only can be cloned to disk</source>
-        <translation>Bir disk yalnız başka bir diske kopyalanabilir</translation>
+        <translation>Bir disk yalnız başka bir diske klonlanabilir</translation>
     </message>
     <message>
         <location filename="../src/corelib/clonejob.cpp" line="241"/>
@@ -61,7 +61,7 @@
         <location filename="../src/widgets/mainwindow.cpp" line="376"/>
         <location filename="../src/widgets/mainwindow.cpp" line="839"/>
         <source>Clone</source>
-        <translation>Kopyalayıcı</translation>
+        <translation>Klonla</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="379"/>
@@ -104,7 +104,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="492"/>
         <source>Proceed to clone?</source>
-        <translation>Kopyalama başlatılsın mı?</translation>
+        <translation>Klonlama başlatılsın mı?</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="495"/>
@@ -133,7 +133,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="664"/>
         <source>Clone Successful</source>
-        <translation>Kopyalama Tamamlandı</translation>
+        <translation>Klonlama Tamamlandı</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="668"/>
@@ -204,7 +204,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="611"/>
         <source>Cloning</source>
-        <translation>Kopyalanıyor</translation>
+        <translation>Klonlanıyor</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="613"/>
@@ -219,7 +219,7 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="635"/>
         <source>Clone Failed</source>
-        <translation>Kopyalanamadı</translation>
+        <translation>Klonlanamadı</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="637"/>
@@ -324,12 +324,12 @@
     <message>
         <location filename="../src/main.cpp" line="152"/>
         <source>Deepin Clone</source>
-        <translation>Deepin Kopyalayıcı</translation>
+        <translation>Deepin Klon</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="153"/>
         <source>Deepin Clone is a backup and restore tool in deepin. It supports disk or partition clone, backup and restore, and other functions.</source>
-        <translation>Deepin Kopyalayıcı, Deepin içinde bulunan bir yedekleme ve geri yükleme aracıdır. Disk ya da bölümleri kopyalama, yedekleme ve geri yükleme gibi işlemler yapılmasını sağlar.</translation>
+        <translation>Deepin Klone, Deepin içinde bulunan bir yedekleme ve geri yükleme aracıdır. Disk ya da bölümleri kopyalama, yedekleme ve geri yükleme gibi işlemler yapılmasını sağlar.</translation>
     </message>
     <message>
         <location filename="../src/corelib/helper.cpp" line="850"/>
@@ -400,12 +400,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone Disk</source>
-        <translation>Disk Kopyala</translation>
+        <translation>Diski Klonla</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="119"/>
         <source>Clone source disk to target disk</source>
-        <translation>Kaynak diski hedef diske kopyala</translation>
+        <translation>Kaynak diski hedef diske klonla</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="122"/>
@@ -435,12 +435,12 @@
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone Partition</source>
-        <translation>Bölüm Kopyala</translation>
+        <translation>Bölüm Klonla</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="131"/>
         <source>Clone source partition to target partition</source>
-        <translation>Kaynak bölümü hedef bölüme kopyalama</translation>
+        <translation>Kaynak bölümü hedef bölüme klonla</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectactionpage.cpp" line="134"/>

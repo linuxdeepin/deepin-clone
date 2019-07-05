@@ -128,17 +128,17 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="652"/>
         <source>Task completed</source>
-        <translation type="unfinished"/>
+        <translation>Opgave fuldført</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="664"/>
         <source>Clone Successful</source>
-        <translation type="unfinished"/>
+        <translation>Kloning lykkedes</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="668"/>
         <source>Restore Succeessful</source>
-        <translation type="unfinished"/>
+        <translation>Gendannelse lykkedes</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="736"/>
@@ -163,17 +163,17 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="436"/>
         <source>No enough total capacity in target disk, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Ikke nok samlet kapacitet på måldisken, vælg venligst en anden</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>No enough total capacity in target partition, please select another one</source>
-        <translation type="unfinished"/>
+        <translation>Ikke nok samlet kapacitet på målpartitionen, vælg venligst en anden</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>No enough total capacity, please select another disk</source>
-        <translation type="unfinished"/>
+        <translation>Ikke nok samlet kapacitet, vælg venligst en anden</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
@@ -357,7 +357,7 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
         <source>Unknown partition style</source>
-        <translation type="unfinished"/>
+        <translation>Ukendt partitionsstil</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
@@ -537,7 +537,7 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
         <source>Drag and drop the backup image file here</source>
-        <translation type="unfinished"/>
+        <translation>Træk og slip den sikkerhedskopierede aftryksfiler her</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
@@ -560,7 +560,7 @@
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="62"/>
         <source>Time remaining: %1</source>
-        <translation type="unfinished"/>
+        <translation>Tilbageværende tid: %1</translation>
     </message>
     <message>
         <location filename="../src/widgets/workingpage.cpp" line="67"/>
