@@ -163,17 +163,17 @@
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="436"/>
         <source>No enough total capacity in target disk, please select another one</source>
-        <translation>Espace de stockage insuffisant sur le disque de destination, merci d&apos;en sélectionner un autre</translation>
+        <translation>Espace de stockage insuffisant sur le disque de destination, veuillez en sélectionner un autre</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="438"/>
         <source>No enough total capacity in target partition, please select another one</source>
-        <translation>Espace de stockage insuffisant sur la partition de destination, merci d&apos;en sélectionner une autre</translation>
+        <translation>Espace de stockage insuffisant sur la partition de destination, veuillez en sélectionner un autre</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="463"/>
         <source>No enough total capacity, please select another disk</source>
-        <translation>Espace de stockage insuffisant, merci de sélectionner un autre disque</translation>
+        <translation>Espace de stockage insuffisant, veuillez sélectionner un autre disque</translation>
     </message>
     <message>
         <location filename="../src/widgets/mainwindow.cpp" line="493"/>
@@ -357,7 +357,7 @@
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="177"/>
         <source>Unknown partition style</source>
-        <translation>Format de table de partition inconnu</translation>
+        <translation>Format de la table de partition inconnu</translation>
     </message>
     <message>
         <location filename="../src/fixboot/bootdoctor.cpp" line="199"/>
@@ -537,7 +537,7 @@
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="107"/>
         <source>Drag and drop the backup image file here</source>
-        <translation>Glissez-déposez le fichier image de sauvegarde ici</translation>
+        <translation>Glisser et déposer le fichier image de sauvegarde ici</translation>
     </message>
     <message>
         <location filename="../src/widgets/selectfilepage.cpp" line="184"/>
