@@ -40,7 +40,7 @@ const QList<DAbstractFileInfoPointer> DIMFileController::getChildren(const QShar
     return list;
 }
 
-const DAbstractFileInfoPointer DIMFileController::createFileInfo(const QSharedPointer<DFMCreateFileInfoEvnet> &event) const
+const DAbstractFileInfoPointer DIMFileController::createFileInfo(const QSharedPointer<DFMCreateFileInfoEvent> &event) const
 {
     return DAbstractFileInfoPointer(new DIMFileInfo(event->url().path()));
 }

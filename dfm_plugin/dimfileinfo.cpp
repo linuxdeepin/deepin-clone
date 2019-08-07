@@ -20,6 +20,7 @@
  */
 #include "dimfileinfo.h"
 #include "helper.h"
+#include "dabstractfileinfo.h"
 #include "dfilediskinfo.h"
 #include "dzlibfile.h"
 
@@ -50,9 +51,9 @@ QString DIMFileInfo::fileDisplayName() const
     return DFileInfo::fileDisplayName();
 }
 
-QString DIMFileInfo::fileType() const
+DAbstractFileInfo::FileType DIMFileInfo::fileType() const
 {
-    return QObject::tr("Deepin Image File");
+    return Backups;
 }
 
 QString DIMFileInfo::mimeTypeDisplayName() const

@@ -21,6 +21,7 @@
 #ifndef DIMFILEINFO_H
 #define DIMFILEINFO_H
 
+#include <dabstractfileinfo.h>
 #include <dfileinfo.h>
 
 #include "dpartinfo.h"
@@ -33,7 +34,7 @@ public:
     bool canShare() const override;
 
     QString fileDisplayName() const override;
-    QString fileType() const override;
+    FileType fileType() const override;
     QString mimeTypeDisplayName() const override;
 
     QVector<MenuAction> menuActionList(MenuType type = SingleFile) const override;
