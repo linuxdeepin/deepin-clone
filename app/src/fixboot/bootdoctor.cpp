@@ -99,6 +99,10 @@ bool BootDoctor::fix(const QString &partDevice)
                                  "sw_64"
                      #elif defined(HOST_ARCH_aarch64)
                                  "aarch64"
+                     #elif defined(HOST_ARCH_ppc64)
+                                 "ppc64"
+                     #elif defined(HOST_ARCH_ppc64le)
+                                 "ppc64le"
                      #else
                      #pragma message "Machine: " HOST_ARCH
                                 "unknow"
