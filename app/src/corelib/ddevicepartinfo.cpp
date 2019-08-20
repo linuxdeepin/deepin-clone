@@ -103,7 +103,7 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     filePath = name;
     kname = obj.value("kname").toString();
     parentDiskFilePath = obj.value("pkname").toString();
-    size = obj.value("size").toString().toLongLong();
+    size = Helper::getIntValue(obj.value("size"));
     fsTypeName = obj.value("fstype").toString();
     fsType = toType(fsTypeName);
     mountPoint = obj.value("mountpoint").toString();
@@ -114,8 +114,8 @@ void DDevicePartInfoPrivate::init(const QJsonObject &obj)
     partType = DPartInfo::type(partTypeName);
     guidType = DPartInfo::guidType(partTypeName.toLatin1().toUpper());
     blockSize = obj.value("phy-sec").toInt(4096);
-    readonly = obj.value("ro").toString() == "1" || obj.value("type").toString() == "rom";
-    removeable = obj.value("rm").toString() == "1";
+    readonly = Helper::getBoolValue(obj.value("ro")) || obj.value("type").toString() == "rom";
+    removeable = Helper::getBoolValue(obj.value("rm"));
     transport = obj.value("tran").toString();
     partUUID = obj.value("partuuid").toString();
 

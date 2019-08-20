@@ -985,3 +985,25 @@ QString Helper::toSerialUrl(const QString &file)
 
     return url + QFileInfo(file).absoluteFilePath().mid(root_path.length());
 }
+
+qint64 Helper::getIntValue(const QJsonValue &value)
+{
+    if (value.isDouble()) {
+        return value.toDouble();
+    }
+
+    return value.toString().toLongLong();
+}
+
+bool Helper::getBoolValue(const QJsonValue &value)
+{
+    if (value.isBool()) {
+        return value.toBool();
+    }
+
+    if (value.isDouble()) {
+        return value.toDouble();
+    }
+
+    return value.toString() == "1";
+}

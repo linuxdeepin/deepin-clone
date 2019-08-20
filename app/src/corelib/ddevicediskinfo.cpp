@@ -107,10 +107,10 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
     model = obj.value("model").toString();
     name = obj.value("name").toString();
     kname = obj.value("kname").toString();
-    size = obj.value("size").toString().toLongLong();
+    size = Helper::getIntValue(obj.value("size"));
     typeName = obj.value("type").toString();
-    readonly = obj.value("ro").toString() == "1" || typeName == "rom";
-    removeable = obj.value("rm").toString() == "1";
+    readonly = Helper::getBoolValue(obj.value("ro")) || typeName == "rom";
+    removeable = Helper::getBoolValue(obj.value("rm"));
     transport = obj.value("tran").toString();
     serial = obj.value("serial").toString();
 

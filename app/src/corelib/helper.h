@@ -99,6 +99,10 @@ public:
     static QString parseSerialUrl(const QString &urlString, QString *errorString = 0);
     static QString toSerialUrl(const QString &file);
 
+    // for lsblk
+    static qint64 getIntValue(const QJsonValue &value);
+    static bool getBoolValue(const QJsonValue &value);
+
 signals:
     void newWarning(const QString &message);
     void newError(const QString &message);
