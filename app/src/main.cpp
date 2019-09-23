@@ -20,7 +20,9 @@
  */
 
 #include <QDebug>
+#ifndef DISABLE_DTK
 #include <DLog>
+#endif
 
 #ifdef ENABLE_GUI
 #include <DApplication>
@@ -59,7 +61,9 @@ int Global::bufferSize = 1024 * 1024;
 int Global::compressionLevel = 0;
 int Global::debugLevel = 1;
 
+#ifndef DISABLE_DTK
 DCORE_USE_NAMESPACE
+#endif
 
 inline static bool isTUIMode(int argc, char *argv[])
 {
@@ -181,6 +185,7 @@ int main(int argc, char *argv[])
 
     parser.process(arguments);
 
+#ifndef DISABLE_DTK
     ConsoleAppender *consoleAppender = new ConsoleAppender;
     consoleAppender->setFormat(logFormat);
 
@@ -191,6 +196,7 @@ int main(int argc, char *argv[])
 
     logger->registerCategoryAppender("deepin.ghost", consoleAppender);
     logger->registerCategoryAppender("deepin.ghost", rollingFileAppender);
+#endif
 
     parser.parse();
 

@@ -3,7 +3,13 @@ VERSION = 0.0.1
 TEMPLATE = app
 
 CONFIG += link_pkgconfig
-PKGCONFIG += dtkcore
+
+isEmpty(DISABLE_DTK) {
+    PKGCONFIG += dtkcore
+} else {
+    DEFINES += DISABLE_DTK
+    DISABLE_GUI = 1
+}
 
 DEFINES += QT_MESSAGELOGCONTEXT
 DEFINES += HOST_ARCH_$$QMAKE_HOST.arch HOST_ARCH=\\\"$$QMAKE_HOST.arch\\\"
