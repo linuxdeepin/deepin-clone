@@ -200,6 +200,9 @@ int main(int argc, char *argv[])
 
     parser.parse();
 
+    // 安装自定义的日志输出函数
+    Helper::registerFormatLogHandler(parser.formatLogFile());
+
     if (load_arg_from_file) {
         dCDebug("Load arguments from \"%s\"", qPrintable(arguments_file.fileName()));
     }

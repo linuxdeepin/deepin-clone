@@ -50,6 +50,9 @@ public:
     static QByteArray lastProcessStandardError();
 
     static const QLoggingCategory &loggerCategory();
+    static const QLoggingCategory &formatLogger();
+    static void formatLogHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+    static void registerFormatLogHandler(const QString &logFile);
 
     void warning(const QString &message);
     void error(const QString &message);
@@ -170,6 +173,10 @@ static QString __d_asprintf__(const QByteArray &array, Args&&... args)
     __m.prepend("\033[30;45m"); __m.append("\033[0m"); \
     Helper::instance()->warning(__m); \
     qCCritical(Helper::loggerCategory, qPrintable(__m));}
+
+#ifndef dfPrint
+#define dfPrint(...) qCInfo(Helper::formatLogger, __VA_ARGS__)
+#endif
 
 namespace ThreadUtil {
 template <typename ReturnType>

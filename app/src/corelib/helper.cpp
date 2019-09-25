@@ -43,7 +43,11 @@ QByteArray Helper::m_processStandardError;
 QByteArray Helper::m_processStandardOutput;
 
 Q_LOGGING_CATEGORY(lcDeepinGhost, "deepin.ghost")
+Q_LOGGING_CATEGORY(lcFormat, "deepin.clone.format")
 Q_GLOBAL_STATIC(Helper, _g_globalHelper)
+
+static QtMessageHandler backupMessageHandler = nullptr;
+static QFile *formatLogFile = nullptr;
 
 Helper *Helper::instance()
 {
@@ -151,6 +155,40 @@ QByteArray Helper::lastProcessStandardError()
 const QLoggingCategory &Helper::loggerCategory()
 {
     return lcDeepinGhost();
+}
+
+const QLoggingCategory &Helper::formatLogger()
+{
+    return lcFormat();
+}
+
+void Helper::formatLogHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    // 不是格式化的日志输出应该使用其它的message handler处理
+    if (Q_LIKELY(backupMessageHandler)) {
+        if (strcmp(context.category, lcFormat().categoryName()) != 0) {
+            return backupMessageHandler(type, context, msg);
+        }
+    }
+
+    formatLogFile->write(msg.toLocal8Bit());
+    formatLogFile->putChar('\n');
+    formatLogFile->flush();
+}
+
+void Helper::registerFormatLogHandler(const QString &logFile)
+{
+    if (!formatLogFile) {
+        formatLogFile = new QFile(logFile, Helper::instance());
+
+        if (!formatLogFile->open(QIODevice::WriteOnly)) {
+            formatLogFile->deleteLater();
+            formatLogFile = nullptr;
+        }
+    }
+
+    if (formatLogFile)
+        backupMessageHandler = qInstallMessageHandler(Helper::formatLogHandler);
 }
 
 void Helper::warning(const QString &message)
