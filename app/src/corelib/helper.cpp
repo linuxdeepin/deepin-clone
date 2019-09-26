@@ -182,6 +182,8 @@ void Helper::registerFormatLogHandler(const QString &logFile)
         formatLogFile = new QFile(logFile, Helper::instance());
 
         if (!formatLogFile->open(QIODevice::WriteOnly)) {
+            dCWarning("Failed open the \"%s\" file, error message: \"%s\"", qPrintable(logFile), qPrintable(formatLogFile->errorString()));
+
             formatLogFile->deleteLater();
             formatLogFile = nullptr;
         }

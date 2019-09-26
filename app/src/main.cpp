@@ -159,7 +159,7 @@ int main(int argc, char *argv[])
     QFile arguments_file("/lib/live/mount/medium/.tmp/deepin-clone.arguments");
     QStringList arguments;
 
-    bool load_arg_from_file = arguments_file.exists() && !Global::isTUIMode && !a->arguments().contains("--tui");
+    bool load_arg_from_file = arguments_file.exists();
 
     if (load_arg_from_file) {
         arguments.append(a->arguments().first());
