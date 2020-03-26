@@ -8,6 +8,7 @@ Icon=deepin-clone
 MimeType=application/x-deepinclone-dim;
 Name=Deepin Clone
 StartupNotify=true
+NoDisplay=true
 Terminal=false
 Type=Application
 Version=0.1
