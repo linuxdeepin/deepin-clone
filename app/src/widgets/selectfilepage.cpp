@@ -28,7 +28,7 @@
 #include "iconlabel.h"
 #include "helper.h"
 
-#include <dlinkbutton.h>
+#include <DCommandLinkButton>
 
 #include <QVBoxLayout>
 #include <QFileDialog>
@@ -77,7 +77,7 @@ private:
     QString m_defaultFileName;
     QLabel *m_dragDropLabel = 0;
     IconLabel *m_label;
-    DLinkButton *m_button;
+    DCommandLinkButton *m_button;
 
     friend class SelectFilePage;
 };
@@ -98,7 +98,7 @@ SelectFileWidget::SelectFileWidget(Mode mode, QWidget *parent)
         setAcceptDrops(true);
     }
 
-    m_button = new DLinkButton(mode == GetSaveName ? tr("Select storage location") : tr("Select image file"), this);
+    m_button = new DCommandLinkButton(mode == GetSaveName ? tr("Select storage location") : tr("Select image file"), this);
 
     layout->addStretch();
     layout->addWidget(m_label, 0, Qt::AlignHCenter);
@@ -121,7 +121,7 @@ SelectFileWidget::SelectFileWidget(Mode mode, QWidget *parent)
     layout->addWidget(m_button, 0, Qt::AlignHCenter);
     layout->addStretch();
 
-    connect(m_button, &DLinkButton::clicked, this, &SelectFileWidget::openFileDialog);
+    connect(m_button, &DCommandLinkButton::clicked, this, &SelectFileWidget::openFileDialog);
 
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }

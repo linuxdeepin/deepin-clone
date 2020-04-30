@@ -21,7 +21,7 @@
 
 #include "utilitylistitem.h"
 
-#include <dseparatorhorizontal.h>
+#include <DHorizontalLine>
 
 #include <QHBoxLayout>
 #include <QLabel>
@@ -107,7 +107,7 @@ UtilityListItem::UtilityListItem(QWidget *parent)
     m_layout->addWidget(m_label, 0, Qt::AlignVCenter);
 
     m_spaceSeparator = new QWidget(this);
-    m_bottomSeparator = new DSeparatorHorizontal(this);
+    m_bottomSeparator = new DHorizontalLine(this);
 
     m_spaceSeparator->setFixedHeight(2);
 

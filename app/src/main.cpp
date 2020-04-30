@@ -233,7 +233,7 @@ int main(int argc, char *argv[])
         MainWindow *window = new MainWindow;
 
         window->setFixedSize(860, 660);
-        window->setStyleSheet(DThemeManager::instance()->getQssForWidget("main", window));
+        window->setStyleSheet(DThemeManager::instance()->getQssForWidget("main"));
         window->setWindowIcon(QIcon::fromTheme("deepin-clone"));
         window->setWindowFlags(Qt::WindowCloseButtonHint | Qt::WindowMinimizeButtonHint | Qt::WindowSystemMenuHint);
         window->titlebar()->setIcon(window->windowIcon());
