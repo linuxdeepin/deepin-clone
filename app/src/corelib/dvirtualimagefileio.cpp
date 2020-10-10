@@ -21,7 +21,7 @@
 
 #include "dvirtualimagefileio.h"
 #include "helper.h"
-#include "dglobal.h"
+#include "../dglobal.h"
 
 #include <QDataStream>
 #include <QCryptographicHash>

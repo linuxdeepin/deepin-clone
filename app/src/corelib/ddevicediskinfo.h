@@ -22,7 +22,7 @@
 #ifndef DDEVICEDISKINFO_H
 #define DDEVICEDISKINFO_H
 
-#include "dglobal.h"
+#include "../dglobal.h"
 #include "ddiskinfo.h"
 
 class DDeviceDiskInfoPrivate;

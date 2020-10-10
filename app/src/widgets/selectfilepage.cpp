@@ -22,11 +22,11 @@
 #include "selectfilepage.h"
 #include "disklistitem.h"
 #include "partitionlistitem.h"
-#include "ddevicediskinfo.h"
-#include "ddevicepartinfo.h"
+#include "../corelib/ddevicediskinfo.h"
+#include "../corelib/ddevicepartinfo.h"
 #include "utilitylist.h"
 #include "iconlabel.h"
-#include "helper.h"
+#include "../corelib/helper.h"
 
 #include <DCommandLinkButton>
 

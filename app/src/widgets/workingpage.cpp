@@ -20,9 +20,9 @@
  */
 
 #include "workingpage.h"
-#include "ddiskinfo.h"
-#include "helper.h"
-#include "clonejob.h"
+#include "../corelib/ddiskinfo.h"
+#include "../corelib/helper.h"
+#include "../corelib/clonejob.h"
 
 #include <QVBoxLayout>
 #include <QProgressBar>

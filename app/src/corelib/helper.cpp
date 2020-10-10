@@ -21,7 +21,7 @@
 
 #include "helper.h"
 #include "dpartinfo.h"
-#include "dglobal.h"
+#include "../dglobal.h"
 #include "ddevicepartinfo.h"
 #include "ddiskinfo.h"
 

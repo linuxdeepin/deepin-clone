@@ -22,7 +22,7 @@
 #ifndef DFILEDISKINFO_H
 #define DFILEDISKINFO_H
 
-#include "dglobal.h"
+#include "../dglobal.h"
 #include "ddiskinfo.h"
 
 class DFileDiskInfoPrivate;

@@ -31,8 +31,8 @@
 
 #include <QDesktopServices>
 
-#include "mainwindow.h"
-#include "dvirtualimagefileio.h"
+#include "widgets/mainwindow.h"
+#include "corelib/dvirtualimagefileio.h"
 
 #include <pwd.h>
 #include <unistd.h>
@@ -42,9 +42,9 @@ DWIDGET_USE_NAMESPACE
 #include <QCoreApplication>
 #endif
 
-#include "helper.h"
+#include "corelib/helper.h"
 #include "dglobal.h"
-#include "clonejob.h"
+#include "corelib/clonejob.h"
 #include "commandlineparser.h"
 
 bool Global::isOverride = true;

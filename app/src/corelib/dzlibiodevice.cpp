@@ -24,7 +24,7 @@
 #undef private
 
 #include "dzlibiodevice.h"
-#include "dglobal.h"
+#include "../dglobal.h"
 
 #include <QDataStream>
 #include <QFile>

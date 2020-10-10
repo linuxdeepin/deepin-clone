@@ -22,7 +22,7 @@
 #ifndef DDEVICEPARTINFO_H
 #define DDEVICEPARTINFO_H
 
-#include "dglobal.h"
+#include "../dglobal.h"
 #include "dpartinfo.h"
 
 QT_BEGIN_NAMESPACE

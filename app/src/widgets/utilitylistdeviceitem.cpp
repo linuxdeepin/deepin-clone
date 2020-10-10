@@ -20,7 +20,7 @@
  */
 
 #include "utilitylistdeviceitem.h"
-#include "helper.h"
+#include "../corelib/helper.h"
 
 #include <QProgressBar>
 #include <QLabel>

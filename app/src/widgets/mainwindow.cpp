@@ -20,17 +20,17 @@
  */
 
 #include "mainwindow.h"
-#include "clonejob.h"
+#include "../corelib/clonejob.h"
 #include "iconlabel.h"
 #include "selectfilepage.h"
-#include "helper.h"
+#include "../corelib/helper.h"
 #include "workingpage.h"
 #include "endpage.h"
-#include "dglobal.h"
+#include "../dglobal.h"
 
-#include "ddiskinfo.h"
-#include "dpartinfo.h"
-#include "ddevicepartinfo.h"
+#include "../corelib/ddiskinfo.h"
+#include "../corelib/dpartinfo.h"
+#include "../corelib/ddevicepartinfo.h"
 
 #include <DDesktopServices>
 #include <ddialog.h>

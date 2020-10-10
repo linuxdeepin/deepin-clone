@@ -23,7 +23,7 @@
 #define PARTITIONLISTITEM_H
 
 #include "utilitylistdeviceitem.h"
-#include "dpartinfo.h"
+#include "../corelib/dpartinfo.h"
 
 class PartitionListItem : public UtilityListDeviceItem
 {

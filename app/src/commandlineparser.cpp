@@ -20,11 +20,11 @@
  */
 
 #include "commandlineparser.h"
-#include "ddiskinfo.h"
-#include "dvirtualimagefileio.h"
-#include "helper.h"
+#include "corelib/ddiskinfo.h"
+#include "corelib/dvirtualimagefileio.h"
+#include "corelib/helper.h"
 #include "dglobal.h"
-#include "bootdoctor.h"
+#include "fixboot/bootdoctor.h"
 
 #include <cstdio>
 

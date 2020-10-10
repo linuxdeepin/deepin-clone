@@ -23,7 +23,7 @@
 #define DISKLISTITEM_H
 
 #include "utilitylistdeviceitem.h"
-#include "ddiskinfo.h"
+#include "../corelib/ddiskinfo.h"
 
 class DiskListItem : public UtilityListDeviceItem
 {

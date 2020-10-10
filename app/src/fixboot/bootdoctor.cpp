@@ -19,9 +19,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "bootdoctor.h"
-#include "helper.h"
-#include "ddevicediskinfo.h"
-#include "ddevicepartinfo.h"
+#include "../corelib/helper.h"
+#include "../corelib/ddevicediskinfo.h"
+#include "../corelib/ddevicepartinfo.h"
 
 QString BootDoctor::m_lastErrorString;
 
