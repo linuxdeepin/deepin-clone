@@ -4,6 +4,7 @@ project(deepin-clone CXX)
 
 set(HONEST_NAME deepin-clone-honest)
 set(APP_NAME deepin-clone)
+set(PLUGIN_NAME dfm-plugin-dim-file)
 
 set(CMAKE_CXX_STANDARD_REQUIRED 17)
 set(CMAKE_AUTOMOC ON)
@@ -67,6 +68,11 @@ file(GLOB_RECURSE FIXBOOT_SRCS
 file(GLOB_RECURSE CORELIB_SRCS
     "app/src/corelib/*.h"
     "app/src/corelib/*.cpp"
+)
+
+file(GLOB_RECURSE DFM_PLUGIN_SRCS
+    "dfm_plugin/*.h"
+    "dfm_plugin/*.cpp"
 )
 
 set(APP_SRCS
@@ -139,6 +145,35 @@ if(NOT DEFINED DISABLE_GUI OR NOT DEFINED DISABLE_DTK)
 else()
     add_definitions(-DDISABLE_DTK)
     add_definitions(-DDISABLE_GUI)
+endif()
+
+if(NOT DEFINED DISABLE_DFM_PLUGIN)
+    find_package(Qt5 COMPONENTS Widgets REQUIRED)
+    pkg_check_modules(DdeFileManagerInterface REQUIRED dde-file-manager)
+
+    add_library(${PLUGIN_NAME} SHARED ${DFM_PLUGIN_SRCS} ${CORELIB_SRCS})
+
+    target_include_directories(${PLUGIN_NAME} PUBLIC
+        ${Qt5Core_INCLUDE_DIRS}
+        ${Qt5Widgets_INCLUDE_DIRS}
+        ${Qt5Gui_PRIVATE_INCLUDE_DIRS}
+        ${DdeFileManagerInterface_INCLUDE_DIRS}
+    )
+
+    target_link_libraries(${PLUGIN_NAME} PRIVATE
+        ${Qt5Core_LIBRARIES}
+        ${Qt5Widgets_LIBRARIES}
+        ${DdeFileManagerInterface_LIBRARIES}
+    )
+
+    if(NOT DEFINED LIB_INSTALL_DIR)
+        set(LIB_INSTALL_DIR lib/${CMAKE_SYSTEM_PROCESSOR}-linux-gnu)
+    endif()
+    if(NOT DEFINED DFM_PLUGIN_DIR)
+        set(DFM_PLUGIN_DIR ${LIB_INSTALL_DIR}/dde-file-manager/plugins/controllers)
+    endif()
+
+    install(TARGETS ${PLUGIN_NAME} DESTINATION ${DFM_PLUGIN_DIR})
 endif()
 
 add_executable(${APP_NAME}

@@ -21,12 +21,13 @@
 
 #include <dfmfilecontrollerplugin.h>
 #include <dfmeventdispatcher.h>
-#include <dfileservices.h>
+#include <dde-file-manager/dfileservices.h>
+#include <dfmabstracteventhandler.h>
 
 #include <QWidget>
 
 #include "dimfilecontroller.h"
-#include "dglobal.h"
+#include "../app/src/dglobal.h"
 
 bool Global::isOverride = true;
 bool Global::disableMD5CheckForDimFile = false;

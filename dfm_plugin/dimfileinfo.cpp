@@ -19,10 +19,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "dimfileinfo.h"
-#include "helper.h"
 #include "dabstractfileinfo.h"
-#include "dfilediskinfo.h"
-#include "dzlibfile.h"
+
+#include "../app/src/corelib/helper.h"
+#include "../app/src/corelib/dfilediskinfo.h"
+#include "../app/src/corelib/dzlibfile.h"
 
 #include <private/dfileinfo_p.h>
 #include <dfilemenumanager.h>

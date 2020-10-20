@@ -24,7 +24,7 @@
 #include <dabstractfileinfo.h>
 #include <dfileinfo.h>
 
-#include "dpartinfo.h"
+#include "../app/src/corelib/dpartinfo.h"
 
 class DIMFileInfo : public DFileInfo
 {
