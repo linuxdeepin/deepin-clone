@@ -101,7 +101,7 @@ bool DVirtualImageFileEngine::setSize(qint64 size)
 
 QAbstractFileEngine::FileFlags DVirtualImageFileEngine::fileFlags(QAbstractFileEngine::FileFlags type) const
 {
-    FileFlags flags = 0;
+    FileFlags flags;
 
     if (type & TypesMask) {
         if (m_name == "/")

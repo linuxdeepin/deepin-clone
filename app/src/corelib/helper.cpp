@@ -70,7 +70,7 @@ int Helper::processExec(QProcess *process, const QString &program, QStringList a
     timer.setInterval(timeout);
 
     timer.connect(&timer, &QTimer::timeout, &loop, &QEventLoop::quit);
-    loop.connect(process, static_cast<void(QProcess::*)(int)>(&QProcess::finished), &loop, &QEventLoop::exit);
+    loop.connect(process, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished), &loop, &QEventLoop::exit);
 
     // 防止子进程输出信息将管道塞满导致进程阻塞
     process->connect(process, &QProcess::readyReadStandardError, process, [process] {
@@ -343,7 +343,7 @@ bool Helper::getPartitionSizeInfo(const QString &partDevice, qint64 *used, qint6
     process.setEnvironment(env_list);
 
     if (Helper::isMounted(partDevice)) {
-        process.start(QString("df -B1 -P %1").arg(partDevice));
+        process.start("df", {"-B1", "-P", partDevice});
         process.waitForFinished();
 
         if (process.exitCode() != 0) {

@@ -184,10 +184,7 @@ bool BootDoctor::fix(const QString &partDevice)
 
             if (ok) {
                 process.setProcessChannelMode(QProcess::MergedChannels);
-                process.start(QString("chroot %1 ./boot_fix.sh %2 %3 /deepin-clone")
-                              .arg(mount_root)
-                              .arg(parent_device)
-                              .arg(is_efi ? "true" : "false"));
+                process.start("chroot", {mount_root, "./boot_fix.sh", parent_device, is_efi ? "true" : "false", "/deepin-clone"});
 
                 while (process.waitForReadyRead()) {
                     const QByteArray &data = process.readAll().simplified().constData();

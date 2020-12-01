@@ -195,7 +195,8 @@ bool MainWindow::showFileItem(const QString &file)
     process.setProcessChannelMode(QProcess::ForwardedChannels);
     process.setEnvironment(env_list);
 
-    process.start(honest_child);
+    process.setProgram(honest_child);
+    process.start();
 
     if (!process.waitForFinished())
         return false;
@@ -218,8 +219,8 @@ bool MainWindow::openUrl(const QUrl &url)
 
     process.setProcessChannelMode(QProcess::ForwardedChannels);
     process.setEnvironment(env_list);
-
-    process.start(honest_child);
+    process.setProgram(honest_child);
+    process.start();
 
     if (!process.waitForFinished())
         return false;

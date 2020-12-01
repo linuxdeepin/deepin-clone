@@ -142,7 +142,7 @@ void DDeviceDiskInfoPrivate::init(const QJsonObject &obj)
         children_uuids << info.partUUID();
     }
 
-    qSort(children.begin(), children.end(), [] (const DPartInfo &info1, const DPartInfo &info2) {
+    std::sort(children.begin(), children.end(), [] (const DPartInfo &info1, const DPartInfo &info2) {
         return info1.sizeStart() < info2.sizeStart();
     });
 
