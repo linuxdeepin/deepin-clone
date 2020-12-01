@@ -154,12 +154,12 @@ int DIMFileInfo::userColumnWidth(int userColumnRole, const QFontMetrics &fontMet
 {
     switch (userColumnRole) {
     case DFileSystemModel::FileMimeTypeRole:
-        return qMax(fontMetrics.width(QObject::tr("Disk Partition Table Info")), DFileInfo::userColumnWidth(userColumnRole, fontMetrics));
+        return qMax(fontMetrics.horizontalAdvance(QObject::tr("Disk Partition Table Info")), DFileInfo::userColumnWidth(userColumnRole, fontMetrics));
     case DFileSystemModel::FileUserRole:
     case DFileSystemModel::FileUserRole + 1:
     case DFileSystemModel::FileUserRole + 2:
     case DFileSystemModel::FileUserRole + 3:
-        return fontMetrics.width(userColumnDisplayName(userColumnRole).toString());
+        return fontMetrics.horizontalAdvance(userColumnDisplayName(userColumnRole).toString());
     default:
         break;
     }

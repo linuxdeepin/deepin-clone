@@ -122,7 +122,6 @@ int main(int argc, char *argv[])
             DApplication::customQtThemeConfigPathByUserHome(getpwuid(pkexec_uid)->pw_dir);
         }
 
-        DApplication::loadDXcbPlugin();
         DApplication *app = new DApplication(argc, argv);
 
         app->setAttribute(Qt::AA_UseHighDpiPixmaps);

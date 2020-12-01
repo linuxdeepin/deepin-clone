@@ -24,6 +24,7 @@
 #include <QLabel>
 #include <QIcon>
 #include <QPainter>
+#include <QPainterPath>
 
 IconLabel::IconLabel(QWidget *parent, bool wordWrap)
     : QWidget(parent)
