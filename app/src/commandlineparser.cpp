@@ -46,6 +46,7 @@ CommandLineParser::CommandLineParser()
     , o_debug_level(QStringList() << "d" << "debug")
     , o_fix_boot(QStringList() << "f" << "fix-boot")
     , o_auto_fix_boot(QStringList() << "auto-fix-boot")
+    , o_check_valid(QStringList() << "c" << "check-valid")
 {
     o_info.setDescription("Get the device info.");
     o_dim_info.setDescription("Get the dim file info.");
@@ -79,6 +80,7 @@ CommandLineParser::CommandLineParser()
     o_fix_boot.setDescription("Fix the partition bootloader.");
     o_fix_boot.setValueName("Partition Device Path");
     o_auto_fix_boot.setDescription("Auto fix the partition bootloader on the clone/restore job finished.");
+    o_check_valid.setDescription("Check valid for dim file.");
 
     QDir::current().mkpath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
@@ -100,6 +102,7 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_debug_level);
     parser.addOption(o_fix_boot);
     parser.addOption(o_auto_fix_boot);
+    parser.addOption(o_check_valid);
     parser.addHelpOption();
     parser.addVersionOption();
 
@@ -215,6 +218,15 @@ void CommandLineParser::parse()
         if (DVirtualImageFileIO::updateMD5sum(parser.value(o_reset_checksum))) {
             ::exit(EXIT_SUCCESS);
         } else {
+            ::exit(EXIT_FAILURE);
+        }
+    } else if (parser.isSet(o_check_valid)) {
+        QString fileName = parser.positionalArguments().first();
+        if (DVirtualImageFileIO(fileName).isValid()) {
+            printf("%s is valid file.\n", qPrintable(fileName));
+            ::exit(EXIT_SUCCESS);
+        } else {
+            fputs(qPrintable(QString("%1 is invalid file.\n").arg(fileName)), stderr);
             ::exit(EXIT_FAILURE);
         }
     } else {
