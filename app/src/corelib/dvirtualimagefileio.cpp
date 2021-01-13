@@ -135,18 +135,6 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
         return false;
     }
 
-    // init md5 sum
-    uchar initmd5[16] = {0x21, 0x21, 0x5b, 0x9a, 0xf6, 0xd0, 0x5c, 0x31,
-                    0xd8, 0xcd, 0x42, 0xbb, 0xca, 0x12, 0x97, 0x7f};
-
-    auto compareInitMd5 = [initmd5] (const QByteArray &bytes) {
-        for (int i = 0; i < 16; i++) {
-            if (static_cast<char>(initmd5[i]) != bytes[i]) {
-                return false;
-            }
-        }
-        return true;
-    };
     if (d->file.size() > 0) {
         if (d->file.size() < metaDataSize()) {
             dCError("Not a valid dim file: %s", qPrintable(fileName));
@@ -216,7 +204,7 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
 
         const QByteArray &md5 = d->file.read(16);
 
-        if (!Global::disableMD5CheckForDimFile && md5 != md5sum() || compareInitMd5(md5)) {
+        if (!Global::disableMD5CheckForDimFile && md5 != md5sum()) {
             dCError("MD5 check failed, file: %s, Is the file open in other application?", qPrintable(fileName));
 
             return false;
@@ -226,7 +214,10 @@ bool DVirtualImageFileIO::setFile(const QString &fileName)
         d->file.putChar(0xdd);
         d->file.putChar(0x01);
         d->file.putChar(0x00);
-        d->file.write((char*)initmd5, 16);
+        // init md5 sum
+        uchar md5[16] = {0x21, 0x21, 0x5b, 0x9a, 0xf6, 0xd0, 0x5c, 0x31,
+                        0xd8, 0xcd, 0x42, 0xbb, 0xca, 0x12, 0x97, 0x7f};
+        d->file.write((char*)md5, 16);
     } else {
         dCError("Failed to open \"%s\", error: \"%s\"", qPrintable(fileName), qPrintable(d->file.errorString()));
 
