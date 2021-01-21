@@ -62,6 +62,7 @@ private:
     QCommandLineOption o_fix_boot;
     QCommandLineOption o_auto_fix_boot;
     QCommandLineOption o_add_custom_file;
+    QCommandLineOption o_read_custom_file;
 };
 
 #endif // COMMANDLINEPARSER_H
