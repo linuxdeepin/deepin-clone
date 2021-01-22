@@ -46,7 +46,7 @@ CommandLineParser::CommandLineParser()
     , o_debug_level(QStringList() << "d" << "debug")
     , o_fix_boot(QStringList() << "f" << "fix-boot")
     , o_auto_fix_boot(QStringList() << "auto-fix-boot")
-    , o_add_custom_file(QStringList() << "add-custom-file")
+    , o_write_custom_file(QStringList() << "write-custom-file")
     , o_read_custom_file(QStringList() << "read-custom-file")
 {
     o_info.setDescription("Get the device info.");
@@ -81,7 +81,7 @@ CommandLineParser::CommandLineParser()
     o_fix_boot.setDescription("Fix the partition bootloader.");
     o_fix_boot.setValueName("Partition Device Path");
     o_auto_fix_boot.setDescription("Auto fix the partition bootloader on the clone/restore job finished.");
-    o_add_custom_file.setDescription("Add custom file into dim file.");
+    o_write_custom_file.setDescription("Write custom file data into dim file.");
     o_read_custom_file.setDescription("Read data from custom file.");
 
     QDir::current().mkpath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
@@ -104,7 +104,7 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_debug_level);
     parser.addOption(o_fix_boot);
     parser.addOption(o_auto_fix_boot);
-    parser.addOption(o_add_custom_file);
+    parser.addOption(o_write_custom_file);
     parser.addOption(o_read_custom_file);
     parser.addHelpOption();
     parser.addVersionOption();
@@ -223,64 +223,20 @@ void CommandLineParser::parse()
         } else {
             ::exit(EXIT_FAILURE);
         }
-    } else if (parser.isSet(o_add_custom_file)) {
+    } else if (parser.isSet(o_write_custom_file)) {
         if (source().isEmpty()) {
             fputs(qPrintable("The source file is empty!\n"), stderr);
             ::exit(EXIT_FAILURE);
         }
-        if (target().isEmpty()) {
-            fputs(qPrintable("The target file is empty!\n"), stderr);
-            ::exit(EXIT_FAILURE);
-        }
-        QFile fileSrc(source());
-
-        //If the source not exists,create a new file.
-        if (!fileSrc.exists()) {
-            printf("%s is not exist, will create it!\n", qPrintable(source()));
-            if (!fileSrc.open(QIODevice::WriteOnly)) {
-                fputs(qPrintable(QString("cannot open file: %1\n").arg(source())), stderr);
-                ::exit(EXIT_FAILURE);
-            }
-            fileSrc.close();
-        }
-        DVirtualImageFileIO dimFile(source());
-        //Append custom file name
-        dimFile.open(target(), QIODevice::WriteOnly);
-        QFile fileTarget(target());
-        QByteArray targetData;
-        //Append custom file content
-        if (fileTarget.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            targetData = fileTarget.readAll();
-            dimFile.write(targetData.data(), targetData.length());
-            fileTarget.close();
-        }
-        dimFile.close();
-        printf("%s added into %s.\n", qPrintable(target()), qPrintable(source()));
-        ::exit(EXIT_SUCCESS);
+        bool isOK = Helper::setCustomFile(source(), target());
+        isOK ? ::exit(EXIT_SUCCESS) : ::exit(EXIT_FAILURE);
     } else if (parser.isSet(o_read_custom_file)) {
         if (source().isEmpty()) {
             fputs(qPrintable("The source file is empty!\n"), stderr);
             ::exit(EXIT_FAILURE);
         }
-        if (target().isEmpty()) {
-            fputs(qPrintable("The target file is empty!\n"), stderr);
-            ::exit(EXIT_FAILURE);
-        }
-        DVirtualImageFileIO dimFile(source());
-        dimFile.open(target());
-        auto dataSize = dimFile.size(target());
-        char data[dataSize];
-        //Read custom file content
-        auto len = dimFile.read(data, dataSize);
-        dimFile.close();
-        QFile targetFile(target());
-        //Create the custom file and write content
-        if (targetFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            targetFile.write(data, len);
-            targetFile.close();
-        }
-        printf("%s data:\n%s\n", qPrintable(target()), data);
-        ::exit(EXIT_SUCCESS);
+        bool isOK = Helper::getCustomFile(source(), target());
+        isOK ? ::exit(EXIT_SUCCESS) : ::exit(EXIT_FAILURE);
     } else {
         if ((Global::isTUIMode || !parser.positionalArguments().isEmpty()) && parser.positionalArguments().count() > 2) {
             parser.showHelp(EXIT_FAILURE);
