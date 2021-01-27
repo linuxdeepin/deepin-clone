@@ -46,7 +46,6 @@ CommandLineParser::CommandLineParser()
     , o_debug_level(QStringList() << "d" << "debug")
     , o_fix_boot(QStringList() << "f" << "fix-boot")
     , o_auto_fix_boot(QStringList() << "auto-fix-boot")
-    , o_add_custom_file(QStringList() << "add_custom_file")
 {
     o_info.setDescription("Get the device info.");
     o_dim_info.setDescription("Get the dim file info.");
@@ -80,7 +79,6 @@ CommandLineParser::CommandLineParser()
     o_fix_boot.setDescription("Fix the partition bootloader.");
     o_fix_boot.setValueName("Partition Device Path");
     o_auto_fix_boot.setDescription("Auto fix the partition bootloader on the clone/restore job finished.");
-    o_add_custom_file.setDescription("Add custom file into dim file.");
 
     QDir::current().mkpath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
@@ -102,7 +100,6 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_debug_level);
     parser.addOption(o_fix_boot);
     parser.addOption(o_auto_fix_boot);
-    parser.addOption(o_add_custom_file);
     parser.addHelpOption();
     parser.addVersionOption();
 
@@ -220,29 +217,6 @@ void CommandLineParser::parse()
         } else {
             ::exit(EXIT_FAILURE);
         }
-    } else if (parser.isSet(o_add_custom_file)) {
-        if (source().isEmpty()) {
-            fputs(qPrintable("The source file is empty!\n"), stderr);
-            ::exit(EXIT_FAILURE);
-        }
-        if (target().isEmpty()) {
-            fputs(qPrintable("The target file is empty!\n"), stderr);
-            ::exit(EXIT_FAILURE);
-        }
-        QFile file(source());
-        if (!file.exists()) {
-            printf("%s is not exist, will create it!\n", qPrintable(source()));
-            if (!file.open(QIODevice::WriteOnly)) {
-                fputs(qPrintable(QString("cannot open file: %1\n").arg(source())), stderr);
-                ::exit(EXIT_FAILURE);
-            }
-            file.close();
-        }
-        DVirtualImageFileIO dimFile(source());
-        dimFile.open(target(), QIODevice::WriteOnly);
-        dimFile.close();
-        printf("%s added into %s.\n", qPrintable(target()), qPrintable(source()));
-        ::exit(EXIT_SUCCESS);
     } else {
         if ((Global::isTUIMode || !parser.positionalArguments().isEmpty()) && parser.positionalArguments().count() > 2) {
             parser.showHelp(EXIT_FAILURE);
