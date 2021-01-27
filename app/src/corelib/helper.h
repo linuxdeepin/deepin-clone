@@ -106,23 +106,6 @@ public:
     static qint64 getIntValue(const QJsonValue &value);
     static bool getBoolValue(const QJsonValue &value);
 
-    //for custom file
-    /**
-     * @brief setCustomFile write data into dim file from custom file
-     * @param source dim file,format: dim://example.dim/custom
-     * @param customFile custom file name
-     * @return successful return true, else return false
-     */
-    static bool setCustomFile(const QString &source, const QString &customFile);
-
-    /**
-     * @brief getCustomFile get a custom file from the dim
-     * @param source dim file,format: dim://example.dim/custom
-     * @param customFile custom file name
-     * @return successful return true, else return false
-     */
-    static bool getCustomFile(const QString &source, const QString &customFile);
-
 signals:
     void newWarning(const QString &message);
     void newError(const QString &message);
