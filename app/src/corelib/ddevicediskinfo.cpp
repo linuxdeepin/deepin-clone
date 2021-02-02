@@ -46,10 +46,7 @@ static QString getPTName(const QString &device)
 
     const QByteArrayList &list = data.split('=');
 
-    if (list.count() != 3)
-        return QString();
-
-    return list.last().simplified();
+    return list.last().simplified().replace('\"', "");
 }
 
 class DDeviceDiskInfoPrivate : public DDiskInfoPrivate

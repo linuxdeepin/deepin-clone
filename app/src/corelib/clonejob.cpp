@@ -249,7 +249,7 @@ void CloneJob::run()
     dCDebug("The total amount of data to be backed up: %s", qPrintable(Helper::sizeDisplay(from_info_total_data_size)));
 
     if (to_info.totalWritableDataSize() < from_info_total_data_size) {
-        dCDebug("%s write space is less than %2 total capacity", qPrintable(m_to), qPrintable(m_from));
+        dCDebug("%s write space is less than %s total capacity", qPrintable(m_to), qPrintable(m_from));
 
         if (!to_info.setTotalWritableDataSize(from_info_total_data_size)) {
             setErrorString(tr("Failed to change %1 size, please check the free space on target disk").arg(m_to));
