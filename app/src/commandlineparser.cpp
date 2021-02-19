@@ -46,6 +46,8 @@ CommandLineParser::CommandLineParser()
     , o_debug_level(QStringList() << "d" << "debug")
     , o_fix_boot(QStringList() << "f" << "fix-boot")
     , o_auto_fix_boot(QStringList() << "auto-fix-boot")
+    , o_write_custom_file(QStringList() << "write-custom-file")
+    , o_read_custom_file(QStringList() << "read-custom-file")
 {
     o_info.setDescription("Get the device info.");
     o_dim_info.setDescription("Get the dim file info.");
@@ -79,6 +81,8 @@ CommandLineParser::CommandLineParser()
     o_fix_boot.setDescription("Fix the partition bootloader.");
     o_fix_boot.setValueName("Partition Device Path");
     o_auto_fix_boot.setDescription("Auto fix the partition bootloader on the clone/restore job finished.");
+    o_write_custom_file.setDescription("Write custom file data into dim file. Source file format: dim://example.dim/custom");
+    o_read_custom_file.setDescription("Read data from custom file. Source file format: dim://example.dim/custom");
 
     QDir::current().mkpath(QStandardPaths::writableLocation(QStandardPaths::CacheLocation));
 
@@ -100,6 +104,8 @@ CommandLineParser::CommandLineParser()
     parser.addOption(o_debug_level);
     parser.addOption(o_fix_boot);
     parser.addOption(o_auto_fix_boot);
+    parser.addOption(o_write_custom_file);
+    parser.addOption(o_read_custom_file);
     parser.addHelpOption();
     parser.addVersionOption();
 
@@ -217,6 +223,20 @@ void CommandLineParser::parse()
         } else {
             ::exit(EXIT_FAILURE);
         }
+    } else if (parser.isSet(o_write_custom_file)) {
+        if (source().isEmpty()) {
+            fputs(qPrintable("The source file is empty!\n"), stderr);
+            ::exit(EXIT_FAILURE);
+        }
+        bool isOK = Helper::writeCustomFile(source(), target());
+        isOK ? ::exit(EXIT_SUCCESS) : ::exit(EXIT_FAILURE);
+    } else if (parser.isSet(o_read_custom_file)) {
+        if (source().isEmpty()) {
+            fputs(qPrintable("The source file is empty!\n"), stderr);
+            ::exit(EXIT_FAILURE);
+        }
+        bool isOK = Helper::readCustomFile(source(), target());
+        isOK ? ::exit(EXIT_SUCCESS) : ::exit(EXIT_FAILURE);
     } else {
         if ((Global::isTUIMode || !parser.positionalArguments().isEmpty()) && parser.positionalArguments().count() > 2) {
             parser.showHelp(EXIT_FAILURE);

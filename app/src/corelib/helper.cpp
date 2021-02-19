@@ -24,6 +24,7 @@
 #include "../dglobal.h"
 #include "ddevicepartinfo.h"
 #include "ddiskinfo.h"
+#include "dzlibfile.h"
 
 #include <QProcess>
 #include <QEventLoop>
@@ -1046,4 +1047,119 @@ bool Helper::getBoolValue(const QJsonValue &value)
     }
 
     return value.toString() == "1";
+}
+
+bool Helper::writeCustomFile(const QString &source, const QString &customFileName)
+{
+    //get dim file name,for "dim://example.dim/custom", will get "example.dim"
+    auto dimFileName = source.left(source.lastIndexOf('/')).remove(0, 6);
+    QFile dimFile(dimFileName);
+    //If the dim file not exists,create a new file.
+    if (!dimFile.exists()) {
+        printf("%s is not exist, will create it!\n", qPrintable(dimFileName));
+        if (!dimFile.open(QIODevice::WriteOnly)) {
+            fputs(qPrintable(QString("cannot open file: %1\n").arg(dimFileName)), stderr);
+            return false;
+        }
+        dimFile.close();
+    }
+
+    DZlibFile sourceFile(source);
+    if (sourceFile.size() > 0) {
+        printf("the file: %s exist!\n", qPrintable(source));
+        return false;
+    }
+    QFile customFile(customFileName);
+    if (!sourceFile.open(QIODevice::WriteOnly)) {
+        printf("cannot open: %s.\n", qPrintable(source));
+        return false;
+    }
+    if (!customFile.open(QIODevice::ReadOnly)) {
+        printf("cannot open: %s.\n", qPrintable(customFileName));
+        return false;
+    }
+
+    //write custom file content
+    char data[Global::bufferSize];
+    bool isWriteOK = true;
+
+    while (true)
+    {
+        qint64 read_size = customFile.read(data, Global::bufferSize);
+
+        if (read_size < 0) {
+            printf("Reading data from \"%s\" failed", qPrintable(customFileName));
+            isWriteOK = false;
+            break;
+        }
+
+        qint64 write_size = sourceFile.write(data, read_size);
+
+        if (write_size < read_size) {
+            printf("Writing data to %s failed, expected write size: %d — only %d written",
+                qPrintable(customFileName), read_size, write_size);
+            isWriteOK = false;
+            break;
+        }
+
+        //not data to read
+        if (!read_size)
+            break;
+    }
+    customFile.close();
+    sourceFile.close();
+
+    if (isWriteOK)
+        printf("%s added into %s.\n", qPrintable(customFileName), qPrintable(source));
+
+    return isWriteOK;
+}
+
+bool Helper::readCustomFile(const QString &source, const QString &customFileName)
+{
+    if (!QFile(source).exists()) {
+        printf("%s not exists.\n", qPrintable(source));
+        return false;
+    }
+
+    DZlibFile sourceFile(source);
+    QFile customFile(customFileName);
+
+    if (!sourceFile.open(QIODevice::ReadOnly)) {
+        printf("cannot open: %s.\n", qPrintable(source));
+        return false;
+    }
+    if (!customFile.open(QIODevice::WriteOnly)) {
+        printf("cannot open: %s.\n", qPrintable(customFileName));
+        return false;
+    }
+
+    //write custom file content
+    char data[Global::bufferSize];
+    bool isWriteOK = true;
+    while (!sourceFile.atEnd())
+    {
+        qint64 read_size = sourceFile.read(data, Global::bufferSize);
+
+        if (read_size < 0) {
+            printf("Reading data from \"%s\" failed", qPrintable(source));
+            isWriteOK = false;
+            break;
+        }
+
+        qint64 write_size = customFile.write(data, read_size);
+
+        if (write_size < read_size) {
+            printf("Writing data to %s failed, expected write size: %d — only %d written",
+            qPrintable(source), read_size, write_size);
+            isWriteOK = false;
+            break;
+        }
+    }
+    customFile.close();
+    sourceFile.close();
+    if (isWriteOK)
+        printf("the data from %s writted into %s.\n", qPrintable(source), qPrintable(customFileName));
+
+    return isWriteOK;
 }
