@@ -216,6 +216,10 @@ int main(int argc, char *argv[])
             CloneJob *job = new CloneJob;
 
             QObject::connect(job, &QThread::finished, a, &QCoreApplication::quit);
+            QObject::connect(job, &CloneJob::statusChanged, [] (CloneJob::Status s) {
+                if (s == CloneJob::Failed)
+                    ::exit(EXIT_FAILURE);
+            });
 
             job->start(parser.source(), parser.target());
         }

@@ -36,7 +36,8 @@ public:
         Clone_PartitionTable,
         Clone_Partition,
         Save_Info,
-        Fix_Boot
+        Fix_Boot,
+        Failed
     };
 
     explicit CloneJob(QObject *parent = 0);

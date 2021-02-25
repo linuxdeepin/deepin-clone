@@ -311,6 +311,7 @@ void CloneJob::run()
 
         if (!call_disk_pipe(DDiskInfo::Headgear)) {
             dCDebug("failed!!!");
+            setStatus(Failed);
 
             return;
         }
@@ -323,6 +324,7 @@ void CloneJob::run()
 
         if (!call_disk_pipe(DDiskInfo::PartitionTable)) {
             dCDebug("failed!!!");
+            setStatus(Failed);
 
             return;
         }
@@ -340,6 +342,7 @@ void CloneJob::run()
 
         if (!call_disk_pipe(DDiskInfo::Partition, info.indexNumber(), info.indexNumber())) {
             dCDebug("failed!!!");
+            setStatus(Failed);
 
             return;
         }
@@ -360,6 +363,7 @@ void CloneJob::run()
 
         if (!call_disk_pipe(DDiskInfo::JsonInfo)) {
             dCDebug("failed!!!");
+            setStatus(Failed);
 
             return;
         }
