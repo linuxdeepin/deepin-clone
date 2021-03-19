@@ -17,24 +17,26 @@ if (NOT (${CMAKE_BUILD_TYPE} MATCHES "Debug"))
 
     # generate policy file translations
     execute_process (
-        COMMAND deepin-policy-ts-convert policy2ts com.deepin.pkexec.deepin-clone.policy.tmp translations/policy
+        COMMAND deepin-policy-ts-convert policy2ts com.deepin.pkexec.deepin-clone.policy.tmp translations
         WORKING_DIRECTORY ${APP_SOURCE_DIR}
     )
 
     # generate back to policy file
     execute_process (
-        COMMAND deepin-policy-ts-convert ts2policy com.deepin.pkexec.deepin-clone.policy.tmp translations/policy com.deepin.pkexec.deepin-clone.policy
+        COMMAND deepin-policy-ts-convert ts2policy com.deepin.pkexec.deepin-clone.policy.tmp translations com.deepin.pkexec.deepin-clone.policy
         RESULT_VARIABLE POLICY_FILE_GENERATED
         WORKING_DIRECTORY ${APP_SOURCE_DIR}
     )
 
     # fallback
-    if (NOT ${POLICY_TS_GENERATED} EQUAL 0)
+    if (NOT ${POLICY_FILE_GENERATED} EQUAL 0)
         execute_process(COMMAND cp com.deepin.pkexec.deepin-clone.policy.tmp com.deepin.pkexec.deepin-clone.policy WORKING_DIRECTORY ${APP_SOURCE_DIR})
     endif ()
 
     # generate qm
     execute_process(COMMAND bash "translate_generation.sh"
+                    WORKING_DIRECTORY ${APP_SOURCE_DIR})
+    execute_process(COMMAND bash "translate_ts2desktop.sh"
                     WORKING_DIRECTORY ${APP_SOURCE_DIR})
 else ()
     message("Building debug mode, translation files will not generated")
@@ -204,3 +206,5 @@ install(FILES app/deepin-clone-pkexec DESTINATION bin)
 #qm files
 file(GLOB QM_FILES "app/translations/*.qm")
 install(FILES ${QM_FILES} DESTINATION share/${APP_NAME}/translations)
+
+install(FILES app/deepin-clone.desktop DESTINATION share/applications)
