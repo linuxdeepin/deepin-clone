@@ -104,7 +104,6 @@ bool BootDoctor::fix(const QString &partDevice)
                      #elif defined(HOST_ARCH_ppc64le)
                                  "ppc64le"
                      #else
-                     #pragma message "Machine: " HOST_ARCH
                                 "unknow"
                      #endif
                                  ), file_boot_fix.fileName())) {
