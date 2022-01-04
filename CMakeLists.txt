@@ -207,4 +207,4 @@ install(FILES app/deepin-clone-pkexec DESTINATION bin)
 file(GLOB QM_FILES "app/translations/*.qm")
 install(FILES ${QM_FILES} DESTINATION share/${APP_NAME}/translations)
 
-install(FILES app/deepin-clone.desktop DESTINATION share/applications)
+#install(FILES app/deepin-clone.desktop DESTINATION share/applications)
