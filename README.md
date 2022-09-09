@@ -1,50 +1,43 @@
 # deepin-clone
+
 Disk and partition backup/restore tool
 
-# DIM文件格式详解
+## Dependencies
+You can also check the "Depends" provided in the `debian/control` file.
 
-* 文件后缀名必须为 dim
+### Build dependencies
+You can also check the "Build-Depends" provided in the `debian/control` file.
 
-dim文件元数据最大为的 24 * 1024 字节，位于文件开头。元数据格式：
+## Installation
 
-|        | 版本  |  文件数量 | 文件1元数据...文件n元数据 |
-|  ----  | ---- |  ----    |  ----  |
-| 0xdd   | 1B   |   1B     |  ...   |
+```
+sudo apt install deepin-clone
+```
 
-文件部分元数据格式：
+### Build from source code
+```
+sudo apt build-dep deepin-clone
+cd ./deepin-clone 
+sudo dpkg-buildpackage -b
+cd ..
+sudo dpkg -i *.deb
+```
 
-|        | 文件名|  文件内容开始的偏移 | 文件内容结束的偏移 |
-|  ----  | ---- |  ----    |  ----  |
-| 0xdd   | 63B  |   8B     |   8B |
+## Getting help
 
-元数据结束后的16个字节为dim文件数据的校验和，其计算方法为：
+Any usage issues can ask for help via
+* [WiKi](https://wiki.deepin.org)
+* [Forum](https://bbs.deepin.org)
+* [Developer Center](https://github.com/linuxdeepin/developer-center/issues)
+* [Matrix](https://matrix.to/#/#deepin-community:matrix.org)
 
-````
-md5_data // 保存参与md5计算的数据
-md5_data.append(dim文件元数据)
 
-首先将数据分块：
-block_size = max(1024 * 1024, 文件大小 / 1000)
+## Getting involved
 
-for (文件1...文件n) {
-    seek（移动文件指针） 到文件的数据开头
+We encourage you to report issues and contribute changes
+- [Contribution guide for developers](https://github.com/linuxdeepin/developer-center/wiki/Contribution-Guidelines-for-Developers-en) (English)
 
-    // pos 为表示文件指针当前位置
-    while (pos < 文件数据的结尾 - block_size - 4) {
-        block_index = 读取4个字节的数据
-        block_index %= (block_size / 1024)
-        old_pos = pos
 
-        if (seek 到 pos + block_size * 1024) {
-            md5_data.append(读取1024字节)
-        } else {
-            seek 失败结束计算
-        }
-    }
+## License
 
-    md5_data.append(读取 min(文件数据的结尾 - pos, 1024 * 10))
-}
-
-check_sum = md5(md5_data)
-
-````
+This project is licensed under GPL-3.0-only
