@@ -1,6 +1,6 @@
 Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: deepin-clone
-Upstream-Contact:  <>
+Upstream-Contact: UnionTech Software Technology Co., Ltd.
 Source: https://github.com/linuxdeepin/deepin-clone
 
 # README
@@ -33,14 +33,13 @@ Files: *.qrc
 Copyright: None
 License: CC0-1.0
 
-
 # gitignore
 Files: .gitignore .github/* .tx/*
 Copyright: None
 License: CC0-1.0
 
 # config
-Files: *.json app/com.deepin.pkexec.deepin-clone.policy.tmp app/mimetype/deepin-clone.xml
+Files: app/com.deepin.pkexec.deepin-clone.policy.tmp app/mimetype/deepin-clone.xml dfm_plugin/dfm-plugin-dim-file.json
 Copyright: None
 License: CC0-1.0
 
