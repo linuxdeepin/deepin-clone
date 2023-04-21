@@ -336,6 +336,7 @@ void DDeviceDiskInfoPrivate::closeDataStream()
 
             while (process->state() != QProcess::NotRunning) {
                 QThread::currentThread()->sleep(1);
+                process->waitForFinished(-1);
 
                 if (!QFile::exists(QString("/proc/%2").arg(process->pid()))) {
                     process->waitForFinished(-1);
