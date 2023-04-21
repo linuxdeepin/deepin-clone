@@ -13,8 +13,7 @@ Build-Depends:
  libdtkcore5-bin,
  pkg-config,
  qttools5-dev-tools,
- cmake,
- libdde-file-manager-dev
+ cmake
 Standards-Version: 3.9.8
 
 Package: deepin-clone

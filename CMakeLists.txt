@@ -149,7 +149,10 @@ else()
     add_definitions(-DDISABLE_GUI)
 endif()
 
+set(DISABLE_DFM_PLUGIN NO)
+
 if(NOT DEFINED DISABLE_DFM_PLUGIN)
+    message("**************************sfsf")
     find_package(Qt5 COMPONENTS Widgets REQUIRED)
     pkg_check_modules(DdeFileManagerInterface REQUIRED dde-file-manager)
 
