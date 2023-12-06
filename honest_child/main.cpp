@@ -9,10 +9,14 @@
 #include <QDebug>
 #include <QThread>
 
+#include <dtkwidget_global.h>
+#include <dtkgui_global.h>
 #include <DDesktopServices>
 
 #include <unistd.h>
 #include <stdio.h>
+
+DGUI_USE_NAMESPACE
 
 class Thread : public QThread
 {
@@ -80,7 +84,7 @@ int main(int argc, char *argv[])
         Q_UNUSED(app)
         QDesktopServices::openUrl(QUrl(QString::fromUtf8(qgetenv(DEEPIN_CLONE_OPEN_URL))));
     } else if (qEnvironmentVariableIsSet(DEEPIN_CLONE_SHOW_FILE)) {
-        DTK_WIDGET_NAMESPACE::DDesktopServices::showFileItem(QString::fromUtf8(qgetenv(DEEPIN_CLONE_SHOW_FILE)));
+        DWIDGET_USE_NAMESPACE::DDesktopServices::showFileItem(QString::fromUtf8(qgetenv(DEEPIN_CLONE_SHOW_FILE)));
     } else {
         return -1;
     }
